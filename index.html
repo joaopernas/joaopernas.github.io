@@ -3,14 +3,234 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Quadro Branco de Formação</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#f5f5f5;
+    overflow:hidden;
+}
+
+.toolbar{
+    background:#003366;
+    color:white;
+    padding:10px;
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+.toolbar button{
+    padding:8px 12px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.toolbar input[type=color]{
+    width:40px;
+    height:35px;
+    border:none;
+}
+
+canvas{
+    display:block;
+    background:white;
+    cursor:crosshair;
+}
+
+</style>
 </head>
 
 <body>
 
-<h1>Quadro Branco de Formação</h1>
+<div class="toolbar">
 
-<p>Em construção.</p>
+<strong>🖍️ Quadro Branco</strong>
+
+<input type="color" id="colorPicker" value="#000000">
+
+<input
+type="range"
+id="sizePicker"
+min="1"
+max="20"
+value="3">
+
+<button onclick="clearCanvas()">
+🗑️ Limpar
+</button>
+
+<button onclick="saveImage()">
+💾 Guardar PNG
+</button>
+
+<button onclick="eraser()">
+🧽 Borracha
+</button>
+
+<button onclick="pen()">
+✏️ Caneta
+</button>
+
+</div>
+
+<canvas id="canvas"></canvas>
+
+<script>
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight - 55;
+}
+
+resizeCanvas();
+
+window.addEventListener("resize", resizeCanvas);
+
+let drawing = false;
+
+canvas.addEventListener("mousedown", startDraw);
+canvas.addEventListener("mouseup", stopDraw);
+canvas.addEventListener("mouseout", stopDraw);
+canvas.addEventListener("mousemove", draw);
+
+canvas.addEventListener("touchstart", startTouch);
+canvas.addEventListener("touchmove", moveTouch);
+canvas.addEventListener("touchend", stopDraw);
+
+function startDraw(e){
+    drawing = true;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        e.offsetX,
+        e.offsetY
+    );
+}
+
+function draw(e){
+
+    if(!drawing) return;
+
+    ctx.lineWidth =
+        document.getElementById("sizePicker").value;
+
+    ctx.lineCap = "round";
+
+    ctx.strokeStyle =
+        document.getElementById("colorPicker").value;
+
+    ctx.lineTo(
+        e.offsetX,
+        e.offsetY
+    );
+
+    ctx.stroke();
+}
+
+function stopDraw(){
+    drawing = false;
+}
+
+function clearCanvas(){
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+}
+
+function saveImage(){
+
+    const link =
+        document.createElement("a");
+
+    link.download =
+        "quadro-branco.png";
+
+    link.href =
+        canvas.toDataURL();
+
+    link.click();
+}
+
+function eraser(){
+    document
+        .getElementById("colorPicker")
+        .value = "#FFFFFF";
+}
+
+function pen(){
+    document
+        .getElementById("colorPicker")
+        .value = "#000000";
+}
+
+function startTouch(e){
+
+    e.preventDefault();
+
+    drawing = true;
+
+    const rect =
+        canvas.getBoundingClientRect();
+
+    const touch =
+        e.touches[0];
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        touch.clientX - rect.left,
+        touch.clientY - rect.top
+    );
+}
+
+function moveTouch(e){
+
+    e.preventDefault();
+
+    if(!drawing) return;
+
+    const rect =
+        canvas.getBoundingClientRect();
+
+    const touch =
+        e.touches[0];
+
+    ctx.lineWidth =
+        document.getElementById("sizePicker").value;
+
+    ctx.lineCap = "round";
+
+    ctx.strokeStyle =
+        document.getElementById("colorPicker").value;
+
+    ctx.lineTo(
+        touch.clientX - rect.left,
+        touch.clientY - rect.top
+    );
+
+    ctx.stroke();
+}
+
+</script>
 
 </body>
 </html>
