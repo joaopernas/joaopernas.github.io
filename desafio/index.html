@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Desafio do Dia</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&family=Space+Grotesk:wght@300;500;700&display=swap"
+rel="stylesheet">
+<script>
+tailwind.config = {
+theme: {
+extend: {
+fontFamily: {
+sans: ['"Be Vietnam Pro"', 'sans-serif'],
+display: ['"Space Grotesk"', 'sans-serif'],
+},
+colors: {
+studio: {
+bg: '#07161c',
+panel: '#0f2630',
+accent: '#0d9488',
+gold: '#FFD700',
+correct: '#22c55e',
+wrong: '#ef4444',
+},
+primary: "#0d9488",
+"background-light": "#f4f8f8",
+"background-dark": "#07161c",
+"gold-light": "#FFF3B0",
+gold: "#FFD700",
+"gold-dark": "#B8860B",
+success: "#22c55e",
+},
+animation: {
+'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+'spin-slow': 'spin 12s linear infinite',
+'bounce-slight': 'bounce-slight 2s infinite',
+'float': 'float 6s ease-in-out infinite',
+'tv-enter': 'tv-enter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+'tv-slide-up': 'tv-slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+'tv-reveal': 'tv-reveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+},
+keyframes: {
+'bounce-slight': {
+'0%, 100%': { transform: 'translateY(-2%)' },
+'50%': { transform: 'translateY(0)' },
+},
+float: {
+'0%, 100%': { transform: 'translateY(0)' },
+'50%': { transform: 'translateY(-20px)' },
+},
+'tv-enter': {
+'0%': { opacity: 0, transform: 'scale(1.1) translateY(20px)' },
+'100%': { opacity: 1, transform: 'scale(1) translateY(0)' },
+},
+'tv-slide-up': {
+'0%': { opacity: 0, transform: 'translateY(50px)' },
+'100%': { opacity: 1, transform: 'translateY(0)' },
+},
+'tv-reveal': {
+'0%': { opacity: 0, transform: 'scale(0.8)' },
+'100%': { opacity: 1, transform: 'scale(1)' },
+}
+}
+},
+},
+}
+</script>
+<style>
+body {
+background-color: #07161c;
+color: white;
+overflow: hidden;
+}
+.neon-text {
+text-shadow: 0 0 10px rgba(13, 148, 136, 0.5), 0 0 20px rgba(13, 148, 136, 0.3);
+}
+.text-gold-gradient {
+background: linear-gradient(135deg, #FFF8DC 10%, #FFD700 40%, #DAA520 60%, #B8860B 90%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+.sunburst {
+background: repeating-conic-gradient(from 0deg,
+rgba(255, 215, 0, 0.1) 0deg 10deg,
+transparent 10deg 20deg);
+mask-image: radial-gradient(circle, black 30%, transparent 70%);
+-webkit-mask-image: radial-gradient(circle, black 30%, transparent 70%);
+}
+.confetti {
+position: absolute;
+width: 8px;
+height: 8px;
+border-radius: 50%;
+}
+.lamp-container {
+position: absolute;
+top: -20vh;
+width: 0;
+height: 0;
+z-index: 1;
+}
+.lamp-left {
+left: 0;
+animation: cross-left 3s ease-in-out infinite alternate;
+}
+.lamp-right {
+right: 0;
+animation: cross-right 3s ease-in-out infinite alternate;
+}
+.lamp-beam {
+position: absolute;
+width: 60vh;
+height: 400vh;
+top: -200vh;
+left: -30vh;
+transform: perspective(23vh) rotateX(30deg);
+pointer-events: none;
+mix-blend-mode: screen;
+opacity: 0.9;
+}
+.lamp-beam-purple {
+background-image: radial-gradient(ellipse, rgba(255, 255, 255, 0.6), rgba(20, 184, 166, 0.25) 25%, rgba(20, 184, 166, 0) 50%);
+}
+.lamp-beam-blue {
+background-image: radial-gradient(ellipse, rgba(255, 255, 255, 0.6), rgba(59, 130, 246, 0.25) 25%, rgba(59, 130, 246, 0) 50%);
+}
+@keyframes cross-left {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(-45deg); }
+}
+@keyframes cross-right {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(45deg); }
+}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0f2630; }
+::-webkit-scrollbar-thumb { background: #0d9488; border-radius: 4px; }
+</style>
+<script type="module" crossorigin src="./assets/app.js"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+</html>
