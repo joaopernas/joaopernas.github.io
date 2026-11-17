@@ -1,374 +1,323 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Seleção de recursos externos para apresentações, interação, colaboração e produtividade.">
-  <meta name="theme-color" content="#1F3B5B">
-  <title>Recursos Externos | João Pernas</title>
-  <style>
-    :root {
-      --primary: #1f3b5b;
-      --primary-dark: #142a42;
-      --primary-light: #e9f0f7;
-      --accent: #2e78b7;
-      --surface: #ffffff;
-      --background: #f4f7fa;
-      --text: #182433;
-      --muted: #5d6b7a;
-      --border: #d8e1ea;
-      --shadow: 0 12px 30px rgba(31, 59, 91, 0.10);
-      --radius: 18px;
-      --max-width: 1180px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos Didáticos | João Pernas</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1F3B5B 0%, #2C5F7F 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-    html { scroll-behavior: smooth; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      color: var(--text);
-      background: var(--background);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.6;
-    }
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+        }
 
-    a { color: inherit; }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: #00838F;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 4px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
 
-    .skip-link {
-      position: fixed;
-      top: 0.75rem;
-      left: 0.75rem;
-      z-index: 100;
-      padding: 0.75rem 1rem;
-      color: #fff;
-      background: var(--primary-dark);
-      border-radius: 10px;
-      transform: translateY(-160%);
-      transition: transform 0.2s ease;
-    }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
 
-    .skip-link:focus { transform: translateY(0); }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
 
-    .site-header {
-      color: #fff;
-      background:
-        radial-gradient(circle at 85% 15%, rgba(255,255,255,0.14), transparent 25%),
-        linear-gradient(135deg, var(--primary-dark), var(--primary) 58%, #2b5a83);
-    }
+        .back-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            margin-bottom: 40px;
+            transition: all 0.3s ease;
+        }
 
-    .header-inner,
-    .main-inner,
-    .footer-inner {
-      width: min(calc(100% - 2rem), var(--max-width));
-      margin-inline: auto;
-    }
+        .back-button:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-5px);
+        }
 
-    .header-inner {
-      min-height: 250px;
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      padding-block: 3rem;
-    }
+        .category {
+            margin-bottom: 50px;
+        }
 
-    .logo {
-      width: 92px;
-      height: 92px;
-      flex: 0 0 auto;
-      display: grid;
-      place-items: center;
-      border: 2px solid rgba(255,255,255,0.65);
-      border-radius: 24px;
-      color: var(--primary);
-      background: #fff;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
-      font-size: 2rem;
-      font-weight: 800;
-      letter-spacing: -0.05em;
-    }
+        .category-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid rgba(255,255,255,0.3);
+        }
 
-    .eyebrow {
-      margin: 0 0 0.2rem;
-      color: #cfe3f6;
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
 
-    h1 {
-      margin: 0;
-      font-size: clamp(2rem, 5vw, 3.4rem);
-      line-height: 1.05;
-      letter-spacing: 0.045em;
-    }
+        .resource-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 15px;
+            padding: 25px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            display: block;
+        }
 
-    .subtitle {
-      margin: 0.55rem 0 0;
-      color: #e4eef7;
-      font-size: clamp(1rem, 2.2vw, 1.25rem);
-    }
+        .resource-card:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
 
-    main { flex: 1; }
+        .resource-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
 
-    .main-inner { padding-block: clamp(2.25rem, 5vw, 4.5rem); }
+        .resource-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+        }
 
-    .back-link {
-      width: fit-content;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      margin-bottom: 2rem;
-      padding: 0.68rem 1rem;
-      border: 1px solid #b8c9d9;
-      border-radius: 999px;
-      color: var(--primary);
-      background: var(--surface);
-      font-weight: 750;
-      text-decoration: none;
-      transition: background 0.2s ease, transform 0.2s ease;
-    }
+        .resource-description {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
 
-    .back-link:hover { background: var(--primary-light); transform: translateX(-3px); }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
 
-    .intro { max-width: 760px; margin-bottom: 2.5rem; }
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
 
-    .intro h2 {
-      margin: 0 0 0.5rem;
-      color: var(--primary);
-      font-size: clamp(1.75rem, 4vw, 2.6rem);
-      line-height: 1.2;
-    }
-
-    .intro p { margin: 0; color: var(--muted); }
-
-    .category + .category { margin-top: 3rem; }
-
-    .category-title {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin: 0 0 1.1rem;
-      color: var(--primary);
-      font-size: clamp(1.25rem, 2.4vw, 1.6rem);
-      line-height: 1.3;
-    }
-
-    .category-title::after {
-      content: "";
-      height: 1px;
-      flex: 1;
-      background: var(--border);
-    }
-
-    .resource-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
-    }
-
-    .resource-card {
-      min-height: 160px;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: start;
-      gap: 1rem;
-      padding: 1.3rem;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--text);
-      background: var(--surface);
-      box-shadow: var(--shadow);
-      text-decoration: none;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    }
-
-    .resource-card:hover {
-      transform: translateY(-4px);
-      border-color: #a8c1d8;
-      box-shadow: 0 17px 34px rgba(31, 59, 91, 0.15);
-    }
-
-    .resource-icon {
-      width: 48px;
-      height: 48px;
-      display: grid;
-      place-items: center;
-      border-radius: 14px;
-      background: var(--primary-light);
-      font-size: 1.45rem;
-    }
-
-    .resource-name {
-      display: block;
-      margin-bottom: 0.25rem;
-      color: var(--primary);
-      font-size: 1.08rem;
-      font-weight: 800;
-      line-height: 1.35;
-    }
-
-    .resource-description {
-      display: block;
-      color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.45;
-    }
-
-    .external-mark { color: var(--accent); font-weight: 800; }
-
-    .resource-card:focus-visible,
-    .back-link:focus-visible,
-    .footer-link:focus-visible {
-      outline: 3px solid #f5b942;
-      outline-offset: 4px;
-    }
-
-    .site-footer { color: #dce7f1; background: var(--primary-dark); }
-
-    .footer-inner {
-      min-height: 86px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding-block: 1.25rem;
-    }
-
-    .footer-inner p { margin: 0; }
-    .footer-link { color: #fff; text-underline-offset: 0.2em; }
-
-    @media (max-width: 960px) {
-      .resource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 640px) {
-      .header-inner {
-        min-height: 230px;
-        align-items: flex-start;
-        flex-direction: column;
-        padding-block: 2.25rem;
-      }
-
-      .logo {
-        width: 72px;
-        height: 72px;
-        border-radius: 19px;
-        font-size: 1.6rem;
-      }
-
-      .resource-grid { grid-template-columns: 1fr; }
-      .resource-card { min-height: 140px; }
-      .footer-inner { align-items: flex-start; flex-direction: column; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { transition: none !important; }
-    }
-  </style>
+            .category-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Saltar para o conteúdo principal</a>
+    <div class="container">
+        <header>
+            <div class="logo">JP</div>
+            <h1>JOÃO PERNAS</h1>
+            <p class="subtitle">Recursos Didáticos</p>
+        </header>
 
-  <header class="site-header" aria-labelledby="site-title">
-    <div class="header-inner">
-      <div class="logo" aria-label="Logótipo JP">JP</div>
-      <div>
-        <p class="eyebrow">Portal educativo</p>
-        <h1 id="site-title">JOÃO PERNAS</h1>
-        <p class="subtitle">Recursos Didáticos</p>
-      </div>
+        <a href="index.html" class="back-button">← Voltar ao Portal</a>
+
+        <!-- Apresentações & Conteúdo -->
+        <section class="category">
+            <h2 class="category-title">📊 Apresentações & Conteúdo</h2>
+            <div class="resources-grid">
+                <a href="https://www.canva.com" target="_blank" class="resource-card" aria-label="Abrir Canva">
+                    <span class="resource-icon">🎨</span>
+                    <span class="resource-name">Canva</span>
+                    <span class="resource-description">Design gráfico e apresentações visuais</span>
+                </a>
+
+                <a href="https://www.genially.com" target="_blank" class="resource-card" aria-label="Abrir Genially">
+                    <span class="resource-icon">✨</span>
+                    <span class="resource-name">Genially</span>
+                    <span class="resource-description">Conteúdos interativos e animados</span>
+                </a>
+
+                <a href="https://prezi.com" target="_blank" class="resource-card" aria-label="Abrir Prezi">
+                    <span class="resource-icon">🌀</span>
+                    <span class="resource-name">Prezi</span>
+                    <span class="resource-description">Apresentações dinâmicas e envolventes</span>
+                </a>
+
+                <a href="https://gamma.app" target="_blank" class="resource-card" aria-label="Abrir Gamma">
+                    <span class="resource-icon">🚀</span>
+                    <span class="resource-name">Gamma</span>
+                    <span class="resource-description">Apresentações criadas com IA</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Interação & Sondagens -->
+        <section class="category">
+            <h2 class="category-title">📊 Interação & Sondagens</h2>
+            <div class="resources-grid">
+                <a href="https://www.slido.com" target="_blank" class="resource-card" aria-label="Abrir Slido">
+                    <span class="resource-icon">💬</span>
+                    <span class="resource-name">Slido</span>
+                    <span class="resource-description">Sondagens e Q&A em tempo real</span>
+                </a>
+
+                <a href="https://www.mentimeter.com" target="_blank" class="resource-card" aria-label="Abrir Mentimeter">
+                    <span class="resource-icon">📈</span>
+                    <span class="resource-name">Mentimeter</span>
+                    <span class="resource-description">Votações interativas ao vivo</span>
+                </a>
+
+                <a href="https://kahoot.com" target="_blank" class="resource-card" aria-label="Abrir Kahoot">
+                    <span class="resource-icon">🎮</span>
+                    <span class="resource-name">Kahoot</span>
+                    <span class="resource-description">Quizzes e jogos educativos</span>
+                </a>
+
+                <a href="https://www.wooclap.com" target="_blank" class="resource-card" aria-label="Abrir Wooclap">
+                    <span class="resource-icon">👥</span>
+                    <span class="resource-name">Wooclap</span>
+                    <span class="resource-description">Participação ativa dos formandos</span>
+                </a>
+
+                <a href="https://wheelofnames.com" target="_blank" class="resource-card" aria-label="Abrir Wheel of Names">
+                    <span class="resource-icon">🎡</span>
+                    <span class="resource-name">Wheel of Names</span>
+                    <span class="resource-description">Sorteio aleatório de nomes</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Colaboração & Brainstorming -->
+        <section class="category">
+            <h2 class="category-title">🤝 Colaboração & Brainstorming</h2>
+            <div class="resources-grid">
+                <a href="https://padlet.com" target="_blank" class="resource-card" aria-label="Abrir Padlet">
+                    <span class="resource-icon">📌</span>
+                    <span class="resource-name">Padlet</span>
+                    <span class="resource-description">Quadros colaborativos online</span>
+                </a>
+
+                <a href="https://miro.com" target="_blank" class="resource-card" aria-label="Abrir Miro">
+                    <span class="resource-icon">🖼️</span>
+                    <span class="resource-name">Miro</span>
+                    <span class="resource-description">Whiteboard digital colaborativo</span>
+                </a>
+
+                <a href="https://www.mural.co" target="_blank" class="resource-card" aria-label="Abrir Mural">
+                    <span class="resource-icon">🎨</span>
+                    <span class="resource-name">Mural</span>
+                    <span class="resource-description">Colaboração visual em equipa</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- IA & Produtividade -->
+        <section class="category">
+            <h2 class="category-title">🤖 IA & Produtividade</h2>
+            <div class="resources-grid">
+                <a href="https://chat.openai.com" target="_blank" class="resource-card" aria-label="Abrir ChatGPT">
+                    <span class="resource-icon">💭</span>
+                    <span class="resource-name">ChatGPT</span>
+                    <span class="resource-description">Assistente de IA da OpenAI</span>
+                </a>
+
+                <a href="https://copilot.microsoft.com" target="_blank" class="resource-card" aria-label="Abrir Microsoft Copilot">
+                    <span class="resource-icon">🪟</span>
+                    <span class="resource-name">Microsoft Copilot</span>
+                    <span class="resource-description">IA integrada da Microsoft</span>
+                </a>
+
+                <a href="https://gemini.google.com" target="_blank" class="resource-card" aria-label="Abrir Google Gemini">
+                    <span class="resource-icon">✨</span>
+                    <span class="resource-name">Google Gemini</span>
+                    <span class="resource-description">IA avançada do Google</span>
+                </a>
+
+                <a href="https://aistudio.google.com" target="_blank" class="resource-card" aria-label="Abrir Google AI Studio">
+                    <span class="resource-icon">🧪</span>
+                    <span class="resource-name">Google AI Studio</span>
+                    <span class="resource-description">Experimentação com modelos de IA</span>
+                </a>
+
+                <a href="https://notebooklm.google.com" target="_blank" class="resource-card" aria-label="Abrir NotebookLM">
+                    <span class="resource-icon">📓</span>
+                    <span class="resource-name">NotebookLM</span>
+                    <span class="resource-description">Pesquisa e análise com IA</span>
+                </a>
+
+                <a href="https://www.perplexity.ai" target="_blank" class="resource-card" aria-label="Abrir Perplexity">
+                    <span class="resource-icon">🔍</span>
+                    <span class="resource-name">Perplexity</span>
+                    <span class="resource-description">Motor de pesquisa com IA</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Vídeo & Avatar -->
+        <section class="category">
+            <h2 class="category-title">🎥 Vídeo & Avatar</h2>
+            <div class="resources-grid">
+                <a href="https://www.voki.com" target="_blank" class="resource-card" aria-label="Abrir Voki">
+                    <span class="resource-icon">🗣️</span>
+                    <span class="resource-name">Voki</span>
+                    <span class="resource-description">Avatares animados personalizados</span>
+                </a>
+
+                <a href="https://www.heygen.com" target="_blank" class="resource-card" aria-label="Abrir HeyGen">
+                    <span class="resource-icon">👤</span>
+                    <span class="resource-name">HeyGen</span>
+                    <span class="resource-description">Vídeos com avatar criado por IA</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Áudio & Música -->
+        <section class="category">
+            <h2 class="category-title">🎵 Áudio & Música</h2>
+            <div class="resources-grid">
+                <a href="https://suno.ai" target="_blank" class="resource-card" aria-label="Abrir Suno">
+                    <span class="resource-icon">🎶</span>
+                    <span class="resource-name">Suno</span>
+                    <span class="resource-description">Criação de música com IA</span>
+                </a>
+            </div>
+        </section>
+
     </div>
-  </header>
-
-  <main id="conteudo">
-    <div class="main-inner">
-      <a class="back-link" href="index.html" aria-label="Voltar ao portal principal"><span aria-hidden="true">←</span> Voltar</a>
-
-      <section class="intro" aria-labelledby="page-title">
-        <h2 id="page-title">Recursos Externos</h2>
-        <p>Uma seleção de ferramentas online para criar conteúdos, envolver participantes, colaborar e aumentar a produtividade.</p>
-      </section>
-
-      <section class="category" aria-labelledby="categoria-apresentacoes">
-        <h3 class="category-title" id="categoria-apresentacoes"><span aria-hidden="true">🎨</span> Apresentações &amp; Conteúdo</h3>
-        <div class="resource-grid">
-          <a class="resource-card" href="https://www.canva.com" target="_blank" rel="noopener noreferrer" aria-label="Abrir Canva numa nova janela">
-            <span class="resource-icon" aria-hidden="true">🖌️</span><span><span class="resource-name">Canva</span><span class="resource-description">Criação simples de apresentações, vídeos e conteúdos visuais.</span></span><span class="external-mark" aria-hidden="true">↗</span>
-          </a>
-          <a class="resource-card" href="https://www.genially.com" target="_blank" rel="noopener noreferrer" aria-label="Abrir Genially numa nova janela">
-            <span class="resource-icon" aria-hidden="true">✨</span><span><span class="resource-name">Genially</span><span class="resource-description">Conteúdos interativos, infografias e experiências gamificadas.</span></span><span class="external-mark" aria-hidden="true">↗</span>
-          </a>
-          <a class="resource-card" href="https://prezi.com" target="_blank" rel="noopener noreferrer" aria-label="Abrir Prezi numa nova janela">
-            <span class="resource-icon" aria-hidden="true">🎬</span><span><span class="resource-name">Prezi</span><span class="resource-description">Apresentações dinâmicas com narrativa visual não linear.</span></span><span class="external-mark" aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </section>
-
-      <section class="category" aria-labelledby="categoria-interacao">
-        <h3 class="category-title" id="categoria-interacao"><span aria-hidden="true">📊</span> Interação &amp; Sondagens</h3>
-        <div class="resource-grid">
-          <a class="resource-card" href="https://www.slido.com" target="_blank" rel="noopener noreferrer" aria-label="Abrir Slido numa nova janela">
-            <span class="resource-icon" aria-hidden="true">💬</span><span><span class="resource-name">Slido</span><span class="resource-description">Perguntas, sondagens e participação do público em tempo real.</span></span><span class="external-mark" aria-hidden="true">↗</span>
-          </a>
-          <a class="resource-card" href="https://www.mentimeter.com" target="_blank" rel="noopener noreferrer" aria-label="Abrir Mentimeter numa nova janela">
-            <span class="resource-icon" aria-hidden="true">📈</span><span><span class="resource-name">Mentimeter</span><span class="resource-description">Apresentações interativas com votação e resultados ao vivo.</span></span><span class="external-mark" aria-hidden="true">↗</span>
-          </a>
-          <a class="resource-card" href="https://kahoot.com" target="_blank" rel="noopener noreferrer" aria-label="Abrir Kahoot numa nova janela">
-            <span class="resource-icon" aria-hidden="true">🎮</span><span><span class="resource-name">Kahoot</span><span class="resource-description">Quizzes e desafios gamificados para aprendizagem participativa.</span></span><span class="external-mark" aria-hidden="true">↗</span>
-          </a>
-          <a class="resource-card" href="https://www.wooclap.com" target="_blank" rel="noopener noreferrer" aria-label="Abrir Wooclap numa nova janela">
-            <span class="resource-icon" aria-hidden="true">🙋</span><span><span class="resource-name">Wooclap</span><span class="resource-description">Atividades interativas para aumentar o envolvimento em sessões.</span></span><span class="external-mark" aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </section>
-
-      <section class="category" aria-labelledby="categoria-colaboracao">
-        <h3 class="category-title" id="categoria-colaboracao"><span aria-hidden="true">🤝</span> Colaboração &amp; Brainstorming</h3>
-        <div class="resource-grid">
-          <a class="resource-card" href="https://padlet.com" target="_blank" rel="noopener noreferrer" aria-label="Abrir Padlet numa nova janela">
-            <span class="resource-icon" aria-hidden="true">📌</span><span><span class="resource-name">Padlet</span><span class="resource-description">Murais digitais para reunir ideias, conteúdos e contributos.</span></span><span class="external-mark" aria-hidden="true">↗</span>
-          </a>
-          <a class="resource-card" href="https://miro.com" target="_blank" rel="noopener noreferrer" aria-label="Abrir Miro numa nova janela">
-            <span class="resource-icon" aria-hidden="true">🧩</span><span><span class="resource-name">Miro</span><span class="resource-description">Quadro colaborativo para mapear ideias, fluxos e projetos.</span></span><span class="external-mark" aria-hidden="true">↗</span>
-          </a>
-          <a class="resource-card" href="https://www.mural.co" target="_blank" rel="noopener noreferrer" aria-label="Abrir Mural numa nova janela">
-            <span class="resource-icon" aria-hidden="true">🗺️</span><span><span class="resource-name">Mural</span><span class="resource-description">Workshops visuais e colaboração estruturada entre equipas.</span></span><span class="external-mark" aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </section>
-
-      <section class="category" aria-labelledby="categoria-ia">
-        <h3 class="category-title" id="categoria-ia"><span aria-hidden="true">⚡</span> IA &amp; Produtividade</h3>
-        <div class="resource-grid">
-          <a class="resource-card" href="https://chat.openai.com" target="_blank" rel="noopener noreferrer" aria-label="Abrir ChatGPT numa nova janela">
-            <span class="resource-icon" aria-hidden="true">💡</span><span><span class="resource-name">ChatGPT</span><span class="resource-description">Assistente de IA para explorar ideias, escrever e resolver tarefas.</span></span><span class="external-mark" aria-hidden="true">↗</span>
-          </a>
-          <a class="resource-card" href="https://copilot.microsoft.com" target="_blank" rel="noopener noreferrer" aria-label="Abrir Microsoft Copilot numa nova janela">
-            <span class="resource-icon" aria-hidden="true">🤖</span><span><span class="resource-name">Microsoft Copilot</span><span class="resource-description">Assistente de IA para pesquisar, criar e aumentar a produtividade.</span></span><span class="external-mark" aria-hidden="true">↗</span>
-          </a>
-          <a class="resource-card" href="https://notebooklm.google.com" target="_blank" rel="noopener noreferrer" aria-label="Abrir NotebookLM numa nova janela">
-            <span class="resource-icon" aria-hidden="true">📚</span><span><span class="resource-name">NotebookLM</span><span class="resource-description">Análise e síntese de fontes com apoio de inteligência artificial.</span></span><span class="external-mark" aria-hidden="true">↗</span>
-          </a>
-          <a class="resource-card" href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer" aria-label="Abrir Perplexity numa nova janela">
-            <span class="resource-icon" aria-hidden="true">🔎</span><span><span class="resource-name">Perplexity</span><span class="resource-description">Pesquisa assistida por IA com respostas apoiadas em fontes.</span></span><span class="external-mark" aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <p>© 2026 João Pernas · Recursos Didáticos</p>
-      <a class="footer-link" href="#conteudo" aria-label="Voltar ao início do conteúdo">Voltar ao topo ↑</a>
-    </div>
-  </footer>
 </body>
 </html>
