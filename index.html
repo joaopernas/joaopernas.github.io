@@ -1,151 +1,339 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Desafio do Dia</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&family=Space+Grotesk:wght@300;500;700&display=swap"
-rel="stylesheet">
-<script>
-tailwind.config = {
-theme: {
-extend: {
-fontFamily: {
-sans: ['"Be Vietnam Pro"', 'sans-serif'],
-display: ['"Space Grotesk"', 'sans-serif'],
-},
-colors: {
-studio: {
-bg: '#07161c',
-panel: '#0f2630',
-accent: '#0d9488',
-gold: '#FFD700',
-correct: '#22c55e',
-wrong: '#ef4444',
-},
-primary: "#0d9488",
-"background-light": "#f4f8f8",
-"background-dark": "#07161c",
-"gold-light": "#FFF3B0",
-gold: "#FFD700",
-"gold-dark": "#B8860B",
-success: "#22c55e",
-},
-animation: {
-'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-'spin-slow': 'spin 12s linear infinite',
-'bounce-slight': 'bounce-slight 2s infinite',
-'float': 'float 6s ease-in-out infinite',
-'tv-enter': 'tv-enter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-'tv-slide-up': 'tv-slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-'tv-reveal': 'tv-reveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
-},
-keyframes: {
-'bounce-slight': {
-'0%, 100%': { transform: 'translateY(-2%)' },
-'50%': { transform: 'translateY(0)' },
-},
-float: {
-'0%, 100%': { transform: 'translateY(0)' },
-'50%': { transform: 'translateY(-20px)' },
-},
-'tv-enter': {
-'0%': { opacity: 0, transform: 'scale(1.1) translateY(20px)' },
-'100%': { opacity: 1, transform: 'scale(1) translateY(0)' },
-},
-'tv-slide-up': {
-'0%': { opacity: 0, transform: 'translateY(50px)' },
-'100%': { opacity: 1, transform: 'translateY(0)' },
-},
-'tv-reveal': {
-'0%': { opacity: 0, transform: 'scale(0.8)' },
-'100%': { opacity: 1, transform: 'scale(1)' },
-}
-}
-},
-},
-}
-</script>
-<style>
-body {
-background-color: #07161c;
-color: white;
-overflow: hidden;
-}
-.neon-text {
-text-shadow: 0 0 10px rgba(13, 148, 136, 0.5), 0 0 20px rgba(13, 148, 136, 0.3);
-}
-.text-gold-gradient {
-background: linear-gradient(135deg, #FFF8DC 10%, #FFD700 40%, #DAA520 60%, #B8860B 90%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-}
-.sunburst {
-background: repeating-conic-gradient(from 0deg,
-rgba(255, 215, 0, 0.1) 0deg 10deg,
-transparent 10deg 20deg);
-mask-image: radial-gradient(circle, black 30%, transparent 70%);
--webkit-mask-image: radial-gradient(circle, black 30%, transparent 70%);
-}
-.confetti {
-position: absolute;
-width: 8px;
-height: 8px;
-border-radius: 50%;
-}
-.lamp-container {
-position: absolute;
-top: -20vh;
-width: 0;
-height: 0;
-z-index: 1;
-}
-.lamp-left {
-left: 0;
-animation: cross-left 3s ease-in-out infinite alternate;
-}
-.lamp-right {
-right: 0;
-animation: cross-right 3s ease-in-out infinite alternate;
-}
-.lamp-beam {
-position: absolute;
-width: 60vh;
-height: 400vh;
-top: -200vh;
-left: -30vh;
-transform: perspective(23vh) rotateX(30deg);
-pointer-events: none;
-mix-blend-mode: screen;
-opacity: 0.9;
-}
-.lamp-beam-purple {
-background-image: radial-gradient(ellipse, rgba(255, 255, 255, 0.6), rgba(20, 184, 166, 0.25) 25%, rgba(20, 184, 166, 0) 50%);
-}
-.lamp-beam-blue {
-background-image: radial-gradient(ellipse, rgba(255, 255, 255, 0.6), rgba(59, 130, 246, 0.25) 25%, rgba(59, 130, 246, 0) 50%);
-}
-@keyframes cross-left {
-0% { transform: rotate(0deg); }
-100% { transform: rotate(-45deg); }
-}
-@keyframes cross-right {
-0% { transform: rotate(0deg); }
-100% { transform: rotate(45deg); }
-}
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #0f2630; }
-::-webkit-scrollbar-thumb { background: #0d9488; border-radius: 4px; }
-</style>
-<script type="module" crossorigin src="./assets/app.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portal de recursos didáticos de João Pernas.">
+  <meta name="theme-color" content="#1F3B5B">
+  <title>João Pernas | Recursos Didáticos</title>
+
+  <style>
+    :root {
+      --primary: #1f3b5b;
+      --primary-dark: #142a42;
+      --primary-light: #e9f0f7;
+      --accent: #2e78b7;
+      --surface: #ffffff;
+      --background: #f4f7fa;
+      --text: #182433;
+      --muted: #5d6b7a;
+      --border: #d8e1ea;
+      --shadow: 0 12px 30px rgba(31, 59, 91, 0.10);
+      --radius: 18px;
+      --max-width: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      color: var(--text);
+      background: var(--background);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+
+    .skip-link {
+      position: fixed;
+      top: 0.75rem;
+      left: 0.75rem;
+      z-index: 100;
+      padding: 0.75rem 1rem;
+      color: #fff;
+      background: var(--primary-dark);
+      border-radius: 10px;
+      transform: translateY(-160%);
+      transition: transform 0.2s ease;
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    .site-header {
+      color: #fff;
+      background:
+        radial-gradient(circle at 85% 15%, rgba(255,255,255,0.14), transparent 25%),
+        linear-gradient(135deg, var(--primary-dark), var(--primary) 58%, #2b5a83);
+    }
+
+    .header-inner,
+    .main-inner,
+    .footer-inner {
+      width: min(calc(100% - 2rem), var(--max-width));
+      margin-inline: auto;
+    }
+
+    .header-inner {
+      min-height: 250px;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding-block: 3rem;
+    }
+
+    .logo-img {
+      width: 150px;
+      height: 150px;
+      flex: 0 0 auto;
+      padding: 6px;
+      background: #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .eyebrow {
+      margin: 0 0 0.2rem;
+      color: #cfe3f6;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1.05;
+      letter-spacing: 0.045em;
+    }
+
+    .subtitle {
+      margin: 0.55rem 0 0;
+      color: #e4eef7;
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
+    }
+
+    main { flex: 1; }
+
+    .main-inner { padding-block: clamp(2.5rem, 6vw, 5rem); }
+
+    .intro {
+      max-width: 720px;
+      margin-bottom: 2rem;
+    }
+
+    .intro h2 {
+      margin: 0 0 0.45rem;
+      color: var(--primary);
+      font-size: clamp(1.65rem, 3vw, 2.2rem);
+      line-height: 1.2;
+    }
+
+    .intro p { margin: 0; color: var(--muted); }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    .portal-card {
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1.25rem;
+      padding: 1.6rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .portal-card:hover {
+      transform: translateY(-5px);
+      border-color: #a8c1d8;
+      box-shadow: 0 18px 36px rgba(31, 59, 91, 0.16);
+    }
+
+    .portal-card:focus-visible,
+    .footer-link:focus-visible {
+      outline: 3px solid #f5b942;
+      outline-offset: 4px;
+    }
+
+    .card-icon {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: var(--primary-light);
+      font-size: 1.8rem;
+    }
+
+    .card-title {
+      margin: 0;
+      color: var(--primary);
+      font-size: 1.2rem;
+      line-height: 1.3;
+    }
+
+    .card-description {
+      margin: 0.35rem 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .card-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .status {
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      color: var(--muted);
+      background: #eef2f6;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .site-footer {
+      color: #dce7f1;
+      background: var(--primary-dark);
+    }
+
+    .footer-inner {
+      min-height: 86px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-block: 1.25rem;
+    }
+
+    .footer-inner p { margin: 0; }
+
+    .footer-link { color: #fff; text-underline-offset: 0.2em; }
+
+    @media (max-width: 860px) {
+      .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 560px) {
+      .header-inner {
+        min-height: 230px;
+        align-items: flex-start;
+        flex-direction: column;
+        padding-block: 2.25rem;
+      }
+
+      .logo-img {
+        width: 110px;
+        height: 110px;
+      }
+
+      .card-grid { grid-template-columns: 1fr; }
+      .portal-card { min-height: 190px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
 </head>
 <body>
-<div id="root"></div>
+  <a class="skip-link" href="#conteudo">Saltar para o conteúdo principal</a>
+
+  <header class="site-header" aria-labelledby="site-title">
+    <div class="header-inner">
+      <img src="logo.png" alt="Logótipo João Pernas - Recursos Didáticos" class="logo-img">
+      <div>
+        <p class="eyebrow">Portal educativo</p>
+        <h1 id="site-title">JOÃO PERNAS</h1>
+        <p class="subtitle">Recursos Didáticos</p>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <div class="main-inner">
+      <section class="intro" aria-labelledby="recursos-title">
+        <h2 id="recursos-title">Explorar recursos</h2>
+        <p>Ferramentas práticas para apoiar a aprendizagem, a produtividade e a colaboração digital.</p>
+      </section>
+
+      <nav class="card-grid" aria-label="Recursos didáticos disponíveis">
+        <a class="portal-card" href="quadro-branco.html" aria-label="Abrir Quadro Branco">
+          <span class="card-icon" aria-hidden="true">🖍️</span>
+          <span>
+            <span class="card-title">Quadro Branco</span>
+            <span class="card-description">Espaço visual para desenhar, explicar e organizar ideias.</span>
+          </span>
+          <span class="card-action">Abrir recurso <span aria-hidden="true">→</span></span>
+        </a>
+
+        <a class="portal-card" href="pomodoro.html" aria-label="Abrir Pomodoro">
+          <span class="card-icon" aria-hidden="true">🍅</span>
+          <span>
+            <span class="card-title">Pomodoro</span>
+            <span class="card-description">Sessões de foco com pausas para gerir melhor o tempo.</span>
+          </span>
+          <span class="card-action">Abrir recurso <span aria-hidden="true">→</span></span>
+        </a>
+
+        <a class="portal-card" href="#" aria-label="IA e Prompts — brevemente disponível">
+          <span class="card-icon" aria-hidden="true">🤖</span>
+          <span>
+            <span class="card-title">IA &amp; Prompts</span>
+            <span class="card-description">Guias e exemplos para comunicar melhor com a IA.</span>
+          </span>
+          <span class="card-action"><span class="status">Brevemente</span><span aria-hidden="true">→</span></span>
+        </a>
+
+        <a class="portal-card" href="#" aria-label="Quiz Microsoft 365 — brevemente disponível">
+          <span class="card-icon" aria-hidden="true">❓</span>
+          <span>
+            <span class="card-title">Quiz M365</span>
+            <span class="card-description">Teste conhecimentos sobre ferramentas Microsoft 365.</span>
+          </span>
+          <span class="card-action"><span class="status">Brevemente</span><span aria-hidden="true">→</span></span>
+        </a>
+
+        <a class="portal-card" href="recursos.html" aria-label="Abrir Recursos Externos">
+          <span class="card-icon" aria-hidden="true">🔗</span>
+          <span>
+            <span class="card-title">Recursos Externos</span>
+            <span class="card-description">Plataformas úteis para criar, colaborar e participar.</span>
+          </span>
+          <span class="card-action">Ver recursos <span aria-hidden="true">→</span></span>
+        </a>
+
+        <a class="portal-card" href="sobre.html" aria-label="Abrir página Sobre">
+          <span class="card-icon" aria-hidden="true">ℹ️</span>
+          <span>
+            <span class="card-title">Sobre</span>
+            <span class="card-description">Informação sobre o portal e os seus objetivos.</span>
+          </span>
+          <span class="card-action">Ver página <span aria-hidden="true">→</span></span>
+        </a>
+      </nav>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>© 2026 João Pernas · Recursos Didáticos. Todos os direitos reservados.</p>
+      <a class="footer-link" href="#conteudo" aria-label="Voltar ao início do conteúdo">Voltar ao topo ↑</a>
+    </div>
+  </footer>
 </body>
 </html>
