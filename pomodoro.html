@@ -3,454 +3,113 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0d1324">
+  <meta name="theme-color" content="#0b1422">
   <title>Pomodoro — Foco</title>
   <style>
     :root {
-      --bg: #0b1020;
-      --panel: rgba(24, 32, 55, .82);
-      --panel-2: #151d33;
-      --text: #f6f7fb;
-      --muted: #9da8c2;
-      --line: rgba(255,255,255,.09);
-      --accent: #ff6b4a;
-      --accent-2: #ff9b66;
-      --green: #4bd3a5;
-      --blue: #66a7ff;
-      --shadow: 0 24px 70px rgba(0,0,0,.28);
-      --radius: 22px;
+      --bg:#0b1422; --panel:rgba(24,39,61,.88); --panel-2:#15263b;
+      --text:#f6f8fb; --muted:#a7b6c8; --line:rgba(255,255,255,.10);
+      --accent:#18aeb5; --accent-2:#2e78b7; --accent-hover:#21c3c8;
+      --green:#4bd3a5; --blue:#66a7ff; --shadow:0 24px 70px rgba(0,0,0,.28); --radius:22px;
     }
-    * { box-sizing: border-box; }
-    html { color-scheme: dark; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font: 15px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 15% 0%, rgba(102,167,255,.16), transparent 30rem),
-        radial-gradient(circle at 100% 15%, rgba(255,107,74,.12), transparent 28rem),
-        var(--bg);
-    }
-    button, input { font: inherit; }
-    button { color: inherit; }
-    button:focus-visible, input:focus-visible { outline: 3px solid rgba(102,167,255,.45); outline-offset: 2px; }
-    .app { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 42px; }
-    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
-    .brand { display: flex; align-items: center; gap: 12px; }
-    .logo { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 14px; background: linear-gradient(145deg,var(--accent),var(--accent-2)); box-shadow: 0 10px 30px rgba(255,107,74,.28); font-size: 21px; }
-    h1 { margin: 0; font-size: 20px; letter-spacing: -.02em; }
-    .subtitle { color: var(--muted); font-size: 12px; }
-    .icon-btn { border: 1px solid var(--line); background: var(--panel); border-radius: 13px; width: 42px; height: 42px; cursor: pointer; transition: .2s; }
-    .icon-btn:hover { border-color: rgba(255,255,255,.22); transform: translateY(-1px); }
-    .layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(320px, .65fr); gap: 22px; }
-    .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); backdrop-filter: blur(18px); }
-    .timer-card { min-height: 580px; padding: 22px; display: flex; flex-direction: column; align-items: center; }
-    .mode-tabs { display: grid; grid-template-columns: repeat(3,1fr); width: min(520px,100%); padding: 5px; border-radius: 15px; background: rgba(5,9,18,.45); border: 1px solid var(--line); }
-    .mode-tab { border: 0; background: transparent; color: var(--muted); border-radius: 11px; padding: 10px 8px; cursor: pointer; font-weight: 700; font-size: 13px; }
-    .mode-tab.active { color: white; background: var(--mode-color,var(--accent)); box-shadow: 0 6px 18px rgba(0,0,0,.18); }
-    .timer-ring { --progress: 0deg; --ring-color: var(--accent); width: min(310px, 70vw); aspect-ratio: 1; border-radius: 50%; margin: 42px auto 28px; display: grid; place-items: center; position: relative; background: conic-gradient(var(--ring-color) var(--progress), rgba(255,255,255,.075) 0); box-shadow: 0 0 52px color-mix(in srgb, var(--ring-color) 14%, transparent); }
-    .timer-ring::before { content:""; position: absolute; inset: 11px; border-radius: 50%; background: linear-gradient(145deg,#18223b,#10172a); box-shadow: inset 0 0 35px rgba(0,0,0,.22); }
-    .timer-content { position: relative; z-index: 1; text-align: center; }
-    .timer-label { color: var(--muted); text-transform: uppercase; letter-spacing: .18em; font-size: 11px; font-weight: 800; }
-    #time { font-variant-numeric: tabular-nums; font-size: clamp(58px, 9vw, 82px); line-height: 1.05; letter-spacing: -.07em; font-weight: 750; margin: 8px 0; }
-    #currentTask { color: var(--muted); max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .controls { display: flex; align-items: center; gap: 13px; }
-    .primary { border: 0; min-width: 150px; padding: 14px 24px; border-radius: 15px; background: linear-gradient(145deg,var(--accent),var(--accent-2)); color: white; font-weight: 800; cursor: pointer; box-shadow: 0 12px 28px rgba(255,107,74,.24); transition: .2s; }
-    .primary:hover { transform: translateY(-2px); filter: brightness(1.06); }
-    .secondary { border: 1px solid var(--line); background: rgba(255,255,255,.045); border-radius: 15px; width: 50px; height: 50px; cursor: pointer; }
-    .secondary:hover { background: rgba(255,255,255,.08); }
-    .cycle-row { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 12px; margin-top: 24px; }
-    .dots { display: flex; gap: 6px; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.13); }
-    .dot.done { background: var(--accent); box-shadow: 0 0 12px rgba(255,107,74,.55); }
-    .auto-badge { margin-left: 8px; padding: 3px 8px; border-radius: 99px; background: rgba(75,211,165,.12); color: var(--green); }
-    .sidebar { display: grid; gap: 22px; align-content: start; }
-    .section { padding: 20px; }
-    .section-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 15px; }
-    h2 { margin: 0; font-size: 15px; letter-spacing: -.01em; }
-    .date-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .09em; }
-    .stats { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
-    .stat { border: 1px solid var(--line); background: rgba(255,255,255,.035); border-radius: 16px; padding: 15px; }
-    .stat-icon { font-size: 17px; }
-    .stat-value { display: block; font-size: 25px; line-height: 1.2; font-weight: 800; margin-top: 7px; }
-    .stat-label { color: var(--muted); font-size: 11px; }
-    .goal { margin-top: 16px; }
-    .goal-copy { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; margin-bottom: 8px; }
-    .bar { height: 9px; border-radius: 99px; overflow: hidden; background: rgba(255,255,255,.08); }
-    .bar > span { display: block; height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg,var(--accent),var(--accent-2)); transition: width .35s ease; }
-    .task-form { display: flex; gap: 8px; }
-    .task-form input, .setting input[type=number] { width: 100%; min-width: 0; border: 1px solid var(--line); background: rgba(6,10,20,.45); color: var(--text); border-radius: 12px; padding: 11px 12px; }
-    .add-btn { border: 0; border-radius: 12px; background: var(--accent); width: 43px; flex: 0 0 43px; cursor: pointer; font-size: 20px; }
-    .task-list { list-style: none; padding: 0; margin: 14px 0 0; max-height: 230px; overflow: auto; scrollbar-width: thin; }
-    .task-empty { color: var(--muted); font-size: 13px; text-align: center; padding: 25px 8px 14px; }
-    .task { display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; gap: 9px; padding: 10px 7px; border-bottom: 1px solid var(--line); border-left: 3px solid transparent; }
-    .task.active { border-left-color: var(--accent); background: rgba(255,107,74,.055); }
-    .task-check { appearance: none; width: 18px; height: 18px; border-radius: 6px; border: 1px solid rgba(255,255,255,.25); display: grid; place-content: center; cursor: pointer; }
-    .task-check:checked { background: var(--green); border-color: var(--green); }
-    .task-check:checked::after { content:"✓"; color: #07130f; font-weight: 900; font-size: 12px; }
-    .task-main { min-width: 0; cursor: pointer; }
-    .task-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
-    .task.completed .task-name { text-decoration: line-through; color: var(--muted); }
-    .task-meta { font-size: 10px; color: var(--muted); margin-top: 2px; }
-    .delete { border: 0; background: transparent; color: var(--muted); cursor: pointer; opacity: .65; padding: 4px; }
-    .delete:hover { color: #ff8b7a; opacity: 1; }
-    dialog { width: min(490px,calc(100% - 28px)); border: 1px solid var(--line); border-radius: 22px; color: var(--text); background: #151d31; box-shadow: 0 30px 90px rgba(0,0,0,.55); padding: 0; }
-    dialog::backdrop { background: rgba(2,5,12,.72); backdrop-filter: blur(5px); }
-    .modal-head, .modal-foot { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid var(--line); }
-    .modal-foot { border: 0; border-top: 1px solid var(--line); justify-content: flex-end; gap: 10px; }
-    .modal-body { padding: 20px; display: grid; gap: 18px; }
-    .duration-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
-    .setting label, .setting > span { display: block; color: var(--muted); font-size: 11px; margin-bottom: 7px; }
-    .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-    .switch-copy strong { display: block; font-size: 13px; }
-    .switch-copy span { color: var(--muted); font-size: 11px; }
-    .switch { position: relative; width: 44px; height: 25px; flex: 0 0 auto; }
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; inset: 0; cursor: pointer; border-radius: 99px; background: rgba(255,255,255,.14); transition: .2s; }
-    .slider::before { content:""; position: absolute; width: 19px; height: 19px; left: 3px; top: 3px; border-radius: 50%; background: white; transition: .2s; }
-    .switch input:checked + .slider { background: var(--green); }
-    .switch input:checked + .slider::before { transform: translateX(19px); }
-    .ghost { border: 1px solid var(--line); background: transparent; border-radius: 12px; padding: 10px 15px; cursor: pointer; }
-    .save { border: 0; background: var(--accent); border-radius: 12px; padding: 11px 17px; font-weight: 800; cursor: pointer; }
-    .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%,20px); max-width: min(420px,calc(100% - 32px)); padding: 12px 16px; border: 1px solid var(--line); border-radius: 13px; background: #202a43; color: white; box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: .25s; z-index: 20; text-align: center; }
-    .toast.show { opacity: 1; transform: translate(-50%,0); }
-    .celebrate { animation: pulse .75s ease; }
-    @keyframes pulse { 50% { transform: scale(1.025); box-shadow: 0 0 0 10px rgba(255,107,74,.08), var(--shadow); } }
-    @media (max-width: 850px) { .layout { grid-template-columns: 1fr; } .timer-card { min-height: auto; } }
-    @media (max-width: 520px) { .app { width: min(100% - 20px,1180px); padding-top: 16px; } .timer-card { padding: 13px; } .mode-tab { font-size: 11px; } .duration-grid { grid-template-columns: 1fr; } .timer-ring { margin-top: 30px; } }
-    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+    *{box-sizing:border-box} html{color-scheme:dark}
+    body{margin:0;min-height:100vh;font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:radial-gradient(circle at 15% 0%,rgba(46,120,183,.20),transparent 30rem),radial-gradient(circle at 100% 15%,rgba(24,174,181,.13),transparent 28rem),var(--bg)}
+    button,input{font:inherit} button{color:inherit} button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid rgba(24,174,181,.45);outline-offset:2px}
+    .app{width:min(1180px,calc(100% - 32px));margin:0 auto;padding:28px 0 42px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}
+    .brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(145deg,var(--accent),var(--accent-2));box-shadow:0 10px 30px rgba(24,174,181,.25);font-size:21px}
+    h1{margin:0;font-size:20px;letter-spacing:-.02em}.subtitle{color:var(--muted);font-size:12px}
+    .header-actions{display:flex;align-items:center;gap:10px}.back-portal{min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:0 15px;color:#fff;background:rgba(255,255,255,.055);border:1px solid var(--line);border-radius:13px;font-size:13px;font-weight:700;text-decoration:none;transition:.2s}.back-portal:hover{color:#9ff0f1;background:rgba(24,174,181,.13);border-color:rgba(24,174,181,.70);transform:translateY(-1px)}
+    .icon-btn{border:1px solid var(--line);background:var(--panel);border-radius:13px;width:42px;height:42px;cursor:pointer;transition:.2s}.icon-btn:hover{border-color:rgba(255,255,255,.22);transform:translateY(-1px)}
+    .layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,.65fr);gap:22px}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);backdrop-filter:blur(18px)}
+    .timer-card{min-height:580px;padding:22px;display:flex;flex-direction:column;align-items:center}.mode-tabs{display:grid;grid-template-columns:repeat(3,1fr);width:min(520px,100%);padding:5px;border-radius:15px;background:rgba(5,9,18,.45);border:1px solid var(--line)}
+    .mode-tab{border:0;background:transparent;color:var(--muted);border-radius:11px;padding:10px 8px;cursor:pointer;font-weight:700;font-size:13px}.mode-tab.active{color:#fff;background:var(--mode-color,var(--accent));box-shadow:0 6px 18px rgba(0,0,0,.18)}
+    .timer-ring{--progress:0deg;--ring-color:var(--accent);width:min(310px,70vw);aspect-ratio:1;border-radius:50%;margin:42px auto 28px;display:grid;place-items:center;position:relative;background:conic-gradient(var(--ring-color) var(--progress),rgba(255,255,255,.075) 0);box-shadow:0 0 52px color-mix(in srgb,var(--ring-color) 14%,transparent)}
+    .timer-ring::before{content:"";position:absolute;inset:11px;border-radius:50%;background:linear-gradient(145deg,#182a42,#101a2b);box-shadow:inset 0 0 35px rgba(0,0,0,.22)}.timer-content{position:relative;z-index:1;text-align:center}.timer-label{color:var(--muted);text-transform:uppercase;letter-spacing:.18em;font-size:11px;font-weight:800}
+    #time{font-variant-numeric:tabular-nums;font-size:clamp(58px,9vw,82px);line-height:1.05;letter-spacing:-.07em;font-weight:750;margin:8px 0}#currentTask{color:var(--muted);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .controls{display:flex;align-items:center;gap:13px}.primary{border:0;min-width:150px;padding:14px 24px;border-radius:15px;background:linear-gradient(145deg,var(--accent),var(--accent-2));color:#fff;font-weight:800;cursor:pointer;box-shadow:0 12px 28px rgba(24,174,181,.24);transition:.2s}.primary:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 15px 32px rgba(24,174,181,.30)}
+    .secondary{border:1px solid var(--line);background:rgba(255,255,255,.045);border-radius:15px;width:50px;height:50px;cursor:pointer}.secondary:hover{background:rgba(255,255,255,.08)}
+    .cycle-row{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:12px;margin-top:24px}.dots{display:flex;gap:6px}.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.13)}.dot.done{background:var(--accent);box-shadow:0 0 12px rgba(24,174,181,.58)}.auto-badge{margin-left:8px;padding:3px 8px;border-radius:99px;background:rgba(75,211,165,.12);color:var(--green)}
+    .sidebar{display:grid;gap:22px;align-content:start}.section{padding:20px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}h2{margin:0;font-size:15px;letter-spacing:-.01em}.date-label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.09em}
+    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat{border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:16px;padding:15px}.stat-icon{font-size:17px}.stat-value{display:block;font-size:25px;line-height:1.2;font-weight:800;margin-top:7px}.stat-label{color:var(--muted);font-size:11px}
+    .goal{margin-top:16px}.goal-copy{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:8px}.bar{height:9px;border-radius:99px;overflow:hidden;background:rgba(255,255,255,.08)}.bar>span{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .35s ease}
+    .task-form{display:flex;gap:8px}.task-form input,.setting input[type=number]{width:100%;min-width:0;border:1px solid var(--line);background:rgba(6,10,20,.45);color:var(--text);border-radius:12px;padding:11px 12px}.add-btn{border:0;border-radius:12px;background:var(--accent);width:43px;flex:0 0 43px;cursor:pointer;font-size:20px}
+    .task-list{list-style:none;padding:0;margin:14px 0 0;max-height:230px;overflow:auto;scrollbar-width:thin}.task-empty{color:var(--muted);font-size:13px;text-align:center;padding:25px 8px 14px}.task{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:9px;padding:10px 7px;border-bottom:1px solid var(--line);border-left:3px solid transparent}.task.active{border-left-color:var(--accent);background:rgba(24,174,181,.07)}
+    .task-check{appearance:none;width:18px;height:18px;border-radius:6px;border:1px solid rgba(255,255,255,.25);display:grid;place-content:center;cursor:pointer}.task-check:checked{background:var(--green);border-color:var(--green)}.task-check:checked::after{content:"✓";color:#07130f;font-weight:900;font-size:12px}.task-main{min-width:0;cursor:pointer}.task-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}.task.completed .task-name{text-decoration:line-through;color:var(--muted)}.task-meta{font-size:10px;color:var(--muted);margin-top:2px}.delete{border:0;background:transparent;color:var(--muted);cursor:pointer;opacity:.65;padding:4px}.delete:hover{color:#ff8b7a;opacity:1}
+    dialog{width:min(490px,calc(100% - 28px));border:1px solid var(--line);border-radius:22px;color:var(--text);background:#15263b;box-shadow:0 30px 90px rgba(0,0,0,.55);padding:0}dialog::backdrop{background:rgba(2,5,12,.72);backdrop-filter:blur(5px)}.modal-head,.modal-foot{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line)}.modal-foot{border:0;border-top:1px solid var(--line);justify-content:flex-end;gap:10px}.modal-body{padding:20px;display:grid;gap:18px}.duration-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.setting label,.setting>span{display:block;color:var(--muted);font-size:11px;margin-bottom:7px}
+    .switch-row{display:flex;align-items:center;justify-content:space-between;gap:20px}.switch-copy strong{display:block;font-size:13px}.switch-copy span{color:var(--muted);font-size:11px}.switch{position:relative;width:44px;height:25px;flex:0 0 auto}.switch input{opacity:0;width:0;height:0}.slider{position:absolute;inset:0;cursor:pointer;border-radius:99px;background:rgba(255,255,255,.14);transition:.2s}.slider::before{content:"";position:absolute;width:19px;height:19px;left:3px;top:3px;border-radius:50%;background:#fff;transition:.2s}.switch input:checked+.slider{background:var(--green)}.switch input:checked+.slider::before{transform:translateX(19px)}
+    .ghost{border:1px solid var(--line);background:transparent;border-radius:12px;padding:10px 15px;cursor:pointer}.save{border:0;background:var(--accent);border-radius:12px;padding:11px 17px;font-weight:800;cursor:pointer}.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);max-width:min(420px,calc(100% - 32px));padding:12px 16px;border:1px solid var(--line);border-radius:13px;background:#20364b;color:#fff;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.25s;z-index:20;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}.celebrate{animation:pulse .75s ease}@keyframes pulse{50%{transform:scale(1.025);box-shadow:0 0 0 10px rgba(24,174,181,.09),var(--shadow)}}
+    @media(max-width:850px){.layout{grid-template-columns:1fr}.timer-card{min-height:auto}}
+    @media(max-width:520px){.app{width:min(100% - 20px,1180px);padding-top:16px}header{align-items:flex-start}.header-actions{gap:7px}.back-portal{width:42px;padding:0}.back-portal-text{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.timer-card{padding:13px}.mode-tab{font-size:11px}.duration-grid{grid-template-columns:1fr}.timer-ring{margin-top:30px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
   </style>
 </head>
 <body>
-  <main class="app">
-    <header>
-      <div class="brand"><div class="logo" aria-hidden="true">◷</div><div><h1>Pomodoro</h1><div class="subtitle">Foco com intenção, pausa sem culpa.</div></div></div>
+<main class="app">
+  <header>
+    <div class="brand"><div class="logo" aria-hidden="true">◷</div><div><h1>Pomodoro</h1><div class="subtitle">Foco com intenção, pausa sem culpa.</div></div></div>
+    <div class="header-actions">
+      <a class="back-portal" href="index.html" aria-label="Voltar ao portal" title="Voltar ao portal"><span aria-hidden="true">←</span><span class="back-portal-text">Voltar ao portal</span></a>
       <button class="icon-btn" id="settingsBtn" aria-label="Abrir definições" title="Definições">⚙</button>
-    </header>
-
-    <div class="layout">
-      <section class="card timer-card" id="timerCard" aria-labelledby="timerHeading">
-        <h2 id="timerHeading" class="subtitle" style="position:absolute;clip:rect(0 0 0 0)">Temporizador</h2>
-        <div class="mode-tabs" role="tablist" aria-label="Tipo de período">
-          <button class="mode-tab active" data-mode="focus" role="tab">Foco</button>
-          <button class="mode-tab" data-mode="short" role="tab">Pausa curta</button>
-          <button class="mode-tab" data-mode="long" role="tab">Pausa longa</button>
-        </div>
-
-        <div class="timer-ring" id="timerRing" role="timer" aria-live="off" aria-label="25 minutos restantes">
-          <div class="timer-content">
-            <div class="timer-label" id="modeLabel">Sessão de foco</div>
-            <div id="time">25:00</div>
-            <div id="currentTask">Sem tarefa selecionada</div>
-          </div>
-        </div>
-
-        <div class="controls">
-          <button class="secondary" id="resetBtn" aria-label="Reiniciar período" title="Reiniciar">↺</button>
-          <button class="primary" id="startBtn">Iniciar</button>
-          <button class="secondary" id="skipBtn" aria-label="Avançar para o próximo período" title="Avançar">↠</button>
-        </div>
-        <div class="cycle-row">
-          <span>Ciclo</span><div class="dots" id="cycleDots" aria-label="Progresso do ciclo"></div>
-          <span class="auto-badge" id="autoBadge">Automático</span>
-        </div>
-      </section>
-
-      <aside class="sidebar">
-        <section class="card section" aria-labelledby="statsTitle">
-          <div class="section-head"><h2 id="statsTitle">Hoje</h2><span class="date-label" id="todayLabel"></span></div>
-          <div class="stats">
-            <div class="stat"><span class="stat-icon">🍅</span><span class="stat-value" id="pomodoroStat">0</span><span class="stat-label">Pomodoros</span></div>
-            <div class="stat"><span class="stat-icon">◷</span><span class="stat-value" id="minutesStat">0</span><span class="stat-label">Minutos de foco</span></div>
-          </div>
-          <div class="goal">
-            <div class="goal-copy"><span>Meta diária</span><strong id="goalCopy">0 / 8</strong></div>
-            <div class="bar" role="progressbar" id="goalBar" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0"><span id="goalFill"></span></div>
-          </div>
-        </section>
-
-        <section class="card section" aria-labelledby="tasksTitle">
-          <div class="section-head"><h2 id="tasksTitle">Tarefas</h2><span class="date-label" id="taskCount">0 pendentes</span></div>
-          <form class="task-form" id="taskForm">
-            <input id="taskInput" maxlength="120" placeholder="Adicionar uma tarefa…" aria-label="Nova tarefa" autocomplete="off">
-            <button class="add-btn" aria-label="Adicionar tarefa">+</button>
-          </form>
-          <ul class="task-list" id="taskList"></ul>
-        </section>
-      </aside>
     </div>
-  </main>
-
-  <dialog id="settingsDialog" aria-labelledby="settingsTitle">
-    <form method="dialog" id="settingsForm">
-      <div class="modal-head"><h2 id="settingsTitle">Definições</h2><button class="icon-btn" value="cancel" aria-label="Fechar">×</button></div>
-      <div class="modal-body">
-        <div>
-          <div class="date-label" style="margin-bottom:10px">Duração dos períodos (minutos)</div>
-          <div class="duration-grid">
-            <div class="setting"><label for="focusDuration">Foco</label><input id="focusDuration" type="number" min="1" max="180" required></div>
-            <div class="setting"><label for="shortDuration">Pausa curta</label><input id="shortDuration" type="number" min="1" max="60" required></div>
-            <div class="setting"><label for="longDuration">Pausa longa</label><input id="longDuration" type="number" min="1" max="120" required></div>
-          </div>
-        </div>
-        <div class="duration-grid">
-          <div class="setting"><label for="dailyGoal">Meta diária</label><input id="dailyGoal" type="number" min="1" max="30" required></div>
-          <div class="setting"><label for="cycleLength">Focos por ciclo</label><input id="cycleLength" type="number" min="2" max="12" required></div>
-        </div>
-        <div class="switch-row"><div class="switch-copy"><strong>Avanço automático</strong><span>Inicia o próximo período automaticamente</span></div><label class="switch"><input id="autoAdvance" type="checkbox"><span class="slider"></span></label></div>
-        <div class="switch-row"><div class="switch-copy"><strong>Som</strong><span>Emite um aviso no fim de cada período</span></div><label class="switch"><input id="soundOn" type="checkbox"><span class="slider"></span></label></div>
-        <div class="switch-row"><div class="switch-copy"><strong>Notificações</strong><span>Mostra avisos mesmo noutra janela</span></div><label class="switch"><input id="notificationsOn" type="checkbox"><span class="slider"></span></label></div>
-      </div>
-      <div class="modal-foot"><button class="ghost" value="cancel">Cancelar</button><button class="save" id="saveSettings" value="default">Guardar</button></div>
-    </form>
-  </dialog>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-  <script>
-  (() => {
-    'use strict';
-    const STORAGE_KEY = 'pomodoro-completo-v1';
-    const defaults = {
-      settings: { focus: 25, short: 5, long: 15, dailyGoal: 8, cycleLength: 4, autoAdvance: true, soundOn: true, notificationsOn: false },
-      timer: { mode: 'focus', remaining: 1500, running: false, endAt: null, accountedAt: null },
-      stats: { date: localDateKey(), pomodoros: 0, focusSeconds: 0 },
-      tasks: [], activeTaskId: null, completedInCycle: 0
-    };
-    const $ = sel => document.querySelector(sel);
-    const $$ = sel => [...document.querySelectorAll(sel)];
-    const modeMeta = {
-      focus: { label: 'Sessão de foco', short: 'Foco', color: '#ff6b4a' },
-      short: { label: 'Pausa curta', short: 'Pausa', color: '#4bd3a5' },
-      long: { label: 'Pausa longa', short: 'Pausa longa', color: '#66a7ff' }
-    };
-    let state = load();
-    let interval = null;
-    let lastAccountingAt = Date.now();
-    let toastTimer = null;
-
-    function localDateKey(d = new Date()) {
-      const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), day=String(d.getDate()).padStart(2,'0');
-      return `${y}-${m}-${day}`;
-    }
-    function deepMerge(base, saved) {
-      return { ...base, ...saved, settings:{...base.settings,...(saved?.settings||{})}, timer:{...base.timer,...(saved?.timer||{})}, stats:{...base.stats,...(saved?.stats||{})}, tasks:Array.isArray(saved?.tasks)?saved.tasks:[] };
-    }
-    function load() {
-      try { return deepMerge(defaults, JSON.parse(localStorage.getItem(STORAGE_KEY))); }
-      catch { return structuredClone(defaults); }
-    }
-    function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-    function durationSeconds(mode = state.timer.mode) { return Math.round(state.settings[mode] * 60); }
-    function ensureToday() {
-      const today = localDateKey();
-      if (state.stats.date !== today) { state.stats = { date:today, pomodoros:0, focusSeconds:0 }; save(); }
-    }
-    function formatTime(seconds) {
-      seconds = Math.max(0, Math.round(seconds));
-      const m=Math.floor(seconds/60), s=seconds%60;
-      return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    }
-    function formatDate() { return new Intl.DateTimeFormat('pt-PT',{weekday:'short',day:'numeric',month:'short'}).format(new Date()); }
-    function activeTask() { return state.tasks.find(t => t.id === state.activeTaskId && !t.completed); }
-
-    function render() {
-      ensureToday();
-      const mode = state.timer.mode, total = durationSeconds(mode);
-      const elapsed = Math.min(total, Math.max(0,total-state.timer.remaining));
-      const progress = total ? elapsed/total*360 : 0;
-      $('#time').textContent = formatTime(state.timer.remaining);
-      $('#modeLabel').textContent = modeMeta[mode].label;
-      const task = activeTask();
-      $('#currentTask').textContent = task ? task.name : 'Sem tarefa selecionada';
-      $('#timerRing').style.setProperty('--progress',`${progress}deg`);
-      $('#timerRing').style.setProperty('--ring-color',modeMeta[mode].color);
-      $('#timerRing').setAttribute('aria-label',`${formatTime(state.timer.remaining)} restantes em ${modeMeta[mode].label}`);
-      $('#startBtn').textContent = state.timer.running ? 'Pausar' : (state.timer.remaining < total ? 'Continuar' : 'Iniciar');
-      document.title = `${formatTime(state.timer.remaining)} · ${modeMeta[mode].short}${task?' · '+task.name:''}`;
-      $$('.mode-tab').forEach(btn => {
-        const active=btn.dataset.mode===mode;
-        btn.classList.toggle('active',active); btn.setAttribute('aria-selected',active);
-        btn.style.setProperty('--mode-color',modeMeta[btn.dataset.mode].color);
-      });
-      renderCycle(); renderStats(); renderTasks();
-    }
-    function renderCycle() {
-      const length=state.settings.cycleLength;
-      $('#cycleDots').innerHTML = Array.from({length},(_,i)=>`<span class="dot ${i<state.completedInCycle?'done':''}"></span>`).join('');
-      $('#cycleDots').setAttribute('aria-label',`${state.completedInCycle} de ${length} focos no ciclo`);
-      $('#autoBadge').hidden = !state.settings.autoAdvance;
-    }
-    function renderStats() {
-      $('#todayLabel').textContent = formatDate();
-      $('#pomodoroStat').textContent = state.stats.pomodoros;
-      $('#minutesStat').textContent = Math.floor(state.stats.focusSeconds/60);
-      const goal=state.settings.dailyGoal, value=state.stats.pomodoros, pct=Math.min(100,value/goal*100);
-      $('#goalCopy').textContent=`${value} / ${goal}`; $('#goalFill').style.width=`${pct}%`;
-      $('#goalBar').setAttribute('aria-valuemax',goal); $('#goalBar').setAttribute('aria-valuenow',Math.min(value,goal));
-    }
-    function renderTasks() {
-      const list=$('#taskList');
-      const pending=state.tasks.filter(t=>!t.completed).length;
-      $('#taskCount').textContent=`${pending} ${pending===1?'pendente':'pendentes'}`;
-      if (!state.tasks.length) { list.innerHTML='<li class="task-empty">Adiciona uma tarefa e seleciona-a para começar.</li>'; return; }
-      list.innerHTML=state.tasks.map(t=>`
-        <li class="task ${t.completed?'completed':''} ${t.id===state.activeTaskId?'active':''}" data-id="${t.id}">
-          <input class="task-check" type="checkbox" ${t.completed?'checked':''} aria-label="Concluir ${escapeHtml(t.name)}">
-          <div class="task-main" role="button" tabindex="0" aria-label="Selecionar ${escapeHtml(t.name)}"><div class="task-name">${escapeHtml(t.name)}</div><div class="task-meta">${t.pomodoros||0} ${t.pomodoros===1?'pomodoro':'pomodoros'}</div></div>
-          <button class="delete" aria-label="Eliminar ${escapeHtml(t.name)}" title="Eliminar">×</button>
-        </li>`).join('');
-    }
-    function escapeHtml(value) { const d=document.createElement('div'); d.textContent=value; return d.innerHTML; }
-
-    function accountFocus(now=Date.now()) {
-      if (!state.timer.running) { lastAccountingAt=now; return; }
-      const from=state.timer.accountedAt||lastAccountingAt;
-      const until=Math.min(now,state.timer.endAt||now);
-      if (state.timer.mode==='focus') state.stats.focusSeconds+=Math.max(0,(until-from)/1000);
-      state.timer.accountedAt=now;
-      lastAccountingAt=now;
-    }
-    function startTimer() {
-      ensureToday();
-      if (state.timer.running) { pauseTimer(); return; }
-      if (state.timer.remaining<=0) state.timer.remaining=durationSeconds();
-      state.timer.running=true; state.timer.endAt=Date.now()+state.timer.remaining*1000; state.timer.accountedAt=Date.now(); lastAccountingAt=state.timer.accountedAt;
-      interval ||= setInterval(tick,250); save(); render();
-    }
-    function pauseTimer() {
-      accountFocus();
-      if (state.timer.endAt) state.timer.remaining=Math.max(0,Math.ceil((state.timer.endAt-Date.now())/1000));
-      state.timer.running=false; state.timer.endAt=null; state.timer.accountedAt=null; save(); render();
-    }
-    function tick() {
-      if (!state.timer.running) return;
-      ensureToday(); accountFocus();
-      const left=(state.timer.endAt-Date.now())/1000;
-      state.timer.remaining=Math.max(0,Math.ceil(left));
-      if (left<=0) completePeriod(); else { render(); if (Math.ceil(left)%5===0) save(); }
-    }
-    function resetTimer(showMessage=true) {
-      if (state.timer.running) accountFocus();
-      state.timer.running=false; state.timer.endAt=null; state.timer.accountedAt=null; state.timer.remaining=durationSeconds(); save(); render();
-      if (showMessage) toast('Período reiniciado.');
-    }
-    function switchMode(mode, quiet=false) {
-      if (state.timer.running) accountFocus();
-      state.timer={mode,remaining:durationSeconds(mode),running:false,endAt:null,accountedAt:null}; save(); render();
-      if (!quiet) toast(`${modeMeta[mode].label} selecionada.`);
-    }
-    function nextMode(afterCompletedFocus = state.timer.mode==='focus') {
-      if (afterCompletedFocus) return state.completedInCycle===0 ? 'long' : 'short';
-      return 'focus';
-    }
-    function skipPeriod() {
-      const wasFocus=state.timer.mode==='focus';
-      if (state.timer.running) accountFocus();
-      state.timer.running=false; state.timer.endAt=null; state.timer.accountedAt=null;
-      const next=wasFocus ? (state.completedInCycle===0 && state.stats.pomodoros>0?'long':'short') : 'focus';
-      state.timer={mode:next,remaining:durationSeconds(next),running:false,endAt:null,accountedAt:null}; save(); render(); toast(`Avançou para ${modeMeta[next].label.toLowerCase()}.`);
-    }
-    function completePeriod() {
-      const finished=state.timer.mode;
-      state.timer.running=false; state.timer.endAt=null; state.timer.accountedAt=null; state.timer.remaining=0;
-      if (finished==='focus') {
-        state.stats.pomodoros++;
-        state.completedInCycle=(state.completedInCycle+1)%state.settings.cycleLength;
-        const task=activeTask(); if (task) task.pomodoros=(task.pomodoros||0)+1;
-      }
-      notify(finished);
-      const next=nextMode(finished==='focus');
-      state.timer={mode:next,remaining:durationSeconds(next),running:false,endAt:null,accountedAt:null};
-      if (state.settings.autoAdvance) {
-        state.timer.running=true; state.timer.endAt=Date.now()+state.timer.remaining*1000; state.timer.accountedAt=Date.now(); lastAccountingAt=state.timer.accountedAt;
-      }
-      save(); render();
-      $('#timerCard').classList.remove('celebrate'); void $('#timerCard').offsetWidth; $('#timerCard').classList.add('celebrate');
-      toast(finished==='focus' ? 'Pomodoro concluído! Está na hora de fazer uma pausa.' : 'Pausa terminada. Vamos voltar ao foco!');
-    }
-    function notify(finished) {
-      if (state.settings.soundOn) playChime(finished==='focus');
-      if (state.settings.notificationsOn && 'Notification' in window && Notification.permission==='granted') {
-        new Notification(finished==='focus'?'Pomodoro concluído 🍅':'Pausa terminada', { body:finished==='focus'?'Respira e faz uma pausa.':'Está na hora de voltar ao foco.', tag:'pomodoro-completo' });
-      }
-    }
-    function playChime(success=true) {
-      try {
-        const AudioCtx=window.AudioContext||window.webkitAudioContext, ctx=new AudioCtx();
-        const notes=success?[523.25,659.25,783.99]:[659.25,523.25];
-        notes.forEach((freq,i)=>{ const osc=ctx.createOscillator(), gain=ctx.createGain(); osc.connect(gain); gain.connect(ctx.destination); osc.type='sine'; osc.frequency.value=freq; const t=ctx.currentTime+i*.16; gain.gain.setValueAtTime(0,t); gain.gain.linearRampToValueAtTime(.16,t+.02); gain.gain.exponentialRampToValueAtTime(.001,t+.32); osc.start(t); osc.stop(t+.34); });
-        setTimeout(()=>ctx.close(),900);
-      } catch {}
-    }
-    function toast(message) { const el=$('#toast'); el.textContent=message; el.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove('show'),3200); }
-
-    function addTask(name) {
-      name=name.trim(); if (!name) return;
-      const task={id:crypto.randomUUID?.()||String(Date.now()),name,completed:false,pomodoros:0,createdAt:Date.now()};
-      state.tasks.unshift(task); if (!activeTask()) state.activeTaskId=task.id; save(); render();
-    }
-    function toggleTask(id) {
-      const t=state.tasks.find(t=>t.id===id); if (!t) return;
-      t.completed=!t.completed;
-      if (t.completed && state.activeTaskId===id) state.activeTaskId=state.tasks.find(x=>!x.completed)?.id||null;
-      save(); render();
-    }
-    function selectTask(id) {
-      const t=state.tasks.find(t=>t.id===id); if (!t || t.completed) return;
-      state.activeTaskId=id; save(); render(); toast(`Tarefa selecionada: ${t.name}`);
-    }
-    function deleteTask(id) {
-      state.tasks=state.tasks.filter(t=>t.id!==id);
-      if (state.activeTaskId===id) state.activeTaskId=state.tasks.find(t=>!t.completed)?.id||null;
-      save(); render();
-    }
-
-    function openSettings() {
-      $('#focusDuration').value=state.settings.focus; $('#shortDuration').value=state.settings.short; $('#longDuration').value=state.settings.long;
-      $('#dailyGoal').value=state.settings.dailyGoal; $('#cycleLength').value=state.settings.cycleLength;
-      $('#autoAdvance').checked=state.settings.autoAdvance; $('#soundOn').checked=state.settings.soundOn; $('#notificationsOn').checked=state.settings.notificationsOn;
-      $('#settingsDialog').showModal();
-    }
-    async function saveSettings(e) {
-      e.preventDefault();
-      if (!$('#settingsForm').reportValidity()) return;
-      const wantsNotifications=$('#notificationsOn').checked;
-      if (wantsNotifications && 'Notification' in window && Notification.permission==='default') {
-        const permission=await Notification.requestPermission();
-        if (permission!=='granted') { $('#notificationsOn').checked=false; toast('As notificações não foram autorizadas pelo navegador.'); }
-      }
-      if (state.timer.running) accountFocus();
-      state.settings={
-        focus:+$('#focusDuration').value, short:+$('#shortDuration').value, long:+$('#longDuration').value,
-        dailyGoal:+$('#dailyGoal').value, cycleLength:+$('#cycleLength').value,
-        autoAdvance:$('#autoAdvance').checked, soundOn:$('#soundOn').checked, notificationsOn:$('#notificationsOn').checked && 'Notification' in window && Notification.permission==='granted'
-      };
-      state.completedInCycle%=state.settings.cycleLength;
-      state.timer.running=false; state.timer.endAt=null; state.timer.accountedAt=null; state.timer.remaining=durationSeconds();
-      save(); $('#settingsDialog').close(); render(); toast('Definições guardadas.');
-    }
-
-    $('#startBtn').addEventListener('click',startTimer);
-    $('#resetBtn').addEventListener('click',()=>resetTimer());
-    $('#skipBtn').addEventListener('click',skipPeriod);
-    $$('.mode-tab').forEach(btn=>btn.addEventListener('click',()=>switchMode(btn.dataset.mode)));
-    $('#settingsBtn').addEventListener('click',openSettings);
-    $('#saveSettings').addEventListener('click',saveSettings);
-    $('#taskForm').addEventListener('submit',e=>{e.preventDefault(); addTask($('#taskInput').value); $('#taskInput').value='';});
-    $('#taskList').addEventListener('click',e=>{ const row=e.target.closest('.task'); if(!row)return; if(e.target.matches('.task-check'))toggleTask(row.dataset.id); else if(e.target.closest('.delete'))deleteTask(row.dataset.id); else selectTask(row.dataset.id); });
-    $('#taskList').addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&e.target.matches('.task-main')){e.preventDefault();selectTask(e.target.closest('.task').dataset.id);} });
-    document.addEventListener('visibilitychange',()=>{ if(!document.hidden) tick(); });
-    window.addEventListener('beforeunload',()=>{ accountFocus(); save(); });
-
-    ensureToday();
-    if (state.timer.running && state.timer.endAt) {
-      lastAccountingAt=state.timer.accountedAt||Date.now(); accountFocus();
-      if (state.timer.endAt<=Date.now()) completePeriod();
-      else { state.timer.remaining=Math.ceil((state.timer.endAt-Date.now())/1000); interval=setInterval(tick,250); }
-    } else { state.timer.running=false; state.timer.endAt=null; state.timer.accountedAt=null; }
-    render();
-  })();
-  </script>
+  </header>
+  <div class="layout">
+    <section class="card timer-card" id="timerCard" aria-labelledby="timerHeading">
+      <h2 id="timerHeading" class="subtitle" style="position:absolute;clip:rect(0 0 0 0)">Temporizador</h2>
+      <div class="mode-tabs" role="tablist" aria-label="Tipo de período"><button class="mode-tab active" data-mode="focus" role="tab">Foco</button><button class="mode-tab" data-mode="short" role="tab">Pausa curta</button><button class="mode-tab" data-mode="long" role="tab">Pausa longa</button></div>
+      <div class="timer-ring" id="timerRing" role="timer" aria-live="off" aria-label="25 minutos restantes"><div class="timer-content"><div class="timer-label" id="modeLabel">Sessão de foco</div><div id="time">25:00</div><div id="currentTask">Sem tarefa selecionada</div></div></div>
+      <div class="controls"><button class="secondary" id="resetBtn" aria-label="Reiniciar período" title="Reiniciar">↺</button><button class="primary" id="startBtn">Iniciar</button><button class="secondary" id="skipBtn" aria-label="Avançar para o próximo período" title="Avançar">↠</button></div>
+      <div class="cycle-row"><span>Ciclo</span><div class="dots" id="cycleDots" aria-label="Progresso do ciclo"></div><span class="auto-badge" id="autoBadge">Automático</span></div>
+    </section>
+    <aside class="sidebar">
+      <section class="card section" aria-labelledby="statsTitle"><div class="section-head"><h2 id="statsTitle">Hoje</h2><span class="date-label" id="todayLabel"></span></div><div class="stats"><div class="stat"><span class="stat-icon">🍅</span><span class="stat-value" id="pomodoroStat">0</span><span class="stat-label">Pomodoros</span></div><div class="stat"><span class="stat-icon">◷</span><span class="stat-value" id="minutesStat">0</span><span class="stat-label">Minutos de foco</span></div></div><div class="goal"><div class="goal-copy"><span>Meta diária</span><strong id="goalCopy">0 / 8</strong></div><div class="bar" role="progressbar" id="goalBar" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0"><span id="goalFill"></span></div></div></section>
+      <section class="card section" aria-labelledby="tasksTitle"><div class="section-head"><h2 id="tasksTitle">Tarefas</h2><span class="date-label" id="taskCount">0 pendentes</span></div><form class="task-form" id="taskForm"><input id="taskInput" maxlength="120" placeholder="Adicionar uma tarefa…" aria-label="Nova tarefa" autocomplete="off"><button class="add-btn" aria-label="Adicionar tarefa">+</button></form><ul class="task-list" id="taskList"></ul></section>
+    </aside>
+  </div>
+</main>
+<dialog id="settingsDialog" aria-labelledby="settingsTitle"><form method="dialog" id="settingsForm"><div class="modal-head"><h2 id="settingsTitle">Definições</h2><button class="icon-btn" value="cancel" aria-label="Fechar">×</button></div><div class="modal-body"><div><div class="date-label" style="margin-bottom:10px">Duração dos períodos (minutos)</div><div class="duration-grid"><div class="setting"><label for="focusDuration">Foco</label><input id="focusDuration" type="number" min="1" max="180" required></div><div class="setting"><label for="shortDuration">Pausa curta</label><input id="shortDuration" type="number" min="1" max="60" required></div><div class="setting"><label for="longDuration">Pausa longa</label><input id="longDuration" type="number" min="1" max="120" required></div></div></div><div class="duration-grid"><div class="setting"><label for="dailyGoal">Meta diária</label><input id="dailyGoal" type="number" min="1" max="30" required></div><div class="setting"><label for="cycleLength">Focos por ciclo</label><input id="cycleLength" type="number" min="2" max="12" required></div></div><div class="switch-row"><div class="switch-copy"><strong>Avanço automático</strong><span>Inicia o próximo período automaticamente</span></div><label class="switch"><input id="autoAdvance" type="checkbox"><span class="slider"></span></label></div><div class="switch-row"><div class="switch-copy"><strong>Som</strong><span>Emite um aviso no fim de cada período</span></div><label class="switch"><input id="soundOn" type="checkbox"><span class="slider"></span></label></div><div class="switch-row"><div class="switch-copy"><strong>Notificações</strong><span>Mostra avisos mesmo noutra janela</span></div><label class="switch"><input id="notificationsOn" type="checkbox"><span class="slider"></span></label></div></div><div class="modal-foot"><button class="ghost" value="cancel">Cancelar</button><button class="save" id="saveSettings" value="default">Guardar</button></div></form></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(()=>{'use strict';
+const STORAGE_KEY='pomodoro-completo-v2';
+const localDateKey=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const defaults={settings:{focus:25,short:5,long:15,dailyGoal:8,cycleLength:4,autoAdvance:true,soundOn:true,notificationsOn:false},timer:{mode:'focus',remaining:1500,running:false,endAt:null,accountedAt:null},stats:{date:localDateKey(),pomodoros:0,focusSeconds:0},tasks:[],activeTaskId:null,completedInCycle:0};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const modeMeta={focus:{label:'Sessão de foco',short:'Foco',color:'#18aeb5'},short:{label:'Pausa curta',short:'Pausa',color:'#4bd3a5'},long:{label:'Pausa longa',short:'Pausa longa',color:'#2e78b7'}};
+function merge(saved){return {...defaults,...saved,settings:{...defaults.settings,...(saved?.settings||{})},timer:{...defaults.timer,...(saved?.timer||{})},stats:{...defaults.stats,...(saved?.stats||{})},tasks:Array.isArray(saved?.tasks)?saved.tasks:[]}}
+function load(){try{return merge(JSON.parse(localStorage.getItem(STORAGE_KEY)))}catch{return structuredClone(defaults)}}
+let state=load(),interval=null,lastAccountingAt=Date.now(),toastTimer=null;
+const save=()=>localStorage.setItem(STORAGE_KEY,JSON.stringify(state));
+const durationSeconds=(m=state.timer.mode)=>Math.round(state.settings[m]*60);
+function ensureToday(){const t=localDateKey();if(state.stats.date!==t){state.stats={date:t,pomodoros:0,focusSeconds:0};save()}}
+function formatTime(s){s=Math.max(0,Math.round(s));return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`}
+const formatDate=()=>new Intl.DateTimeFormat('pt-PT',{weekday:'short',day:'numeric',month:'short'}).format(new Date());
+const activeTask=()=>state.tasks.find(t=>t.id===state.activeTaskId&&!t.completed);
+function esc(v){const d=document.createElement('div');d.textContent=v;return d.innerHTML}
+function render(){ensureToday();const m=state.timer.mode,total=durationSeconds(m),elapsed=Math.min(total,Math.max(0,total-state.timer.remaining)),progress=total?elapsed/total*360:0,task=activeTask();$('#time').textContent=formatTime(state.timer.remaining);$('#modeLabel').textContent=modeMeta[m].label;$('#currentTask').textContent=task?task.name:'Sem tarefa selecionada';$('#timerRing').style.setProperty('--progress',`${progress}deg`);$('#timerRing').style.setProperty('--ring-color',modeMeta[m].color);$('#timerRing').setAttribute('aria-label',`${formatTime(state.timer.remaining)} restantes em ${modeMeta[m].label}`);$('#startBtn').textContent=state.timer.running?'Pausar':(state.timer.remaining<total?'Continuar':'Iniciar');document.title=`${formatTime(state.timer.remaining)} · ${modeMeta[m].short}${task?' · '+task.name:''}`;$$('.mode-tab').forEach(b=>{const a=b.dataset.mode===m;b.classList.toggle('active',a);b.setAttribute('aria-selected',a);b.style.setProperty('--mode-color',modeMeta[b.dataset.mode].color)});renderCycle();renderStats();renderTasks()}
+function renderCycle(){const n=state.settings.cycleLength;$('#cycleDots').innerHTML=Array.from({length:n},(_,i)=>`<span class="dot ${i<state.completedInCycle?'done':''}"></span>`).join('');$('#cycleDots').setAttribute('aria-label',`${state.completedInCycle} de ${n} focos no ciclo`);$('#autoBadge').hidden=!state.settings.autoAdvance}
+function renderStats(){$('#todayLabel').textContent=formatDate();$('#pomodoroStat').textContent=state.stats.pomodoros;$('#minutesStat').textContent=Math.floor(state.stats.focusSeconds/60);const g=state.settings.dailyGoal,v=state.stats.pomodoros,p=Math.min(100,v/g*100);$('#goalCopy').textContent=`${v} / ${g}`;$('#goalFill').style.width=`${p}%`;$('#goalBar').setAttribute('aria-valuemax',g);$('#goalBar').setAttribute('aria-valuenow',Math.min(v,g))}
+function renderTasks(){const list=$('#taskList'),pending=state.tasks.filter(t=>!t.completed).length;$('#taskCount').textContent=`${pending} ${pending===1?'pendente':'pendentes'}`;if(!state.tasks.length){list.innerHTML='<li class="task-empty">Adiciona uma tarefa e seleciona-a para começar.</li>';return}list.innerHTML=state.tasks.map(t=>`<li class="task ${t.completed?'completed':''} ${t.id===state.activeTaskId?'active':''}" data-id="${t.id}"><input class="task-check" type="checkbox" ${t.completed?'checked':''} aria-label="Concluir ${esc(t.name)}"><div class="task-main" role="button" tabindex="0" aria-label="Selecionar ${esc(t.name)}"><div class="task-name">${esc(t.name)}</div><div class="task-meta">${t.pomodoros||0} ${(t.pomodoros||0)===1?'pomodoro':'pomodoros'}</div></div><button class="delete" aria-label="Eliminar ${esc(t.name)}" title="Eliminar">×</button></li>`).join('')}
+function accountFocus(now=Date.now()){if(!state.timer.running){lastAccountingAt=now;return}const from=state.timer.accountedAt||lastAccountingAt,until=Math.min(now,state.timer.endAt||now);if(state.timer.mode==='focus')state.stats.focusSeconds+=Math.max(0,(until-from)/1000);state.timer.accountedAt=now;lastAccountingAt=now}
+function startTimer(){ensureToday();if(state.timer.running){pauseTimer();return}if(state.timer.remaining<=0)state.timer.remaining=durationSeconds();state.timer.running=true;state.timer.endAt=Date.now()+state.timer.remaining*1000;state.timer.accountedAt=Date.now();lastAccountingAt=state.timer.accountedAt;interval??=setInterval(tick,250);save();render()}
+function pauseTimer(){accountFocus();if(state.timer.endAt)state.timer.remaining=Math.max(0,Math.ceil((state.timer.endAt-Date.now())/1000));state.timer.running=false;state.timer.endAt=null;state.timer.accountedAt=null;save();render()}
+function tick(){if(!state.timer.running)return;ensureToday();accountFocus();const left=(state.timer.endAt-Date.now())/1000;state.timer.remaining=Math.max(0,Math.ceil(left));if(left<=0)completePeriod();else{render();if(Math.ceil(left)%5===0)save()}}
+function resetTimer(show=true){if(state.timer.running)accountFocus();state.timer.running=false;state.timer.endAt=null;state.timer.accountedAt=null;state.timer.remaining=durationSeconds();save();render();if(show)toast('Período reiniciado.')}
+function switchMode(mode,quiet=false){if(state.timer.running)accountFocus();state.timer={mode,remaining:durationSeconds(mode),running:false,endAt:null,accountedAt:null};save();render();if(!quiet)toast(`${modeMeta[mode].label} selecionada.`)}
+function skipPeriod(){const was=state.timer.mode==='focus';if(state.timer.running)accountFocus();const next=was?(state.completedInCycle===0&&state.stats.pomodoros>0?'long':'short'):'focus';state.timer={mode:next,remaining:durationSeconds(next),running:false,endAt:null,accountedAt:null};save();render();toast(`Avançou para ${modeMeta[next].label.toLowerCase()}.`)}
+function completePeriod(){const finished=state.timer.mode;state.timer.running=false;state.timer.endAt=null;state.timer.accountedAt=null;if(finished==='focus'){state.stats.pomodoros++;state.completedInCycle=(state.completedInCycle+1)%state.settings.cycleLength;const t=activeTask();if(t)t.pomodoros=(t.pomodoros||0)+1}notify(finished);const next=finished==='focus'?(state.completedInCycle===0?'long':'short'):'focus';state.timer={mode:next,remaining:durationSeconds(next),running:false,endAt:null,accountedAt:null};if(state.settings.autoAdvance){state.timer.running=true;state.timer.endAt=Date.now()+state.timer.remaining*1000;state.timer.accountedAt=Date.now();lastAccountingAt=state.timer.accountedAt}save();render();$('#timerCard').classList.remove('celebrate');void $('#timerCard').offsetWidth;$('#timerCard').classList.add('celebrate');toast(finished==='focus'?'Pomodoro concluído! Está na hora de fazer uma pausa.':'Pausa terminada. Vamos voltar ao foco!')}
+function notify(finished){if(state.settings.soundOn)playChime(finished==='focus');if(state.settings.notificationsOn&&'Notification'in window&&Notification.permission==='granted')new Notification(finished==='focus'?'Pomodoro concluído 🍅':'Pausa terminada',{body:finished==='focus'?'Respira e faz uma pausa.':'Está na hora de voltar ao foco.',tag:'pomodoro-completo'})}
+function playChime(success=true){try{const C=window.AudioContext||window.webkitAudioContext,c=new C(),notes=success?[523.25,659.25,783.99]:[659.25,523.25];notes.forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.value=f;const t=c.currentTime+i*.16;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.16,t+.02);g.gain.exponentialRampToValueAtTime(.001,t+.32);o.start(t);o.stop(t+.34)});setTimeout(()=>c.close(),900)}catch{}}
+function toast(msg){const e=$('#toast');e.textContent=msg;e.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.remove('show'),3200)}
+function addTask(name){name=name.trim();if(!name)return;const t={id:crypto.randomUUID?.()||String(Date.now()),name,completed:false,pomodoros:0,createdAt:Date.now()};state.tasks.unshift(t);if(!activeTask())state.activeTaskId=t.id;save();render()}
+function toggleTask(id){const t=state.tasks.find(t=>t.id===id);if(!t)return;t.completed=!t.completed;if(t.completed&&state.activeTaskId===id)state.activeTaskId=state.tasks.find(x=>!x.completed)?.id||null;save();render()}
+function selectTask(id){const t=state.tasks.find(t=>t.id===id);if(!t||t.completed)return;state.activeTaskId=id;save();render();toast(`Tarefa selecionada: ${t.name}`)}
+function deleteTask(id){state.tasks=state.tasks.filter(t=>t.id!==id);if(state.activeTaskId===id)state.activeTaskId=state.tasks.find(t=>!t.completed)?.id||null;save();render()}
+function openSettings(){$('#focusDuration').value=state.settings.focus;$('#shortDuration').value=state.settings.short;$('#longDuration').value=state.settings.long;$('#dailyGoal').value=state.settings.dailyGoal;$('#cycleLength').value=state.settings.cycleLength;$('#autoAdvance').checked=state.settings.autoAdvance;$('#soundOn').checked=state.settings.soundOn;$('#notificationsOn').checked=state.settings.notificationsOn;$('#settingsDialog').showModal()}
+async function saveSettings(e){e.preventDefault();if(!$('#settingsForm').reportValidity())return;const wants=$('#notificationsOn').checked;if(wants&&'Notification'in window&&Notification.permission==='default'){const p=await Notification.requestPermission();if(p!=='granted'){$('#notificationsOn').checked=false;toast('As notificações não foram autorizadas pelo navegador.')}}if(state.timer.running)accountFocus();state.settings={focus:+$('#focusDuration').value,short:+$('#shortDuration').value,long:+$('#longDuration').value,dailyGoal:+$('#dailyGoal').value,cycleLength:+$('#cycleLength').value,autoAdvance:$('#autoAdvance').checked,soundOn:$('#soundOn').checked,notificationsOn:$('#notificationsOn').checked&&'Notification'in window&&Notification.permission==='granted'};state.completedInCycle%=state.settings.cycleLength;state.timer.running=false;state.timer.endAt=null;state.timer.accountedAt=null;state.timer.remaining=durationSeconds();save();$('#settingsDialog').close();render();toast('Definições guardadas.')}
+$('#startBtn').addEventListener('click',startTimer);$('#resetBtn').addEventListener('click',()=>resetTimer());$('#skipBtn').addEventListener('click',skipPeriod);$$('.mode-tab').forEach(b=>b.addEventListener('click',()=>switchMode(b.dataset.mode)));$('#settingsBtn').addEventListener('click',openSettings);$('#saveSettings').addEventListener('click',saveSettings);$('#taskForm').addEventListener('submit',e=>{e.preventDefault();addTask($('#taskInput').value);$('#taskInput').value=''});$('#taskList').addEventListener('click',e=>{const r=e.target.closest('.task');if(!r)return;if(e.target.matches('.task-check'))toggleTask(r.dataset.id);else if(e.target.closest('.delete'))deleteTask(r.dataset.id);else selectTask(r.dataset.id)});$('#taskList').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('.task-main')){e.preventDefault();selectTask(e.target.closest('.task').dataset.id)}});document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick()});window.addEventListener('beforeunload',()=>{accountFocus();save()});
+ensureToday();if(state.timer.running&&state.timer.endAt){lastAccountingAt=state.timer.accountedAt||Date.now();accountFocus();if(state.timer.endAt<=Date.now())completePeriod();else{state.timer.remaining=Math.ceil((state.timer.endAt-Date.now())/1000);interval=setInterval(tick,250)}}else{state.timer.running=false;state.timer.endAt=null;state.timer.accountedAt=null}render();
+})();
+</script>
 </body>
 </html>
