@@ -1,0 +1,913 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1f3b5b">
+  <meta name="description" content="Planeador ADDIE para estruturar projetos de design instrucional nas fases Análise, Desenho, Desenvolvimento, Implementação e Avaliação.">
+  <title>Planeador ADDIE</title>
+  <style>
+    :root{
+      --primary:#1f3b5b;
+      --primary-dark:#142a42;
+      --primary-light:#e9f0f7;
+      --accent:#18aeb5;
+      --accent-blue:#2e78b7;
+      --surface:#fff;
+      --background:#f4f7fa;
+      --text:#182433;
+      --muted:#5d6b7a;
+      --border:#d8e1ea;
+      --danger:#b42318;
+      --success:#18794e;
+      --warning:#9a6700;
+      --shadow:0 12px 30px rgba(31,59,91,.10);
+      --radius:18px;
+      --max:1480px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--text);
+      background:var(--background);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      line-height:1.5;
+    }
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+
+    .site-header{
+      color:#fff;
+      background:radial-gradient(circle at 85% 15%,rgba(255,255,255,.14),transparent 25%),linear-gradient(135deg,var(--primary-dark),var(--primary) 58%,#2b5a83);
+    }
+    .header-inner,.app,.footer-inner{
+      width:min(calc(100% - 2rem),var(--max));
+      margin-inline:auto;
+    }
+    .header-inner{
+      min-height:170px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:2rem;
+      padding:1.8rem 0;
+    }
+    .header-content{min-width:0}
+    .eyebrow{
+      margin:0 0 .25rem;
+      color:#cfe3f6;
+      font-size:.76rem;
+      font-weight:800;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+    h1{margin:0;font-size:clamp(1.85rem,4vw,3.1rem);line-height:1.08}
+    .subtitle{max-width:780px;margin:.45rem 0 0;color:#dceaf5}
+    .header-actions{display:flex;align-items:flex-end;flex-direction:column;gap:.65rem}
+    .header-badge{
+      padding:.55rem .85rem;
+      border:1px solid rgba(255,255,255,.25);
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      font-size:.82rem;
+      font-weight:700;
+      white-space:nowrap;
+    }
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:42px;
+      padding:.65rem .9rem;
+      color:#fff;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.30);
+      border-radius:11px;
+      font-size:.86rem;
+      font-weight:750;
+      text-decoration:none;
+      transition:.18s;
+    }
+    .back-link:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.42);transform:translateY(-1px)}
+
+    .phase-strip{
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:.55rem;
+      width:min(calc(100% - 2rem),var(--max));
+      margin:-17px auto 0;
+      position:relative;
+      z-index:2;
+    }
+    .phase-chip{
+      display:flex;
+      align-items:center;
+      gap:.55rem;
+      min-width:0;
+      padding:.68rem .75rem;
+      color:var(--primary);
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      box-shadow:0 7px 18px rgba(31,59,91,.08);
+      text-decoration:none;
+      font-size:.78rem;
+      font-weight:800;
+    }
+    .phase-chip span{
+      display:grid;
+      place-items:center;
+      flex:0 0 27px;
+      height:27px;
+      color:#fff;
+      background:linear-gradient(145deg,var(--accent),var(--accent-blue));
+      border-radius:50%;
+      font-size:.72rem;
+    }
+    .phase-chip small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:inherit}
+
+    .app{
+      display:grid;
+      grid-template-columns:minmax(440px,.94fr) minmax(520px,1.06fr);
+      gap:1.25rem;
+      padding:1.5rem 0 3rem;
+      align-items:start;
+    }
+    .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .form-panel{padding:1.3rem;min-width:0}
+    .preview-panel{padding:1.3rem;min-width:0;position:sticky;top:1rem}
+    .panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.15rem}
+    .panel-head h2{margin:0;color:var(--primary);font-size:1.3rem}
+    .panel-head p{margin:.2rem 0 0;color:var(--muted);font-size:.86rem}
+
+    .progress-box{min-width:150px;text-align:right}
+    .progress-box strong{display:block;color:var(--primary);font-size:1.05rem}
+    .progress-box span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em}
+    .progress-track{height:7px;margin-top:.35rem;overflow:hidden;background:#dfe8f0;border-radius:999px}
+    .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-blue));border-radius:inherit;transition:width .25s}
+
+    .section{padding:1rem 0;border-top:1px solid var(--border);scroll-margin-top:1rem}
+    .section:first-of-type{border-top:0;padding-top:0}
+    .section-title{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin:0 0 .85rem;color:var(--primary);font-size:1rem}
+    .section-title-main{display:flex;align-items:center;gap:.62rem}
+    .phase-letter{
+      display:grid;
+      place-items:center;
+      flex:0 0 30px;
+      height:30px;
+      color:#fff;
+      background:linear-gradient(145deg,var(--accent),var(--accent-blue));
+      border-radius:9px;
+      font-size:.78rem;
+      box-shadow:0 5px 12px rgba(24,174,181,.18);
+    }
+    .phase-description{margin:-.35rem 0 .85rem;color:var(--muted);font-size:.76rem}
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.85rem}
+    .field-wide{grid-column:1/-1}
+    .field-gap{margin-top:.75rem}
+    label{display:block;margin-bottom:.32rem;color:var(--primary);font-size:.78rem;font-weight:750}
+    .required::after{content:" *";color:var(--danger)}
+    input,select,textarea{
+      width:100%;
+      min-width:0;
+      padding:.72rem .78rem;
+      color:var(--text);
+      background:#fbfdff;
+      border:1px solid #cbd7e2;
+      border-radius:11px;
+      outline:none;
+      transition:.18s;
+    }
+    textarea{min-height:88px;resize:vertical}
+    input:focus,select:focus,textarea:focus{border-color:var(--accent-blue);box-shadow:0 0 0 3px rgba(46,120,183,.13)}
+    .help{margin:.25rem 0 0;color:var(--muted);font-size:.72rem}
+
+    .repeater{display:grid;gap:.65rem}
+    .repeater-row{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:.55rem;
+      align-items:start;
+      padding:.75rem;
+      background:#f7fafc;
+      border:1px solid var(--border);
+      border-radius:13px;
+    }
+    .repeater-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem}
+    .repeater-fields.three{grid-template-columns:1.15fr .85fr .72fr}
+    .repeater-fields.four{grid-template-columns:1fr .75fr .65fr .65fr}
+    .repeater-fields .wide{grid-column:1/-1}
+    .repeater-row label{font-size:.7rem}
+    .repeater-row input,.repeater-row select,.repeater-row textarea{padding:.58rem .64rem;font-size:.78rem}
+    .repeater-row textarea{min-height:67px}
+
+    .check-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}
+    .check-item{
+      display:flex;
+      align-items:flex-start;
+      gap:.55rem;
+      padding:.62rem .68rem;
+      color:var(--text);
+      background:#f7fafc;
+      border:1px solid var(--border);
+      border-radius:10px;
+      font-size:.77rem;
+      font-weight:600;
+    }
+    .check-item input{width:17px;height:17px;margin:.08rem 0 0;accent-color:var(--accent-blue);box-shadow:none}
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.4rem;
+      min-height:40px;
+      padding:.6rem .85rem;
+      border:1px solid transparent;
+      border-radius:11px;
+      font-weight:750;
+      text-decoration:none;
+      transition:.18s;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{color:#fff;background:linear-gradient(145deg,var(--accent),var(--accent-blue));box-shadow:0 8px 20px rgba(24,174,181,.2)}
+    .btn-secondary{color:var(--primary);background:var(--primary-light);border-color:#cad9e7}
+    .btn-ghost{color:var(--primary);background:#fff;border-color:var(--border)}
+    .btn-danger{color:var(--danger);background:#fff;border-color:#f0c7c3}
+    .btn-small{min-height:34px;padding:.4rem .62rem;font-size:.76rem}
+    .actions{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1rem}
+    .actions.compact{margin:0}
+    .file-label{cursor:pointer}
+    .file-label input{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+
+    .empty{display:grid;place-items:center;min-height:500px;padding:2rem;text-align:center;color:var(--muted);border:2px dashed var(--border);border-radius:15px}
+    .empty strong{display:block;color:var(--primary);font-size:1.05rem;margin-bottom:.35rem}
+
+    .document{background:#fff;color:#172230}
+    .doc-header{display:flex;justify-content:space-between;gap:1rem;padding-bottom:1rem;border-bottom:3px solid var(--primary)}
+    .doc-header h2{margin:0;color:var(--primary);font-size:1.55rem}
+    .doc-header p{margin:.25rem 0 0;color:var(--muted)}
+    .doc-status{text-align:right}
+    .doc-status strong{display:block;color:var(--primary)}
+    .doc-meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem;margin:1rem 0}
+    .meta-box{padding:.7rem;background:#f5f8fb;border:1px solid var(--border);border-radius:10px}
+    .meta-box span{display:block;color:var(--muted);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}
+    .meta-box strong{display:block;margin-top:.15rem;color:var(--primary);font-size:.84rem;word-break:break-word}
+
+    .doc-progress{display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:center;padding:.75rem .85rem;background:var(--primary-light);border-radius:11px}
+    .doc-progress strong{color:var(--primary);font-size:1.1rem}
+    .doc-progress .progress-track{margin:0;background:#cfdae5}
+    .doc-section{margin-top:1.05rem;break-inside:avoid}
+    .doc-section h3{margin:0 0 .5rem;color:var(--primary);font-size:1rem}
+    .doc-section h4{margin:.7rem 0 .25rem;color:var(--primary);font-size:.82rem}
+    .doc-section p,.doc-section li{font-size:.82rem}
+    .doc-section p{margin:.25rem 0;white-space:pre-wrap}
+    .doc-section ul{margin:.35rem 0 0;padding-left:1.25rem}
+    .phase-cards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.5rem;margin-top:.85rem}
+    .phase-card{padding:.58rem;background:#f5f8fb;border:1px solid var(--border);border-radius:10px;text-align:center}
+    .phase-card span{display:block;color:var(--muted);font-size:.62rem;text-transform:uppercase;letter-spacing:.04em}
+    .phase-card strong{color:var(--primary);font-size:.9rem}
+
+    .table-wrap{overflow:auto;border:1px solid var(--border);border-radius:11px}
+    table{width:100%;border-collapse:collapse;min-width:720px}
+    th,td{padding:.58rem .62rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);text-align:left;vertical-align:top;font-size:.72rem}
+    th:last-child,td:last-child{border-right:0}
+    tr:last-child td{border-bottom:0}
+    th{color:#fff;background:var(--primary);font-size:.68rem}
+    .status-pill{display:inline-block;padding:.2rem .42rem;border-radius:999px;background:var(--primary-light);color:var(--primary);font-size:.65rem;font-weight:800;white-space:nowrap}
+    .status-pill.done{color:var(--success);background:#e6f4ed}
+    .status-pill.risk{color:var(--warning);background:#fff3cd}
+    .doc-footer{display:flex;justify-content:space-between;gap:1rem;margin-top:1.2rem;padding-top:.75rem;border-top:1px solid var(--border);color:var(--muted);font-size:.7rem}
+
+    .toast{position:fixed;left:50%;bottom:20px;z-index:50;transform:translate(-50%,18px);padding:.75rem 1rem;color:#fff;background:var(--primary-dark);border-radius:11px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.22s}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    .footer{color:#dce7f1;background:var(--primary-dark)}
+    .footer-inner{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:1rem;font-size:.82rem}
+    .footer-inner p{margin:0}
+    :focus-visible{outline:3px solid #f5b942;outline-offset:3px}
+
+    @media(max-width:1120px){
+      .app{grid-template-columns:1fr}
+      .preview-panel{order:-1;position:static}
+      .empty{min-height:240px}
+    }
+    @media(max-width:760px){
+      .header-inner{align-items:flex-start;flex-direction:column}
+      .header-actions{align-items:flex-start}
+      .header-badge{white-space:normal}
+      .phase-strip{grid-template-columns:repeat(5,1fr)}
+      .phase-chip{justify-content:center;padding:.58rem}
+      .phase-chip small{display:none}
+      .grid-2,.grid-3,.doc-meta,.phase-cards{grid-template-columns:1fr 1fr}
+      .repeater-fields,.repeater-fields.three,.repeater-fields.four{grid-template-columns:1fr}
+      .repeater-fields .wide{grid-column:auto}
+    }
+    @media(max-width:520px){
+      .grid-2,.grid-3,.doc-meta,.phase-cards,.check-grid{grid-template-columns:1fr}
+      .form-panel,.preview-panel{padding:1rem}
+      .panel-head{flex-direction:column}
+      .progress-box{text-align:left;width:100%}
+      .doc-header,.doc-footer{flex-direction:column}
+      .doc-status{text-align:left}
+      .footer-inner{align-items:flex-start;flex-direction:column;padding:1rem 0}
+    }
+    @media print{
+      body{background:#fff}
+      .site-header,.phase-strip,.form-panel,.panel-head,.footer,.toast{display:none!important}
+      .app{display:block;width:100%;padding:0}
+      .preview-panel{padding:0;border:0;box-shadow:none}
+      .document{padding:0}
+      .table-wrap{overflow:visible}
+      table{min-width:0}
+      th,td{font-size:7.6pt;padding:4pt}
+      .doc-meta{grid-template-columns:repeat(4,1fr)}
+      .phase-cards{grid-template-columns:repeat(5,1fr)}
+      .doc-section{break-inside:auto}
+      @page{size:A4 landscape;margin:11mm}
+    }
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{transition:none!important}
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-content">
+        <p class="eyebrow">Design Instrucional</p>
+        <h1>Planeador ADDIE</h1>
+        <p class="subtitle">Planeie, acompanhe e documente projetos de aprendizagem nas fases Análise, Desenho, Desenvolvimento, Implementação e Avaliação.</p>
+      </div>
+      <div class="header-actions">
+        <a class="back-link" href="design-instrucional.html" aria-label="Voltar às ferramentas de Design Instrucional">← Voltar às ferramentas</a>
+        <div class="header-badge">Funciona localmente · Dados guardados no navegador</div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="phase-strip" aria-label="Fases do modelo ADDIE">
+    <a class="phase-chip" href="#analise"><span>A</span><small>Análise</small></a>
+    <a class="phase-chip" href="#desenho"><span>D</span><small>Desenho</small></a>
+    <a class="phase-chip" href="#desenvolvimento"><span>D</span><small>Desenvolvimento</small></a>
+    <a class="phase-chip" href="#implementacao"><span>I</span><small>Implementação</small></a>
+    <a class="phase-chip" href="#avaliacao"><span>E</span><small>Avaliação</small></a>
+  </nav>
+
+  <main class="app">
+    <form class="panel form-panel" id="addieForm" novalidate>
+      <div class="panel-head">
+        <div>
+          <h2>Dados do projeto</h2>
+          <p>Preencha as cinco fases e gere o plano consolidado.</p>
+        </div>
+        <div class="progress-box" aria-live="polite">
+          <strong id="formProgress">0%</strong>
+          <span>preenchimento</span>
+          <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="formProgressBar"></div></div>
+        </div>
+      </div>
+
+      <section class="section" id="identificacao">
+        <h3 class="section-title">1. Identificação do projeto</h3>
+        <div class="grid-2">
+          <div><label class="required" for="projectName">Projeto / ação de aprendizagem</label><input id="projectName" required maxlength="160" placeholder="Ex.: Programa de integração digital"></div>
+          <div><label for="projectOwner">Responsável</label><input id="projectOwner" maxlength="120" placeholder="Nome ou equipa responsável"></div>
+          <div><label for="sponsor">Entidade promotora / patrocinador</label><input id="sponsor" maxlength="140" placeholder="Serviço, unidade orgânica ou entidade"></div>
+          <div><label for="audience">Público-alvo</label><input id="audience" maxlength="180" placeholder="Ex.: Trabalhadores/as com funções de atendimento"></div>
+          <div><label for="startDate">Data de início</label><input id="startDate" type="date"></div>
+          <div><label for="endDate">Data de conclusão prevista</label><input id="endDate" type="date"></div>
+          <div><label for="modality">Modalidade principal</label><select id="modality"><option>Presencial</option><option>Online síncrona</option><option>Online assíncrona</option><option>B-learning</option><option>Em contexto de trabalho</option></select></div>
+          <div><label for="projectStatus">Estado do projeto</label><select id="projectStatus"><option>Em planeamento</option><option>Em curso</option><option>Em revisão</option><option>Concluído</option><option>Suspenso</option></select></div>
+        </div>
+        <div class="field-gap"><label for="projectContext">Contexto e finalidade</label><textarea id="projectContext" placeholder="Enquadre o projeto, a sua finalidade e a mudança que se pretende alcançar."></textarea></div>
+      </section>
+
+      <section class="section" id="analise">
+        <h3 class="section-title"><span class="section-title-main"><span class="phase-letter">A</span>Análise</span></h3>
+        <p class="phase-description">Clarifique o problema, as necessidades, o público, o contexto e os condicionantes.</p>
+        <div class="grid-2">
+          <div><label for="problem">Problema / oportunidade</label><textarea id="problem" placeholder="Que necessidade de desempenho ou aprendizagem justifica o projeto?"></textarea></div>
+          <div><label for="desiredChange">Resultados organizacionais esperados</label><textarea id="desiredChange" placeholder="Que mudança deve ocorrer no desempenho, no serviço ou nos resultados?"></textarea></div>
+          <div><label for="learnerProfile">Perfil dos participantes</label><textarea id="learnerProfile" placeholder="Funções, experiência, diversidade, motivações e contexto de trabalho."></textarea></div>
+          <div><label for="priorKnowledge">Conhecimentos prévios e lacunas</label><textarea id="priorKnowledge" placeholder="O que já sabem e o que precisam de aprender ou reforçar?"></textarea></div>
+          <div><label for="constraints">Condicionantes e riscos</label><textarea id="constraints" placeholder="Tempo, orçamento, tecnologia, disponibilidade, acessibilidade ou outros riscos."></textarea></div>
+          <div><label for="availableResources">Recursos e oportunidades disponíveis</label><textarea id="availableResources" placeholder="Pessoas, conteúdos, plataformas, espaços, dados ou apoio institucional."></textarea></div>
+          <div class="field-wide"><label for="stakeholders">Partes interessadas e contributos</label><textarea id="stakeholders" placeholder="Identifique quem decide, valida, produz, facilita, apoia e participa."></textarea></div>
+        </div>
+      </section>
+
+      <section class="section" id="desenho">
+        <h3 class="section-title"><span class="section-title-main"><span class="phase-letter">D</span>Desenho</span></h3>
+        <p class="phase-description">Defina objetivos, arquitetura, estratégias, experiência de aprendizagem e avaliação.</p>
+        <div class="grid-2">
+          <div class="field-wide"><label for="generalObjective">Objetivo geral</label><textarea id="generalObjective" placeholder="Descreva o resultado global de aprendizagem e a sua aplicação no contexto real."></textarea></div>
+          <div class="field-wide">
+            <h4 class="section-title"><span>Objetivos de aprendizagem</span><button class="btn btn-secondary btn-small" type="button" id="addObjective">+ Objetivo</button></h4>
+            <div class="repeater" id="objectives"></div>
+            <p class="help">Use verbos observáveis e indique, sempre que possível, condições e critérios de desempenho.</p>
+          </div>
+          <div><label for="learningStrategy">Estratégia pedagógica</label><textarea id="learningStrategy" placeholder="Ex.: demonstração, prática guiada, estudo de caso, projeto ou aprendizagem colaborativa."></textarea></div>
+          <div><label for="learningJourney">Percurso e sequência</label><textarea id="learningJourney" placeholder="Organize módulos, momentos, ritmo, duração e articulação entre atividades."></textarea></div>
+          <div><label for="assessmentPlan">Estratégia de avaliação da aprendizagem</label><textarea id="assessmentPlan" placeholder="Avaliação diagnóstica, formativa e sumativa; instrumentos e critérios."></textarea></div>
+          <div><label for="interactionPlan">Interação e acompanhamento</label><textarea id="interactionPlan" placeholder="Interações entre participantes, formador/a, conteúdos e contexto de trabalho."></textarea></div>
+          <div class="field-wide"><label for="accessibility">Acessibilidade, inclusão e proteção de dados</label><textarea id="accessibility" placeholder="Preveja alternativas, linguagem inclusiva, compatibilidade, privacidade e acesso equitativo."></textarea></div>
+        </div>
+      </section>
+
+      <section class="section" id="desenvolvimento">
+        <h3 class="section-title"><span class="section-title-main"><span class="phase-letter">D</span>Desenvolvimento</span></h3>
+        <p class="phase-description">Planeie a produção, revisão e validação dos conteúdos, recursos e ambientes.</p>
+        <div class="grid-2">
+          <div><label for="contentApproach">Abordagem de produção</label><textarea id="contentApproach" placeholder="Como serão produzidos ou adaptados conteúdos, atividades e suportes?"></textarea></div>
+          <div><label for="toolsStandards">Ferramentas e normas</label><textarea id="toolsStandards" placeholder="Aplicações, formatos, identidade visual, SCORM/xAPI, normas de acessibilidade ou outras."></textarea></div>
+          <div><label for="prototypeReview">Protótipo e ciclos de revisão</label><textarea id="prototypeReview" placeholder="Defina protótipo, revisores, momentos de validação e incorporação de alterações."></textarea></div>
+          <div><label for="qualityCriteria">Critérios de qualidade</label><textarea id="qualityCriteria" placeholder="Rigor, clareza, usabilidade, acessibilidade, coerência pedagógica e desempenho técnico."></textarea></div>
+          <div class="field-wide"><label for="rightsLicensing">Direitos, fontes e licenciamento</label><textarea id="rightsLicensing" placeholder="Registe fontes, autorizações, licenças e condições de reutilização."></textarea></div>
+          <div class="field-wide">
+            <h4 class="section-title"><span>Entregáveis</span><button class="btn btn-secondary btn-small" type="button" id="addDeliverable">+ Entregável</button></h4>
+            <div class="repeater" id="deliverables"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="implementacao">
+        <h3 class="section-title"><span class="section-title-main"><span class="phase-letter">I</span>Implementação</span></h3>
+        <p class="phase-description">Prepare o piloto, a disponibilização, a comunicação, a facilitação e o suporte.</p>
+        <div class="grid-2">
+          <div><label for="deployment">Ambiente e disponibilização</label><textarea id="deployment" placeholder="Local, plataforma, inscrições, acessos, turmas, calendário e publicação."></textarea></div>
+          <div><label for="logistics">Logística e recursos</label><textarea id="logistics" placeholder="Espaços, equipamentos, materiais, acessos e responsabilidades operacionais."></textarea></div>
+          <div><label for="facilitatorPrep">Preparação da equipa de formação</label><textarea id="facilitatorPrep" placeholder="Guião, ensaio, distribuição de papéis e preparação técnica/pedagógica."></textarea></div>
+          <div><label for="communication">Comunicação e envolvimento</label><textarea id="communication" placeholder="Convocatória, instruções, expectativas, lembretes e articulação com chefias."></textarea></div>
+          <div><label for="supportPlan">Apoio aos participantes</label><textarea id="supportPlan" placeholder="Canais, horários, perguntas frequentes, suporte técnico e acompanhamento pedagógico."></textarea></div>
+          <div><label for="pilotPlan">Piloto e plano de contingência</label><textarea id="pilotPlan" placeholder="Teste-piloto, critérios de decisão, alternativas e resposta a incidentes."></textarea></div>
+        </div>
+        <div class="field-gap">
+          <label>Lista de verificação da implementação</label>
+          <div class="check-grid" id="implementationChecklist">
+            <label class="check-item"><input type="checkbox" value="Conteúdos e recursos validados">Conteúdos e recursos validados</label>
+            <label class="check-item"><input type="checkbox" value="Ambiente e acessos testados">Ambiente e acessos testados</label>
+            <label class="check-item"><input type="checkbox" value="Equipa de formação preparada">Equipa de formação preparada</label>
+            <label class="check-item"><input type="checkbox" value="Participantes informados">Participantes informados</label>
+            <label class="check-item"><input type="checkbox" value="Apoio e contingência confirmados">Apoio e contingência confirmados</label>
+            <label class="check-item"><input type="checkbox" value="Instrumentos de avaliação disponíveis">Instrumentos de avaliação disponíveis</label>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="avaliacao">
+        <h3 class="section-title"><span class="section-title-main"><span class="phase-letter">E</span>Avaliação</span></h3>
+        <p class="phase-description">Avalie o processo, a aprendizagem, a transferência e os resultados para melhorar o projeto.</p>
+        <div class="grid-2">
+          <div><label for="formativeEvaluation">Avaliação formativa do projeto</label><textarea id="formativeEvaluation" placeholder="Como serão recolhidos e usados dados durante cada fase do ADDIE?"></textarea></div>
+          <div><label for="summativeEvaluation">Avaliação final</label><textarea id="summativeEvaluation" placeholder="Como serão avaliados a experiência, a aprendizagem e os resultados finais?"></textarea></div>
+          <div><label for="transferEvaluation">Transferência para o contexto de trabalho</label><textarea id="transferEvaluation" placeholder="Como e quando será verificada a aplicação das aprendizagens?"></textarea></div>
+          <div><label for="improvementCycle">Melhoria contínua</label><textarea id="improvementCycle" placeholder="Quem analisa os dados, decide alterações e acompanha a versão seguinte?"></textarea></div>
+          <div class="field-wide">
+            <h4 class="section-title"><span>Indicadores de avaliação</span><button class="btn btn-secondary btn-small" type="button" id="addIndicator">+ Indicador</button></h4>
+            <div class="repeater" id="indicators"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="roteiro">
+        <h3 class="section-title"><span>2. Roteiro e marcos do projeto</span><button class="btn btn-secondary btn-small" type="button" id="addMilestone">+ Marco</button></h3>
+        <p class="phase-description">Registe decisões, entregas, validações e datas relevantes de qualquer fase.</p>
+        <div class="repeater" id="milestones"></div>
+      </section>
+
+      <section class="section">
+        <h3 class="section-title">3. Observações</h3>
+        <label for="notes">Decisões, dependências e notas de acompanhamento</label>
+        <textarea id="notes" placeholder="Registe pressupostos, decisões pendentes, dependências e informação útil para a equipa."></textarea>
+      </section>
+
+      <div class="actions">
+        <button class="btn btn-primary" type="submit">Gerar plano ADDIE</button>
+        <button class="btn btn-ghost" type="button" id="saveDraft">Guardar rascunho</button>
+        <button class="btn btn-ghost" type="button" id="loadDraft">Recuperar</button>
+        <button class="btn btn-ghost" type="button" id="exportData">Exportar JSON</button>
+        <label class="btn btn-ghost file-label" for="importData">Importar JSON<input id="importData" type="file" accept="application/json,.json"></label>
+        <button class="btn btn-danger" type="button" id="clearForm">Limpar</button>
+      </div>
+    </form>
+
+    <section class="panel preview-panel" aria-labelledby="previewTitle">
+      <div class="panel-head">
+        <div><h2 id="previewTitle">Pré-visualização</h2><p>O plano consolidado pode ser copiado, impresso ou guardado como PDF.</p></div>
+        <div class="actions compact">
+          <button class="btn btn-secondary btn-small" type="button" id="copyPlan">Copiar texto</button>
+          <button class="btn btn-primary btn-small" type="button" id="printPlan">Imprimir / PDF</button>
+        </div>
+      </div>
+      <div id="preview"><div class="empty"><div><strong>O plano ADDIE será apresentado aqui</strong>Preencha os dados e selecione «Gerar plano ADDIE».</div></div></div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="footer-inner"><p>Planeador ADDIE · Recursos Didáticos</p><span>Os dados permanecem neste dispositivo.</span></div></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (()=>{
+    'use strict';
+
+    const STORAGE_KEY='jp-planeador-addie-v1';
+    const $=selector=>document.querySelector(selector);
+    const $$=selector=>[...document.querySelectorAll(selector)];
+    const textIds=[
+      'projectName','projectOwner','sponsor','audience','startDate','endDate','modality','projectStatus','projectContext',
+      'problem','desiredChange','learnerProfile','priorKnowledge','constraints','availableResources','stakeholders',
+      'generalObjective','learningStrategy','learningJourney','assessmentPlan','interactionPlan','accessibility',
+      'contentApproach','toolsStandards','prototypeReview','qualityCriteria','rightsLicensing',
+      'deployment','logistics','facilitatorPrep','communication','supportPlan','pilotPlan',
+      'formativeEvaluation','summativeEvaluation','transferEvaluation','improvementCycle','notes'
+    ];
+    const phaseFields={
+      analise:['problem','desiredChange','learnerProfile','priorKnowledge','constraints','availableResources','stakeholders'],
+      desenho:['generalObjective','learningStrategy','learningJourney','assessmentPlan','interactionPlan','accessibility'],
+      desenvolvimento:['contentApproach','toolsStandards','prototypeReview','qualityCriteria','rightsLicensing'],
+      implementacao:['deployment','logistics','facilitatorPrep','communication','supportPlan','pilotPlan'],
+      avaliacao:['formativeEvaluation','summativeEvaluation','transferEvaluation','improvementCycle']
+    };
+    const phaseLabels={analise:'Análise',desenho:'Desenho',desenvolvimento:'Desenvolvimento',implementacao:'Implementação',avaliacao:'Avaliação'};
+
+    const esc=value=>{
+      const div=document.createElement('div');
+      div.textContent=value??'';
+      return div.innerHTML;
+    };
+    const nl=value=>esc(value||'').replace(/\n/g,'<br>');
+    const slug=value=>(value||'plano-addie').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,70)||'plano-addie';
+
+    function notify(message){
+      const toast=$('#toast');
+      toast.textContent=message;
+      toast.classList.add('show');
+      clearTimeout(toast._timer);
+      toast._timer=setTimeout(()=>toast.classList.remove('show'),2600);
+    }
+
+    function formatDate(value){
+      if(!value)return 'Não indicada';
+      const date=new Date(value+'T12:00:00');
+      if(Number.isNaN(date.getTime()))return value;
+      return new Intl.DateTimeFormat('pt-PT',{day:'2-digit',month:'long',year:'numeric'}).format(date);
+    }
+
+    function addObjective(data={}){
+      const row=document.createElement('div');
+      row.className='repeater-row objective-row';
+      row.innerHTML=`
+        <div class="repeater-fields">
+          <div class="wide"><label>Objetivo</label><input class="o-text" maxlength="260" placeholder="Ex.: Aplicar o procedimento em conformidade com os critérios definidos" value="${esc(data.text||'')}"></div>
+          <div><label>Domínio / nível</label><select class="o-level"><option>Conhecer / compreender</option><option>Aplicar</option><option>Analisar</option><option>Avaliar</option><option>Criar</option><option>Atitude / comportamento</option></select></div>
+          <div><label>Critério de sucesso</label><input class="o-criterion" maxlength="180" placeholder="Ex.: sem erros críticos" value="${esc(data.criterion||'')}"></div>
+        </div>
+        <button class="btn btn-danger btn-small remove-row" type="button" aria-label="Remover objetivo">×</button>`;
+      $('#objectives').append(row);
+      row.querySelector('.o-level').value=data.level||'Aplicar';
+    }
+
+    function addDeliverable(data={}){
+      const row=document.createElement('div');
+      row.className='repeater-row deliverable-row';
+      row.innerHTML=`
+        <div class="repeater-fields four">
+          <div><label>Entregável</label><input class="d-name" maxlength="180" placeholder="Ex.: Guião do módulo" value="${esc(data.name||'')}"></div>
+          <div><label>Responsável</label><input class="d-owner" maxlength="120" placeholder="Nome / equipa" value="${esc(data.owner||'')}"></div>
+          <div><label>Prazo</label><input class="d-date" type="date" value="${esc(data.date||'')}"></div>
+          <div><label>Estado</label><select class="d-status"><option>Não iniciado</option><option>Em curso</option><option>Em revisão</option><option>Concluído</option><option>Bloqueado</option></select></div>
+          <div class="wide"><label>Critérios de aceitação</label><input class="d-criteria" maxlength="240" placeholder="Condições para validar o entregável" value="${esc(data.criteria||'')}"></div>
+        </div>
+        <button class="btn btn-danger btn-small remove-row" type="button" aria-label="Remover entregável">×</button>`;
+      $('#deliverables').append(row);
+      row.querySelector('.d-status').value=data.status||'Não iniciado';
+    }
+
+    function addIndicator(data={}){
+      const row=document.createElement('div');
+      row.className='repeater-row indicator-row';
+      row.innerHTML=`
+        <div class="repeater-fields four">
+          <div><label>Indicador</label><input class="i-name" maxlength="180" placeholder="Ex.: taxa de conclusão" value="${esc(data.name||'')}"></div>
+          <div><label>Fonte / método</label><input class="i-source" maxlength="160" placeholder="Ex.: LMS ou observação" value="${esc(data.source||'')}"></div>
+          <div><label>Meta</label><input class="i-target" maxlength="100" placeholder="Ex.: ≥ 85%" value="${esc(data.target||'')}"></div>
+          <div><label>Momento</label><select class="i-timing"><option>Antes</option><option>Durante</option><option>Imediatamente após</option><option>30 dias após</option><option>60–90 dias após</option><option>Outro</option></select></div>
+          <div class="wide"><label>Responsável pela recolha e análise</label><input class="i-owner" maxlength="160" placeholder="Nome, função ou equipa" value="${esc(data.owner||'')}"></div>
+        </div>
+        <button class="btn btn-danger btn-small remove-row" type="button" aria-label="Remover indicador">×</button>`;
+      $('#indicators').append(row);
+      row.querySelector('.i-timing').value=data.timing||'Imediatamente após';
+    }
+
+    function addMilestone(data={}){
+      const row=document.createElement('div');
+      row.className='repeater-row milestone-row';
+      row.innerHTML=`
+        <div class="repeater-fields four">
+          <div><label>Marco / atividade</label><input class="m-name" maxlength="180" placeholder="Ex.: Validação do protótipo" value="${esc(data.name||'')}"></div>
+          <div><label>Fase</label><select class="m-phase"><option>Análise</option><option>Desenho</option><option>Desenvolvimento</option><option>Implementação</option><option>Avaliação</option></select></div>
+          <div><label>Responsável</label><input class="m-owner" maxlength="120" placeholder="Nome / equipa" value="${esc(data.owner||'')}"></div>
+          <div><label>Data</label><input class="m-date" type="date" value="${esc(data.date||'')}"></div>
+          <div class="wide"><label>Resultado / decisão esperada</label><input class="m-result" maxlength="240" placeholder="Ex.: aprovação para produção integral" value="${esc(data.result||'')}"></div>
+        </div>
+        <button class="btn btn-danger btn-small remove-row" type="button" aria-label="Remover marco">×</button>`;
+      $('#milestones').append(row);
+      row.querySelector('.m-phase').value=data.phase||'Análise';
+    }
+
+    function collectRows(selector,mapper){return $$(selector).map(mapper).filter(item=>Object.values(item).some(value=>String(value||'').trim()))}
+
+    function collect(){
+      const data={};
+      textIds.forEach(id=>data[id]=$('#'+id).value.trim());
+      data.objectives=collectRows('.objective-row',row=>({
+        text:row.querySelector('.o-text').value.trim(),
+        level:row.querySelector('.o-level').value,
+        criterion:row.querySelector('.o-criterion').value.trim()
+      })).filter(item=>item.text||item.criterion);
+      data.deliverables=collectRows('.deliverable-row',row=>({
+        name:row.querySelector('.d-name').value.trim(),owner:row.querySelector('.d-owner').value.trim(),date:row.querySelector('.d-date').value,
+        status:row.querySelector('.d-status').value,criteria:row.querySelector('.d-criteria').value.trim()
+      })).filter(item=>item.name||item.owner||item.date||item.criteria);
+      data.indicators=collectRows('.indicator-row',row=>({
+        name:row.querySelector('.i-name').value.trim(),source:row.querySelector('.i-source').value.trim(),target:row.querySelector('.i-target').value.trim(),
+        timing:row.querySelector('.i-timing').value,owner:row.querySelector('.i-owner').value.trim()
+      })).filter(item=>item.name||item.source||item.target||item.owner);
+      data.milestones=collectRows('.milestone-row',row=>({
+        name:row.querySelector('.m-name').value.trim(),phase:row.querySelector('.m-phase').value,owner:row.querySelector('.m-owner').value.trim(),
+        date:row.querySelector('.m-date').value,result:row.querySelector('.m-result').value.trim()
+      })).filter(item=>item.name||item.owner||item.date||item.result);
+      data.implementationChecklist=$$('#implementationChecklist input:checked').map(input=>input.value);
+      data.updatedAt=new Date().toISOString();
+      return data;
+    }
+
+    function fieldCompletion(ids){
+      const completed=ids.filter(id=>$('#'+id).value.trim()).length;
+      return ids.length?Math.round(completed/ids.length*100):0;
+    }
+
+    function calculateProgress(){
+      const data=collect();
+      const baseIds=['projectName','projectOwner','audience','projectContext'];
+      const scores={
+        identificacao:fieldCompletion(baseIds),
+        analise:fieldCompletion(phaseFields.analise),
+        desenho:Math.round((fieldCompletion(phaseFields.desenho)*6+(data.objectives.length?100:0))/7),
+        desenvolvimento:Math.round((fieldCompletion(phaseFields.desenvolvimento)*5+(data.deliverables.length?100:0))/6),
+        implementacao:Math.round((fieldCompletion(phaseFields.implementacao)*6+(data.implementationChecklist.length/6*100))/7),
+        avaliacao:Math.round((fieldCompletion(phaseFields.avaliacao)*4+(data.indicators.length?100:0))/5)
+      };
+      scores.total=Math.round(Object.values(scores).reduce((sum,value)=>sum+value,0)/6);
+      return scores;
+    }
+
+    function updateProgress(){
+      const progress=calculateProgress().total;
+      $('#formProgress').textContent=progress+'%';
+      $('#formProgressBar').style.width=progress+'%';
+    }
+
+    function populate(data={}){
+      textIds.forEach(id=>{if(data[id]!==undefined)$('#'+id).value=data[id]});
+      $('#objectives').innerHTML='';
+      (data.objectives?.length?data.objectives:[{}]).forEach(addObjective);
+      $('#deliverables').innerHTML='';
+      (data.deliverables?.length?data.deliverables:[{}]).forEach(addDeliverable);
+      $('#indicators').innerHTML='';
+      (data.indicators?.length?data.indicators:[{}]).forEach(addIndicator);
+      $('#milestones').innerHTML='';
+      (data.milestones?.length?data.milestones:[{}]).forEach(addMilestone);
+      const checked=new Set(data.implementationChecklist||[]);
+      $$('#implementationChecklist input').forEach(input=>input.checked=checked.has(input.value));
+      updateProgress();
+    }
+
+    function listOrFallback(items,renderItem,fallback='Não definido.'){
+      return items.length?`<ul>${items.map(renderItem).join('')}</ul>`:`<p>${fallback}</p>`;
+    }
+
+    function paragraph(label,value){return `<h4>${esc(label)}</h4><p>${value?nl(value):'Não definido.'}</p>`}
+
+    function statusClass(status){
+      if(status==='Concluído')return 'done';
+      if(status==='Bloqueado')return 'risk';
+      return '';
+    }
+
+    function render(data){
+      const progress=calculateProgress();
+      const objectives=listOrFallback(data.objectives,item=>`<li><strong>${esc(item.text||'Objetivo')}</strong>${item.level?` — ${esc(item.level)}`:''}${item.criterion?`<br><span>Critério: ${esc(item.criterion)}</span>`:''}</li>`);
+      const checklist=listOrFallback(data.implementationChecklist,item=>`<li>${esc(item)}</li>`,'Nenhum item confirmado.');
+      const deliverableRows=data.deliverables.length?data.deliverables.map(item=>`<tr><td><strong>${esc(item.name||'—')}</strong></td><td>${esc(item.owner||'—')}</td><td>${formatDate(item.date)}</td><td><span class="status-pill ${statusClass(item.status)}">${esc(item.status||'—')}</span></td><td>${esc(item.criteria||'—')}</td></tr>`).join(''):'<tr><td colspan="5">Sem entregáveis definidos.</td></tr>';
+      const indicatorRows=data.indicators.length?data.indicators.map(item=>`<tr><td><strong>${esc(item.name||'—')}</strong></td><td>${esc(item.source||'—')}</td><td>${esc(item.target||'—')}</td><td>${esc(item.timing||'—')}</td><td>${esc(item.owner||'—')}</td></tr>`).join(''):'<tr><td colspan="5">Sem indicadores definidos.</td></tr>';
+      const milestoneRows=data.milestones.length?data.milestones.map(item=>`<tr><td><strong>${esc(item.name||'—')}</strong></td><td>${esc(item.phase||'—')}</td><td>${esc(item.owner||'—')}</td><td>${formatDate(item.date)}</td><td>${esc(item.result||'—')}</td></tr>`).join(''):'<tr><td colspan="5">Sem marcos definidos.</td></tr>';
+      const phaseCards=Object.keys(phaseLabels).map(key=>`<div class="phase-card"><span>${phaseLabels[key]}</span><strong>${progress[key]}%</strong></div>`).join('');
+
+      $('#preview').innerHTML=`
+        <article class="document" id="planDocument">
+          <div class="doc-header">
+            <div><h2>Plano ADDIE</h2><p>${esc(data.projectName)}</p></div>
+            <div class="doc-status"><strong>${esc(data.projectStatus)}</strong><p>${formatDate(data.startDate)} — ${formatDate(data.endDate)}</p></div>
+          </div>
+          <div class="doc-meta">
+            <div class="meta-box"><span>Responsável</span><strong>${esc(data.projectOwner||'Não indicado')}</strong></div>
+            <div class="meta-box"><span>Entidade promotora</span><strong>${esc(data.sponsor||'Não indicada')}</strong></div>
+            <div class="meta-box"><span>Público-alvo</span><strong>${esc(data.audience||'Não indicado')}</strong></div>
+            <div class="meta-box"><span>Modalidade</span><strong>${esc(data.modality||'Não indicada')}</strong></div>
+          </div>
+          <div class="doc-progress"><strong>${progress.total}%</strong><div class="progress-track"><div class="progress-fill" style="width:${progress.total}%"></div></div></div>
+          <div class="phase-cards">${phaseCards}</div>
+
+          <section class="doc-section"><h3>Contexto e finalidade</h3><p>${data.projectContext?nl(data.projectContext):'Não definidos.'}</p></section>
+
+          <section class="doc-section"><h3>A · Análise</h3>
+            ${paragraph('Problema / oportunidade',data.problem)}
+            ${paragraph('Resultados organizacionais esperados',data.desiredChange)}
+            ${paragraph('Perfil dos participantes',data.learnerProfile)}
+            ${paragraph('Conhecimentos prévios e lacunas',data.priorKnowledge)}
+            ${paragraph('Condicionantes e riscos',data.constraints)}
+            ${paragraph('Recursos e oportunidades',data.availableResources)}
+            ${paragraph('Partes interessadas',data.stakeholders)}
+          </section>
+
+          <section class="doc-section"><h3>D · Desenho</h3>
+            ${paragraph('Objetivo geral',data.generalObjective)}
+            <h4>Objetivos de aprendizagem</h4>${objectives}
+            ${paragraph('Estratégia pedagógica',data.learningStrategy)}
+            ${paragraph('Percurso e sequência',data.learningJourney)}
+            ${paragraph('Estratégia de avaliação da aprendizagem',data.assessmentPlan)}
+            ${paragraph('Interação e acompanhamento',data.interactionPlan)}
+            ${paragraph('Acessibilidade, inclusão e proteção de dados',data.accessibility)}
+          </section>
+
+          <section class="doc-section"><h3>D · Desenvolvimento</h3>
+            ${paragraph('Abordagem de produção',data.contentApproach)}
+            ${paragraph('Ferramentas e normas',data.toolsStandards)}
+            ${paragraph('Protótipo e ciclos de revisão',data.prototypeReview)}
+            ${paragraph('Critérios de qualidade',data.qualityCriteria)}
+            ${paragraph('Direitos, fontes e licenciamento',data.rightsLicensing)}
+            <h4>Entregáveis</h4>
+            <div class="table-wrap"><table><thead><tr><th>Entregável</th><th>Responsável</th><th>Prazo</th><th>Estado</th><th>Critérios de aceitação</th></tr></thead><tbody>${deliverableRows}</tbody></table></div>
+          </section>
+
+          <section class="doc-section"><h3>I · Implementação</h3>
+            ${paragraph('Ambiente e disponibilização',data.deployment)}
+            ${paragraph('Logística e recursos',data.logistics)}
+            ${paragraph('Preparação da equipa de formação',data.facilitatorPrep)}
+            ${paragraph('Comunicação e envolvimento',data.communication)}
+            ${paragraph('Apoio aos participantes',data.supportPlan)}
+            ${paragraph('Piloto e contingência',data.pilotPlan)}
+            <h4>Verificações confirmadas</h4>${checklist}
+          </section>
+
+          <section class="doc-section"><h3>E · Avaliação</h3>
+            ${paragraph('Avaliação formativa do projeto',data.formativeEvaluation)}
+            ${paragraph('Avaliação final',data.summativeEvaluation)}
+            ${paragraph('Transferência para o contexto de trabalho',data.transferEvaluation)}
+            ${paragraph('Melhoria contínua',data.improvementCycle)}
+            <h4>Indicadores</h4>
+            <div class="table-wrap"><table><thead><tr><th>Indicador</th><th>Fonte / método</th><th>Meta</th><th>Momento</th><th>Responsável</th></tr></thead><tbody>${indicatorRows}</tbody></table></div>
+          </section>
+
+          <section class="doc-section"><h3>Roteiro e marcos</h3>
+            <div class="table-wrap"><table><thead><tr><th>Marco / atividade</th><th>Fase</th><th>Responsável</th><th>Data</th><th>Resultado / decisão</th></tr></thead><tbody>${milestoneRows}</tbody></table></div>
+          </section>
+          ${data.notes?`<section class="doc-section"><h3>Observações</h3><p>${nl(data.notes)}</p></section>`:''}
+          <div class="doc-footer"><span>Gerado em ${new Intl.DateTimeFormat('pt-PT',{dateStyle:'long'}).format(new Date())}</span><span>Planeador ADDIE</span></div>
+        </article>`;
+    }
+
+    function textVersion(data){
+      const progress=calculateProgress();
+      const lines=[];
+      const add=(title,value)=>{lines.push(`\n${title.toUpperCase()}\n${value||'Não definido.'}`)};
+      lines.push('PLANO ADDIE',data.projectName||'',`Estado: ${data.projectStatus}`,`Responsável: ${data.projectOwner||'Não indicado'}`,`Entidade promotora: ${data.sponsor||'Não indicada'}`,`Público-alvo: ${data.audience||'Não indicado'}`,`Período: ${formatDate(data.startDate)} — ${formatDate(data.endDate)}`,`Modalidade: ${data.modality}`,`Preenchimento global: ${progress.total}%`);
+      add('Contexto e finalidade',data.projectContext);
+      add('A · Análise',[`Problema / oportunidade: ${data.problem||'—'}`,`Resultados esperados: ${data.desiredChange||'—'}`,`Perfil: ${data.learnerProfile||'—'}`,`Conhecimentos e lacunas: ${data.priorKnowledge||'—'}`,`Condicionantes e riscos: ${data.constraints||'—'}`,`Recursos: ${data.availableResources||'—'}`,`Partes interessadas: ${data.stakeholders||'—'}`].join('\n'));
+      add('D · Desenho',[`Objetivo geral: ${data.generalObjective||'—'}`,'Objetivos:',data.objectives.map((item,index)=>`${index+1}. ${item.text||'Objetivo'} | ${item.level} | Critério: ${item.criterion||'—'}`).join('\n')||'Não definidos.',`Estratégia: ${data.learningStrategy||'—'}`,`Percurso: ${data.learningJourney||'—'}`,`Avaliação da aprendizagem: ${data.assessmentPlan||'—'}`,`Interação: ${data.interactionPlan||'—'}`,`Acessibilidade e inclusão: ${data.accessibility||'—'}`].join('\n'));
+      add('D · Desenvolvimento',[`Produção: ${data.contentApproach||'—'}`,`Ferramentas e normas: ${data.toolsStandards||'—'}`,`Protótipo e revisão: ${data.prototypeReview||'—'}`,`Qualidade: ${data.qualityCriteria||'—'}`,`Direitos e licenciamento: ${data.rightsLicensing||'—'}`,'Entregáveis:',data.deliverables.map((item,index)=>`${index+1}. ${item.name||'Entregável'} | ${item.owner||'—'} | ${formatDate(item.date)} | ${item.status} | ${item.criteria||'—'}`).join('\n')||'Não definidos.'].join('\n'));
+      add('I · Implementação',[`Disponibilização: ${data.deployment||'—'}`,`Logística: ${data.logistics||'—'}`,`Preparação da equipa: ${data.facilitatorPrep||'—'}`,`Comunicação: ${data.communication||'—'}`,`Apoio: ${data.supportPlan||'—'}`,`Piloto e contingência: ${data.pilotPlan||'—'}`,'Verificações:',data.implementationChecklist.map(item=>`- ${item}`).join('\n')||'Nenhuma confirmada.'].join('\n'));
+      add('E · Avaliação',[`Formativa: ${data.formativeEvaluation||'—'}`,`Final: ${data.summativeEvaluation||'—'}`,`Transferência: ${data.transferEvaluation||'—'}`,`Melhoria contínua: ${data.improvementCycle||'—'}`,'Indicadores:',data.indicators.map((item,index)=>`${index+1}. ${item.name||'Indicador'} | Fonte: ${item.source||'—'} | Meta: ${item.target||'—'} | ${item.timing} | ${item.owner||'—'}`).join('\n')||'Não definidos.'].join('\n'));
+      add('Roteiro e marcos',data.milestones.map((item,index)=>`${index+1}. ${item.name||'Marco'} | ${item.phase} | ${item.owner||'—'} | ${formatDate(item.date)} | ${item.result||'—'}`).join('\n')||'Não definidos.');
+      add('Observações',data.notes);
+      return lines.join('\n');
+    }
+
+    function download(content,filename,type){
+      const blob=new Blob([content],{type});
+      const url=URL.createObjectURL(blob);
+      const link=document.createElement('a');
+      link.href=url;
+      link.download=filename;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function removeRepeaterRow(button){
+      const repeater=button.closest('.repeater');
+      const rows=[...repeater.children];
+      if(rows.length>1){button.closest('.repeater-row').remove()}
+      else{
+        button.closest('.repeater-row').querySelectorAll('input,textarea').forEach(field=>field.value='');
+        button.closest('.repeater-row').querySelectorAll('select').forEach(select=>select.selectedIndex=0);
+      }
+      updateProgress();
+    }
+
+    $('#addObjective').addEventListener('click',()=>{addObjective();updateProgress()});
+    $('#addDeliverable').addEventListener('click',()=>{addDeliverable();updateProgress()});
+    $('#addIndicator').addEventListener('click',()=>{addIndicator();updateProgress()});
+    $('#addMilestone').addEventListener('click',()=>{addMilestone();updateProgress()});
+    ['objectives','deliverables','indicators','milestones'].forEach(id=>$('#'+id).addEventListener('click',event=>{const button=event.target.closest('.remove-row');if(button)removeRepeaterRow(button)}));
+    $('#addieForm').addEventListener('input',updateProgress);
+    $('#addieForm').addEventListener('change',updateProgress);
+
+    $('#addieForm').addEventListener('submit',event=>{
+      event.preventDefault();
+      if(!$('#projectName').value.trim()){
+        notify('Indique o nome do projeto ou da ação de aprendizagem.');
+        $('#projectName').focus();
+        return;
+      }
+      const data=collect();
+      render(data);
+      notify('Plano ADDIE gerado.');
+      if(window.innerWidth<1120)$('#previewTitle').scrollIntoView({behavior:'smooth',block:'start'});
+    });
+
+    $('#saveDraft').addEventListener('click',()=>{
+      try{localStorage.setItem(STORAGE_KEY,JSON.stringify(collect()));notify('Rascunho guardado neste navegador.')}catch{notify('Não foi possível guardar o rascunho.')}
+    });
+
+    $('#loadDraft').addEventListener('click',()=>{
+      const raw=localStorage.getItem(STORAGE_KEY);
+      if(!raw){notify('Não existe nenhum rascunho guardado.');return}
+      try{
+        const data=JSON.parse(raw);
+        populate(data);
+        if(data.projectName)render(data);
+        notify('Rascunho recuperado.');
+      }catch{notify('Não foi possível recuperar o rascunho.')}
+    });
+
+    $('#exportData').addEventListener('click',()=>{
+      const data=collect();
+      download(JSON.stringify(data,null,2),slug(data.projectName)+'-addie.json','application/json;charset=utf-8');
+      notify('Dados exportados em JSON.');
+    });
+
+    $('#importData').addEventListener('change',async event=>{
+      const file=event.target.files[0];
+      if(!file)return;
+      try{
+        const data=JSON.parse(await file.text());
+        if(!data||typeof data!=='object'||Array.isArray(data))throw new Error('Formato inválido');
+        populate(data);
+        if(data.projectName)render(collect());
+        notify('Dados importados com sucesso.');
+      }catch{notify('O ficheiro JSON não é válido.')}
+      event.target.value='';
+    });
+
+    $('#clearForm').addEventListener('click',()=>{
+      if(!confirm('Pretende limpar todos os campos do Planeador ADDIE?'))return;
+      $('#addieForm').reset();
+      populate({});
+      $('#preview').innerHTML='<div class="empty"><div><strong>O plano ADDIE será apresentado aqui</strong>Preencha os dados e selecione «Gerar plano ADDIE».</div></div>';
+      notify('Formulário limpo.');
+    });
+
+    $('#printPlan').addEventListener('click',()=>{
+      if(!$('#planDocument')){notify('Gere primeiro o plano ADDIE.');return}
+      window.print();
+    });
+
+    $('#copyPlan').addEventListener('click',async()=>{
+      if(!$('#planDocument')){notify('Gere primeiro o plano ADDIE.');return}
+      try{await navigator.clipboard.writeText(textVersion(collect()));notify('Plano copiado para a área de transferência.')}catch{notify('Não foi possível copiar automaticamente.')}
+    });
+
+    populate({
+      objectives:[{}],
+      deliverables:[{}],
+      indicators:[{}],
+      milestones:[
+        {name:'Conclusão da análise de necessidades',phase:'Análise'},
+        {name:'Validação do desenho pedagógico',phase:'Desenho'},
+        {name:'Aprovação do protótipo',phase:'Desenvolvimento'},
+        {name:'Realização do piloto',phase:'Implementação'},
+        {name:'Análise dos resultados',phase:'Avaliação'}
+      ]
+    });
+  })();
+  </script>
+</body>
+</html>

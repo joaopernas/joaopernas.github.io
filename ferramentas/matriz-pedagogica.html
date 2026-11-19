@@ -1,0 +1,1039 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1f3b5b">
+  <meta name="description" content="Ferramenta para construir e validar matrizes pedagógicas de ações de formação.">
+  <title>Matriz Pedagógica</title>
+
+  <style>
+    :root{
+      --primary:#1f3b5b;
+      --primary-dark:#142a42;
+      --primary-light:#e9f0f7;
+      --accent:#18aeb5;
+      --accent-dark:#0e7f87;
+      --accent-blue:#2e78b7;
+      --surface:#fff;
+      --background:#f4f7fa;
+      --text:#182433;
+      --muted:#5d6b7a;
+      --border:#d8e1ea;
+      --danger:#b42318;
+      --danger-light:#fff1f0;
+      --success:#16794b;
+      --success-light:#eaf8f1;
+      --warning:#9a6700;
+      --warning-light:#fff8e5;
+      --shadow:0 12px 30px rgba(31,59,91,.10);
+      --radius:18px;
+      --max:1560px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--text);
+      background:var(--background);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      line-height:1.5;
+    }
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    button:disabled{cursor:not-allowed;opacity:.58}
+
+    .site-header{
+      color:#fff;
+      background:
+        radial-gradient(circle at 85% 15%,rgba(255,255,255,.14),transparent 25%),
+        linear-gradient(135deg,var(--primary-dark),var(--primary) 58%,#2b5a83);
+    }
+    .header-inner,.app,.footer-inner{
+      width:min(calc(100% - 2rem),var(--max));
+      margin-inline:auto;
+    }
+    .header-inner{
+      min-height:155px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:2rem;
+      padding:1.8rem 0;
+    }
+    .header-content{min-width:0}
+    .eyebrow{
+      margin:0 0 .25rem;
+      color:#cfe3f6;
+      font-size:.76rem;
+      font-weight:800;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+    h1{margin:0;font-size:clamp(1.85rem,4vw,3.1rem);line-height:1.08}
+    .subtitle{max-width:760px;margin:.45rem 0 0;color:#dceaf5}
+    .back-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.45rem;
+      flex:0 0 auto;
+      padding:.7rem 1rem;
+      color:#fff;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.27);
+      border-radius:12px;
+      font-size:.88rem;
+      font-weight:700;
+      text-decoration:none;
+      transition:background .2s ease,border-color .2s ease,transform .2s ease;
+    }
+    .back-link:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.42);transform:translateX(-3px)}
+
+    .app{
+      display:grid;
+      grid-template-columns:minmax(520px,.96fr) minmax(560px,1.04fr);
+      gap:1.25rem;
+      padding:1.5rem 0 3rem;
+      align-items:start;
+    }
+    .panel{
+      min-width:0;
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+    .form-panel,.preview-panel{padding:1.3rem}
+    .preview-panel{position:sticky;top:1rem}
+    .panel-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:1rem;
+      margin-bottom:1.1rem;
+    }
+    .panel-head h2{margin:0;color:var(--primary);font-size:1.3rem}
+    .panel-head p{margin:.2rem 0 0;color:var(--muted);font-size:.86rem}
+    .section{padding:1.1rem 0;border-top:1px solid var(--border)}
+    .section:first-of-type{padding-top:0;border-top:0}
+    .section-title-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:.75rem;
+      margin-bottom:.85rem;
+    }
+    .section-title{margin:0;color:var(--primary);font-size:1rem}
+    .section-help{margin:-.4rem 0 .9rem;color:var(--muted);font-size:.78rem}
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.85rem}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.85rem}
+    .span-2{grid-column:span 2}
+    .span-3{grid-column:span 3}
+    label{display:block;margin-bottom:.32rem;color:var(--primary);font-size:.78rem;font-weight:750}
+    .required::after{content:" *";color:var(--danger)}
+    input,select,textarea{
+      width:100%;
+      min-width:0;
+      padding:.72rem .78rem;
+      color:var(--text);
+      background:#fbfdff;
+      border:1px solid #cbd7e2;
+      border-radius:11px;
+      outline:none;
+      transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;
+    }
+    textarea{min-height:90px;resize:vertical}
+    input:focus,select:focus,textarea:focus{background:#fff;border-color:var(--accent-blue);box-shadow:0 0 0 3px rgba(46,120,183,.14)}
+    .invalid{border-color:var(--danger)!important;box-shadow:0 0 0 3px rgba(180,35,24,.10)!important}
+    .field-note{display:block;margin:.3rem 0 0;color:var(--muted);font-size:.7rem}
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.42rem;
+      min-height:40px;
+      padding:.62rem .85rem;
+      color:var(--primary);
+      background:#fff;
+      border:1px solid #bfcdda;
+      border-radius:10px;
+      font-size:.78rem;
+      font-weight:760;
+      line-height:1.1;
+      text-decoration:none;
+      transition:transform .15s ease,background .15s ease,border-color .15s ease,box-shadow .15s ease;
+    }
+    .btn:hover{background:#f6f9fc;border-color:#9fb2c4;transform:translateY(-1px)}
+    .btn-primary{color:#fff;background:var(--primary);border-color:var(--primary)}
+    .btn-primary:hover{background:var(--primary-dark);border-color:var(--primary-dark)}
+    .btn-accent{color:#fff;background:var(--accent-dark);border-color:var(--accent-dark)}
+    .btn-accent:hover{background:#096a71;border-color:#096a71}
+    .btn-danger{color:var(--danger);background:#fff;border-color:#efc5c1}
+    .btn-danger:hover{background:var(--danger-light);border-color:#e6aaa5}
+    .btn-small{min-height:34px;padding:.48rem .65rem;font-size:.72rem}
+    .btn-icon{width:34px;min-height:34px;padding:0;font-size:.86rem}
+    .actions{display:flex;flex-wrap:wrap;gap:.55rem}
+    .form-actions{display:flex;flex-wrap:wrap;gap:.55rem;padding-top:1.1rem;border-top:1px solid var(--border)}
+    .form-actions .btn-primary{flex:1 1 210px}
+    .file-input{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+    .matrix-list{display:grid;gap:.9rem}
+    .matrix-card{
+      overflow:hidden;
+      border:1px solid #cfdbe6;
+      border-radius:14px;
+      background:#fbfdff;
+    }
+    .matrix-card-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:.75rem;
+      padding:.65rem .75rem;
+      color:var(--primary);
+      background:var(--primary-light);
+      border-bottom:1px solid #d4e0eb;
+    }
+    .matrix-card-title{display:flex;align-items:center;gap:.55rem;min-width:0;font-size:.83rem;font-weight:800}
+    .order-badge{
+      display:grid;
+      place-items:center;
+      width:27px;
+      height:27px;
+      flex:0 0 auto;
+      color:#fff;
+      background:var(--primary);
+      border-radius:50%;
+      font-size:.7rem;
+    }
+    .matrix-card-tools{display:flex;gap:.35rem;flex:0 0 auto}
+    .matrix-card-body{padding:.85rem}
+    .matrix-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+    .matrix-grid .wide{grid-column:span 2}
+    .row-status{
+      display:inline-flex;
+      align-items:center;
+      gap:.35rem;
+      margin-left:.2rem;
+      padding:.18rem .45rem;
+      color:var(--warning);
+      background:var(--warning-light);
+      border:1px solid #efdca7;
+      border-radius:999px;
+      font-size:.62rem;
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .row-status.complete{color:var(--success);background:var(--success-light);border-color:#b9e5cf}
+
+    .metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.6rem;margin-bottom:1rem}
+    .metric{
+      min-width:0;
+      padding:.72rem;
+      background:#f7fafd;
+      border:1px solid var(--border);
+      border-radius:11px;
+    }
+    .metric span{display:block;color:var(--muted);font-size:.65rem;letter-spacing:.04em;text-transform:uppercase}
+    .metric strong{display:block;margin-top:.12rem;color:var(--primary);font-size:.93rem;overflow-wrap:anywhere}
+    .metric.good{background:var(--success-light);border-color:#b9e5cf}
+    .metric.good strong{color:var(--success)}
+    .metric.warn{background:var(--warning-light);border-color:#efdca7}
+    .metric.warn strong{color:var(--warning)}
+
+    .preview-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:.45rem}
+    .empty{
+      display:grid;
+      place-items:center;
+      min-height:500px;
+      padding:2rem;
+      color:var(--muted);
+      text-align:center;
+      border:2px dashed var(--border);
+      border-radius:15px;
+    }
+    .empty-icon{display:grid;place-items:center;width:58px;height:58px;margin:0 auto .8rem;color:var(--accent-dark);background:#eaf8f9;border-radius:17px;font-size:1.55rem;font-weight:900}
+    .empty strong{display:block;margin-bottom:.35rem;color:var(--primary);font-size:1.05rem}
+    .empty p{max-width:430px;margin:.3rem auto;font-size:.85rem}
+
+    .document{color:#172230;background:#fff}
+    .doc-header{display:flex;justify-content:space-between;gap:1rem;padding-bottom:1rem;border-bottom:3px solid var(--primary)}
+    .doc-kicker{margin:0 0 .18rem;color:var(--accent-dark);font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+    .doc-header h2{margin:0;color:var(--primary);font-size:1.5rem;line-height:1.15}
+    .doc-header p{margin:.25rem 0 0;color:var(--muted);font-size:.82rem}
+    .doc-mark{display:grid;place-items:center;width:54px;height:54px;flex:0 0 auto;color:#fff;background:var(--primary);border-radius:14px;font-size:.95rem;font-weight:900}
+    .doc-meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.6rem;margin:1rem 0}
+    .meta-box{padding:.65rem;background:#f5f8fb;border:1px solid var(--border);border-radius:10px}
+    .meta-box span{display:block;color:var(--muted);font-size:.62rem;text-transform:uppercase;letter-spacing:.055em}
+    .meta-box strong{display:block;margin-top:.12rem;color:var(--primary);font-size:.78rem;overflow-wrap:anywhere}
+    .doc-section{margin-top:1rem}
+    .doc-section h3{margin:0 0 .45rem;color:var(--primary);font-size:.95rem}
+    .doc-section p,.doc-section li{font-size:.78rem}
+    .doc-section p{margin:.25rem 0}
+    .summary-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:.65rem}
+    .summary-box{padding:.7rem;background:#fbfdff;border:1px solid var(--border);border-radius:10px}
+    .summary-box h4{margin:0 0 .32rem;color:var(--primary);font-size:.72rem}
+    .summary-box p{white-space:pre-wrap}
+    .table-wrap{overflow:auto;border:1px solid var(--border);border-radius:11px}
+    table{width:100%;min-width:1180px;border-collapse:collapse}
+    th,td{padding:.52rem .55rem;text-align:left;vertical-align:top;border-right:1px solid var(--border);border-bottom:1px solid var(--border);font-size:.68rem;overflow-wrap:anywhere}
+    th:last-child,td:last-child{border-right:0}
+    tr:last-child td{border-bottom:0}
+    th{color:#fff;background:var(--primary);font-size:.63rem;line-height:1.25}
+    td.number{width:32px;text-align:center;font-weight:800}
+    td.duration{white-space:nowrap;font-weight:800}
+    .bloom-chip{display:inline-block;padding:.16rem .38rem;color:var(--accent-dark);background:#eaf8f9;border-radius:999px;font-size:.6rem;font-weight:800}
+    .total-row td{color:var(--primary);background:var(--primary-light);font-weight:800}
+    .validation-list{display:grid;gap:.38rem;margin:.4rem 0 0;padding:0;list-style:none}
+    .validation-list li{display:flex;align-items:flex-start;gap:.4rem;margin:0}
+    .validation-dot{display:grid;place-items:center;width:17px;height:17px;flex:0 0 auto;margin-top:.05rem;color:#fff;background:var(--success);border-radius:50%;font-size:.58rem;font-weight:900}
+    .validation-dot.warn{background:var(--warning)}
+    .doc-footer{display:flex;justify-content:space-between;gap:1rem;margin-top:1.2rem;padding-top:.75rem;color:var(--muted);border-top:1px solid var(--border);font-size:.65rem}
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:20px;
+      z-index:50;
+      max-width:min(92vw,620px);
+      transform:translate(-50%,18px);
+      padding:.75rem 1rem;
+      color:#fff;
+      background:var(--primary-dark);
+      border-radius:11px;
+      box-shadow:var(--shadow);
+      opacity:0;
+      pointer-events:none;
+      transition:.22s;
+      text-align:center;
+    }
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    .footer{color:#dce7f1;background:var(--primary-dark)}
+    .footer-inner{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:1rem;font-size:.82rem}
+    .footer-inner p{margin:0}
+    :focus-visible{outline:3px solid #f5b942;outline-offset:3px}
+
+    @media(max-width:1180px){
+      .app{grid-template-columns:1fr}
+      .preview-panel{position:static;order:-1}
+      .empty{min-height:250px}
+    }
+    @media(max-width:760px){
+      .header-inner{align-items:flex-start;flex-direction:column}
+      .back-link{align-self:flex-start}
+      .grid-2,.grid-3,.matrix-grid,.doc-meta,.summary-grid,.metrics{grid-template-columns:1fr}
+      .span-2,.span-3,.matrix-grid .wide{grid-column:auto}
+      .form-panel,.preview-panel{padding:1rem}
+      .panel-head{align-items:stretch;flex-direction:column}
+      .preview-actions{justify-content:flex-start}
+      .footer-inner{align-items:flex-start;flex-direction:column;padding:1rem 0}
+    }
+    @media print{
+      body{background:#fff}
+      .site-header,.form-panel,.panel-head,.metrics,.footer,.toast{display:none!important}
+      .app{display:block;width:100%;max-width:none;padding:0}
+      .preview-panel{padding:0;border:0;box-shadow:none}
+      .document{padding:0}
+      .table-wrap{overflow:visible}
+      table{min-width:0;table-layout:fixed}
+      th,td{padding:4pt;font-size:6.8pt}
+      th{font-size:6.5pt}
+      .doc-meta{grid-template-columns:repeat(4,1fr)}
+      .doc-header h2{font-size:16pt}
+      .doc-section p,.doc-section li{font-size:8pt}
+      .doc-footer{font-size:6.5pt}
+      @page{size:A4 landscape;margin:10mm}
+    }
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{transition:none!important}
+    }
+  </style>
+</head>
+
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-content">
+      <p class="eyebrow">Design Instrucional</p>
+      <h1>Matriz Pedagógica</h1>
+      <p class="subtitle">Alinhe objetivos, conteúdos, estratégias, recursos, avaliação e duração numa visão única da ação de formação.</p>
+    </div>
+    <a class="back-link" href="design-instrucional.html" aria-label="Voltar às ferramentas de Design Instrucional">← Voltar às ferramentas</a>
+  </div>
+</header>
+
+<main class="app">
+  <form class="panel form-panel" id="matrixForm" novalidate>
+    <div class="panel-head">
+      <div>
+        <h2>Construção da matriz</h2>
+        <p>Preencha os dados e valide o alinhamento pedagógico.</p>
+      </div>
+      <button class="btn btn-small" type="button" id="exampleBtn">Carregar exemplo</button>
+    </div>
+
+    <section class="section">
+      <div class="section-title-row"><h3 class="section-title">1. Identificação</h3></div>
+      <div class="grid-2">
+        <div class="span-2">
+          <label class="required" for="course">Ação de formação</label>
+          <input id="course" name="course" required placeholder="Ex.: Atendimento digital ao Munícipe">
+        </div>
+        <div>
+          <label for="module">Módulo / unidade</label>
+          <input id="module" name="module" placeholder="Ex.: Serviços digitais municipais">
+        </div>
+        <div>
+          <label for="trainer">Formador/a</label>
+          <input id="trainer" name="trainer" placeholder="Nome do formador ou da formadora">
+        </div>
+        <div>
+          <label for="audience">Destinatários/as</label>
+          <input id="audience" name="audience" placeholder="Ex.: Trabalhadores/as do atendimento">
+        </div>
+        <div>
+          <label for="modality">Modalidade</label>
+          <select id="modality" name="modality">
+            <option value="Presencial">Presencial</option>
+            <option value="A distância — síncrona">A distância — síncrona</option>
+            <option value="A distância — assíncrona">A distância — assíncrona</option>
+            <option value="Mista">Mista</option>
+          </select>
+        </div>
+        <div>
+          <label for="date">Data / período</label>
+          <input id="date" name="date" placeholder="Ex.: 15 a 17 de janeiro de 2027">
+        </div>
+        <div>
+          <label for="workload">Carga horária prevista</label>
+          <div class="grid-2" style="gap:.45rem">
+            <input id="workload" name="workload" type="number" min="0" step="0.25" placeholder="Ex.: 7">
+            <select id="workloadUnit" name="workloadUnit" aria-label="Unidade da carga horária">
+              <option value="hours">horas</option>
+              <option value="minutes">minutos</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label for="reference">Referência / versão</label>
+          <input id="reference" name="reference" placeholder="Ex.: MP-01 · v1.0">
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title-row"><h3 class="section-title">2. Enquadramento pedagógico</h3></div>
+      <div class="grid-2">
+        <div class="span-2">
+          <label class="required" for="generalObjective">Objetivo geral</label>
+          <textarea id="generalObjective" name="generalObjective" required placeholder="Descreva o desempenho global esperado no final da ação."></textarea>
+        </div>
+        <div>
+          <label for="competencies">Competências a desenvolver</label>
+          <textarea id="competencies" name="competencies" placeholder="Uma competência por linha."></textarea>
+        </div>
+        <div>
+          <label for="prerequisites">Pré-requisitos</label>
+          <textarea id="prerequisites" name="prerequisites" placeholder="Conhecimentos, experiência ou condições prévias."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title-row">
+        <h3 class="section-title">3. Componentes da matriz</h3>
+        <button class="btn btn-accent btn-small" type="button" id="addRowBtn">＋ Adicionar componente</button>
+      </div>
+      <p class="section-help">Cada componente deve ligar um objetivo observável a conteúdos, atividade e evidência de avaliação.</p>
+      <div class="matrix-list" id="matrixList"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-title-row"><h3 class="section-title">4. Orientações complementares</h3></div>
+      <div class="grid-2">
+        <div>
+          <label for="assessmentStrategy">Estratégia global de avaliação</label>
+          <textarea id="assessmentStrategy" name="assessmentStrategy" placeholder="Ex.: diagnóstica, formativa e sumativa; critérios de sucesso."></textarea>
+        </div>
+        <div>
+          <label for="inclusion">Acessibilidade e inclusão</label>
+          <textarea id="inclusion" name="inclusion" placeholder="Ex.: materiais acessíveis, alternativas de participação e apoio diferenciado."></textarea>
+        </div>
+        <div class="span-2">
+          <label for="notes">Observações</label>
+          <textarea id="notes" name="notes" placeholder="Indicações logísticas, riscos, dependências ou notas de acompanhamento."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Gerar / atualizar matriz</button>
+      <button class="btn" type="button" id="saveBtn">Gravar rascunho</button>
+      <button class="btn" type="button" id="loadBtn">Recuperar rascunho</button>
+      <button class="btn btn-danger" type="button" id="clearBtn">Limpar</button>
+    </div>
+  </form>
+
+  <section class="panel preview-panel" aria-labelledby="previewTitle">
+    <div class="panel-head">
+      <div>
+        <h2 id="previewTitle">Pré-visualização</h2>
+        <p>Documento pronto para validação, impressão ou exportação.</p>
+      </div>
+      <div class="preview-actions">
+        <button class="btn btn-small" type="button" id="copyBtn" disabled>Copiar</button>
+        <button class="btn btn-small" type="button" id="csvBtn" disabled>CSV</button>
+        <button class="btn btn-small" type="button" id="exportBtn">Exportar JSON</button>
+        <label class="btn btn-small" for="importFile">Importar JSON</label>
+        <input class="file-input" id="importFile" type="file" accept="application/json,.json">
+        <button class="btn btn-primary btn-small" type="button" id="printBtn" disabled>Imprimir / PDF</button>
+      </div>
+    </div>
+
+    <div class="metrics" id="metrics" hidden>
+      <div class="metric"><span>Componentes</span><strong id="metricRows">0</strong></div>
+      <div class="metric"><span>Duração total</span><strong id="metricDuration">0 min</strong></div>
+      <div class="metric"><span>Alinhamento</span><strong id="metricAlignment">—</strong></div>
+      <div class="metric"><span>Carga horária</span><strong id="metricWorkload">—</strong></div>
+    </div>
+
+    <div id="preview">
+      <div class="empty">
+        <div>
+          <div class="empty-icon">MP</div>
+          <strong>A matriz será apresentada aqui</strong>
+          <p>Preencha a identificação, o objetivo geral e pelo menos um componente. Depois selecione «Gerar / atualizar matriz».</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p>Ferramenta de apoio ao Design Instrucional</p>
+    <p>Os dados permanecem neste dispositivo, salvo exportação pelo utilizador.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<template id="rowTemplate">
+  <article class="matrix-card">
+    <div class="matrix-card-head">
+      <div class="matrix-card-title">
+        <span class="order-badge">1</span>
+        <span>Componente pedagógica</span>
+        <span class="row-status">Por completar</span>
+      </div>
+      <div class="matrix-card-tools">
+        <button class="btn btn-icon move-up" type="button" title="Mover para cima" aria-label="Mover componente para cima">↑</button>
+        <button class="btn btn-icon move-down" type="button" title="Mover para baixo" aria-label="Mover componente para baixo">↓</button>
+        <button class="btn btn-icon btn-danger remove-row" type="button" title="Remover" aria-label="Remover componente">×</button>
+      </div>
+    </div>
+    <div class="matrix-card-body">
+      <div class="matrix-grid">
+        <div>
+          <label>Tema / sequência</label>
+          <input data-field="topic" placeholder="Ex.: Acolhimento e diagnóstico">
+        </div>
+        <div>
+          <label>Nível cognitivo</label>
+          <select data-field="bloom">
+            <option value="">Selecionar</option>
+            <option>Recordar</option>
+            <option>Compreender</option>
+            <option>Aplicar</option>
+            <option>Analisar</option>
+            <option>Avaliar</option>
+            <option>Criar</option>
+          </select>
+        </div>
+        <div class="wide">
+          <label class="required">Objetivo específico</label>
+          <textarea data-field="objective" placeholder="Ex.: Aplicar o procedimento de autenticação num atendimento simulado."></textarea>
+        </div>
+        <div>
+          <label class="required">Conteúdos</label>
+          <textarea data-field="content" placeholder="Conceitos, procedimentos ou atitudes a trabalhar."></textarea>
+        </div>
+        <div>
+          <label class="required">Estratégia / atividade</label>
+          <textarea data-field="activity" placeholder="Ex.: demonstração seguida de simulação em pares."></textarea>
+        </div>
+        <div>
+          <label>Recursos</label>
+          <textarea data-field="resources" placeholder="Materiais, equipamentos ou plataformas."></textarea>
+        </div>
+        <div>
+          <label class="required">Avaliação / evidência</label>
+          <textarea data-field="assessment" placeholder="Produto observável, instrumento e critério."></textarea>
+        </div>
+        <div>
+          <label>Organização</label>
+          <select data-field="organization">
+            <option value="">Selecionar</option>
+            <option>Grande grupo</option>
+            <option>Pequenos grupos</option>
+            <option>Pares</option>
+            <option>Individual</option>
+            <option>Trabalho autónomo</option>
+            <option>Mista</option>
+          </select>
+        </div>
+        <div>
+          <label class="required">Duração (minutos)</label>
+          <input data-field="duration" type="number" min="0" step="5" placeholder="Ex.: 30">
+        </div>
+      </div>
+    </div>
+  </article>
+</template>
+
+<script>
+(() => {
+  'use strict';
+
+  const STORAGE_KEY = 'matrizPedagogica.rascunho.v1';
+  const form = document.getElementById('matrixForm');
+  const matrixList = document.getElementById('matrixList');
+  const rowTemplate = document.getElementById('rowTemplate');
+  const preview = document.getElementById('preview');
+  const metrics = document.getElementById('metrics');
+  const toast = document.getElementById('toast');
+  const copyBtn = document.getElementById('copyBtn');
+  const csvBtn = document.getElementById('csvBtn');
+  const printBtn = document.getElementById('printBtn');
+  let toastTimer;
+  let lastGenerated = null;
+
+  const topFields = [
+    'course','module','trainer','audience','modality','date','workload','workloadUnit',
+    'reference','generalObjective','competencies','prerequisites','assessmentStrategy','inclusion','notes'
+  ];
+
+  const exampleData = {
+    course:'Atendimento digital ao Munícipe',
+    module:'Serviços digitais municipais',
+    trainer:'Equipa de formação interna',
+    audience:'Trabalhadores/as com funções de atendimento',
+    modality:'Mista',
+    date:'A definir',
+    workload:'3.5',
+    workloadUnit:'hours',
+    reference:'MP-01 · v1.0',
+    generalObjective:'Prestar apoio claro, seguro e inclusivo na utilização dos serviços digitais municipais, aplicando os procedimentos em vigor.',
+    competencies:'Identificar os principais serviços digitais municipais.\nOrientar o Munícipe nas etapas de acesso e autenticação.\nAplicar práticas de comunicação inclusiva e proteção de dados.',
+    prerequisites:'Conhecimentos básicos de navegação na Internet e dos procedimentos de atendimento municipal.',
+    assessmentStrategy:'Avaliação diagnóstica breve, observação formativa durante as simulações e resolução final de um caso prático. Critério de sucesso: execução correta de, pelo menos, 80% dos passos críticos.',
+    inclusion:'Documentos com estrutura acessível, linguagem clara, legendas nos recursos audiovisuais e possibilidade de demonstrar a aprendizagem por via oral ou escrita.',
+    notes:'Confirmar previamente o acesso ao ambiente de demonstração e disponibilizar cenários sem dados pessoais reais.',
+    rows:[
+      {topic:'1. Enquadramento',bloom:'Compreender',objective:'Distinguir os canais digitais disponíveis e selecionar o serviço adequado a cada pedido.',content:'Portal municipal; balcão digital; canais de apoio; critérios de encaminhamento.',activity:'Exposição dialogada e classificação de pedidos frequentes.',resources:'Apresentação; mapa de serviços; cartões de casos.',assessment:'Questões orais e classificação correta de quatro casos.',organization:'Grande grupo',duration:'30'},
+      {topic:'2. Acesso e autenticação',bloom:'Aplicar',objective:'Orientar o processo de acesso e autenticação sem recolher indevidamente credenciais do Munícipe.',content:'Etapas de autenticação; recuperação de acesso; segurança e proteção de dados.',activity:'Demonstração seguida de prática guiada em pares.',resources:'Ambiente de demonstração; guião passo a passo.',assessment:'Grelha de observação: execução correta dos passos críticos.',organization:'Pares',duration:'60'},
+      {topic:'3. Comunicação inclusiva',bloom:'Aplicar',objective:'Adaptar a explicação às necessidades do Munícipe, confirmando a compreensão.',content:'Linguagem clara; acessibilidade; escuta ativa; confirmação de compreensão.',activity:'Simulação de atendimento com alternância de papéis e retorno estruturado.',resources:'Cenários; grelha de retorno; lista de verificação.',assessment:'Desempenho na simulação segundo quatro critérios observáveis.',organization:'Pequenos grupos',duration:'60'},
+      {topic:'4. Caso integrado',bloom:'Avaliar',objective:'Resolver um pedido digital, justificando o encaminhamento e os cuidados de segurança adotados.',content:'Integração dos procedimentos; limites de atuação; registo e encaminhamento.',activity:'Resolução autónoma de caso e discussão das opções tomadas.',resources:'Caso prático; modelo de registo; critérios de correção.',assessment:'Caso resolvido com, pelo menos, 80% dos passos críticos corretos.',organization:'Individual',duration:'45'},
+      {topic:'5. Síntese',bloom:'Recordar',objective:'Identificar os principais pontos de verificação para atendimentos futuros.',content:'Síntese dos procedimentos e recursos de apoio.',activity:'Construção coletiva de lista de verificação e avaliação da sessão.',resources:'Quadro; questionário breve.',assessment:'Questionário de saída e compromisso de aplicação.',organization:'Grande grupo',duration:'15'}
+    ]
+  };
+
+  function showToast(message){
+    clearTimeout(toastTimer);
+    toast.textContent = message;
+    toast.classList.add('show');
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  function escapeHtml(value){
+    return String(value ?? '')
+      .replaceAll('&','&amp;')
+      .replaceAll('<','&lt;')
+      .replaceAll('>','&gt;')
+      .replaceAll('"','&quot;')
+      .replaceAll("'",'&#039;');
+  }
+
+  function display(value, fallback='—'){
+    const text = String(value ?? '').trim();
+    return text ? escapeHtml(text).replaceAll('\n','<br>') : fallback;
+  }
+
+  function formatDuration(minutes){
+    const value = Math.max(0, Number(minutes) || 0);
+    const hours = Math.floor(value / 60);
+    const mins = value % 60;
+    if(hours && mins) return `${hours} h ${mins} min`;
+    if(hours) return `${hours} h`;
+    return `${mins} min`;
+  }
+
+  function getDeclaredMinutes(data){
+    const value = Math.max(0, Number(data.workload) || 0);
+    return data.workloadUnit === 'minutes' ? value : Math.round(value * 60);
+  }
+
+  function rowIsComplete(row){
+    return Boolean(row.objective.trim() && row.content.trim() && row.activity.trim() && row.assessment.trim() && Number(row.duration) > 0);
+  }
+
+  function updateRowNumbers(){
+    const cards = [...matrixList.querySelectorAll('.matrix-card')];
+    cards.forEach((card,index) => {
+      card.dataset.index = String(index);
+      card.querySelector('.order-badge').textContent = String(index + 1);
+      card.querySelector('.move-up').disabled = index === 0;
+      card.querySelector('.move-down').disabled = index === cards.length - 1;
+      updateCardStatus(card);
+    });
+  }
+
+  function getRowData(card){
+    const data = {};
+    card.querySelectorAll('[data-field]').forEach(field => data[field.dataset.field] = field.value.trim());
+    return data;
+  }
+
+  function updateCardStatus(card){
+    const status = card.querySelector('.row-status');
+    const complete = rowIsComplete(getRowData(card));
+    status.textContent = complete ? 'Alinhado' : 'Por completar';
+    status.classList.toggle('complete', complete);
+  }
+
+  function addRow(data={}, focus=false){
+    const fragment = rowTemplate.content.cloneNode(true);
+    const card = fragment.querySelector('.matrix-card');
+    card.querySelectorAll('[data-field]').forEach(field => {
+      if(Object.prototype.hasOwnProperty.call(data, field.dataset.field)) field.value = data[field.dataset.field];
+      field.addEventListener('input', () => updateCardStatus(card));
+      field.addEventListener('change', () => updateCardStatus(card));
+    });
+    card.querySelector('.remove-row').addEventListener('click', () => {
+      if(matrixList.children.length === 1){
+        showToast('A matriz deve manter pelo menos um componente.');
+        return;
+      }
+      card.remove();
+      updateRowNumbers();
+    });
+    card.querySelector('.move-up').addEventListener('click', () => {
+      const previous = card.previousElementSibling;
+      if(previous) matrixList.insertBefore(card, previous);
+      updateRowNumbers();
+    });
+    card.querySelector('.move-down').addEventListener('click', () => {
+      const next = card.nextElementSibling;
+      if(next) matrixList.insertBefore(next, card);
+      updateRowNumbers();
+    });
+    matrixList.appendChild(fragment);
+    updateRowNumbers();
+    if(focus) card.querySelector('[data-field="topic"]').focus();
+  }
+
+  function readForm(){
+    const data = {};
+    topFields.forEach(id => data[id] = document.getElementById(id).value.trim());
+    data.rows = [...matrixList.querySelectorAll('.matrix-card')].map(getRowData);
+    return data;
+  }
+
+  function fillForm(data){
+    topFields.forEach(id => {
+      const field = document.getElementById(id);
+      if(field && Object.prototype.hasOwnProperty.call(data,id)) field.value = data[id] ?? '';
+    });
+    matrixList.innerHTML = '';
+    const rows = Array.isArray(data.rows) && data.rows.length ? data.rows : [{}];
+    rows.forEach(row => addRow(row));
+    form.querySelectorAll('.invalid').forEach(el => el.classList.remove('invalid'));
+  }
+
+  function validate(data){
+    const missing = [];
+    const required = [
+      ['course','a ação de formação'],
+      ['generalObjective','o objetivo geral']
+    ];
+    required.forEach(([id,label]) => {
+      const field = document.getElementById(id);
+      field.classList.remove('invalid');
+      if(!data[id]){
+        field.classList.add('invalid');
+        missing.push(label);
+      }
+    });
+    const meaningfulRows = data.rows.filter(row => Object.values(row).some(Boolean));
+    if(!meaningfulRows.length){
+      missing.push('pelo menos um componente da matriz');
+      matrixList.querySelector('[data-field="objective"]')?.classList.add('invalid');
+    }
+    return {valid:missing.length === 0,missing,meaningfulRows};
+  }
+
+  function buildValidation(data, rows, total, completeCount){
+    const declared = getDeclaredMinutes(data);
+    const difference = declared ? total - declared : null;
+    const durationOk = declared ? Math.abs(difference) <= 5 : null;
+    const allAligned = rows.length > 0 && completeCount === rows.length;
+    const items = [
+      {ok:allAligned,text:allAligned ? 'Todos os componentes ligam objetivo, conteúdo, atividade, avaliação e duração.' : `${rows.length - completeCount} componente(s) precisam de completar o alinhamento essencial.`},
+      {ok:durationOk !== false,text:declared ? (durationOk ? 'A duração dos componentes é compatível com a carga horária prevista.' : `A soma dos componentes difere ${formatDuration(Math.abs(difference))} da carga horária prevista.`) : 'A carga horária prevista não foi indicada; valide manualmente a duração total.'},
+      {ok:rows.every(row => row.bloom),text:rows.every(row => row.bloom) ? 'Todos os objetivos têm um nível cognitivo associado.' : 'Existem objetivos sem nível cognitivo associado.'},
+      {ok:rows.every(row => row.resources),text:rows.every(row => row.resources) ? 'Todos os componentes identificam os recursos necessários.' : 'Existem componentes sem recursos identificados.'}
+    ];
+    return `<ul class="validation-list">${items.map(item => `<li><span class="validation-dot${item.ok ? '' : ' warn'}">${item.ok ? '✓' : '!'}</span><span>${escapeHtml(item.text)}</span></li>`).join('')}</ul>`;
+  }
+
+  function updateMetrics(data, rows){
+    const total = rows.reduce((sum,row) => sum + (Number(row.duration) || 0),0);
+    const completeCount = rows.filter(rowIsComplete).length;
+    const alignment = rows.length ? Math.round((completeCount / rows.length) * 100) : 0;
+    const declared = getDeclaredMinutes(data);
+    const difference = declared ? total - declared : null;
+    const workloadOk = declared ? Math.abs(difference) <= 5 : null;
+
+    document.getElementById('metricRows').textContent = String(rows.length);
+    document.getElementById('metricDuration').textContent = formatDuration(total);
+    document.getElementById('metricAlignment').textContent = `${alignment}%`;
+    document.getElementById('metricWorkload').textContent = declared ? (workloadOk ? 'Compatível' : `${difference > 0 ? '+' : '−'}${formatDuration(Math.abs(difference))}`) : 'Não indicada';
+
+    const metricAlignment = document.getElementById('metricAlignment').closest('.metric');
+    const metricWorkload = document.getElementById('metricWorkload').closest('.metric');
+    metricAlignment.className = `metric ${alignment === 100 ? 'good' : 'warn'}`;
+    metricWorkload.className = `metric ${workloadOk === true ? 'good' : workloadOk === false ? 'warn' : ''}`;
+    metrics.hidden = false;
+    return {total,completeCount,alignment,declared,difference,workloadOk};
+  }
+
+  function generate(data){
+    const validation = validate(data);
+    if(!validation.valid){
+      showToast(`Falta preencher ${validation.missing.join(' e ')}.`);
+      form.querySelector('.invalid')?.focus();
+      return false;
+    }
+
+    const rows = validation.meaningfulRows;
+    const stats = updateMetrics(data,rows);
+    const generatedAt = new Intl.DateTimeFormat('pt-PT',{dateStyle:'long'}).format(new Date());
+    const matrixRows = rows.map((row,index) => `
+      <tr>
+        <td class="number">${index + 1}</td>
+        <td>${display(row.topic)}</td>
+        <td>${display(row.objective)}${row.bloom ? `<br><span class="bloom-chip">${escapeHtml(row.bloom)}</span>` : ''}</td>
+        <td>${display(row.content)}</td>
+        <td>${display(row.activity)}${row.organization ? `<br><em>${escapeHtml(row.organization)}</em>` : ''}</td>
+        <td>${display(row.resources)}</td>
+        <td>${display(row.assessment)}</td>
+        <td class="duration">${formatDuration(row.duration)}</td>
+      </tr>`).join('');
+
+    preview.innerHTML = `
+      <article class="document" id="generatedDocument">
+        <header class="doc-header">
+          <div>
+            <p class="doc-kicker">Design Instrucional</p>
+            <h2>Matriz Pedagógica</h2>
+            <p>${display(data.course)}${data.module ? ` · ${escapeHtml(data.module)}` : ''}</p>
+          </div>
+          <div class="doc-mark" aria-hidden="true">MP</div>
+        </header>
+
+        <div class="doc-meta">
+          <div class="meta-box"><span>Formador/a</span><strong>${display(data.trainer)}</strong></div>
+          <div class="meta-box"><span>Destinatários/as</span><strong>${display(data.audience)}</strong></div>
+          <div class="meta-box"><span>Modalidade</span><strong>${display(data.modality)}</strong></div>
+          <div class="meta-box"><span>Data / período</span><strong>${display(data.date)}</strong></div>
+          <div class="meta-box"><span>Carga prevista</span><strong>${stats.declared ? formatDuration(stats.declared) : '—'}</strong></div>
+          <div class="meta-box"><span>Duração da matriz</span><strong>${formatDuration(stats.total)}</strong></div>
+          <div class="meta-box"><span>Componentes</span><strong>${rows.length}</strong></div>
+          <div class="meta-box"><span>Referência / versão</span><strong>${display(data.reference)}</strong></div>
+        </div>
+
+        <section class="doc-section">
+          <h3>Enquadramento pedagógico</h3>
+          <div class="summary-grid">
+            <div class="summary-box"><h4>Objetivo geral</h4><p>${display(data.generalObjective)}</p></div>
+            <div class="summary-box"><h4>Competências a desenvolver</h4><p>${display(data.competencies)}</p></div>
+            <div class="summary-box"><h4>Pré-requisitos</h4><p>${display(data.prerequisites)}</p></div>
+            <div class="summary-box"><h4>Estratégia global de avaliação</h4><p>${display(data.assessmentStrategy)}</p></div>
+          </div>
+        </section>
+
+        <section class="doc-section">
+          <h3>Alinhamento dos componentes</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>N.º</th><th>Tema / sequência</th><th>Objetivo específico</th><th>Conteúdos</th><th>Estratégia / atividade</th><th>Recursos</th><th>Avaliação / evidência</th><th>Duração</th></tr></thead>
+              <tbody>${matrixRows}<tr class="total-row"><td colspan="7">Duração total</td><td>${formatDuration(stats.total)}</td></tr></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="doc-section">
+          <h3>Verificação pedagógica</h3>
+          ${buildValidation(data,rows,stats.total,stats.completeCount)}
+        </section>
+
+        ${(data.inclusion || data.notes) ? `<section class="doc-section"><div class="summary-grid">${data.inclusion ? `<div class="summary-box"><h4>Acessibilidade e inclusão</h4><p>${display(data.inclusion)}</p></div>` : ''}${data.notes ? `<div class="summary-box"><h4>Observações</h4><p>${display(data.notes)}</p></div>` : ''}</div></section>` : ''}
+
+        <footer class="doc-footer"><span>Gerado em ${escapeHtml(generatedAt)}</span><span>Matriz Pedagógica · Ferramenta de apoio</span></footer>
+      </article>`;
+
+    lastGenerated = {data:{...data,rows},stats};
+    copyBtn.disabled = false;
+    csvBtn.disabled = false;
+    printBtn.disabled = false;
+    showToast('Matriz gerada e verificação concluída.');
+    return true;
+  }
+
+  function saveDraft(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(readForm()));
+      showToast('Rascunho gravado neste dispositivo.');
+    }catch(error){
+      showToast('Não foi possível gravar o rascunho neste dispositivo.');
+    }
+  }
+
+  function loadDraft(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw){showToast('Não existe um rascunho gravado.');return;}
+      fillForm(JSON.parse(raw));
+      showToast('Rascunho recuperado.');
+    }catch(error){
+      showToast('O rascunho guardado não pôde ser recuperado.');
+    }
+  }
+
+  function download(filename,content,type){
+    const blob = new Blob([content],{type});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url),1000);
+  }
+
+  function safeFilename(value,fallback){
+    const clean = String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    return clean || fallback;
+  }
+
+  function csvEscape(value){
+    const text = String(value ?? '').replaceAll('\r',' ').replaceAll('\n',' ');
+    return `"${text.replaceAll('"','""')}"`;
+  }
+
+  async function copyDocument(){
+    if(!lastGenerated) return;
+    const data = lastGenerated.data;
+    const lines = [
+      'MATRIZ PEDAGÓGICA',
+      data.course,
+      data.module,
+      '',
+      `Objetivo geral: ${data.generalObjective}`,
+      `Modalidade: ${data.modality}`,
+      `Duração: ${formatDuration(lastGenerated.stats.total)}`,
+      '',
+      ...data.rows.flatMap((row,index) => [
+        `${index + 1}. ${row.topic || 'Componente'}`,
+        `Objetivo: ${row.objective}`,
+        `Conteúdos: ${row.content}`,
+        `Atividade: ${row.activity}`,
+        `Recursos: ${row.resources}`,
+        `Avaliação: ${row.assessment}`,
+        `Duração: ${formatDuration(row.duration)}`,
+        ''
+      ])
+    ];
+    try{
+      await navigator.clipboard.writeText(lines.join('\n'));
+      showToast('Matriz copiada para a área de transferência.');
+    }catch(error){
+      showToast('Não foi possível copiar automaticamente.');
+    }
+  }
+
+  form.addEventListener('submit',event => {
+    event.preventDefault();
+    generate(readForm());
+  });
+
+  document.getElementById('addRowBtn').addEventListener('click',() => addRow({},true));
+  document.getElementById('exampleBtn').addEventListener('click',() => {
+    if((document.getElementById('course').value || document.getElementById('generalObjective').value) && !confirm('Substituir os dados atuais pelo exemplo?')) return;
+    fillForm(exampleData);
+    generate(readForm());
+  });
+  document.getElementById('saveBtn').addEventListener('click',saveDraft);
+  document.getElementById('loadBtn').addEventListener('click',loadDraft);
+  document.getElementById('clearBtn').addEventListener('click',() => {
+    if(!confirm('Limpar todos os campos da matriz?')) return;
+    form.reset();
+    matrixList.innerHTML = '';
+    addRow();
+    preview.innerHTML = '<div class="empty"><div><div class="empty-icon">MP</div><strong>A matriz será apresentada aqui</strong><p>Preencha a identificação, o objetivo geral e pelo menos um componente. Depois selecione «Gerar / atualizar matriz».</p></div></div>';
+    metrics.hidden = true;
+    lastGenerated = null;
+    copyBtn.disabled = true;
+    csvBtn.disabled = true;
+    printBtn.disabled = true;
+    showToast('Campos limpos.');
+  });
+  copyBtn.addEventListener('click',copyDocument);
+  printBtn.addEventListener('click',() => window.print());
+
+  document.getElementById('exportBtn').addEventListener('click',() => {
+    const data = readForm();
+    const filename = `${safeFilename(data.course,'matriz-pedagogica')}.json`;
+    download(filename,JSON.stringify({type:'matriz-pedagogica',version:1,exportedAt:new Date().toISOString(),data},null,2),'application/json;charset=utf-8');
+    showToast('Dados exportados em JSON.');
+  });
+
+  document.getElementById('importFile').addEventListener('change',async event => {
+    const file = event.target.files?.[0];
+    if(!file) return;
+    try{
+      const parsed = JSON.parse(await file.text());
+      const data = parsed.data || parsed;
+      if(!data || typeof data !== 'object' || !Array.isArray(data.rows)) throw new Error('Formato inválido');
+      fillForm(data);
+      showToast('Dados importados. Reveja e gere a matriz.');
+    }catch(error){
+      showToast('O ficheiro JSON não contém uma matriz válida.');
+    }finally{
+      event.target.value = '';
+    }
+  });
+
+  csvBtn.addEventListener('click',() => {
+    if(!lastGenerated) return;
+    const headers = ['N.º','Tema / sequência','Objetivo específico','Nível cognitivo','Conteúdos','Estratégia / atividade','Organização','Recursos','Avaliação / evidência','Duração (min)'];
+    const lines = [headers.map(csvEscape).join(';')];
+    lastGenerated.data.rows.forEach((row,index) => lines.push([
+      index + 1,row.topic,row.objective,row.bloom,row.content,row.activity,row.organization,row.resources,row.assessment,row.duration
+    ].map(csvEscape).join(';')));
+    const filename = `${safeFilename(lastGenerated.data.course,'matriz-pedagogica')}.csv`;
+    download(filename,'\ufeff' + lines.join('\r\n'),'text/csv;charset=utf-8');
+    showToast('Matriz exportada em CSV.');
+  });
+
+  addRow();
+})();
+</script>
+</body>
+</html>
