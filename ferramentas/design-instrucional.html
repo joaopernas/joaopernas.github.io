@@ -24,17 +24,13 @@
       --primary-light: #e9f0f7;
       --accent: #2e78b7;
       --accent-turquoise: #18aeb5;
-
       --surface: #ffffff;
       --background: #f4f7fa;
-
       --text: #182433;
       --muted: #5d6b7a;
       --border: #d8e1ea;
-
       --shadow: 0 12px 30px rgba(31, 59, 91, 0.10);
       --radius: 18px;
-
       --max-width: 1180px;
     }
 
@@ -51,15 +47,11 @@
 
     body {
       margin: 0;
-
       min-height: 100vh;
-
       display: flex;
       flex-direction: column;
-
       color: var(--text);
       background: var(--background);
-
       font-family:
         Inter,
         ui-sans-serif,
@@ -68,7 +60,6 @@
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
-
       line-height: 1.6;
     }
 
@@ -84,23 +75,15 @@
 
     .skip-link {
       position: fixed;
-
       top: 0.75rem;
       left: 0.75rem;
-
       z-index: 100;
-
       padding: 0.75rem 1rem;
-
       color: #ffffff;
       background: var(--primary-dark);
-
       border-radius: 10px;
-
       transform: translateY(-160%);
-
-      transition:
-        transform 0.2s ease;
+      transition: transform 0.2s ease;
     }
 
 
@@ -121,7 +104,6 @@
 
     .site-header {
       color: #ffffff;
-
       background:
         radial-gradient(
           circle at 85% 15%,
@@ -144,20 +126,16 @@
         calc(100% - 3rem),
         var(--max-width)
       );
-
       margin-inline: auto;
     }
 
 
     .header-inner {
       min-height: 200px;
-
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       gap: 2rem;
-
       padding-block: 2.2rem;
     }
 
@@ -165,7 +143,6 @@
     .header-brand {
       display: flex;
       align-items: center;
-
       gap: 1.4rem;
     }
 
@@ -173,55 +150,37 @@
     .logo-img {
       width: 115px;
       height: 115px;
-
       flex: 0 0 auto;
-
       object-fit: contain;
-
       border-radius: 50%;
-
       background: transparent;
-
-      box-shadow:
-        0 6px 20px rgba(0, 0, 0, 0.22);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
     }
 
 
     .eyebrow {
       margin: 0 0 0.25rem;
-
       color: #cfe3f6;
-
       font-size: 0.76rem;
       font-weight: 800;
-
       letter-spacing: 0.17em;
-
       text-transform: uppercase;
     }
 
 
     h1 {
       margin: 0;
-
-      font-size:
-        clamp(2rem, 5vw, 3.25rem);
-
+      font-size: clamp(2rem, 5vw, 3.25rem);
       line-height: 1.07;
-
       letter-spacing: 0.01em;
     }
 
 
     .header-description {
       max-width: 660px;
-
       margin: 0.6rem 0 0;
-
       color: #e4eef7;
-
-      font-size:
-        clamp(0.92rem, 2vw, 1.05rem);
+      font-size: clamp(0.92rem, 2vw, 1.05rem);
     }
 
 
@@ -231,33 +190,19 @@
 
     .back-link {
       min-height: 44px;
-
       display: inline-flex;
       align-items: center;
       justify-content: center;
-
       gap: 0.45rem;
-
       flex: 0 0 auto;
-
       padding: 0.65rem 1rem;
-
       color: #ffffff;
-
-      background:
-        rgba(255, 255, 255, 0.08);
-
-      border:
-        1px solid
-        rgba(255, 255, 255, 0.27);
-
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.27);
       border-radius: 12px;
-
       font-size: 0.88rem;
       font-weight: 700;
-
       text-decoration: none;
-
       transition:
         background 0.2s ease,
         border-color 0.2s ease,
@@ -266,14 +211,9 @@
 
 
     .back-link:hover {
-      background:
-        rgba(255, 255, 255, 0.16);
-
-      border-color:
-        rgba(255, 255, 255, 0.42);
-
-      transform:
-        translateX(-3px);
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.42);
+      transform: translateX(-3px);
     }
 
 
@@ -287,33 +227,26 @@
 
 
     .main-inner {
-      padding-block:
-        clamp(2.5rem, 6vw, 4.5rem);
+      padding-block: clamp(2.5rem, 6vw, 4.5rem);
     }
 
 
     .intro {
       max-width: 800px;
-
       margin-bottom: 2rem;
     }
 
 
     .intro h2 {
       margin: 0 0 0.45rem;
-
       color: var(--primary);
-
-      font-size:
-        clamp(1.65rem, 3vw, 2.2rem);
-
+      font-size: clamp(1.65rem, 3vw, 2.2rem);
       line-height: 1.2;
     }
 
 
     .intro p {
       margin: 0;
-
       color: var(--muted);
     }
 
@@ -324,39 +257,24 @@
 
     .tools-grid {
       display: grid;
-
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.25rem;
     }
 
 
     .tool-card {
       min-height: 255px;
-
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-
       gap: 1.2rem;
-
       padding: 1.6rem;
-
       color: var(--text);
       background: var(--surface);
-
-      border:
-        1px solid var(--border);
-
-      border-radius:
-        var(--radius);
-
-      box-shadow:
-        var(--shadow);
-
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
       text-decoration: none;
-
       transition:
         transform 0.2s ease,
         border-color 0.2s ease,
@@ -365,57 +283,38 @@
 
 
     .tool-card:hover {
-      transform:
-        translateY(-5px);
-
-      border-color:
-        #a8c1d8;
-
-      box-shadow:
-        0 18px 36px
-        rgba(31, 59, 91, 0.16);
+      transform: translateY(-5px);
+      border-color: #a8c1d8;
+      box-shadow: 0 18px 36px rgba(31, 59, 91, 0.16);
     }
 
 
     .tool-icon {
       width: 58px;
       height: 58px;
-
       display: grid;
       place-items: center;
-
       margin-bottom: 1rem;
-
       color: var(--primary);
-
-      background:
-        var(--primary-light);
-
+      background: var(--primary-light);
       border-radius: 16px;
-
       font-size: 1.7rem;
     }
 
 
     .tool-title {
       display: block;
-
       margin-bottom: 0.45rem;
-
       color: var(--primary);
-
       font-size: 1.25rem;
       font-weight: 750;
-
       line-height: 1.3;
     }
 
 
     .tool-description {
       display: block;
-
       color: var(--muted);
-
       font-size: 0.94rem;
     }
 
@@ -424,108 +323,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       color: var(--accent);
-
       font-size: 0.88rem;
       font-weight: 750;
-    }
-
-
-    /* =========================
-       PRÓXIMAS FERRAMENTAS
-       ========================= */
-
-    .future-section {
-      margin-top: 3.5rem;
-    }
-
-
-    .future-section h2 {
-      margin: 0 0 0.35rem;
-
-      color: var(--primary);
-
-      font-size:
-        clamp(1.35rem, 3vw, 1.75rem);
-    }
-
-
-    .future-section > p {
-      margin: 0 0 1.25rem;
-
-      color: var(--muted);
-    }
-
-
-    .future-grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(4, minmax(0, 1fr));
-
-      gap: 0.85rem;
-    }
-
-
-    .future-card {
-      padding: 1rem;
-
-      color: var(--muted);
-      background: #f9fbfd;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 14px;
-    }
-
-
-    .future-icon {
-      display: block;
-
-      margin-bottom: 0.45rem;
-
-      font-size: 1.25rem;
-    }
-
-
-    .future-card strong {
-      display: block;
-
-      color: var(--primary);
-
-      font-size: 0.9rem;
-    }
-
-
-    .future-card span {
-      display: block;
-
-      margin-top: 0.2rem;
-
-      font-size: 0.73rem;
-    }
-
-
-    .status {
-      display: inline-flex;
-
-      margin-top: 0.6rem;
-
-      padding: 0.22rem 0.5rem;
-
-      color: var(--muted);
-      background: #edf2f6;
-
-      border-radius: 999px;
-
-      font-size: 0.64rem;
-      font-weight: 750;
-
-      letter-spacing: 0.04em;
-
-      text-transform: uppercase;
     }
 
 
@@ -535,21 +335,16 @@
 
     .site-footer {
       color: #dce7f1;
-
-      background:
-        var(--primary-dark);
+      background: var(--primary-dark);
     }
 
 
     .footer-inner {
       min-height: 80px;
-
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       gap: 1rem;
-
       padding-block: 1.2rem;
     }
 
@@ -561,7 +356,6 @@
 
     .footer-link {
       color: #ffffff;
-
       text-underline-offset: 0.2em;
     }
 
@@ -577,11 +371,6 @@
         flex-direction: column;
       }
 
-      .future-grid {
-        grid-template-columns:
-          repeat(2, minmax(0, 1fr));
-      }
-
     }
 
 
@@ -594,17 +383,15 @@
       .header-inner,
       .main-inner,
       .footer-inner {
-        width:
-          min(
-            calc(100% - 2rem),
-            var(--max-width)
-          );
+        width: min(
+          calc(100% - 2rem),
+          var(--max-width)
+        );
       }
 
 
       .header-brand {
         align-items: center;
-
         gap: 1rem;
       }
 
@@ -635,11 +422,6 @@
       }
 
 
-      .future-grid {
-        grid-template-columns: 1fr;
-      }
-
-
       .footer-inner {
         align-items: flex-start;
         flex-direction: column;
@@ -653,6 +435,7 @@
       html {
         scroll-behavior: auto;
       }
+
 
       *,
       *::before,
@@ -685,13 +468,6 @@
 
       <div class="header-brand">
 
-        <!--
-          IMPORTANTE:
-          Esta página está dentro da pasta "ferramentas".
-          Por isso é necessário ../ para chegar ao avatar.png
-          existente na raiz do site.
-        -->
-
         <img
           src="../avatar.png"
           alt="Símbolo JP"
@@ -718,11 +494,6 @@
 
       </div>
 
-
-      <!--
-        Também é necessário ../ porque index.html
-        está na raiz do site.
-      -->
 
       <a
         class="back-link"
@@ -751,9 +522,9 @@
       </h2>
 
       <p>
-        Utilize estas ferramentas para estruturar sessões de formação
-        e formular objetivos de aprendizagem claros, observáveis
-        e adequados aos resultados esperados.
+        Utilize estas ferramentas para conceber, estruturar e desenvolver
+        ações de formação, desde a definição dos objetivos até à organização
+        das atividades, recursos e processos de avaliação.
       </p>
 
     </section>
@@ -795,13 +566,8 @@
         </div>
 
         <span class="tool-action">
-
           Abrir ferramenta
-
-          <span aria-hidden="true">
-            →
-          </span>
-
+          <span aria-hidden="true">→</span>
         </span>
 
       </a>
@@ -837,139 +603,159 @@
         </div>
 
         <span class="tool-action">
-
           Abrir ferramenta
-
-          <span aria-hidden="true">
-            →
-          </span>
-
+          <span aria-hidden="true">→</span>
         </span>
 
       </a>
 
-    </section>
 
+      <!-- PLANEADOR ADDIE -->
 
-    <!-- PRÓXIMAS FERRAMENTAS -->
+      <a
+        class="tool-card"
+        href="planeador-addie.html"
+        aria-label="Abrir Planeador ADDIE"
+      >
 
-    <section
-      class="future-section"
-      aria-labelledby="futuras-title"
-    >
-
-      <h2 id="futuras-title">
-        Próximas ferramentas
-      </h2>
-
-      <p>
-        O Design Instrucional será progressivamente alargado
-        com novos instrumentos de apoio ao planeamento formativo.
-      </p>
-
-
-      <div class="future-grid">
-
-        <article class="future-card">
+        <div>
 
           <span
-            class="future-icon"
+            class="tool-icon"
             aria-hidden="true"
           >
             🔄
           </span>
 
-          <strong>
+          <span class="tool-title">
             Planeador ADDIE
-          </strong>
+          </span>
 
-          <span>
-            Análise, desenho, desenvolvimento,
+          <span class="tool-description">
+            Estruture projetos formativos através das fases
+            de análise, desenho, desenvolvimento,
             implementação e avaliação.
           </span>
 
-          <span class="status">
-            Em preparação
-          </span>
+        </div>
 
-        </article>
+        <span class="tool-action">
+          Abrir ferramenta
+          <span aria-hidden="true">→</span>
+        </span>
+
+      </a>
 
 
-        <article class="future-card">
+      <!-- MATRIZ PEDAGÓGICA -->
+
+      <a
+        class="tool-card"
+        href="matriz-pedagogica.html"
+        aria-label="Abrir Matriz Pedagógica"
+      >
+
+        <div>
 
           <span
-            class="future-icon"
+            class="tool-icon"
             aria-hidden="true"
           >
             🧩
           </span>
 
-          <strong>
+          <span class="tool-title">
             Matriz Pedagógica
-          </strong>
-
-          <span>
-            Relacione objetivos, conteúdos,
-            metodologias e avaliação.
           </span>
 
-          <span class="status">
-            Em preparação
+          <span class="tool-description">
+            Relacione objetivos de aprendizagem, conteúdos,
+            metodologias, atividades e avaliação para assegurar
+            coerência pedagógica na ação de formação.
           </span>
 
-        </article>
+        </div>
+
+        <span class="tool-action">
+          Abrir ferramenta
+          <span aria-hidden="true">→</span>
+        </span>
+
+      </a>
 
 
-        <article class="future-card">
+      <!-- MAPA DE COMPETÊNCIAS -->
+
+      <a
+        class="tool-card"
+        href="mapa-competencias.html"
+        aria-label="Abrir Mapa de Competências"
+      >
+
+        <div>
 
           <span
-            class="future-icon"
+            class="tool-icon"
             aria-hidden="true"
           >
             🗺️
           </span>
 
-          <strong>
+          <span class="tool-title">
             Mapa de Competências
-          </strong>
-
-          <span>
-            Organize competências,
-            capacidades e resultados esperados.
           </span>
 
-          <span class="status">
-            Em preparação
+          <span class="tool-description">
+            Organize competências, conhecimentos, capacidades
+            e resultados esperados, identificando prioridades
+            e necessidades de desenvolvimento.
           </span>
 
-        </article>
+        </div>
+
+        <span class="tool-action">
+          Abrir ferramenta
+          <span aria-hidden="true">→</span>
+        </span>
+
+      </a>
 
 
-        <article class="future-card">
+      <!-- STORYBOARD E-LEARNING -->
+
+      <a
+        class="tool-card"
+        href="storyboard-elearning.html"
+        aria-label="Abrir Storyboard E-learning"
+      >
+
+        <div>
 
           <span
-            class="future-icon"
+            class="tool-icon"
             aria-hidden="true"
           >
             🎬
           </span>
 
-          <strong>
+          <span class="tool-title">
             Storyboard E-learning
-          </strong>
-
-          <span>
-            Planeie conteúdos, ecrãs,
-            atividades e interações digitais.
           </span>
 
-          <span class="status">
-            Em preparação
+          <span class="tool-description">
+            Planeie a sequência de conteúdos, ecrãs,
+            atividades, recursos multimédia e interações
+            de um recurso de aprendizagem digital.
           </span>
 
-        </article>
+        </div>
 
-      </div>
+        <span class="tool-action">
+          Abrir ferramenta
+          <span aria-hidden="true">→</span>
+        </span>
+
+      </a>
 
     </section>
 
