@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Guia interativo de engenharia de prompts: princípios, técnicas, modelos RTF e RISE, exemplos práticos e exercícios.">
+<meta name="theme-color" content="#142a42">
+<title>Engenharia de Prompts | Guia Interativo</title>
+<style>
+:root{
+  --navy:#142a42;--primary:#1f3b5b;--primary-2:#2e78b7;--cyan:#18aeb5;--gold:#e7ad39;
+  --bg:#f3f7fb;--surface:#fff;--surface-2:#eaf1f7;--surface-3:#f7fafc;
+  --text:#182433;--muted:#5d6b7a;--border:#d7e1eb;--good:#19714a;--bad:#a43b3b;
+  --shadow:0 18px 48px rgba(20,42,66,.12);--radius:22px;--max:1180px;
+}
+[data-theme="dark"]{
+  --bg:#0d1722;--surface:#142230;--surface-2:#1b2d3d;--surface-3:#101d29;
+  --text:#edf5fb;--muted:#adc0cf;--border:#30475a;--primary:#8ec4ef;--primary-2:#68b9ee;
+  --good:#64d5a2;--bad:#ff9a9a;--shadow:0 18px 48px rgba(0,0,0,.28)
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;color:var(--text);background:var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}
+button,input,textarea,select{font:inherit}
+a{color:var(--primary-2)}
+button,a{touch-action:manipulation}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.skip-link{position:fixed;left:1rem;top:1rem;z-index:1000;padding:.7rem 1rem;color:#fff;background:#000;border-radius:10px;transform:translateY(-180%)}
+.skip-link:focus{transform:none}
+.topbar{position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(20,42,66,.94);backdrop-filter:blur(14px);color:#fff}
+.topbar-inner{width:min(calc(100% - 2rem),var(--max));min-height:66px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.brand{display:flex;align-items:center;gap:.8rem;color:#fff;text-decoration:none;font-weight:800}.brand-mark{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,var(--gold),#ffd77e);color:#142a42;font-size:.82rem;box-shadow:0 6px 18px rgba(0,0,0,.2)}
+.top-actions{display:flex;align-items:center;gap:.55rem}.icon-btn,.ghost-btn,.primary-btn,.copy-btn,.tab-btn,.filter-btn{border:0;cursor:pointer}
+.icon-btn,.ghost-btn{min-height:40px;padding:.55rem .78rem;border:1px solid rgba(255,255,255,.25);border-radius:11px;color:#fff;background:rgba(255,255,255,.08)}
+.icon-btn:hover,.ghost-btn:hover{background:rgba(255,255,255,.16)}
+.hero{position:relative;overflow:hidden;color:#fff;background:linear-gradient(132deg,#102438 0%,#1f3b5b 58%,#176c79 100%)}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(1px);pointer-events:none}.hero::before{width:420px;height:420px;right:-130px;top:-190px;background:radial-gradient(circle,rgba(24,174,181,.36),transparent 65%)}.hero::after{width:280px;height:280px;left:-100px;bottom:-150px;background:radial-gradient(circle,rgba(231,173,57,.25),transparent 68%)}
+.hero-inner{position:relative;width:min(calc(100% - 2rem),var(--max));margin:auto;padding:clamp(3.8rem,8vw,7rem) 0 clamp(3rem,6vw,5rem);display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:clamp(2rem,5vw,5rem);align-items:center}
+.eyebrow{margin:0 0 .8rem;color:#bcecf0;font-size:.78rem;font-weight:850;letter-spacing:.16em;text-transform:uppercase}.hero h1{margin:0;max-width:820px;font-size:clamp(2.7rem,7vw,5.8rem);line-height:.98;letter-spacing:-.045em}.hero h1 span{display:block;color:#8fe4e8}.lead{max-width:760px;margin:1.35rem 0 0;color:#dfebf3;font-size:clamp(1rem,2vw,1.18rem)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.7rem}.primary-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:.72rem 1.05rem;border-radius:13px;color:#142a42;background:linear-gradient(135deg,#ffd77e,var(--gold));font-weight:850;text-decoration:none;box-shadow:0 10px 24px rgba(0,0,0,.18)}.primary-btn:hover{transform:translateY(-2px)}.hero .ghost-btn{text-decoration:none;display:inline-flex;align-items:center}
+.hero-panel{padding:1.25rem;border:1px solid rgba(255,255,255,.2);border-radius:24px;background:rgba(255,255,255,.09);box-shadow:0 24px 65px rgba(0,0,0,.2);backdrop-filter:blur(12px)}.formula{display:grid;grid-template-columns:repeat(2,1fr);gap:.65rem}.formula-card{min-height:100px;padding:1rem;border-radius:17px;background:rgba(255,255,255,.1)}.formula-card strong{display:block;color:#91e1e5;font-size:1.25rem}.formula-card span{font-size:.83rem;color:#e3edf5}.hero-stat{margin-top:.75rem;padding:.8rem 1rem;border-radius:14px;background:rgba(0,0,0,.16);font-size:.88rem;color:#e9f2f7}
+.progress-wrap{background:var(--surface);border-bottom:1px solid var(--border)}.progress-inner{width:min(calc(100% - 2rem),var(--max));margin:auto;padding:.8rem 0;display:flex;align-items:center;gap:1rem}.progress-track{height:8px;flex:1;overflow:hidden;background:var(--surface-2);border-radius:999px}.progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary-2),var(--cyan));border-radius:inherit;transition:width .2s ease}.progress-label{min-width:112px;color:var(--muted);font-size:.8rem;font-weight:750;text-align:right}
+.layout{width:min(calc(100% - 2rem),var(--max));margin:0 auto;display:grid;grid-template-columns:240px minmax(0,1fr);gap:2rem;padding:2rem 0 5rem}.side-nav{position:sticky;top:95px;align-self:start;padding:1rem;border:1px solid var(--border);border-radius:18px;background:var(--surface);box-shadow:0 10px 25px rgba(20,42,66,.06)}.side-nav strong{display:block;margin:.15rem .55rem .65rem;font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.side-nav a{display:block;padding:.55rem .65rem;border-radius:10px;color:var(--muted);font-size:.88rem;font-weight:700;text-decoration:none}.side-nav a:hover,.side-nav a.active{color:var(--text);background:var(--surface-2)}
+main{min-width:0}.section{padding:clamp(2rem,5vw,4rem) 0;border-bottom:1px solid var(--border)}.section:first-child{padding-top:.5rem}.section:last-child{border-bottom:0}.section-kicker{margin:0 0 .45rem;color:var(--primary-2);font-size:.78rem;font-weight:850;letter-spacing:.13em;text-transform:uppercase}.section h2{margin:0;color:var(--text);font-size:clamp(1.75rem,4vw,2.75rem);line-height:1.1;letter-spacing:-.025em}.section-intro{max-width:780px;margin:.8rem 0 1.5rem;color:var(--muted)}
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.summary-card{padding:1.25rem;border:1px solid var(--border);border-radius:18px;background:var(--surface);box-shadow:0 10px 28px rgba(20,42,66,.06)}.summary-card .num{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;color:#fff;background:linear-gradient(135deg,var(--primary-2),var(--cyan));font-weight:900}.summary-card h3{margin:.8rem 0 .35rem}.summary-card p{margin:0;color:var(--muted);font-size:.92rem}
+.accordion{display:grid;gap:.85rem}.acc-item{overflow:hidden;border:1px solid var(--border);border-radius:18px;background:var(--surface);box-shadow:0 8px 24px rgba(20,42,66,.05)}.acc-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.15rem 1.2rem;border:0;color:var(--text);background:transparent;text-align:left;cursor:pointer}.acc-title{display:flex;align-items:center;gap:.9rem;font-weight:850}.acc-num{width:38px;height:38px;display:grid;place-items:center;flex:0 0 auto;border-radius:11px;color:var(--primary);background:var(--surface-2);font-size:.84rem}.chev{transition:transform .2s ease}.acc-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}.acc-panel{display:none;padding:0 1.2rem 1.2rem}.acc-panel.open{display:block}.acc-panel>p{margin:.1rem 0 1rem;color:var(--muted)}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}.example{position:relative;padding:1rem;border-radius:15px;border:1px solid var(--border);background:var(--surface-3)}.example.bad{border-left:4px solid var(--bad)}.example.good{border-left:4px solid var(--good)}.example-label{display:block;margin-bottom:.42rem;color:var(--muted);font-size:.72rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase}.example blockquote,.prompt-box blockquote{margin:0;white-space:pre-wrap}.mini-result{margin-top:.75rem;padding:.75rem;border-radius:10px;background:var(--surface-2);font-size:.88rem}.copy-btn{position:absolute;right:.65rem;top:.65rem;padding:.35rem .55rem;border:1px solid var(--border);border-radius:8px;color:var(--muted);background:var(--surface);font-size:.72rem;font-weight:750}.copy-btn:hover{color:var(--text)}
+.steps{display:grid;gap:.6rem;counter-reset:step}.step{position:relative;padding:1rem 1rem 1rem 3.5rem;border:1px solid var(--border);border-radius:14px;background:var(--surface-3)}.step::before{counter-increment:step;content:counter(step);position:absolute;left:1rem;top:1rem;width:1.7rem;height:1.7rem;display:grid;place-items:center;border-radius:50%;color:#fff;background:var(--primary-2);font-size:.78rem;font-weight:850}
+.tech-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}.tech-card{padding:1.25rem;border:1px solid var(--border);border-radius:18px;background:var(--surface);box-shadow:0 8px 25px rgba(20,42,66,.05)}.tech-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem}.tech-card h3{margin:0;font-size:1.12rem}.tag{flex:0 0 auto;padding:.25rem .55rem;border-radius:999px;color:var(--primary);background:var(--surface-2);font-size:.69rem;font-weight:850;text-transform:uppercase}.tech-card>p{color:var(--muted);font-size:.9rem}.tech-card details{margin-top:.7rem;border-top:1px solid var(--border);padding-top:.7rem}.tech-card summary{cursor:pointer;color:var(--primary-2);font-weight:800}.prompt-box{position:relative;margin-top:.65rem;padding:1rem 4.5rem 1rem 1rem;border:1px solid var(--border);border-radius:14px;background:var(--surface-3);font-size:.88rem}.prompt-box .copy-btn{top:.7rem}.sequence{display:grid;gap:.5rem}.sequence .prompt-box{margin:0}.sequence .prompt-box:not(:last-child)::after{content:"↓";position:absolute;left:50%;bottom:-1.05rem;z-index:2;color:var(--primary-2);font-weight:900}
+.framework-tabs{display:flex;gap:.55rem;margin-bottom:1rem}.tab-btn{padding:.65rem 1rem;border:1px solid var(--border);border-radius:12px;color:var(--muted);background:var(--surface);font-weight:800}.tab-btn.active{color:#fff;border-color:var(--primary-2);background:var(--primary-2)}.tab-panel{display:none}.tab-panel.active{display:block}.framework-card{padding:1.3rem;border:1px solid var(--border);border-radius:20px;background:var(--surface);box-shadow:var(--shadow)}.letters{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin:1rem 0}.letter{padding:1rem;border-radius:15px;background:var(--surface-2)}.letter strong{display:block;color:var(--primary);font-size:1.5rem}.letter span{font-size:.82rem;color:var(--muted)}.framework-example{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.output-sample{padding:1rem;border-radius:15px;background:linear-gradient(145deg,var(--surface-2),var(--surface-3));font-size:.9rem}.output-sample h4{margin:0 0 .5rem}
+.builder{padding:1.25rem;border:1px solid var(--border);border-radius:22px;background:var(--surface);box-shadow:var(--shadow)}.builder-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1rem}.builder-top h3{margin:0}.builder-top p{margin:.25rem 0 0;color:var(--muted);font-size:.9rem}.builder-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.field{display:grid;gap:.38rem}.field label{font-size:.8rem;font-weight:800;color:var(--muted)}.field textarea,.field input,.field select{width:100%;padding:.8rem;border:1px solid var(--border);border-radius:12px;color:var(--text);background:var(--surface-3);resize:vertical}.field textarea{min-height:95px}.field.full{grid-column:1/-1}.builder-actions{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}.builder-actions button{padding:.62rem .9rem;border:1px solid var(--border);border-radius:11px;color:var(--text);background:var(--surface-2);cursor:pointer;font-weight:800}.builder-actions .generate{color:#fff;border-color:var(--primary-2);background:var(--primary-2)}.preview{position:relative;margin-top:1rem;padding:1.15rem 5rem 1.15rem 1.15rem;border:1px solid #72c7cc;border-radius:16px;background:color-mix(in srgb,var(--cyan) 9%,var(--surface));white-space:pre-wrap;min-height:92px}.preview .copy-btn{top:.8rem}
+.recommendations{display:grid;grid-template-columns:repeat(2,1fr);gap:.85rem}.rec{padding:1rem;border:1px solid var(--border);border-radius:16px;background:var(--surface)}.rec h3{margin:.05rem 0 .5rem;font-size:1rem}.rec p{margin:0;color:var(--muted);font-size:.88rem}.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem;margin-top:1rem}.check{display:flex;align-items:flex-start;gap:.65rem;padding:.8rem;border-radius:13px;background:var(--surface-2);font-size:.88rem}.check input{margin-top:.25rem;accent-color:var(--cyan)}
+.quiz{padding:1.25rem;border:1px solid var(--border);border-radius:22px;background:var(--surface);box-shadow:var(--shadow)}.quiz-head{display:flex;align-items:center;justify-content:space-between;gap:1rem}.quiz-head h3{margin:0}.score{padding:.35rem .65rem;border-radius:999px;background:var(--surface-2);font-size:.78rem;font-weight:850}.question{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}.question p{font-weight:800}.options{display:grid;gap:.5rem}.option{display:flex;gap:.65rem;padding:.65rem;border:1px solid var(--border);border-radius:11px;cursor:pointer}.option:hover{background:var(--surface-2)}.option input{accent-color:var(--primary-2)}.quiz-actions{display:flex;align-items:center;gap:.8rem;margin-top:1rem}.quiz-feedback{color:var(--muted);font-weight:750}
+.sources{display:grid;gap:.75rem}.source{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding:1rem;border:1px solid var(--border);border-radius:15px;background:var(--surface);text-decoration:none}.source:hover{border-color:var(--primary-2);transform:translateY(-2px)}.source strong{display:block;color:var(--text)}.source span{display:block;color:var(--muted);font-size:.85rem}.source-mark{flex:0 0 auto;color:var(--primary-2);font-weight:900}.adaptation-note{margin-top:1rem;padding:1rem;border-radius:14px;color:var(--muted);background:var(--surface-2);font-size:.85rem}
+footer{color:#dce7f1;background:var(--navy)}.footer-inner{width:min(calc(100% - 2rem),var(--max));min-height:90px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}.footer-inner p{margin:0}.footer-inner a{color:#fff}
+.toast{position:fixed;right:1rem;bottom:1rem;z-index:200;padding:.75rem 1rem;border-radius:12px;color:#fff;background:#142a42;box-shadow:var(--shadow);opacity:0;transform:translateY(14px);pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:none}
+@media(max-width:950px){.hero-inner{grid-template-columns:1fr}.hero-panel{max-width:620px}.layout{grid-template-columns:1fr}.side-nav{position:static;display:flex;gap:.4rem;overflow-x:auto}.side-nav strong{display:none}.side-nav a{white-space:nowrap}.summary-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.brand span:last-child{display:none}.hero h1{font-size:clamp(2.5rem,15vw,4.4rem)}.summary-grid,.tech-grid,.framework-example,.builder-grid,.recommendations,.checklist,.compare{grid-template-columns:1fr}.letters{grid-template-columns:repeat(2,1fr)}.field.full{grid-column:auto}.footer-inner{align-items:flex-start;flex-direction:column;padding:1.3rem 0}.top-actions .ghost-btn{display:none}.layout{padding-top:1rem}.hero-inner{padding-top:3rem}.progress-label{min-width:86px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+@media print{.skip-link,.topbar,.progress-wrap,.side-nav,.hero-actions,.copy-btn,.builder,.quiz,.toast{display:none!important}.hero{color:#000;background:#fff}.hero-inner{display:block;width:100%;padding:1.5rem 0}.hero h1{font-size:3rem}.hero h1 span,.eyebrow{color:#1f3b5b}.lead,.hero-stat,.formula-card span{color:#333}.hero-panel{margin-top:1rem}.hero-panel,.formula-card{border:1px solid #bbb;background:#fff}.formula{grid-template-columns:repeat(2,1fr)}.layout{display:block;width:100%;padding:0}.section{break-inside:auto}.acc-panel{display:block!important}.tech-card details>*{display:block}.tech-card details summary{display:none}.summary-grid,.tech-grid,.framework-example,.letters,.recommendations,.checklist{display:block}.summary-card,.tech-card,.framework-card,.rec,.letter,.check,.source{break-inside:avoid;margin-bottom:.7rem}body{background:#fff}.section{padding:1.4rem 0}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Saltar para o conteúdo principal</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html" aria-label="Voltar aos recursos de Inteligência Artificial"><span class="brand-mark">EP</span><span>Engenharia de Prompts</span></a>
+    <div class="top-actions">
+      <button class="ghost-btn" id="printBtn" type="button">Imprimir guia</button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Ativar modo escuro" aria-pressed="false">Modo escuro</button>
+    </div>
+  </div>
+</header>
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-inner">
+    <div>
+      <p class="eyebrow">Desafio Digital 10.26 · Guia interativo</p>
+      <h1 id="hero-title">Engenharia <span>de Prompts</span></h1>
+      <p class="lead">Aprenda a transformar uma intenção numa instrução clara, contextualizada e verificável — com princípios, técnicas, modelos, exemplos práticos e um construtor de prompts.</p>
+      <div class="hero-actions">
+        <a class="primary-btn" href="#fundamentos">Começar o percurso</a>
+        <a class="ghost-btn" href="#laboratorio">Abrir construtor</a>
+      </div>
+    </div>
+    <aside class="hero-panel" aria-label="Anatomia de um prompt eficaz">
+      <p class="eyebrow">Anatomia essencial</p>
+      <div class="formula">
+        <div class="formula-card"><strong>Papel</strong><span>Quem deve a IA representar?</span></div>
+        <div class="formula-card"><strong>Tarefa</strong><span>O que deve fazer, concretamente?</span></div>
+        <div class="formula-card"><strong>Contexto</strong><span>Que dados e limites são relevantes?</span></div>
+        <div class="formula-card"><strong>Formato</strong><span>Como deve apresentar a resposta?</span></div>
+      </div>
+      <div class="hero-stat">Quanto mais explícitos forem o objetivo, o contexto e o formato, menor é o espaço para interpretações indesejadas.</div>
+    </aside>
+  </div>
+</section>
+<div class="progress-wrap" aria-hidden="true"><div class="progress-inner"><div class="progress-track"><div class="progress-bar" id="progressBar"></div></div><div class="progress-label" id="progressLabel">0% percorrido</div></div></div>
+<div class="layout">
+  <nav class="side-nav" aria-label="Navegação do guia">
+    <strong>Neste guia</strong>
+    <a href="#visao-geral">Visão geral</a><a href="#fundamentos">Princípios</a><a href="#tecnicas">Técnicas</a><a href="#modelos">Modelos</a><a href="#laboratorio">Construtor</a><a href="#recomendacoes">Recomendações</a><a href="#teste">Teste</a><a href="#fontes">Fontes</a>
+  </nav>
+  <main id="conteudo">
+    <section class="section" id="visao-geral">
+      <p class="section-kicker">01 · Visão geral</p><h2>O que torna um prompt eficaz?</h2>
+      <p class="section-intro">A engenharia de prompts é a prática de construir instruções que permitem a um sistema de IA compreender a intenção, executar a tarefa e apresentar um resultado adequado. Não se resume a “fazer uma pergunta”: implica orientar, limitar, exemplificar e melhorar.</p>
+      <div class="summary-grid">
+        <article class="summary-card"><span class="num">1</span><h3>Defina o resultado</h3><p>Comece pelo objetivo: o que precisa de obter e para que finalidade?</p></article>
+        <article class="summary-card"><span class="num">2</span><h3>Dê contexto</h3><p>Indique público, dados disponíveis, restrições, tom e âmbito.</p></article>
+        <article class="summary-card"><span class="num">3</span><h3>Teste e refine</h3><p>Avalie a resposta, identifique lacunas e ajuste a instrução.</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="fundamentos">
+      <p class="section-kicker">02 · Princípios fundamentais</p><h2>Cinco regras para melhores resultados</h2>
+      <p class="section-intro">Abra cada princípio para comparar versões, analisar exemplos e copiar prompts reutilizáveis.</p>
+      <div class="accordion">
+        <article class="acc-item">
+          <button class="acc-toggle" type="button" aria-expanded="true"><span class="acc-title"><span class="acc-num">01</span>Clareza e concisão</span><span class="chev">⌄</span></button>
+          <div class="acc-panel open"><p>Seja direto e inequívoco. Evite ambiguidades, mas não omita informação essencial.</p><div class="compare">
+            <div class="example bad"><span class="example-label">Vago</span><blockquote>Fala-me sobre carros.</blockquote><button class="copy-btn" type="button">Copiar</button></div>
+            <div class="example good"><span class="example-label">Claro e conciso</span><blockquote>Descreve as principais vantagens e desvantagens dos veículos elétricos em comparação com os veículos a combustão interna, focando custos, impacto ambiental e desempenho, num máximo de 200 palavras.</blockquote><button class="copy-btn" type="button">Copiar</button></div>
+          </div></div>
+        </article>
+        <article class="acc-item">
+          <button class="acc-toggle" type="button" aria-expanded="false"><span class="acc-title"><span class="acc-num">02</span>Contexto e restrições</span><span class="chev">⌄</span></button>
+          <div class="acc-panel"><p>Defina o cenário, o público-alvo, o formato desejado e as limitações da tarefa.</p><div class="compare">
+            <div class="example bad"><span class="example-label">Sem contexto suficiente</span><blockquote>Escreve um texto sobre a importância da água.</blockquote><button class="copy-btn" type="button">Copiar</button></div>
+            <div class="example good"><span class="example-label">Com contexto e restrições</span><blockquote>Escreve um artigo de 100 palavras para crianças do ensino básico, dos 6 aos 10 anos, sobre a importância de poupar água no dia a dia. Usa linguagem simples, exemplos práticos e um tom divertido e educativo.</blockquote><button class="copy-btn" type="button">Copiar</button></div>
+          </div></div>
+        </article>
+        <article class="acc-item">
+          <button class="acc-toggle" type="button" aria-expanded="false"><span class="acc-title"><span class="acc-num">03</span>Refinamento iterativo</span><span class="chev">⌄</span></button>
+          <div class="acc-panel"><p>A primeira tentativa raramente é perfeita. Teste variações, avalie os resultados e introduza pormenores que aproximem a resposta do objetivo.</p><div class="steps">
+            <div class="step"><strong>Prompt inicial</strong><br>“Cria uma história.”<div class="mini-result">Resultado provável: uma história genérica, sem direção definida.</div></div>
+            <div class="step"><strong>Refinamento 1</strong><br>“Cria uma história de aventura sobre um cão perdido numa cidade grande.”<div class="mini-result">Melhoria: género, protagonista e cenário já estão definidos.</div></div>
+            <div class="step"><strong>Refinamento 2</strong><br>“Cria uma história de aventura emotiva, na primeira pessoa, sobre um pequeno cão chamado Max que se perdeu da família durante um festival numa cidade costeira. Destaca os seus medos e esperanças e termina com o reencontro.”</div>
+          </div></div>
+        </article>
+        <article class="acc-item">
+          <button class="acc-toggle" type="button" aria-expanded="false"><span class="acc-title"><span class="acc-num">04</span>Utilização de exemplos · Few-shot</span><span class="chev">⌄</span></button>
+          <div class="acc-panel"><p>Não se limite a dizer: mostre o padrão. Os exemplos ajudam a fixar formato, estilo, tom e grau de detalhe.</p>
+            <div class="prompt-box"><span class="example-label">Exemplo simples</span><blockquote>Quero transformar frases em perguntas. Exemplo: “O céu é azul.” → “O céu é azul?” Agora transforma esta frase: “A IA está a mudar o mundo.”</blockquote><button class="copy-btn" type="button">Copiar</button></div>
+            <div class="mini-result"><strong>Resultado esperado:</strong> “A IA está a mudar o mundo?”</div>
+            <div class="prompt-box"><span class="example-label">Exemplo profissional neutro</span><blockquote>Preciso de identificar áreas potenciais para instalar equipamentos de exercício ao ar livre numa zona urbana, considerando densidade populacional, proximidade de espaços verdes existentes e acessibilidade. Exemplo de saída: “Localização potencial: Parque Central. Justificação: elevada densidade populacional num raio de 500 m, ausência de equipamentos semelhantes num raio de 1 km e boa acessibilidade por transporte público.” Analisa os dados fornecidos e sugere três localizações com justificação equivalente.</blockquote><button class="copy-btn" type="button">Copiar</button></div>
+          </div>
+        </article>
+        <article class="acc-item">
+          <button class="acc-toggle" type="button" aria-expanded="false"><span class="acc-title"><span class="acc-num">05</span>Instruções passo a passo</span><span class="chev">⌄</span></button>
+          <div class="acc-panel"><p>Para tarefas extensas, divida o problema em etapas. Pode fazê-lo num único prompt estruturado ou numa cadeia de prompts.</p>
+            <div class="example bad"><span class="example-label">Tarefa complexa única</span><blockquote>Analisa este documento de investigação de 50 páginas, resume os pontos-chave, identifica as limitações da metodologia e sugere três áreas para investigação futura.</blockquote><button class="copy-btn" type="button">Copiar</button></div>
+            <div class="steps" style="margin-top:.8rem"><div class="step">Resume os pontos-chave do documento: [ligação ou texto].</div><div class="step">Com base no resumo anterior, identifica as principais limitações da metodologia.</div><div class="step">Considerando o resumo e as limitações, sugere três áreas promissoras para investigação futura.</div></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="tecnicas">
+      <p class="section-kicker">03 · Técnicas avançadas</p><h2>Escolha a técnica adequada à tarefa</h2>
+      <p class="section-intro">Não existe uma única fórmula. A técnica deve acompanhar a complexidade, o risco e o tipo de resultado pretendido.</p>
+      <div class="tech-grid">
+        <article class="tech-card"><div class="tech-top"><h3>Zero-shot prompting</h3><span class="tag">Sem exemplos</span></div><p>Peça diretamente uma tarefa que o modelo provavelmente já conhece. Adequado a pedidos genéricos e bem delimitados.</p><details><summary>Ver exemplos</summary><div class="prompt-box"><blockquote>Resume o seguinte relatório de vendas num parágrafo.</blockquote><button class="copy-btn" type="button">Copiar</button></div><div class="prompt-box"><blockquote>Cria uma lista de compras para um jantar italiano para quatro pessoas.</blockquote><button class="copy-btn" type="button">Copiar</button></div></details></article>
+        <article class="tech-card"><div class="tech-top"><h3>Few-shot prompting</h3><span class="tag">Com exemplos</span></div><p>Forneça um ou mais exemplos para estabelecer o padrão que a resposta deve seguir.</p><details><summary>Ver exemplos</summary><div class="prompt-box"><blockquote>Transforma frases informais em comunicações formais. Exemplo: “O João não pode ir à reunião.” → “Informamos que o Sr. João Silva não poderá comparecer à reunião agendada.” Agora transforma: “Acho que a proposta está mais ou menos.”</blockquote><button class="copy-btn" type="button">Copiar</button></div><div class="prompt-box"><blockquote>Quero poemas curtos sobre a natureza com rima ABAB. Exemplo: “O sol no céu a brilhar (A) / As aves cantam com ardor (B) / A brisa fresca a soprar (A) / Trazendo paz e amor (B)”. Agora cria um sobre o outono.</blockquote><button class="copy-btn" type="button">Copiar</button></div></details></article>
+        <article class="tech-card"><div class="tech-top"><h3>Chain-of-Thought (CoT)</h3><span class="tag">Lógica</span></div><p>Em tarefas de lógica ou cálculo, peça cálculos, pressupostos e uma justificação verificável, em vez de exigir a exposição de raciocínio interno.</p><details><summary>Ver exemplos</summary><div class="prompt-box"><blockquote>Um projeto tem um custo inicial de 10 000 € e custos mensais de 500 €. Se gerar uma receita de 800 € por mês, em quantos meses recupera o investimento? Apresenta os cálculos, os pressupostos e a resposta final.</blockquote><button class="copy-btn" type="button">Copiar</button></div><div class="prompt-box"><blockquote>Quero viajar da Cidade A à Cidade C, com paragem de duas horas na Cidade B. O primeiro trajeto demora duas horas e o segundo 1 h 30 min. Se partir às 9:00, a que horas chego? Mostra os cálculos.</blockquote><button class="copy-btn" type="button">Copiar</button></div></details></article>
+        <article class="tech-card"><div class="tech-top"><h3>Tree-of-Thought</h3><span class="tag">Alternativas</span></div><p>Solicite várias abordagens, compare vantagens e desafios e selecione a opção mais adequada com critérios explícitos.</p><details><summary>Ver exemplos</summary><div class="prompt-box"><blockquote>Gera três abordagens distintas para uma campanha digital de lançamento de um software de gestão de projetos para pequenas organizações. Para cada abordagem, descreve características, vantagens e desafios.</blockquote><button class="copy-btn" type="button">Copiar</button></div><div class="prompt-box"><blockquote>Sugere três planos para o próximo fim de semana: um cultural, um ao ar livre e um relaxante em casa. Para cada um, indica atividades, prós e contras.</blockquote><button class="copy-btn" type="button">Copiar</button></div></details></article>
+        <article class="tech-card" style="grid-column:1/-1"><div class="tech-top"><h3>Prompt chaining</h3><span class="tag">Sequência</span></div><p>Decomponha uma tarefa complexa numa cadeia. O resultado de um prompt passa a ser a entrada do seguinte.</p><div class="compare"><div><span class="example-label">Exemplo profissional</span><div class="sequence"><div class="prompt-box"><blockquote>Resume este artigo científico de 10 páginas sobre o impacto da IA na educação.</blockquote><button class="copy-btn" type="button">Copiar</button></div><div class="prompt-box"><blockquote>Extrai os cinco principais ensinamentos do resumo.</blockquote><button class="copy-btn" type="button">Copiar</button></div><div class="prompt-box"><blockquote>Cria o conteúdo de um diapositivo, em tópicos, com base nestes ensinamentos.</blockquote><button class="copy-btn" type="button">Copiar</button></div></div></div><div><span class="example-label">Exemplo pessoal</span><div class="sequence"><div class="prompt-box"><blockquote>Encontra uma receita saudável de frango com vegetais para o jantar.</blockquote><button class="copy-btn" type="button">Copiar</button></div><div class="prompt-box"><blockquote>Cria uma lista de compras com base na receita.</blockquote><button class="copy-btn" type="button">Copiar</button></div><div class="prompt-box"><blockquote>Sugere um vinho português para acompanhar a refeição.</blockquote><button class="copy-btn" type="button">Copiar</button></div></div></div></div></article>
+      </div>
+    </section>
+
+    <section class="section" id="modelos">
+      <p class="section-kicker">04 · Modelos de prompts</p><h2>RTF ou RISE: uma estrutura para cada necessidade</h2>
+      <p class="section-intro">Os modelos ajudam a não esquecer elementos essenciais e tornam a construção de prompts mais consistente.</p>
+      <div class="framework-tabs" role="tablist" aria-label="Modelos de prompts"><button class="tab-btn active" role="tab" aria-selected="true" aria-controls="rtf" id="tab-rtf" type="button">Modelo RTF</button><button class="tab-btn" role="tab" aria-selected="false" aria-controls="rise" id="tab-rise" type="button">Modelo RISE</button></div>
+      <div class="tab-panel active" id="rtf" role="tabpanel" aria-labelledby="tab-rtf"><article class="framework-card"><h3>RTF · Role, Task, Format</h3><div class="letters"><div class="letter"><strong>R</strong><span>Role · Papel</span></div><div class="letter"><strong>T</strong><span>Task · Tarefa</span></div><div class="letter"><strong>F</strong><span>Format · Formato</span></div></div><div class="framework-example"><div><div class="prompt-box"><blockquote><strong>Papel:</strong> És especialista em planeamento urbano participativo.
+
+<strong>Tarefa:</strong> Sugere três estratégias para aumentar o envolvimento dos residentes de uma cidade de média dimensão na decisão sobre novos equipamentos públicos, utilizando ferramentas digitais. Considera diferentes faixas etárias e níveis de literacia digital.
+
+<strong>Formato:</strong> Apresenta uma lista numerada. Para cada estratégia, inclui uma descrição de duas a três frases, uma vantagem e um desafio de implementação.</blockquote><button class="copy-btn" type="button">Copiar</button></div></div><div class="output-sample"><h4>Exemplo de saída</h4><strong>Estratégia 1 — Plataforma de orçamento participativo gamificada</strong><p><strong>Descrição:</strong> plataforma onde os residentes distribuem um orçamento virtual por projetos como parques, bibliotecas ou ciclovias.</p><p><strong>Vantagem:</strong> torna o processo mais interativo e explica restrições orçamentais.</p><p><strong>Desafio:</strong> exige investimento inicial e apoio presencial para pessoas com menor literacia digital.</p></div></div></article></div>
+      <div class="tab-panel" id="rise" role="tabpanel" aria-labelledby="tab-rise"><article class="framework-card"><h3>RISE · Role, Input, Steps, Expectation</h3><div class="letters"><div class="letter"><strong>R</strong><span>Role · Papel</span></div><div class="letter"><strong>I</strong><span>Input · Entrada</span></div><div class="letter"><strong>S</strong><span>Steps · Passos</span></div><div class="letter"><strong>E</strong><span>Expectation · Expectativa</span></div></div><div class="framework-example"><div class="prompt-box"><blockquote><strong>Papel:</strong> És consultor especializado em avaliação de impacto de programas de educação de adultos.
+
+<strong>Entrada:</strong> Vou fornecer os objetivos do programa “Aprender ao Longo da Vida” e indicadores preliminares: número de participantes, taxa de conclusão, satisfação e parcerias estabelecidas.
+
+<strong>Passos:</strong>
+1. Analisa a adequação dos indicadores aos objetivos.
+2. Sugere até três indicadores adicionais para medir aprendizagem ao longo da vida e inclusão digital.
+3. Explica brevemente a relevância de cada indicador.
+
+<strong>Expectativa:</strong> Uma análise crítica dos indicadores existentes e uma lista de novos indicadores, com justificação.</blockquote><button class="copy-btn" type="button">Copiar</button></div><div class="output-sample"><h4>Quando usar</h4><p>O RISE é particularmente útil quando existe informação de entrada que deve ser processada através de uma sequência explícita de ações.</p><p><strong>Vantagem:</strong> reduz omissões em tarefas analíticas.</p><p><strong>Atenção:</strong> valide sempre se a entrada é suficiente e se os passos conduzem ao resultado esperado.</p></div></div></article></div>
+    </section>
+
+    <section class="section" id="laboratorio">
+      <p class="section-kicker">05 · Laboratório</p><h2>Construa o seu prompt</h2>
+      <p class="section-intro">Preencha os campos, escolha um modelo e gere uma instrução pronta a copiar. Todo o processamento é feito localmente no navegador.</p>
+      <div class="builder">
+        <div class="builder-top"><div><h3>Construtor RTF / RISE</h3><p>Use frases concretas e indique apenas informação que possa partilhar com segurança.</p></div></div>
+        <div class="builder-grid">
+          <div class="field"><label for="builderModel">Modelo</label><select id="builderModel"><option value="rtf">RTF · Papel, tarefa e formato</option><option value="rise">RISE · Papel, entrada, passos e expectativa</option></select></div>
+          <div class="field"><label for="builderRole">Papel</label><input id="builderRole" type="text" placeholder="Ex.: És especialista em comunicação clara."></div>
+          <div class="field full"><label for="builderTask">Tarefa / objetivo</label><textarea id="builderTask" placeholder="Descreva exatamente o que deve ser feito."></textarea></div>
+          <div class="field rise-only" hidden><label for="builderInput">Entrada</label><textarea id="builderInput" placeholder="Que informação será fornecida?"></textarea></div>
+          <div class="field rise-only" hidden><label for="builderSteps">Passos</label><textarea id="builderSteps" placeholder="1. Analisa... 2. Compara... 3. Recomenda..."></textarea></div>
+          <div class="field"><label for="builderFormat">Formato / expectativa</label><textarea id="builderFormat" placeholder="Ex.: tabela com três colunas, até 300 palavras."></textarea></div>
+          <div class="field"><label for="builderConstraints">Contexto e restrições adicionais</label><textarea id="builderConstraints" placeholder="Público, tom, limites, critérios e fontes."></textarea></div>
+        </div>
+        <div class="builder-actions"><button class="generate" id="generateBtn" type="button">Gerar prompt</button><button id="exampleBtn" type="button">Carregar exemplo</button><button id="resetBtn" type="button">Limpar</button></div>
+        <div class="preview" id="builderPreview" aria-live="polite">O seu prompt aparecerá aqui.</div>
+      </div>
+    </section>
+
+    <section class="section" id="recomendacoes">
+      <p class="section-kicker">06 · Recomendações</p><h2>Instruções de qualidade e verificação</h2>
+      <p class="section-intro">Em prompts longos, tarefas com várias etapas ou assistentes personalizados, incorpore salvaguardas claras.</p>
+      <div class="recommendations">
+        <article class="rec"><h3>1. Conclusão da tarefa</h3><p>“Antes de apresentares o resultado, confirma que concluíste todos os passos solicitados.”</p></article>
+        <article class="rec"><h3>2. Rigor factual</h3><p>“Não inventes informação. Quando não houver dados suficientes, identifica a lacuna e explica o que é necessário confirmar.”</p></article>
+        <article class="rec"><h3>3. Planeamento e reflexão</h3><p>“Define os passos de execução. No final, verifica se os resultados correspondem ao objetivo e indica limitações relevantes.”</p></article>
+        <article class="rec"><h3>4. Norma linguística</h3><p>“Escreve em Português Europeu, utilizando vocabulário, gramática e estilo consistentes com esta norma.”</p></article>
+        <article class="rec" style="grid-column:1/-1"><h3>5. Verificação final</h3><p>“Revê integralmente a resposta antes de a apresentar. Confirma se cumpre os requisitos, se está clara, correta, completa e relevante. Corrige eventuais falhas.”</p></article>
+      </div>
+      <h3 style="margin-top:1.7rem">Lista de verificação</h3>
+      <div class="checklist"><label class="check"><input type="checkbox">O papel da IA está definido?</label><label class="check"><input type="checkbox">A tarefa é concreta e inequívoca?</label><label class="check"><input type="checkbox">O público e o contexto estão indicados?</label><label class="check"><input type="checkbox">O formato e o tamanho da resposta estão definidos?</label><label class="check"><input type="checkbox">Foram incluídos exemplos quando úteis?</label><label class="check"><input type="checkbox">Foram pedidos fontes, critérios ou pressupostos?</label><label class="check"><input type="checkbox">Os dados partilhados são adequados e seguros?</label><label class="check"><input type="checkbox">A resposta será revista e refinada?</label></div>
+      <div class="adaptation-note"><strong>Dicas rápidas:</strong> defina o papel; especifique o formato de saída; controle a extensão; peça fontes credíveis; solicite revisões como “torna mais formal”, “expande este ponto” ou “simplifica a linguagem”. A competência desenvolve-se com prática, avaliação e refinamento.</div>
+    </section>
+
+    <section class="section" id="teste">
+      <p class="section-kicker">07 · Teste final</p><h2>Verifique o que aprendeu</h2><p class="section-intro">Selecione uma opção em cada pergunta e confirme as respostas.</p>
+      <form class="quiz" id="quizForm"><div class="quiz-head"><h3>Miniavaliação</h3><span class="score" id="scoreBadge">0 / 5</span></div>
+        <div class="question"><p>1. Qual é a principal vantagem de incluir contexto?</p><div class="options"><label class="option"><input type="radio" name="q1" value="a">Aumentar sempre o tamanho da resposta.</label><label class="option"><input type="radio" name="q1" value="b">Reduzir ambiguidades e orientar a resposta.</label><label class="option"><input type="radio" name="q1" value="c">Evitar indicar o público-alvo.</label></div></div>
+        <div class="question"><p>2. Quando é especialmente útil o few-shot prompting?</p><div class="options"><label class="option"><input type="radio" name="q2" value="a">Quando é necessário mostrar um padrão de formato ou estilo.</label><label class="option"><input type="radio" name="q2" value="b">Quando não existe qualquer resultado esperado.</label><label class="option"><input type="radio" name="q2" value="c">Apenas para cálculos.</label></div></div>
+        <div class="question"><p>3. O que distingue o RISE do RTF?</p><div class="options"><label class="option"><input type="radio" name="q3" value="a">O RISE não define papel.</label><label class="option"><input type="radio" name="q3" value="b">O RISE inclui entrada, passos e expectativa.</label><label class="option"><input type="radio" name="q3" value="c">O RTF exige sempre cinco exemplos.</label></div></div>
+        <div class="question"><p>4. Qual é uma boa resposta quando faltam dados?</p><div class="options"><label class="option"><input type="radio" name="q4" value="a">Inventar valores plausíveis sem aviso.</label><label class="option"><input type="radio" name="q4" value="b">Omitir a limitação.</label><label class="option"><input type="radio" name="q4" value="c">Identificar a lacuna e pedir ou indicar os dados necessários.</label></div></div>
+        <div class="question"><p>5. O que significa refinamento iterativo?</p><div class="options"><label class="option"><input type="radio" name="q5" value="a">Aceitar sempre a primeira resposta.</label><label class="option"><input type="radio" name="q5" value="b">Testar, avaliar e ajustar o prompt.</label><label class="option"><input type="radio" name="q5" value="c">Retirar todas as restrições.</label></div></div>
+        <div class="quiz-actions"><button class="primary-btn" type="submit">Verificar respostas</button><span class="quiz-feedback" id="quizFeedback" aria-live="polite"></span></div>
+      </form>
+    </section>
+
+    <section class="section" id="fontes">
+      <p class="section-kicker">08 · Fontes</p><h2>Referências do guia</h2><p class="section-intro">Fontes externas indicadas no documento de origem. As ligações abrem num novo separador.</p>
+      <div class="sources">
+        <a class="source" href="https://services.google.com/fh/files/misc/gemini_for_workspace_prompt_guide_october_2024_digital_final.pdf" target="_blank" rel="noopener noreferrer"><span><strong>Gemini for Google Workspace Prompting Guide 101</strong><span>Google · Manual de iniciação rápida para prompts eficazes</span></span><span class="source-mark" aria-hidden="true">↗</span></a>
+        <a class="source" href="https://www.ibm.com/think/topics/prompt-engineering-guide" target="_blank" rel="noopener noreferrer"><span><strong>Prompt Engineering Guide</strong><span>IBM Think · Guia de engenharia de prompts</span></span><span class="source-mark" aria-hidden="true">↗</span></a>
+        <a class="source" href="https://cookbook.openai.com/examples/gpt4-1_prompting_guide" target="_blank" rel="noopener noreferrer"><span><strong>GPT-4.1 Prompting Guide</strong><span>OpenAI Cookbook · 14 de abril de 2025</span></span><span class="source-mark" aria-hidden="true">↗</span></a>
+      </div>
+      <p class="adaptation-note">Os exemplos institucionais do documento de origem foram convertidos em cenários neutros e genéricos, mantendo o objetivo pedagógico, a técnica demonstrada e o grau de detalhe.</p>
+    </section>
+  </main>
+</div>
+<footer><div class="footer-inner"><p>Guia interativo de Engenharia de Prompts · Recursos Didáticos</p><a href="#hero-title">Voltar ao topo ↑</a></div></footer>
+<div class="toast" id="toast" role="status" aria-live="polite">Prompt copiado.</div>
+<script>
+(function(){
+  'use strict';
+  const root=document.documentElement;
+  const themeBtn=document.getElementById('themeBtn');
+  let savedTheme=null;try{savedTheme=localStorage.getItem('prompt-guide-theme')}catch(e){}
+  function saveTheme(value){try{localStorage.setItem('prompt-guide-theme',value)}catch(e){}}
+  if(savedTheme==='dark'){root.dataset.theme='dark';themeBtn.textContent='Modo claro';themeBtn.setAttribute('aria-label','Ativar modo claro');themeBtn.setAttribute('aria-pressed','true')}
+  themeBtn.addEventListener('click',()=>{const dark=root.dataset.theme==='dark';if(dark){delete root.dataset.theme;saveTheme('light');themeBtn.textContent='Modo escuro';themeBtn.setAttribute('aria-label','Ativar modo escuro');themeBtn.setAttribute('aria-pressed','false')}else{root.dataset.theme='dark';saveTheme('dark');themeBtn.textContent='Modo claro';themeBtn.setAttribute('aria-label','Ativar modo claro');themeBtn.setAttribute('aria-pressed','true')}});
+  document.getElementById('printBtn').addEventListener('click',()=>window.print());
+
+  document.querySelectorAll('.acc-toggle').forEach(btn=>btn.addEventListener('click',()=>{const panel=btn.nextElementSibling;const open=btn.getAttribute('aria-expanded')==='true';btn.setAttribute('aria-expanded',String(!open));panel.classList.toggle('open',!open)}));
+
+  const toast=document.getElementById('toast');let toastTimer;
+  function showToast(message){toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),1700)}
+  async function copyText(text){try{await navigator.clipboard.writeText(text.trim());showToast('Texto copiado.')}catch(e){const area=document.createElement('textarea');area.value=text.trim();document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();showToast('Texto copiado.')}}
+  document.querySelectorAll('.copy-btn').forEach(btn=>btn.addEventListener('click',()=>{const host=btn.closest('.example,.prompt-box,.preview');const content=host.querySelector('blockquote')||host;copyText(content.innerText.replace(/Copiar$/,'').trim())}));
+
+  const tabs=document.querySelectorAll('.tab-btn');
+  tabs.forEach(tab=>tab.addEventListener('click',()=>{tabs.forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false')});document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));tab.classList.add('active');tab.setAttribute('aria-selected','true');document.getElementById(tab.getAttribute('aria-controls')).classList.add('active')}));
+
+  const model=document.getElementById('builderModel');const riseFields=document.querySelectorAll('.rise-only');
+  function syncModel(){riseFields.forEach(el=>el.hidden=model.value!=='rise');document.querySelector('label[for="builderFormat"]').textContent=model.value==='rise'?'Expectativa':'Formato / expectativa'}
+  model.addEventListener('change',syncModel);syncModel();
+  const fields={role:document.getElementById('builderRole'),task:document.getElementById('builderTask'),input:document.getElementById('builderInput'),steps:document.getElementById('builderSteps'),format:document.getElementById('builderFormat'),constraints:document.getElementById('builderConstraints')};
+  const preview=document.getElementById('builderPreview');
+  function value(el,fallback){return el.value.trim()||fallback}
+  function generate(){let text;if(model.value==='rise'){text=`PAPEL\n${value(fields.role,'[Defina o papel]')}\n\nENTRADA\n${value(fields.input,'[Indique a informação de entrada]')}\n\nPASSOS\n${value(fields.steps,'[Enumere os passos]')}\n\nEXPECTATIVA\n${value(fields.format,'[Descreva o resultado esperado]')}`}else{text=`PAPEL\n${value(fields.role,'[Defina o papel]')}\n\nTAREFA\n${value(fields.task,'[Descreva a tarefa]')}\n\nFORMATO\n${value(fields.format,'[Indique o formato esperado]')}`;if(fields.constraints.value.trim())text+=`\n\nCONTEXTO E RESTRIÇÕES\n${fields.constraints.value.trim()}`}if(model.value==='rise'&&fields.task.value.trim())text+=`\n\nOBJETIVO\n${fields.task.value.trim()}`;if(model.value==='rise'&&fields.constraints.value.trim())text+=`\n\nCONTEXTO E RESTRIÇÕES\n${fields.constraints.value.trim()}`;preview.textContent=text;const copy=document.createElement('button');copy.type='button';copy.className='copy-btn';copy.textContent='Copiar';copy.addEventListener('click',()=>copyText(text));preview.appendChild(copy)}
+  document.getElementById('generateBtn').addEventListener('click',generate);
+  document.getElementById('exampleBtn').addEventListener('click',()=>{model.value='rtf';syncModel();fields.role.value='És especialista em comunicação clara e inclusiva.';fields.task.value='Transforma o texto fornecido num aviso informativo fácil de compreender.';fields.format.value='Título curto, resumo de duas frases e lista de três ações.';fields.constraints.value='Público geral; Português Europeu; tom institucional; máximo de 180 palavras; não inventar factos.';generate()});
+  document.getElementById('resetBtn').addEventListener('click',()=>{Object.values(fields).forEach(el=>el.value='');model.value='rtf';syncModel();preview.textContent='O seu prompt aparecerá aqui.'});
+
+  const answers={q1:'b',q2:'a',q3:'b',q4:'c',q5:'b'};
+  document.getElementById('quizForm').addEventListener('submit',e=>{e.preventDefault();let score=0;let answered=0;Object.entries(answers).forEach(([q,a])=>{const selected=document.querySelector(`input[name="${q}"]:checked`);if(selected){answered++;if(selected.value===a)score++}});document.getElementById('scoreBadge').textContent=`${score} / 5`;document.getElementById('quizFeedback').textContent=answered<5?'Responda às cinco perguntas para concluir.':score===5?'Excelente: dominou os conceitos essenciais.':score>=3?'Bom resultado. Reveja os pontos que suscitaram dúvidas.':'Reveja os princípios e os modelos antes de repetir.'});
+
+  const sections=[...document.querySelectorAll('main .section')];const navLinks=[...document.querySelectorAll('.side-nav a')];
+  const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+entry.target.id))}})},{rootMargin:'-25% 0px -65% 0px'});sections.forEach(s=>observer.observe(s));
+  function updateProgress(){const doc=document.documentElement;const max=doc.scrollHeight-doc.clientHeight;const pct=max>0?Math.min(100,Math.max(0,Math.round(doc.scrollTop/max*100))):0;document.getElementById('progressBar').style.width=pct+'%';document.getElementById('progressLabel').textContent=pct+'% percorrido'}
+  document.addEventListener('scroll',updateProgress,{passive:true});updateProgress();
+})();
+</script>
+</body>
+</html>
