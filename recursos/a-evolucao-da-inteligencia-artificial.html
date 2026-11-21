@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="pt-PT" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Apresentação didática e interativa sobre a evolução da Inteligência Artificial, do Teste de Turing à IA generativa.">
+  <meta name="author" content="João Pernas">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#090d1a">
+  <title>A Evolução da Inteligência Artificial — Da Imitação à IA Generativa</title>
+  <style>
+    :root {
+      --bg: #090d1a;
+      --bg-2: #10162a;
+      --surface: rgba(18, 26, 48, .78);
+      --surface-solid: #121a30;
+      --surface-2: #192440;
+      --text: #f3f7ff;
+      --muted: #aebbd4;
+      --line: rgba(160, 184, 232, .18);
+      --cyan: #5ee7f7;
+      --violet: #9e7bff;
+      --pink: #ff77b7;
+      --amber: #ffc857;
+      --green: #59e39c;
+      --danger: #ff7a90;
+      --focus: #fff19a;
+      --max: 1180px;
+      --shadow: 0 24px 70px rgba(0,0,0,.32);
+      --radius: 24px;
+    }
+    html[data-theme="light"] {
+      --bg: #f3f7ff;
+      --bg-2: #e7edfa;
+      --surface: rgba(255,255,255,.82);
+      --surface-solid: #ffffff;
+      --surface-2: #edf3ff;
+      --text: #172036;
+      --muted: #52627e;
+      --line: rgba(40, 63, 106, .16);
+      --shadow: 0 24px 70px rgba(37, 59, 101, .15);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 5%, rgba(94,231,247,.13), transparent 28rem),
+        radial-gradient(circle at 86% 18%, rgba(158,123,255,.14), transparent 34rem),
+        linear-gradient(180deg, var(--bg), var(--bg-2));
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 17px;
+      line-height: 1.65;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      opacity: .32;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 46px 46px;
+      mask-image: linear-gradient(to bottom, black, transparent 75%);
+      pointer-events: none;
+    }
+    a { color: var(--cyan); text-underline-offset: .18em; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    img, svg { max-width: 100%; }
+    :focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+    ::selection { color: #07121a; background: var(--cyan); }
+    .skip-link {
+      position: fixed; left: 1rem; top: -10rem; z-index: 1000;
+      padding: .75rem 1rem; border-radius: .7rem; color: #09101f; background: var(--focus);
+      transition: top .2s;
+    }
+    .skip-link:focus { top: 1rem; }
+    .progress { position: fixed; inset: 0 0 auto; height: 4px; z-index: 999; background: transparent; }
+    .progress > span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--cyan), var(--violet), var(--pink)); box-shadow: 0 0 18px var(--cyan); }
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--bg) 82%, transparent);
+      backdrop-filter: blur(18px);
+    }
+    .topbar-inner { max-width: var(--max); margin: auto; min-height: 72px; padding: .65rem 1.1rem; display: flex; align-items: center; gap: 1rem; }
+    .brand { display: flex; align-items: center; gap: .75rem; min-width: 0; color: var(--text); text-decoration: none; font-weight: 800; letter-spacing: -.02em; }
+    .brand-mark { width: 38px; height: 38px; flex: 0 0 auto; display: grid; place-items: center; border: 1px solid rgba(94,231,247,.35); border-radius: 12px; background: linear-gradient(145deg, rgba(94,231,247,.18), rgba(158,123,255,.24)); box-shadow: inset 0 0 18px rgba(94,231,247,.12); }
+    .brand small { display: block; color: var(--muted); font-size: .68rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+    .topnav { margin-left: auto; display: flex; align-items: center; gap: .35rem; }
+    .topnav a, .icon-btn { border: 1px solid transparent; border-radius: 999px; padding: .55rem .75rem; color: var(--muted); background: transparent; text-decoration: none; cursor: pointer; }
+    .topnav a:hover, .icon-btn:hover { color: var(--text); background: var(--surface-2); border-color: var(--line); }
+    .icon-btn { min-width: 42px; min-height: 42px; display: inline-grid; place-items: center; }
+    .menu-btn { display: none; }
+    .hero { position: relative; min-height: calc(100vh - 72px); display: grid; place-items: center; overflow: clip; }
+    #network { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .52; pointer-events: none; }
+    .hero-inner { position: relative; width: min(var(--max), calc(100% - 2rem)); margin: 0 auto; padding: 5rem 0 4rem; display: grid; grid-template-columns: 1.2fr .8fr; align-items: center; gap: 3rem; }
+    .eyebrow { display: inline-flex; align-items: center; gap: .55rem; margin: 0 0 1.2rem; color: var(--cyan); font-size: .82rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; width: 34px; height: 2px; background: currentColor; box-shadow: 0 0 12px currentColor; }
+    h1, h2, h3, p { overflow-wrap: break-word; }
+    h1 { max-width: 820px; margin: 0; font-size: clamp(3rem, 7.4vw, 7.2rem); line-height: .94; letter-spacing: -.065em; }
+    h1 .gradient { display: block; color: var(--cyan); background: linear-gradient(90deg, var(--cyan), var(--violet) 52%, var(--pink)); background-clip: text; -webkit-background-clip: text; }
+    @supports ((background-clip: text) or (-webkit-background-clip: text)) { h1 .gradient { color: transparent; } }
+    .lead { max-width: 700px; margin: 1.5rem 0 0; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.35rem); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; min-height: 48px; padding: .75rem 1.05rem; border: 1px solid var(--line); border-radius: 14px; color: var(--text); background: var(--surface); text-decoration: none; font-weight: 760; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,.12); }
+    .btn:hover { transform: translateY(-2px); border-color: rgba(94,231,247,.52); }
+    .btn-primary { color: #07151c; border-color: transparent; background: linear-gradient(90deg, var(--cyan), #8af5d1); }
+    .hero-orbit { position: relative; width: min(390px, 86vw); aspect-ratio: 1; margin: auto; display: grid; place-items: center; }
+    .core { width: 36%; aspect-ratio: 1; display: grid; place-items: center; border: 1px solid rgba(94,231,247,.4); border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.18), transparent 30%), linear-gradient(145deg, rgba(94,231,247,.32), rgba(158,123,255,.35)); box-shadow: 0 0 50px rgba(94,231,247,.2), inset 0 0 40px rgba(255,255,255,.08); animation: corePulse 4s ease-in-out infinite; }
+    .core svg { width: 56%; filter: drop-shadow(0 0 12px var(--cyan)); }
+    .orbit { position: absolute; inset: 8%; border: 1px solid var(--line); border-radius: 50%; animation: spin 22s linear infinite; }
+    .orbit:nth-child(2) { inset: 20%; animation-duration: 14s; animation-direction: reverse; }
+    .orb { position: absolute; width: 16px; aspect-ratio: 1; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 22px var(--cyan); left: 50%; top: -8px; }
+    .orbit:nth-child(2) .orb { background: var(--pink); box-shadow: 0 0 22px var(--pink); }
+    .hero-note { position: absolute; right: 2%; bottom: 8%; width: 180px; padding: .75rem 1rem; border: 1px solid var(--line); border-radius: 14px; color: var(--muted); background: var(--surface); backdrop-filter: blur(12px); font-size: .82rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes corePulse { 50% { transform: scale(1.06); box-shadow: 0 0 75px rgba(94,231,247,.31), inset 0 0 40px rgba(255,255,255,.12); } }
+    .section { position: relative; padding: 6rem 1rem; }
+    .section-inner { max-width: var(--max); margin: auto; }
+    .section-kicker { margin: 0 0 .65rem; color: var(--cyan); font-size: .78rem; font-weight: 850; letter-spacing: .16em; text-transform: uppercase; }
+    h2 { max-width: 900px; margin: 0; font-size: clamp(2.1rem, 5vw, 4.4rem); line-height: 1.05; letter-spacing: -.045em; }
+    h3 { margin: 0 0 .7rem; font-size: clamp(1.25rem, 2.1vw, 1.7rem); line-height: 1.2; letter-spacing: -.02em; }
+    .section-intro { max-width: 820px; margin: 1.2rem 0 2.4rem; color: var(--muted); font-size: 1.15rem; }
+    .grid { display: grid; gap: 1rem; }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .card { position: relative; padding: 1.35rem; border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(145deg, var(--surface), color-mix(in srgb, var(--surface) 72%, transparent)); box-shadow: 0 15px 45px rgba(0,0,0,.1); overflow: hidden; }
+    .card::after { content: ""; position: absolute; width: 140px; height: 140px; right: -75px; top: -75px; border-radius: 50%; background: var(--glow, var(--cyan)); opacity: .09; filter: blur(5px); }
+    .card p:last-child { margin-bottom: 0; }
+    .stat { font-size: clamp(2rem, 5vw, 4rem); line-height: 1; letter-spacing: -.055em; font-weight: 900; color: var(--accent, var(--cyan)); }
+    .stat-label { margin-top: .55rem; color: var(--muted); }
+    .timeline-shell { margin-top: 3rem; }
+    .timeline-controls { display: flex; flex-wrap: wrap; gap: .55rem; margin-bottom: 1.4rem; }
+    .filter { padding: .55rem .8rem; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: var(--surface); cursor: pointer; }
+    .filter[aria-pressed="true"] { color: #07151c; border-color: transparent; background: var(--cyan); font-weight: 800; }
+    .timeline { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: .9rem; }
+    .timeline::before { content: ""; position: absolute; left: 2%; right: 2%; top: 26px; height: 2px; background: linear-gradient(90deg, var(--cyan), var(--violet), var(--pink)); opacity: .5; }
+    .event { position: relative; min-width: 0; padding-top: 54px; transition: opacity .25s, transform .25s; }
+    .event::before { content: ""; position: absolute; top: 18px; left: 18px; width: 16px; height: 16px; border: 4px solid var(--bg); border-radius: 50%; background: var(--event, var(--cyan)); box-shadow: 0 0 16px var(--event, var(--cyan)); }
+    .event time { color: var(--event, var(--cyan)); font-weight: 900; }
+    .event h3 { margin-top: .2rem; font-size: 1rem; }
+    .event p { margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.45; }
+    .event.is-hidden { display: none; }
+    .chapter { border-top: 1px solid var(--line); }
+    .chapter-layout { display: grid; grid-template-columns: minmax(180px, .35fr) minmax(0, 1fr); gap: 3rem; align-items: start; }
+    .chapter-index { position: sticky; top: 110px; }
+    .chapter-number { color: transparent; font-size: clamp(4rem, 9vw, 8rem); line-height: .8; font-weight: 950; letter-spacing: -.08em; -webkit-text-stroke: 1px color-mix(in srgb, var(--cyan) 70%, transparent); opacity: .8; }
+    .chapter-year { display: inline-block; margin-top: 1rem; padding: .35rem .65rem; border: 1px solid var(--line); border-radius: 999px; color: var(--cyan); background: var(--surface); font-weight: 800; font-size: .8rem; }
+    .content-stack { display: grid; gap: 1rem; }
+    .quote { margin: 1.8rem 0; padding: 1.2rem 1.4rem 1.2rem 1.6rem; border-left: 4px solid var(--violet); border-radius: 0 var(--radius) var(--radius) 0; background: var(--surface); font-size: 1.2rem; font-weight: 650; }
+    .quote cite { display: block; margin-top: .65rem; color: var(--muted); font-size: .85rem; font-style: normal; font-weight: 600; }
+    .concept { display: flex; gap: 1rem; align-items: flex-start; }
+    .concept-icon { flex: 0 0 auto; width: 46px; height: 46px; display: grid; place-items: center; border-radius: 14px; color: var(--accent, var(--cyan)); background: color-mix(in srgb, var(--accent, var(--cyan)) 13%, var(--surface)); border: 1px solid color-mix(in srgb, var(--accent, var(--cyan)) 28%, transparent); font-weight: 900; }
+    .concept p { margin: .2rem 0 0; color: var(--muted); }
+    .duel { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: stretch; margin-top: 1rem; }
+    .duel .versus { align-self: center; width: 56px; height: 56px; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(145deg, var(--violet), var(--pink)); font-weight: 950; box-shadow: 0 0 25px rgba(158,123,255,.3); }
+    .duel-card { padding: 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .duel-card ul { padding-left: 1.1rem; color: var(--muted); }
+    .meter-group { display: grid; gap: 1.1rem; margin: 1.4rem 0; }
+    .meter-label { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: .35rem; font-weight: 750; }
+    .meter-track { height: 20px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); }
+    .meter-fill { height: 100%; width: var(--value); border-radius: inherit; background: linear-gradient(90deg, var(--color), color-mix(in srgb, var(--color) 55%, white)); transform-origin: left; animation: grow 1s ease both; }
+    @keyframes grow { from { transform: scaleX(0); } }
+    .move-board { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; max-width: 460px; margin: 1rem auto; padding: 14px; border: 1px solid var(--line); border-radius: 22px; background: linear-gradient(145deg, #d9a85d, #af7338); box-shadow: var(--shadow); }
+    .move-board button { aspect-ratio: 1; border: 0; border-radius: 50%; background: rgba(54,29,12,.13); cursor: pointer; }
+    .move-board button:hover { box-shadow: inset 0 0 0 3px rgba(255,255,255,.4); }
+    .move-board .black { background: #171718; box-shadow: inset 0 0 10px rgba(255,255,255,.16), 0 4px 7px rgba(0,0,0,.35); }
+    .move-board .white { background: #f6f3ec; box-shadow: inset 0 0 10px rgba(0,0,0,.13), 0 4px 7px rgba(0,0,0,.25); }
+    .move-board .special { background: var(--pink); box-shadow: 0 0 0 4px rgba(255,119,183,.22), 0 0 20px var(--pink); animation: corePulse 2s infinite; }
+    .board-caption { text-align: center; color: var(--muted); font-size: .9rem; }
+    .transformer { display: grid; grid-template-columns: repeat(4, 1fr); gap: .7rem; margin: 1.6rem 0; }
+    .transformer-step { position: relative; min-height: 170px; padding: 1rem; border: 1px solid var(--line); border-radius: 20px; color: var(--muted); background: var(--surface); cursor: pointer; }
+    .transformer-step::before { content: attr(data-step); display: grid; place-items: center; width: 32px; height: 32px; margin-bottom: .75rem; border-radius: 10px; color: #07151c; background: var(--cyan); font-weight: 900; }
+    .transformer-step[aria-pressed="true"] { color: var(--text); border-color: var(--violet); box-shadow: 0 0 0 3px rgba(158,123,255,.14); transform: translateY(-4px); }
+    .transformer-step strong { display: block; color: var(--text); margin-bottom: .4rem; }
+    .transformer-output { min-height: 92px; padding: 1rem 1.2rem; border: 1px dashed color-mix(in srgb, var(--violet) 65%, transparent); border-radius: 18px; background: color-mix(in srgb, var(--violet) 8%, var(--surface)); }
+    .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: .75rem; align-items: stretch; }
+    .flow-step { position: relative; padding: 1rem; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); text-align: center; }
+    .flow-step:not(:last-child)::after { content: "→"; position: absolute; right: -.65rem; top: 50%; z-index: 2; color: var(--cyan); font-size: 1.3rem; font-weight: 900; transform: translate(50%, -50%); }
+    .flow-step span { display: block; color: var(--cyan); font-size: 1.6rem; font-weight: 950; }
+    .callout { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start; margin-top: 1.5rem; padding: 1.2rem 1.3rem; border: 1px solid color-mix(in srgb, var(--amber) 40%, transparent); border-radius: var(--radius); background: color-mix(in srgb, var(--amber) 9%, var(--surface)); }
+    .callout-mark { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px; color: #241600; background: var(--amber); font-weight: 950; }
+    details { border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+    details + details { margin-top: .7rem; }
+    summary { padding: 1rem 1.1rem; cursor: pointer; font-weight: 800; }
+    details p { margin: 0; padding: 0 1.1rem 1.1rem; color: var(--muted); }
+    .quiz { max-width: 900px; margin: 2rem auto 0; }
+    .question { margin-bottom: 1rem; padding: 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .question fieldset { padding: 0; border: 0; }
+    .question legend { margin-bottom: .8rem; font-weight: 850; }
+    .answers { display: grid; gap: .55rem; }
+    .answer { display: flex; gap: .7rem; align-items: flex-start; padding: .7rem .8rem; border: 1px solid var(--line); border-radius: 14px; cursor: pointer; }
+    .answer:hover { background: var(--surface-2); }
+    .answer input { margin-top: .35rem; accent-color: var(--violet); }
+    .question.correct { border-color: var(--green); }
+    .question.incorrect { border-color: var(--danger); }
+    .feedback { min-height: 1.5em; margin: .7rem 0 0; color: var(--muted); font-size: .92rem; }
+    .quiz-footer { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; }
+    .score { margin-left: auto; font-weight: 900; font-size: 1.1rem; }
+    .glossary { columns: 2; column-gap: 1rem; }
+    .glossary details { break-inside: avoid; margin-bottom: .7rem; }
+    .closing { text-align: center; }
+    .closing h2 { margin-inline: auto; }
+    .closing .section-intro { margin-inline: auto; }
+    .footer { padding: 2rem 1rem 3rem; border-top: 1px solid var(--line); color: var(--muted); }
+    .footer-inner { max-width: var(--max); margin: auto; display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+    .footer strong { color: var(--text); }
+    .reveal { opacity: 1; transform: none; transition: opacity .7s ease, transform .7s ease; }
+    .reveal.prepare { opacity: 0; transform: translateY(26px); }
+    .reveal.prepare.visible { opacity: 1; transform: none; }
+    .presentation-banner { display: none; }
+    body.presentation .topbar, body.presentation .footer { display: none; }
+    body.presentation .presentation-banner { position: fixed; inset: 1rem 1rem auto auto; z-index: 120; display: block; padding: .55rem .8rem; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: var(--surface-solid); font-size: .8rem; }
+    body.presentation .section, body.presentation .hero { min-height: 100vh; display: grid; align-items: center; scroll-snap-align: start; }
+    body.presentation { scroll-snap-type: y mandatory; }
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .lead, .hero-actions { margin-inline: auto; justify-content: center; }
+      .hero-orbit { width: min(300px, 78vw); }
+      .hero-note { display: none; }
+      .timeline { grid-template-columns: repeat(2, 1fr); }
+      .timeline::before { display: none; }
+      .event { padding: 1rem; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+      .event::before { display: none; }
+      .chapter-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+      .chapter-index { position: static; display: flex; align-items: end; justify-content: space-between; }
+      .chapter-number { font-size: 5rem; }
+      .grid-3, .transformer { grid-template-columns: repeat(2, 1fr); }
+      .flow { grid-template-columns: 1fr; }
+      .flow-step:not(:last-child)::after { content: "↓"; right: auto; top: auto; left: 50%; bottom: -.65rem; transform: translate(-50%, 50%); }
+    }
+    @media (max-width: 720px) {
+      body { font-size: 16px; }
+      .topbar-inner { flex-wrap: wrap; }
+      .menu-btn { display: inline-grid; margin-left: auto; }
+      .topnav { order: 3; width: 100%; display: none; padding: .4rem 0 .6rem; }
+      .topnav.open { display: grid; grid-template-columns: 1fr 1fr; }
+      .topnav a { text-align: center; }
+      .topnav .icon-btn { display: none; }
+      .hero { min-height: auto; }
+      .hero-inner { padding-top: 4rem; }
+      h1 { font-size: clamp(2.8rem, 15vw, 5rem); }
+      .section { padding: 4.5rem 1rem; }
+      .grid-2, .grid-3, .timeline, .transformer { grid-template-columns: 1fr; }
+      .duel { grid-template-columns: 1fr; }
+      .duel .versus { margin: -.2rem auto; }
+      .glossary { columns: 1; }
+      .footer-inner { display: block; text-align: center; }
+      .score { width: 100%; margin-left: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      #network { display: none; }
+    }
+    @media print {
+      :root { --bg: #fff; --bg-2: #fff; --surface: #fff; --surface-solid: #fff; --surface-2: #f3f4f7; --text: #111; --muted: #444; --line: #bbb; }
+      body { background: white; font-size: 11pt; }
+      body::before, .topbar, #network, .hero-orbit, .hero-actions, .timeline-controls, .move-board, .quiz-footer, .presentation-banner { display: none !important; }
+      .hero { min-height: auto; }
+      .hero-inner, .chapter-layout { display: block; }
+      .section { padding: 1.1cm 0; break-inside: avoid; }
+      .chapter-index { position: static; }
+      .reveal { opacity: 1; transform: none; }
+      .card, .duel-card, .question, details { box-shadow: none; break-inside: avoid; }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+  <div class="presentation-banner">Modo apresentação · ← → navegar · Esc sair</div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#inicio" aria-label="Voltar ao início">
+        <span class="brand-mark" aria-hidden="true">AI</span>
+        <span>A Evolução da IA<small>João Pernas · Recursos Didáticos</small></span>
+      </a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="topnav" aria-label="Abrir menu">☰</button>
+      <nav class="topnav" id="topnav" aria-label="Navegação principal">
+        <a href="#linha-do-tempo">Cronologia</a>
+        <a href="#capitulo-1">História</a>
+        <a href="#ia-generativa">IA generativa</a>
+        <a href="#quiz">Teste</a>
+        <button class="icon-btn" id="presentBtn" type="button" title="Ativar modo apresentação" aria-label="Ativar modo apresentação">▣</button>
+        <button class="icon-btn" id="themeBtn" type="button" title="Alternar tema" aria-label="Mudar para tema claro">☼</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero" id="inicio" data-slide>
+      <canvas id="network" aria-hidden="true"></canvas>
+      <div class="hero-inner">
+        <div>
+          <p class="eyebrow">Uma viagem interativa · 1950 — hoje</p>
+          <h1>A Evolução da <span class="gradient">Inteligência Artificial</span></h1>
+          <p class="lead">Da pergunta de Alan Turing — «Podem as máquinas pensar?» — aos sistemas generativos que criam texto, imagem, som e código.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#linha-do-tempo">Iniciar viagem <span aria-hidden="true">↓</span></a>
+            <button class="btn" type="button" id="heroPresentBtn">Apresentar em ecrã inteiro</button>
+          </div>
+        </div>
+        <div class="hero-orbit" aria-hidden="true">
+          <div class="orbit"><i class="orb"></i></div>
+          <div class="orbit"><i class="orb"></i></div>
+          <div class="core">
+            <svg viewBox="0 0 100 100" role="img" aria-label="Rede neural estilizada">
+              <g fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M25 22 50 14l25 12 8 27-14 27-34 3-19-25z" opacity=".7"/>
+                <path d="m25 22 22 31 28-27M16 58l31-5 22 27M50 14l-3 39-12 30M83 53 47 53" opacity=".5"/>
+              </g>
+              <g fill="currentColor"><circle cx="25" cy="22" r="5"/><circle cx="50" cy="14" r="5"/><circle cx="75" cy="26" r="5"/><circle cx="83" cy="53" r="5"/><circle cx="69" cy="80" r="5"/><circle cx="35" cy="83" r="5"/><circle cx="16" cy="58" r="5"/><circle cx="47" cy="53" r="8"/></g>
+            </svg>
+          </div>
+          <div class="hero-note">A história da IA alterna entre grandes promessas, períodos de desilusão e avanços inesperados.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="linha-do-tempo" data-slide>
+      <div class="section-inner">
+        <p class="section-kicker">Visão geral</p>
+        <h2>Setenta anos de ideias, invernos e revoluções</h2>
+        <p class="section-intro">Filtre a cronologia por era. Cada marco representa uma mudança na forma como concebemos — e construímos — inteligência em máquinas.</p>
+        <div class="grid grid-3 reveal">
+          <article class="card"><div class="stat">1950</div><div class="stat-label">O Jogo da Imitação transforma uma pergunta filosófica num teste observável.</div></article>
+          <article class="card" style="--accent:var(--violet);--glow:var(--violet)"><div class="stat">2012</div><div class="stat-label">A AlexNet prova o impacto da combinação entre dados, algoritmos e GPUs.</div></article>
+          <article class="card" style="--accent:var(--pink);--glow:var(--pink)"><div class="stat">2017</div><div class="stat-label">A arquitetura Transformer abre o caminho aos grandes modelos de linguagem.</div></article>
+        </div>
+        <div class="timeline-shell reveal">
+          <div class="timeline-controls" role="group" aria-label="Filtrar cronologia">
+            <button class="filter" type="button" data-filter="all" aria-pressed="true">Todos</button>
+            <button class="filter" type="button" data-filter="foundations" aria-pressed="false">Fundamentos</button>
+            <button class="filter" type="button" data-filter="winters" aria-pressed="false">Invernos</button>
+            <button class="filter" type="button" data-filter="learning" aria-pressed="false">Aprendizagem</button>
+            <button class="filter" type="button" data-filter="generative" aria-pressed="false">Generativa</button>
+          </div>
+          <div class="timeline" id="timeline">
+            <article class="event" data-era="foundations" style="--event:var(--cyan)"><time datetime="1950">1950</time><h3>Turing</h3><p>O Jogo da Imitação desloca o debate para o comportamento observável.</p></article>
+            <article class="event" data-era="foundations" style="--event:var(--cyan)"><time datetime="1956">1956</time><h3>Dartmouth</h3><p>Nasce o termo «Inteligência Artificial» e um novo campo científico.</p></article>
+            <article class="event" data-era="foundations" style="--event:var(--cyan)"><time datetime="1958">1958</time><h3>Perceptron</h3><p>Rosenblatt demonstra uma máquina inspirada em neurónios que aprende com exemplos.</p></article>
+            <article class="event" data-era="winters" style="--event:var(--amber)"><time datetime="1974">1974–1980</time><h3>Primeiro inverno</h3><p>Promessas excessivas, limites computacionais e cortes no financiamento.</p></article>
+            <article class="event" data-era="learning" style="--event:var(--violet)"><time datetime="1986">1986</time><h3>Retropropagação</h3><p>O treino eficiente de redes multicamada ganha novo impulso.</p></article>
+            <article class="event" data-era="winters" style="--event:var(--amber)"><time datetime="1987">1987–1993</time><h3>Segundo inverno</h3><p>Os sistemas periciais revelam-se caros, frágeis e difíceis de manter.</p></article>
+            <article class="event" data-era="learning" style="--event:var(--violet)"><time datetime="1997">1997</time><h3>Deep Blue</h3><p>A IBM derrota Garry Kasparov num encontro histórico de xadrez.</p></article>
+            <article class="event" data-era="learning" style="--event:var(--violet)"><time datetime="2012">2012</time><h3>AlexNet</h3><p>O deep learning transforma o reconhecimento de imagem.</p></article>
+            <article class="event" data-era="learning" style="--event:var(--violet)"><time datetime="2016">2016</time><h3>AlphaGo</h3><p>A aprendizagem profunda e por reforço conquistam o jogo Go.</p></article>
+            <article class="event" data-era="generative" style="--event:var(--pink)"><time datetime="2017">2017</time><h3>Transformer</h3><p>A auto-atenção permite processar relações em sequências com grande eficiência.</p></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section chapter" id="capitulo-1" data-slide>
+      <div class="section-inner chapter-layout">
+        <aside class="chapter-index" aria-label="Capítulo 1"><div class="chapter-number">01</div><span class="chapter-year">1950</span></aside>
+        <div>
+          <p class="section-kicker">O ponto de partida</p>
+          <h2>O Jogo da Imitação</h2>
+          <p class="section-intro">Alan Turing percebeu que «pensar» era um conceito demasiado ambíguo para servir de teste científico. Propôs uma pergunta operacional: consegue uma máquina conversar de forma indistinguível de uma pessoa?</p>
+          <blockquote class="quote reveal">«Proponho considerar a questão: “Podem as máquinas pensar?”»<cite>Alan Turing, Computing Machinery and Intelligence, 1950</cite></blockquote>
+          <div class="grid grid-2 content-stack">
+            <article class="card concept reveal" style="--accent:var(--cyan)"><div class="concept-icon">?</div><div><h3>Da essência ao desempenho</h3><p>O teste não procura provar consciência interna. Avalia se o comportamento linguístico é suficientemente convincente.</p></div></article>
+            <article class="card concept reveal" style="--accent:var(--violet);--glow:var(--violet)"><div class="concept-icon">↔</div><div><h3>Uma mudança duradoura</h3><p>A inteligência passa a ser discutida através de tarefas, respostas e capacidades observáveis.</p></div></article>
+          </div>
+          <div class="callout reveal"><div class="callout-mark">!</div><div><strong>A objeção «cabeças na areia»</strong><br>Turing antecipou que parte da resistência à inteligência das máquinas seria psicológica: aceitar uma máquina inteligente obrigaria a repensar a singularidade humana.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section chapter" id="capitulo-2" data-slide>
+      <div class="section-inner chapter-layout">
+        <aside class="chapter-index" aria-label="Capítulo 2"><div class="chapter-number">02</div><span class="chapter-year">1956–1974</span></aside>
+        <div>
+          <p class="section-kicker">Nasce um campo científico</p>
+          <h2>Regras escritas ou aprendizagem?</h2>
+          <p class="section-intro">Na Conferência de Dartmouth, John McCarthy propôs o nome «Inteligência Artificial». Quase de imediato, o campo dividiu-se entre duas formas de construir inteligência.</p>
+          <div class="duel reveal">
+            <article class="duel-card"><h3 style="color:var(--cyan)">IA simbólica</h3><p>A inteligência resulta da manipulação explícita de símbolos e regras.</p><ul><li>Conhecimento escrito por especialistas</li><li>Raciocínio lógico e explicável</li><li>Bom desempenho em domínios fechados</li></ul></article>
+            <div class="versus" aria-label="versus">VS</div>
+            <article class="duel-card"><h3 style="color:var(--pink)">Conexionismo</h3><p>A inteligência emerge de redes de unidades simples que ajustam as ligações.</p><ul><li>Aprendizagem a partir de exemplos</li><li>Tolerância a padrões incompletos</li><li>Comportamento menos previsível</li></ul></article>
+          </div>
+          <p class="section-intro">O Perceptron, de Frank Rosenblatt, materializou a abordagem conexionista. Contudo, as limitações das redes de uma só camada e a falta de métodos eficazes de treino reduziram o entusiasmo durante décadas.</p>
+          <details class="reveal"><summary>Porque era o problema XOR tão importante?</summary><p>Um Perceptron de camada única só separa padrões através de uma fronteira linear. O XOR exige uma separação não linear. Redes multicamada resolvem o problema, mas ainda faltava um método prático para ajustar todos os seus pesos.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section chapter" id="capitulo-3" data-slide>
+      <div class="section-inner chapter-layout">
+        <aside class="chapter-index" aria-label="Capítulo 3"><div class="chapter-number">03</div><span class="chapter-year">1974–1997</span></aside>
+        <div>
+          <p class="section-kicker">Os invernos da IA</p>
+          <h2>Quando as promessas excedem a tecnologia</h2>
+          <p class="section-intro">A IA atravessou períodos de forte quebra de confiança. Os sistemas funcionavam em demonstrações limitadas, mas falhavam perante a complexidade do mundo real.</p>
+          <div class="grid grid-3">
+            <article class="card reveal" style="--glow:var(--amber)"><h3>Explosão combinatória</h3><p>O número de possibilidades crescia depressa demais para os recursos computacionais disponíveis.</p></article>
+            <article class="card reveal" style="--glow:var(--amber)"><h3>Sistemas frágeis</h3><p>Os sistemas periciais dependiam de milhares de regras IF–THEN, difíceis de extrair, atualizar e validar.</p></article>
+            <article class="card reveal" style="--glow:var(--amber)"><h3>Financiamento reduzido</h3><p>Resultados aquém das previsões levaram a cortes, encerramento de laboratórios e perda de reputação.</p></article>
+          </div>
+          <div class="callout reveal"><div class="callout-mark">↻</div><div><strong>Persistência no inverno</strong><br>Geoffrey Hinton, Yann LeCun e Yoshua Bengio continuaram a investigar redes neuronais quando a abordagem estava fora da corrente dominante.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section chapter" id="capitulo-4" data-slide>
+      <div class="section-inner chapter-layout">
+        <aside class="chapter-index" aria-label="Capítulo 4"><div class="chapter-number">04</div><span class="chapter-year">1986–1998</span></aside>
+        <div>
+          <p class="section-kicker">A chama mantém-se acesa</p>
+          <h2>Retropropagação e LeNet</h2>
+          <p class="section-intro">A retropropagação tornou possível treinar redes com várias camadas: o erro calculado na saída é propagado para trás, ajustando cada peso para melhorar a previsão seguinte.</p>
+          <div class="flow reveal" aria-label="Ciclo simplificado de aprendizagem de uma rede neural">
+            <div class="flow-step"><span>1</span><strong>Entrada</strong><br><small>Exemplos</small></div>
+            <div class="flow-step"><span>2</span><strong>Previsão</strong><br><small>Saída da rede</small></div>
+            <div class="flow-step"><span>3</span><strong>Erro</strong><br><small>Diferença medida</small></div>
+            <div class="flow-step"><span>4</span><strong>Ajuste</strong><br><small>Pesos atualizados</small></div>
+            <div class="flow-step"><span>5</span><strong>Repetição</strong><br><small>Aprendizagem</small></div>
+          </div>
+          <div class="grid grid-2" style="margin-top:1.2rem">
+            <article class="card concept reveal"><div class="concept-icon">∇</div><div><h3>O algoritmo</h3><p>A rede aprende a reduzir o erro através de pequenos ajustes distribuídos por todas as camadas.</p></div></article>
+            <article class="card concept reveal" style="--accent:var(--pink);--glow:var(--pink)"><div class="concept-icon">✎</div><div><h3>A aplicação</h3><p>A LeNet, de Yann LeCun, demonstrou a utilidade das redes convolucionais na leitura automática de números manuscritos.</p></div></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section chapter" id="capitulo-5" data-slide>
+      <div class="section-inner chapter-layout">
+        <aside class="chapter-index" aria-label="Capítulo 5"><div class="chapter-number">05</div><span class="chapter-year">1997–2012</span></aside>
+        <div>
+          <p class="section-kicker">Da força bruta ao deep learning</p>
+          <h2>Deep Blue e o momento AlexNet</h2>
+          <p class="section-intro">A vitória do Deep Blue sobre Garry Kasparov mostrou o poder do cálculo especializado. Quinze anos depois, a AlexNet demonstrou algo diferente: uma máquina podia aprender representações visuais diretamente a partir de dados.</p>
+          <div class="meter-group card reveal" aria-label="Comparação da taxa de erro no desafio ImageNet de 2012">
+            <div><div class="meter-label"><span>Melhor abordagem tradicional</span><strong>26,2% de erro</strong></div><div class="meter-track"><div class="meter-fill" style="--value:87%;--color:var(--amber)"></div></div></div>
+            <div><div class="meter-label"><span>AlexNet</span><strong>15,3% de erro</strong></div><div class="meter-track"><div class="meter-fill" style="--value:51%;--color:var(--violet)"></div></div></div>
+            <p style="margin:.4rem 0 0;color:var(--muted)">Escala visual relativa a 30%. Uma taxa de erro menor corresponde a melhor desempenho.</p>
+          </div>
+          <div class="grid grid-3">
+            <article class="card reveal"><div class="stat" style="font-size:2.2rem">Algoritmo</div><p class="stat-label">Retropropagação e redes convolucionais.</p></article>
+            <article class="card reveal" style="--accent:var(--violet);--glow:var(--violet)"><div class="stat" style="font-size:2.2rem">Dados</div><p class="stat-label">1,2 milhões de imagens do ImageNet.</p></article>
+            <article class="card reveal" style="--accent:var(--pink);--glow:var(--pink)"><div class="stat" style="font-size:2.2rem">GPUs</div><p class="stat-label">Processamento paralelo para treinar redes maiores.</p></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section chapter" id="capitulo-6" data-slide>
+      <div class="section-inner chapter-layout">
+        <aside class="chapter-index" aria-label="Capítulo 6"><div class="chapter-number">06</div><span class="chapter-year">2016</span></aside>
+        <div>
+          <p class="section-kicker">A intuição da máquina</p>
+          <h2>AlphaGo e as jogadas improváveis</h2>
+          <p class="section-intro">O Go tem um espaço de possibilidades demasiado vasto para uma pesquisa exaustiva. A AlphaGo combinou redes neuronais, aprendizagem por reforço e pesquisa orientada por probabilidades.</p>
+          <div class="grid grid-2">
+            <div>
+              <div class="move-board reveal" id="goBoard" aria-label="Tabuleiro didático inspirado no jogo Go. Selecione a pedra cor-de-rosa para conhecer a jogada 37."></div>
+              <p class="board-caption" id="boardCaption">Selecione a pedra destacada.</p>
+            </div>
+            <div class="content-stack">
+              <article class="card reveal"><h3>Jogada 37</h3><p>No segundo jogo contra Lee Sedol, a AlphaGo escolheu uma posição que os comentadores consideraram estranha. Mais tarde, a jogada revelou a sua força estratégica.</p></article>
+              <article class="card reveal" style="--glow:var(--pink)"><h3>Jogada 78</h3><p>No quarto jogo, Lee Sedol respondeu com uma jogada criativa que a máquina avaliara como muito improvável — e conquistou a única vitória humana do encontro.</p></article>
+              <p class="section-intro">A lição não foi apenas «a máquina venceu». O confronto mostrou que sistemas de IA podem explorar soluções fora das convenções humanas e, ao fazê-lo, ampliar a própria criatividade humana.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section chapter" id="capitulo-7" data-slide>
+      <div class="section-inner chapter-layout">
+        <aside class="chapter-index" aria-label="Capítulo 7"><div class="chapter-number">07</div><span class="chapter-year">2017</span></aside>
+        <div>
+          <p class="section-kicker">Attention Is All You Need</p>
+          <h2>A arquitetura Transformer</h2>
+          <p class="section-intro">O Transformer processa relações entre palavras através de auto-atenção. Em vez de ler apenas numa sequência rígida, pondera que partes do contexto são mais relevantes para cada elemento.</p>
+          <div class="transformer reveal" role="group" aria-label="Explorar o funcionamento simplificado de um Transformer">
+            <button class="transformer-step" type="button" data-step="1" data-info="O texto é dividido em unidades chamadas tokens. Um token pode ser uma palavra, parte de uma palavra ou um símbolo." aria-pressed="true"><strong>Tokenização</strong>O texto é convertido em unidades processáveis.</button>
+            <button class="transformer-step" type="button" data-step="2" data-info="Cada token é representado por números — um vetor — que codificam características aprendidas durante o treino." aria-pressed="false"><strong>Representação</strong>Os tokens tornam-se vetores numéricos.</button>
+            <button class="transformer-step" type="button" data-step="3" data-info="A auto-atenção calcula a importância relativa dos outros tokens para interpretar cada token no seu contexto." aria-pressed="false"><strong>Auto-atenção</strong>Cada token pondera o contexto relevante.</button>
+            <button class="transformer-step" type="button" data-step="4" data-info="O modelo produz probabilidades para o próximo token. A repetição deste processo gera uma resposta completa." aria-pressed="false"><strong>Previsão</strong>O modelo estima o token seguinte.</button>
+          </div>
+          <div class="transformer-output" id="transformerOutput" aria-live="polite">O texto é dividido em unidades chamadas tokens. Um token pode ser uma palavra, parte de uma palavra ou um símbolo.</div>
+          <div class="callout reveal"><div class="callout-mark">T</div><div><strong>O «T» de GPT</strong><br>GPT significa <em>Generative Pre-trained Transformer</em>: um Transformer generativo, pré-treinado em grandes coleções de texto.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section chapter" id="ia-generativa" data-slide>
+      <div class="section-inner chapter-layout">
+        <aside class="chapter-index" aria-label="Capítulo 8"><div class="chapter-number">08</div><span class="chapter-year">2017–hoje</span></aside>
+        <div>
+          <p class="section-kicker">Grandes modelos de linguagem</p>
+          <h2>Da previsão à criação</h2>
+          <p class="section-intro">Um modelo generativo aprende padrões estatísticos em grandes quantidades de dados. Quando recebe uma instrução, não recupera simplesmente uma resposta: constrói uma sequência provável, elemento a elemento.</p>
+          <div class="flow reveal" aria-label="Fluxo simplificado de utilização de um modelo generativo">
+            <div class="flow-step"><span>1</span><strong>Instrução</strong><br><small>Objetivo e contexto</small></div>
+            <div class="flow-step"><span>2</span><strong>Tokens</strong><br><small>Entrada codificada</small></div>
+            <div class="flow-step"><span>3</span><strong>Contexto</strong><br><small>Atenção e padrões</small></div>
+            <div class="flow-step"><span>4</span><strong>Previsão</strong><br><small>Próximo elemento</small></div>
+            <div class="flow-step"><span>5</span><strong>Resultado</strong><br><small>Texto, imagem, som ou código</small></div>
+          </div>
+          <div class="grid grid-3" style="margin-top:1.2rem">
+            <article class="card reveal"><h3>Capacidade</h3><p>Produção rápida, adaptação de estilo, síntese, exploração de hipóteses e apoio à programação.</p></article>
+            <article class="card reveal" style="--glow:var(--amber)"><h3>Limite</h3><p>Uma resposta plausível pode estar errada. O modelo prevê padrões; não garante verdade, atualidade ou adequação.</p></article>
+            <article class="card reveal" style="--glow:var(--pink)"><h3>Responsabilidade</h3><p>O julgamento humano continua indispensável para validar factos, proteger dados e avaliar impactos.</p></article>
+          </div>
+          <div class="callout reveal"><div class="callout-mark">✓</div><div><strong>Regra prática para o serviço público</strong><br>Use a IA como apoio, nunca como autoridade final. Verifique fontes, reduza dados pessoais ao mínimo necessário, documente decisões e mantenha supervisão humana efetiva.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section chapter" id="capitulo-9" data-slide>
+      <div class="section-inner chapter-layout">
+        <aside class="chapter-index" aria-label="Capítulo 9"><div class="chapter-number">09</div><span class="chapter-year">O círculo fecha</span></aside>
+        <div>
+          <p class="section-kicker">Risco, governação e escolha humana</p>
+          <h2>Da possibilidade à responsabilidade</h2>
+          <p class="section-intro">Em 2023, Geoffrey Hinton deixou a Google para falar mais livremente sobre riscos da IA. O pioneiro que ajudou a provar que as redes podiam aprender passou a alertar para desinformação, impacto laboral e perda de controlo.</p>
+          <div class="grid grid-2">
+            <article class="card reveal"><h3>Benefícios a preservar</h3><ul><li>Apoio à acessibilidade e à inclusão</li><li>Automatização de tarefas repetitivas</li><li>Exploração de grandes volumes de informação</li><li>Apoio à ciência, educação e serviços públicos</li></ul></article>
+            <article class="card reveal" style="--glow:var(--danger)"><h3>Riscos a governar</h3><ul><li>Erros e desinformação convincente</li><li>Discriminação reproduzida por dados</li><li>Exposição indevida de dados pessoais</li><li>Dependência, opacidade e concentração de poder</li></ul></article>
+          </div>
+          <blockquote class="quote reveal">A pergunta deixou de ser apenas «podem as máquinas pensar?». É também: «como queremos que sejam usadas — e quem responde pelas consequências?»</blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="glossario" data-slide>
+      <div class="section-inner">
+        <p class="section-kicker">Conceitos essenciais</p>
+        <h2>Glossário rápido</h2>
+        <p class="section-intro">Abra cada conceito para rever a respetiva definição.</p>
+        <div class="glossary reveal">
+          <details><summary>Algoritmo</summary><p>Conjunto de instruções ou procedimentos usados para resolver um problema ou executar uma tarefa.</p></details>
+          <details><summary>Aprendizagem automática</summary><p>Área em que sistemas melhoram o desempenho através de dados, sem que todas as regras sejam explicitamente programadas.</p></details>
+          <details><summary>Rede neuronal</summary><p>Modelo composto por unidades ligadas em camadas, cujos pesos são ajustados durante a aprendizagem.</p></details>
+          <details><summary>Deep learning</summary><p>Aprendizagem com redes neuronais de múltiplas camadas, capazes de construir representações progressivamente mais abstratas.</p></details>
+          <details><summary>Retropropagação</summary><p>Método que calcula como cada peso contribuiu para o erro e o ajusta para melhorar o resultado.</p></details>
+          <details><summary>Token</summary><p>Unidade em que o modelo divide a entrada: palavra, parte de palavra, pontuação ou outro símbolo.</p></details>
+          <details><summary>Auto-atenção</summary><p>Mecanismo que permite ao modelo ponderar as relações entre diferentes tokens de uma sequência.</p></details>
+          <details><summary>IA generativa</summary><p>Sistemas capazes de produzir novos conteúdos com base em padrões aprendidos nos dados de treino.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="quiz" data-slide>
+      <div class="section-inner">
+        <p class="section-kicker">Verificar conhecimentos</p>
+        <h2>Desafio final</h2>
+        <p class="section-intro">Responda às seis perguntas. O resultado é calculado no dispositivo e não é enviado para qualquer serviço.</p>
+        <form class="quiz" id="quizForm">
+          <div class="question" data-answer="b"><fieldset><legend>1. O que avaliava o Jogo da Imitação de Turing?</legend><div class="answers"><label class="answer"><input type="radio" name="q1" value="a"> Se a máquina tinha consciência.</label><label class="answer"><input type="radio" name="q1" value="b"> Se o comportamento conversacional da máquina podia ser confundido com o de uma pessoa.</label><label class="answer"><input type="radio" name="q1" value="c"> Se a máquina resolvia cálculos mais depressa.</label></div><p class="feedback" aria-live="polite"></p></fieldset></div>
+          <div class="question" data-answer="a"><fieldset><legend>2. Qual era a principal diferença entre simbólicos e conexionistas?</legend><div class="answers"><label class="answer"><input type="radio" name="q2" value="a"> Regras explícitas versus aprendizagem em redes.</label><label class="answer"><input type="radio" name="q2" value="b"> Computadores grandes versus pequenos.</label><label class="answer"><input type="radio" name="q2" value="c"> Texto versus imagem.</label></div><p class="feedback" aria-live="polite"></p></fieldset></div>
+          <div class="question" data-answer="c"><fieldset><legend>3. O que permitiu treinar redes neuronais com múltiplas camadas de forma eficaz?</legend><div class="answers"><label class="answer"><input type="radio" name="q3" value="a"> O Teste de Turing.</label><label class="answer"><input type="radio" name="q3" value="b"> Os sistemas periciais.</label><label class="answer"><input type="radio" name="q3" value="c"> A retropropagação.</label></div><p class="feedback" aria-live="polite"></p></fieldset></div>
+          <div class="question" data-answer="b"><fieldset><legend>4. Que combinação impulsionou a AlexNet?</legend><div class="answers"><label class="answer"><input type="radio" name="q4" value="a"> Regras, dicionários e CPUs.</label><label class="answer"><input type="radio" name="q4" value="b"> Algoritmos, muitos dados e GPUs.</label><label class="answer"><input type="radio" name="q4" value="c"> Apenas mais memória.</label></div><p class="feedback" aria-live="polite"></p></fieldset></div>
+          <div class="question" data-answer="a"><fieldset><legend>5. Qual é o mecanismo central do Transformer?</legend><div class="answers"><label class="answer"><input type="radio" name="q5" value="a"> Auto-atenção.</label><label class="answer"><input type="radio" name="q5" value="b"> Pesquisa exaustiva.</label><label class="answer"><input type="radio" name="q5" value="c"> Regras IF–THEN.</label></div><p class="feedback" aria-live="polite"></p></fieldset></div>
+          <div class="question" data-answer="c"><fieldset><legend>6. Qual é uma prática responsável ao usar IA generativa?</legend><div class="answers"><label class="answer"><input type="radio" name="q6" value="a"> Aceitar todas as respostas plausíveis.</label><label class="answer"><input type="radio" name="q6" value="b"> Introduzir todos os dados disponíveis para obter mais contexto.</label><label class="answer"><input type="radio" name="q6" value="c"> Verificar resultados, proteger dados e manter supervisão humana.</label></div><p class="feedback" aria-live="polite"></p></fieldset></div>
+          <div class="quiz-footer"><button class="btn btn-primary" type="submit">Ver resultado</button><button class="btn" type="reset">Recomeçar</button><output class="score" id="score" aria-live="polite"></output></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="section closing" data-slide>
+      <div class="section-inner">
+        <p class="section-kicker">Síntese</p>
+        <h2>A tecnologia muda. A responsabilidade permanece humana.</h2>
+        <p class="section-intro">A evolução da IA não é uma linha reta: é uma história de ideias concorrentes, limites técnicos, persistência científica e escolhas sociais. Compreender esse percurso ajuda-nos a usar a tecnologia com mais rigor, sentido crítico e responsabilidade.</p>
+        <a class="btn btn-primary" href="#inicio">Voltar ao início <span aria-hidden="true">↑</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner"><div><strong>João Pernas | Recursos Didáticos</strong><br><small>Página autónoma: sem bibliotecas externas, cookies ou recolha de dados.</small></div><div><small>Conteúdo didático adaptado do documento de referência.</small></div></div>
+  </footer>
+
+  <script>
+    (() => {
+      'use strict';
+      const root = document.documentElement;
+      const body = document.body;
+      const progressBar = document.getElementById('progressBar');
+      const themeBtn = document.getElementById('themeBtn');
+      const menuBtn = document.getElementById('menuBtn');
+      const topnav = document.getElementById('topnav');
+      const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      let savedTheme = null;
+      try { savedTheme = localStorage.getItem('ai-evolution-theme'); } catch (_) {}
+      if (savedTheme === 'light' || savedTheme === 'dark') root.dataset.theme = savedTheme;
+      const syncTheme = () => {
+        const light = root.dataset.theme === 'light';
+        themeBtn.textContent = light ? '☾' : '☼';
+        themeBtn.setAttribute('aria-label', light ? 'Mudar para tema escuro' : 'Mudar para tema claro');
+        document.querySelector('meta[name="theme-color"]').content = light ? '#f3f7ff' : '#090d1a';
+      };
+      syncTheme();
+      themeBtn.addEventListener('click', () => {
+        root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
+        try { localStorage.setItem('ai-evolution-theme', root.dataset.theme); } catch (_) {}
+        syncTheme();
+      });
+
+      menuBtn.addEventListener('click', () => {
+        const open = topnav.classList.toggle('open');
+        menuBtn.setAttribute('aria-expanded', String(open));
+        menuBtn.textContent = open ? '×' : '☰';
+      });
+      topnav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        topnav.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); menuBtn.textContent = '☰';
+      }));
+
+      const updateProgress = () => {
+        const max = document.documentElement.scrollHeight - innerHeight;
+        const value = max > 0 ? (scrollY / max) * 100 : 0;
+        progressBar.style.width = `${Math.min(100, Math.max(0, value))}%`;
+      };
+      addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress();
+
+      document.querySelectorAll('.filter').forEach(button => button.addEventListener('click', () => {
+        document.querySelectorAll('.filter').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+        const filter = button.dataset.filter;
+        document.querySelectorAll('.event').forEach(event => event.classList.toggle('is-hidden', filter !== 'all' && event.dataset.era !== filter));
+      }));
+
+      const reveals = document.querySelectorAll('.reveal');
+      reveals.forEach(el => el.classList.add('prepare'));
+      if ('IntersectionObserver' in window && !reducedMotion) {
+        const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+          if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+        }), { threshold: .12 });
+        reveals.forEach(el => observer.observe(el));
+      } else reveals.forEach(el => el.classList.add('visible'));
+
+      const transformerOutput = document.getElementById('transformerOutput');
+      document.querySelectorAll('.transformer-step').forEach(step => step.addEventListener('click', () => {
+        document.querySelectorAll('.transformer-step').forEach(s => s.setAttribute('aria-pressed', String(s === step)));
+        transformerOutput.textContent = step.dataset.info;
+      }));
+
+      const board = document.getElementById('goBoard');
+      const stones = new Map([[2,'black'],[5,'white'],[8,'white'],[10,'black'],[13,'black'],[16,'white'],[18,'black'],[21,'white'],[23,'black'],[25,'special'],[27,'white'],[30,'black'],[33,'white'],[35,'black'],[38,'white'],[40,'black'],[45,'white']]);
+      for (let i=0; i<49; i++) {
+        const cell = document.createElement('button');
+        cell.type = 'button';
+        cell.setAttribute('aria-label', i === 25 ? 'Jogada 37 da AlphaGo' : `Posição ${i+1}`);
+        if (stones.has(i)) cell.className = stones.get(i);
+        if (i === 25) cell.addEventListener('click', () => {
+          document.getElementById('boardCaption').textContent = 'Jogada 37: uma escolha improvável que revelou uma estratégia de longo alcance.';
+        });
+        board.appendChild(cell);
+      }
+
+      const quiz = document.getElementById('quizForm');
+      const score = document.getElementById('score');
+      quiz.addEventListener('submit', event => {
+        event.preventDefault();
+        let points = 0, answered = 0;
+        quiz.querySelectorAll('.question').forEach((q, index) => {
+          q.classList.remove('correct', 'incorrect');
+          const selected = q.querySelector('input:checked');
+          const feedback = q.querySelector('.feedback');
+          if (!selected) { feedback.textContent = 'Selecione uma resposta.'; return; }
+          answered++;
+          if (selected.value === q.dataset.answer) {
+            points++; q.classList.add('correct'); feedback.textContent = 'Resposta correta.';
+          } else { q.classList.add('incorrect'); feedback.textContent = 'Resposta incorreta. Reveja a secção correspondente.'; }
+        });
+        score.value = answered < 6 ? `${points}/6 — faltam ${6-answered} resposta(s).` : `${points}/6 — ${points === 6 ? 'Excelente síntese.' : points >= 4 ? 'Bom resultado.' : 'Reveja a cronologia e tente novamente.'}`;
+      });
+      quiz.addEventListener('reset', () => setTimeout(() => {
+        quiz.querySelectorAll('.question').forEach(q => { q.classList.remove('correct','incorrect'); q.querySelector('.feedback').textContent = ''; });
+        score.value = '';
+      }, 0));
+
+      const slides = [...document.querySelectorAll('[data-slide]')];
+      const setPresentation = async enabled => {
+        body.classList.toggle('presentation', enabled);
+        if (enabled && document.fullscreenEnabled && !document.fullscreenElement) {
+          try { await document.documentElement.requestFullscreen(); } catch (_) {}
+        } else if (!enabled && document.fullscreenElement) {
+          try { await document.exitFullscreen(); } catch (_) {}
+        }
+      };
+      const togglePresentation = () => setPresentation(!body.classList.contains('presentation'));
+      document.getElementById('presentBtn').addEventListener('click', togglePresentation);
+      document.getElementById('heroPresentBtn').addEventListener('click', togglePresentation);
+      document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) body.classList.remove('presentation'); });
+      addEventListener('keydown', event => {
+        if (event.key === 'Escape' && body.classList.contains('presentation')) setPresentation(false);
+        if (!body.classList.contains('presentation') || !['ArrowRight','ArrowLeft','PageDown','PageUp'].includes(event.key)) return;
+        if (/INPUT|TEXTAREA|BUTTON|SELECT/.test(document.activeElement.tagName)) return;
+        event.preventDefault();
+        const mid = scrollY + innerHeight * .45;
+        let index = slides.findIndex(s => s.offsetTop + s.offsetHeight > mid);
+        if (index < 0) index = 0;
+        const forward = event.key === 'ArrowRight' || event.key === 'PageDown';
+        index = Math.max(0, Math.min(slides.length - 1, index + (forward ? 1 : -1)));
+        slides[index].scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
+      });
+
+      if (!reducedMotion) {
+        const canvas = document.getElementById('network');
+        const ctx = canvas.getContext('2d');
+        let nodes = [], raf;
+        const resize = () => {
+          const dpr = Math.min(devicePixelRatio || 1, 2);
+          canvas.width = canvas.clientWidth * dpr; canvas.height = canvas.clientHeight * dpr;
+          ctx.setTransform(dpr,0,0,dpr,0,0);
+          const count = Math.min(70, Math.floor(canvas.clientWidth / 22));
+          nodes = Array.from({length: count}, () => ({ x: Math.random()*canvas.clientWidth, y: Math.random()*canvas.clientHeight, vx:(Math.random()-.5)*.22, vy:(Math.random()-.5)*.22, r:Math.random()*1.8+1 }));
+        };
+        const draw = () => {
+          ctx.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);
+          const color = getComputedStyle(root).getPropertyValue('--cyan').trim();
+          nodes.forEach((n,i) => {
+            n.x += n.vx; n.y += n.vy;
+            if (n.x<0 || n.x>canvas.clientWidth) n.vx*=-1;
+            if (n.y<0 || n.y>canvas.clientHeight) n.vy*=-1;
+            ctx.fillStyle = color; ctx.globalAlpha=.7; ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2); ctx.fill();
+            for(let j=i+1;j<nodes.length;j++) {
+              const m=nodes[j], dx=n.x-m.x, dy=n.y-m.y, d=Math.hypot(dx,dy);
+              if(d<130){ctx.globalAlpha=(1-d/130)*.2;ctx.strokeStyle=color;ctx.beginPath();ctx.moveTo(n.x,n.y);ctx.lineTo(m.x,m.y);ctx.stroke();}
+            }
+          });
+          raf=requestAnimationFrame(draw);
+        };
+        resize(); draw();
+        addEventListener('resize', () => { cancelAnimationFrame(raf); resize(); draw(); }, { passive:true });
+      }
+    })();
+  </script>
+</body>
+</html>
