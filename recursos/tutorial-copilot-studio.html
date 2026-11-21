@@ -1,406 +1,422 @@
 <!doctype html>
 <html lang="pt-PT">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <meta name="theme-color" content="#1f3b5b">
-  <meta name="description" content="Tutorial interativo, passo a passo, para criar, configurar, testar, publicar e melhorar um agente no Microsoft Copilot Studio.">
-  <title>Construir um Agente no Copilot Studio | João Pernas</title>
-  <style>
-    :root {
-      --primary: #1f3b5b;
-      --primary-dark: #142a42;
-      --primary-light: #e9f0f7;
-      --accent: #2e78b7;
-      --accent-turquoise: #18aeb5;
-      --background: #f4f7fa;
-      --surface: #ffffff;
-      --text: #21364d;
-      --muted: #60738a;
-      --border: #cfdae5;
-      --success: #17745b;
-      --success-light: #e7f6f0;
-      --warning: #8a5a00;
-      --warning-light: #fff5d8;
-      --danger: #a13333;
-      --focus: #ffbf47;
-      --shadow: 0 12px 30px rgba(20, 42, 66, .08);
-      --radius: 14px;
-      --content-width: 1180px;
-    }
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="color-scheme" content="light">
+ <meta name="theme-color" content="#1f3b5b">
+ <meta name="description" content="Tutorial interativo, passo a passo, para criar, configurar, testar, publicar e melhorar um agente no Microsoft Copilot Studio.">
+ <title>Construir um Agente no Copilot Studio | João Pernas</title>
+ <style>
+ :root {
+ --primary: #1f3b5b;
+ --primary-dark: #142a42;
+ --primary-light: #e9f0f7;
+ --accent: #2e78b7;
+ --accent-turquoise: #18aeb5;
+ --background: #f4f7fa;
+ --surface: #ffffff;
+ --text: #21364d;
+ --muted: #60738a;
+ --border: #cfdae5;
+ --success: #17745b;
+ --success-light: #e7f6f0;
+ --warning: #8a5a00;
+ --warning-light: #fff5d8;
+ --danger: #a13333;
+ --focus: #ffbf47;
+ --shadow: 0 12px 30px rgba(20, 42, 66, .08);
+ --radius: 14px;
+ --content-width: 1180px;
+ }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      min-width: 320px;
-      background: var(--background);
-      color: var(--text);
-      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      font-size: 16px;
-      line-height: 1.65;
-    }
-    button, input, textarea, select { font: inherit; }
-    button, a { -webkit-tap-highlight-color: transparent; }
-    a { color: var(--accent); text-underline-offset: 3px; }
-    a:hover { color: var(--primary-dark); }
-    :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
-    [hidden] { display: none !important; }
+ * { box-sizing: border-box; }
+ html { scroll-behavior: smooth; }
+ body {
+ margin: 0;
+ min-width: 320px;
+ background: var(--background);
+ color: var(--text);
+ font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+ font-size: 16px;
+ line-height: 1.65;
+ }
+ button, input, textarea, select { font: inherit; }
+ button, a { -webkit-tap-highlight-color: transparent; }
+ a { color: var(--accent); text-underline-offset: 3px; }
+ a:hover { color: var(--primary-dark); }
+ :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+ [hidden] { display: none !important; }
 
-    .skip-link {
-      position: fixed; left: 16px; top: -80px; z-index: 1000;
-      padding: 10px 14px; border-radius: 8px; background: var(--primary-dark); color: #fff;
-    }
-    .skip-link:focus { top: 16px; }
+ .skip-link {
+ position: fixed; left: 16px; top: -80px; z-index: 1000;
+ padding: 10px 14px; border-radius: 8px; background: var(--primary-dark); color: #fff;
+ }
+ .skip-link:focus { top: 16px; }
 
-    .site-header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      box-shadow: 0 4px 16px rgba(20, 42, 66, .04);
-    }
-    .site-header__inner, .hero, .layout, .site-footer__inner {
-      width: min(calc(100% - 40px), var(--content-width));
-      margin-inline: auto;
-    }
-    .site-header__inner {
-      min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
-    }
-    .brand { display: inline-flex; align-items: center; gap: 12px; color: var(--primary-dark); text-decoration: none; font-weight: 800; }
-    .brand__mark {
-      width: 42px; height: 42px; display: grid; place-items: center;
-      border-radius: 12px; background: var(--primary-light); font-size: 22px;
-    }
-    .brand__text { line-height: 1.15; }
-    .brand__text small { display: block; margin-top: 4px; color: var(--muted); font-size: .72rem; font-weight: 600; }
-    .header-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+ .site-header {
+ background: linear-gradient(105deg, #173451 0%, #244f74 58%, #4a7899 100%);
+ border-bottom: 1px solid rgba(255, 255, 255, .16);
+ box-shadow: 0 6px 20px rgba(20, 42, 66, .18);
+ }
+ .site-header__inner, .hero, .layout, .site-footer__inner {
+ width: min(calc(100% - 40px), var(--content-width));
+ margin-inline: auto;
+ }
+ .site-header__inner {
+ min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+ }
+ .brand { display: inline-flex; align-items: center; gap: 12px; color: #fff; font-weight: 800; }
+ .brand__mark {
+ width: 42px; height: 42px; display: grid; place-items: center;
+ border: 1px solid rgba(255, 255, 255, .28); border-radius: 12px;
+ background: rgba(255, 255, 255, .10); font-size: 22px;
+ }
+ .brand__text { line-height: 1.15; }
+ .brand__text small { display: block; margin-top: 4px; color: rgba(255, 255, 255, .78); font-size: .72rem; font-weight: 600; }
+ .header-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+ .site-header .button--secondary,
+ .site-header .back-button {
+ border-color: rgba(255, 255, 255, .32);
+ background: rgba(255, 255, 255, .08);
+ color: #fff;
+ box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+ }
+ .site-header .button--secondary:hover,
+ .site-header .back-button:hover {
+ border-color: rgba(255, 255, 255, .55);
+ background: rgba(255, 255, 255, .16);
+ color: #fff;
+ }
+ .site-header .back-button { padding-inline: 14px; font-size: .84rem; white-space: nowrap; }
 
-    .button {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      min-height: 42px; padding: 9px 15px; border: 1px solid transparent; border-radius: 9px;
-      background: var(--accent); color: #fff; text-decoration: none; font-weight: 750; cursor: pointer;
-      transition: transform .15s ease, background .15s ease, border-color .15s ease;
-    }
-    .button:hover { background: var(--primary); color: #fff; transform: translateY(-1px); }
-    .button--secondary { background: #fff; border-color: var(--border); color: var(--primary); }
-    .button--secondary:hover { background: var(--primary-light); border-color: #b8c9d9; color: var(--primary-dark); }
-    .button--quiet { background: transparent; border-color: transparent; color: var(--accent); }
-    .button--quiet:hover { background: var(--primary-light); color: var(--primary-dark); }
-    .button--danger { background: #fff; border-color: #deb9b9; color: var(--danger); }
-    .button--danger:hover { background: #fff1f1; color: #7f2222; }
-    .button:disabled { opacity: .5; cursor: not-allowed; transform: none; }
-    .button svg { width: 18px; height: 18px; fill: currentColor; }
+ .button {
+ display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+ min-height: 42px; padding: 9px 15px; border: 1px solid transparent; border-radius: 9px;
+ background: var(--accent); color: #fff; text-decoration: none; font-weight: 750; cursor: pointer;
+ transition: transform .15s ease, background .15s ease, border-color .15s ease;
+ }
+ .button:hover { background: var(--primary); color: #fff; transform: translateY(-1px); }
+ .button--secondary { background: #fff; border-color: var(--border); color: var(--primary); }
+ .button--secondary:hover { background: var(--primary-light); border-color: #b8c9d9; color: var(--primary-dark); }
+ .button--quiet { background: transparent; border-color: transparent; color: var(--accent); }
+ .button--quiet:hover { background: var(--primary-light); color: var(--primary-dark); }
+ .button--danger { background: #fff; border-color: #deb9b9; color: var(--danger); }
+ .button--danger:hover { background: #fff1f1; color: #7f2222; }
+ .button:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+ .button svg { width: 18px; height: 18px; fill: currentColor; }
 
-    .hero { padding: 42px 0 28px; }
-    .breadcrumbs { margin: 0 0 18px; color: var(--muted); font-size: .9rem; }
-    .breadcrumbs a { font-weight: 700; text-decoration: none; }
-    .hero__grid { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 30px; }
-    .eyebrow { margin: 0 0 8px; color: var(--accent); font-size: .78rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
-    h1, h2, h3, h4 { color: var(--primary-dark); line-height: 1.2; }
-    h1 { max-width: 800px; margin: 0; font-size: clamp(2rem, 5vw, 3.25rem); letter-spacing: -.035em; }
-    .hero__intro { max-width: 780px; margin: 14px 0 0; color: var(--muted); font-size: 1.08rem; }
-    .hero__badge {
-      min-width: 145px; padding: 17px; border: 1px solid var(--border); border-radius: var(--radius);
-      background: var(--surface); box-shadow: var(--shadow); text-align: center;
-    }
-    .hero__badge strong { display: block; color: var(--primary); font-size: 1.6rem; }
-    .hero__badge span { color: var(--muted); font-size: .82rem; }
+ .hero { padding: 42px 0 28px; }
+ .breadcrumbs { margin: 0 0 18px; color: var(--muted); font-size: .9rem; }
+ .breadcrumbs a { font-weight: 700; text-decoration: none; }
+ .hero__grid { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 30px; }
+ .eyebrow { margin: 0 0 8px; color: var(--accent); font-size: .78rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+ h1, h2, h3, h4 { color: var(--primary-dark); line-height: 1.2; }
+ h1 { max-width: 800px; margin: 0; font-size: clamp(2rem, 5vw, 3.25rem); letter-spacing: -.035em; }
+ .hero__intro { max-width: 780px; margin: 14px 0 0; color: var(--muted); font-size: 1.08rem; }
+ .hero__badge {
+ min-width: 145px; padding: 17px; border: 1px solid var(--border); border-radius: var(--radius);
+ background: var(--surface); box-shadow: var(--shadow); text-align: center;
+ }
+ .hero__badge strong { display: block; color: var(--primary); font-size: 1.6rem; }
+ .hero__badge span { color: var(--muted); font-size: .82rem; }
 
-    .progress-panel {
-      margin-top: 25px; padding: 18px 20px; border: 1px solid var(--border); border-radius: var(--radius);
-      background: #fff; box-shadow: var(--shadow);
-    }
-    .progress-panel__top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 9px; }
-    .progress-panel__top strong { color: var(--primary-dark); }
-    .progress-panel__top span { color: var(--muted); font-size: .9rem; }
-    .progress-track { height: 11px; overflow: hidden; border-radius: 999px; background: #dde6ef; }
-    .progress-bar { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent), var(--accent-turquoise)); transition: width .35s ease; }
+ .progress-panel {
+ margin-top: 25px; padding: 18px 20px; border: 1px solid var(--border); border-radius: var(--radius);
+ background: #fff; box-shadow: var(--shadow);
+ }
+ .progress-panel__top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 9px; }
+ .progress-panel__top strong { color: var(--primary-dark); }
+ .progress-panel__top span { color: var(--muted); font-size: .9rem; }
+ .progress-track { height: 11px; overflow: hidden; border-radius: 999px; background: #dde6ef; }
+ .progress-bar { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent), var(--accent-turquoise)); transition: width .35s ease; }
 
-    .layout { display: grid; grid-template-columns: 290px minmax(0, 1fr); align-items: start; gap: 24px; padding-bottom: 60px; }
-    .sidebar {
-      position: sticky; top: 18px; max-height: calc(100vh - 36px); overflow: auto;
-      padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: #fff; box-shadow: var(--shadow);
-      scrollbar-width: thin;
-    }
-    .sidebar__title { display: flex; align-items: center; justify-content: space-between; margin: 0 0 12px; font-size: .84rem; text-transform: uppercase; letter-spacing: .07em; }
-    .step-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
-    .step-link {
-      width: 100%; display: grid; grid-template-columns: 31px 1fr 20px; align-items: center; gap: 9px;
-      padding: 9px 8px; border: 0; border-radius: 9px; background: transparent; color: var(--text); text-align: left; cursor: pointer;
-    }
-    .step-link:hover { background: var(--primary-light); }
-    .step-link[aria-current="step"] { background: var(--primary); color: #fff; }
-    .step-link__number { width: 29px; height: 29px; display: grid; place-items: center; border-radius: 9px; background: var(--primary-light); color: var(--primary); font-size: .78rem; font-weight: 850; }
-    .step-link[aria-current="step"] .step-link__number { background: rgba(255,255,255,.17); color: #fff; }
-    .step-link__label { font-size: .89rem; font-weight: 700; line-height: 1.25; }
-    .step-link__state { color: var(--success); font-weight: 900; }
-    .step-link[aria-current="step"] .step-link__state { color: #fff; }
+ .layout { display: grid; grid-template-columns: 290px minmax(0, 1fr); align-items: start; gap: 24px; padding-bottom: 60px; }
+ .sidebar {
+ position: sticky; top: 18px; max-height: calc(100vh - 36px); overflow: auto;
+ padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: #fff; box-shadow: var(--shadow);
+ scrollbar-width: thin;
+ }
+ .sidebar__title { display: flex; align-items: center; justify-content: space-between; margin: 0 0 12px; font-size: .84rem; text-transform: uppercase; letter-spacing: .07em; }
+ .step-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+ .step-link {
+ width: 100%; display: grid; grid-template-columns: 31px 1fr 20px; align-items: center; gap: 9px;
+ padding: 9px 8px; border: 0; border-radius: 9px; background: transparent; color: var(--text); text-align: left; cursor: pointer;
+ }
+ .step-link:hover { background: var(--primary-light); }
+ .step-link[aria-current="step"] { background: var(--primary); color: #fff; }
+ .step-link__number { width: 29px; height: 29px; display: grid; place-items: center; border-radius: 9px; background: var(--primary-light); color: var(--primary); font-size: .78rem; font-weight: 850; }
+ .step-link[aria-current="step"] .step-link__number { background: rgba(255,255,255,.17); color: #fff; }
+ .step-link__label { font-size: .89rem; font-weight: 700; line-height: 1.25; }
+ .step-link__state { color: var(--success); font-weight: 900; }
+ .step-link[aria-current="step"] .step-link__state { color: #fff; }
 
-    .tutorial { min-width: 0; }
-    .step {
-      padding: clamp(22px, 4vw, 38px); border: 1px solid var(--border); border-radius: var(--radius); background: #fff; box-shadow: var(--shadow);
-    }
-    .step__kicker { margin: 0 0 5px; color: var(--accent); font-size: .78rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
-    .step h2 { margin: 0; font-size: clamp(1.65rem, 4vw, 2.25rem); letter-spacing: -.02em; }
-    .step__lead { margin: 12px 0 25px; color: var(--muted); font-size: 1.05rem; }
-    .step h3 { margin-top: 30px; margin-bottom: 10px; font-size: 1.2rem; }
-    .step h4 { margin-bottom: 6px; }
-    .step p { max-width: 78ch; }
-    .step ol, .step ul { padding-left: 1.35rem; }
-    .step li + li { margin-top: 7px; }
-    .step li::marker { color: var(--accent); font-weight: 800; }
+ .tutorial { min-width: 0; }
+ .step {
+ padding: clamp(22px, 4vw, 38px); border: 1px solid var(--border); border-radius: var(--radius); background: #fff; box-shadow: var(--shadow);
+ }
+ .step__kicker { margin: 0 0 5px; color: var(--accent); font-size: .78rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+ .step h2 { margin: 0; font-size: clamp(1.65rem, 4vw, 2.25rem); letter-spacing: -.02em; }
+ .step__lead { margin: 12px 0 25px; color: var(--muted); font-size: 1.05rem; }
+ .step h3 { margin-top: 30px; margin-bottom: 10px; font-size: 1.2rem; }
+ .step h4 { margin-bottom: 6px; }
+ .step p { max-width: 78ch; }
+ .step ol, .step ul { padding-left: 1.35rem; }
+ .step li + li { margin-top: 7px; }
+ .step li::marker { color: var(--accent); font-weight: 800; }
 
-    .meta-grid, .card-grid, .field-grid { display: grid; gap: 14px; }
-    .meta-grid { grid-template-columns: repeat(3, 1fr); margin: 20px 0; }
-    .card-grid { grid-template-columns: repeat(2, 1fr); }
-    .field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .mini-card { padding: 16px; border: 1px solid var(--border); border-radius: 11px; background: #fbfdff; }
-    .mini-card strong { display: block; margin-bottom: 4px; color: var(--primary-dark); }
-    .mini-card span, .mini-card p { margin: 0; color: var(--muted); font-size: .92rem; }
+ .meta-grid, .card-grid, .field-grid { display: grid; gap: 14px; }
+ .meta-grid { grid-template-columns: repeat(3, 1fr); margin: 20px 0; }
+ .card-grid { grid-template-columns: repeat(2, 1fr); }
+ .field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+ .mini-card { padding: 16px; border: 1px solid var(--border); border-radius: 11px; background: #fbfdff; }
+ .mini-card strong { display: block; margin-bottom: 4px; color: var(--primary-dark); }
+ .mini-card span, .mini-card p { margin: 0; color: var(--muted); font-size: .92rem; }
 
-    .callout { margin: 20px 0; padding: 16px 18px; border-left: 5px solid var(--accent); border-radius: 0 10px 10px 0; background: var(--primary-light); }
-    .callout--tip { border-color: var(--accent-turquoise); background: #e9f8f8; }
-    .callout--warning { border-color: #d19a27; background: var(--warning-light); }
-    .callout--success { border-color: var(--success); background: var(--success-light); }
-    .callout strong { display: block; margin-bottom: 3px; color: var(--primary-dark); }
-    .callout p { margin: 0; }
+ .callout { margin: 20px 0; padding: 16px 18px; border-left: 5px solid var(--accent); border-radius: 0 10px 10px 0; background: var(--primary-light); }
+ .callout--tip { border-color: var(--accent-turquoise); background: #e9f8f8; }
+ .callout--warning { border-color: #d19a27; background: var(--warning-light); }
+ .callout--success { border-color: var(--success); background: var(--success-light); }
+ .callout strong { display: block; margin-bottom: 3px; color: var(--primary-dark); }
+ .callout p { margin: 0; }
 
-    .instruction-list { margin: 18px 0; padding: 0 !important; list-style: none; counter-reset: instructions; }
-    .instruction-list > li { position: relative; min-height: 46px; padding: 2px 0 18px 54px; counter-increment: instructions; }
-    .instruction-list > li::before {
-      content: counter(instructions); position: absolute; left: 0; top: 0;
-      width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px;
-      background: var(--primary); color: #fff; font-weight: 850;
-    }
-    .instruction-list > li + li { margin-top: 5px; }
+ .instruction-list { margin: 18px 0; padding: 0 !important; list-style: none; counter-reset: instructions; }
+ .instruction-list > li { position: relative; min-height: 46px; padding: 2px 0 18px 54px; counter-increment: instructions; }
+ .instruction-list > li::before {
+ content: counter(instructions); position: absolute; left: 0; top: 0;
+ width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px;
+ background: var(--primary); color: #fff; font-weight: 850;
+ }
+ .instruction-list > li + li { margin-top: 5px; }
 
-    .code-example { margin: 20px 0; overflow: hidden; border: 1px solid #b9c9d8; border-radius: 11px; background: #f7fafc; }
-    .code-example__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 12px; border-bottom: 1px solid var(--border); background: var(--primary-light); }
-    .code-example__head strong { color: var(--primary-dark); font-size: .88rem; }
-    .copy-button { padding: 6px 10px; border: 1px solid #b7c8d8; border-radius: 7px; background: #fff; color: var(--accent); font-weight: 750; cursor: pointer; }
-    .copy-button:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
-    pre { margin: 0; padding: 18px; overflow: auto; white-space: pre-wrap; color: #17324d; font: .9rem/1.6 ui-monospace, SFMono-Regular, Consolas, monospace; }
+ .code-example { margin: 20px 0; overflow: hidden; border: 1px solid #b9c9d8; border-radius: 11px; background: #f7fafc; }
+ .code-example__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 12px; border-bottom: 1px solid var(--border); background: var(--primary-light); }
+ .code-example__head strong { color: var(--primary-dark); font-size: .88rem; }
+ .copy-button { padding: 6px 10px; border: 1px solid #b7c8d8; border-radius: 7px; background: #fff; color: var(--accent); font-weight: 750; cursor: pointer; }
+ .copy-button:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+ pre { margin: 0; padding: 18px; overflow: auto; white-space: pre-wrap; color: #17324d; font: .9rem/1.6 ui-monospace, SFMono-Regular, Consolas, monospace; }
 
-    .exercise { margin-top: 28px; padding: 20px; border: 1px dashed #91adc5; border-radius: 12px; background: #f8fbfe; }
-    .exercise__label { display: inline-block; margin-bottom: 6px; padding: 3px 9px; border-radius: 999px; background: var(--primary); color: #fff; font-size: .72rem; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
-    .exercise h3 { margin-top: 4px; }
-    .field { display: grid; gap: 6px; margin: 13px 0; }
-    .field label { color: var(--primary-dark); font-weight: 750; }
-    .field small { color: var(--muted); }
-    .field input, .field textarea, .field select {
-      width: 100%; padding: 11px 12px; border: 1px solid #adc0d1; border-radius: 8px; background: #fff; color: var(--text);
-    }
-    .field textarea { min-height: 120px; resize: vertical; }
-    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(46,120,183,.14); outline: none; }
-    .save-state { min-height: 24px; color: var(--success); font-size: .82rem; }
+ .exercise { margin-top: 28px; padding: 20px; border: 1px dashed #91adc5; border-radius: 12px; background: #f8fbfe; }
+ .exercise__label { display: inline-block; margin-bottom: 6px; padding: 3px 9px; border-radius: 999px; background: var(--primary); color: #fff; font-size: .72rem; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+ .exercise h3 { margin-top: 4px; }
+ .field { display: grid; gap: 6px; margin: 13px 0; }
+ .field label { color: var(--primary-dark); font-weight: 750; }
+ .field small { color: var(--muted); }
+ .field input, .field textarea, .field select {
+ width: 100%; padding: 11px 12px; border: 1px solid #adc0d1; border-radius: 8px; background: #fff; color: var(--text);
+ }
+ .field textarea { min-height: 120px; resize: vertical; }
+ .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(46,120,183,.14); outline: none; }
+ .save-state { min-height: 24px; color: var(--success); font-size: .82rem; }
 
-    .checklist { display: grid; gap: 8px; margin: 15px 0; padding: 0 !important; list-style: none; }
-    .checklist label { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--border); border-radius: 9px; background: #fff; cursor: pointer; }
-    .checklist label:hover { background: var(--primary-light); }
-    .checklist input { width: 19px; height: 19px; margin-top: 2px; accent-color: var(--success); flex: 0 0 auto; }
+ .checklist { display: grid; gap: 8px; margin: 15px 0; padding: 0 !important; list-style: none; }
+ .checklist label { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--border); border-radius: 9px; background: #fff; cursor: pointer; }
+ .checklist label:hover { background: var(--primary-light); }
+ .checklist input { width: 19px; height: 19px; margin-top: 2px; accent-color: var(--success); flex: 0 0 auto; }
 
-    .glossary { display: grid; grid-template-columns: 160px 1fr; margin: 18px 0; border-top: 1px solid var(--border); }
-    .glossary dt, .glossary dd { margin: 0; padding: 11px 8px; border-bottom: 1px solid var(--border); }
-    .glossary dt { color: var(--primary-dark); font-weight: 800; }
-    .glossary dd { color: var(--muted); }
+ .glossary { display: grid; grid-template-columns: 160px 1fr; margin: 18px 0; border-top: 1px solid var(--border); }
+ .glossary dt, .glossary dd { margin: 0; padding: 11px 8px; border-bottom: 1px solid var(--border); }
+ .glossary dt { color: var(--primary-dark); font-weight: 800; }
+ .glossary dd { color: var(--muted); }
 
-    .step-actions { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-top: 30px; padding-top: 21px; border-top: 1px solid var(--border); }
-    .step-actions__nav { display: flex; flex-wrap: wrap; gap: 8px; }
-    .complete-toggle { background: var(--success); }
-    .complete-toggle:hover { background: #0f5e48; }
-    .complete-toggle.is-complete { background: #fff; border-color: #79aa99; color: var(--success); }
-    .step-counter { color: var(--muted); font-size: .87rem; }
+ .step-actions { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-top: 30px; padding-top: 21px; border-top: 1px solid var(--border); }
+ .step-actions__nav { display: flex; flex-wrap: wrap; gap: 8px; }
+ .complete-toggle { background: var(--success); }
+ .complete-toggle:hover { background: #0f5e48; }
+ .complete-toggle.is-complete { background: #fff; border-color: #79aa99; color: var(--success); }
+ .step-counter { color: var(--muted); font-size: .87rem; }
 
-    .source-list { padding-left: 1.15rem; }
-    .source-list li { overflow-wrap: anywhere; }
-    .site-footer { padding: 28px 0; border-top: 1px solid var(--border); background: #fff; }
-    .site-footer__inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--muted); font-size: .88rem; }
-    .toast {
-      position: fixed; right: 22px; bottom: 22px; z-index: 900; max-width: min(360px, calc(100% - 44px));
-      padding: 12px 16px; border-radius: 9px; background: var(--primary-dark); color: #fff; box-shadow: 0 14px 35px rgba(0,0,0,.22);
-    }
-    .noscript { padding: 14px; background: #fff0f0; color: #7a2929; text-align: center; font-weight: 700; }
+ .source-list { padding-left: 1.15rem; }
+ .source-list li { overflow-wrap: anywhere; }
+ .site-footer { padding: 28px 0; border-top: 1px solid var(--border); background: #fff; }
+ .site-footer__inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--muted); font-size: .88rem; }
+ .toast {
+ position: fixed; right: 22px; bottom: 22px; z-index: 900; max-width: min(360px, calc(100% - 44px));
+ padding: 12px 16px; border-radius: 9px; background: var(--primary-dark); color: #fff; box-shadow: 0 14px 35px rgba(0,0,0,.22);
+ }
+ .noscript { padding: 14px; background: #fff0f0; color: #7a2929; text-align: center; font-weight: 700; }
 
-    @media (max-width: 900px) {
-      .layout { grid-template-columns: 1fr; }
-      .sidebar { position: static; max-height: none; overflow: visible; }
-      .step-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .meta-grid { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 650px) {
-      .site-header__inner, .hero, .layout, .site-footer__inner { width: min(calc(100% - 24px), var(--content-width)); }
-      .site-header__inner { align-items: flex-start; padding: 12px 0; }
-      .brand__text small { display: none; }
-      .header-actions .button span { display: none; }
-      .hero { padding-top: 26px; }
-      .hero__grid { grid-template-columns: 1fr; }
-      .hero__badge { display: none; }
-      .step-list, .meta-grid, .card-grid, .field-grid { grid-template-columns: 1fr; }
-      .sidebar { padding: 12px; }
-      .step { padding: 22px 17px; }
-      .glossary { grid-template-columns: 1fr; }
-      .glossary dt { padding-bottom: 2px; border-bottom: 0; }
-      .glossary dd { padding-top: 2px; }
-      .step-actions, .step-actions__nav { align-items: stretch; }
-      .step-actions, .step-actions__nav, .step-actions .button { width: 100%; }
-      .progress-panel__top { align-items: flex-start; flex-direction: column; gap: 2px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
-    }
-    @media print {
-      body { background: #fff; font-size: 11pt; }
-      .site-header, .sidebar, .progress-panel, .step-actions, .copy-button, .toast, .save-state { display: none !important; }
-      .hero { padding: 12px 0; }
-      .hero__badge { box-shadow: none; }
-      .layout { display: block; width: 100%; }
-      .step { display: block !important; margin: 0 0 16px; padding: 18px; border: 1px solid #bbb; box-shadow: none; break-inside: avoid; }
-      .exercise { break-inside: avoid; }
-      a { color: #000; }
-    }
-  </style>
+ @media (max-width: 900px) {
+ .layout { grid-template-columns: 1fr; }
+ .sidebar { position: static; max-height: none; overflow: visible; }
+ .step-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+ .meta-grid { grid-template-columns: 1fr 1fr; }
+ }
+ @media (max-width: 650px) {
+ .site-header__inner, .hero, .layout, .site-footer__inner { width: min(calc(100% - 24px), var(--content-width)); }
+ .site-header__inner { align-items: flex-start; padding: 12px 0; }
+ .brand__text small { display: none; }
+ .header-actions .button span { display: none; }
+ .hero { padding-top: 26px; }
+ .hero__grid { grid-template-columns: 1fr; }
+ .hero__badge { display: none; }
+ .step-list, .meta-grid, .card-grid, .field-grid { grid-template-columns: 1fr; }
+ .sidebar { padding: 12px; }
+ .step { padding: 22px 17px; }
+ .glossary { grid-template-columns: 1fr; }
+ .glossary dt { padding-bottom: 2px; border-bottom: 0; }
+ .glossary dd { padding-top: 2px; }
+ .step-actions, .step-actions__nav { align-items: stretch; }
+ .step-actions, .step-actions__nav, .step-actions .button { width: 100%; }
+ .progress-panel__top { align-items: flex-start; flex-direction: column; gap: 2px; }
+ }
+ @media (prefers-reduced-motion: reduce) {
+ *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+ }
+ @media print {
+ body { background: #fff; font-size: 11pt; }
+ .site-header, .sidebar, .progress-panel, .step-actions, .copy-button, .toast, .save-state { display: none !important; }
+ .hero { padding: 12px 0; }
+ .hero__badge { box-shadow: none; }
+ .layout { display: block; width: 100%; }
+ .step { display: block !important; margin: 0 0 16px; padding: 18px; border: 1px solid #bbb; box-shadow: none; break-inside: avoid; }
+ .exercise { break-inside: avoid; }
+ a { color: #000; }
+ }
+ </style>
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
-  <noscript><div class="noscript">Este tutorial necessita de JavaScript para guardar o progresso e navegar entre etapas. O conteúdo continua disponível para impressão.</div></noscript>
+ <a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
+ <noscript><div class="noscript">Este tutorial necessita de JavaScript para guardar o progresso e navegar entre etapas. O conteúdo continua disponível para impressão.</div></noscript>
 
-  <header class="site-header">
-    <div class="site-header__inner">
-      <a class="brand" href="../index.html" aria-label="Voltar aos Recursos Didáticos">
-        <span class="brand__mark" aria-hidden="true">🤖</span>
-        <span class="brand__text">João Pernas <small>Recursos Didáticos</small></span>
-      </a>
-      <div class="header-actions" aria-label="Ações do tutorial">
-        <button class="button button--secondary" id="printButton" type="button" title="Imprimir ou guardar como PDF">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9V2h12v7h1a3 3 0 0 1 3 3v6h-4v4H6v-4H2v-6a3 3 0 0 1 3-3h1Zm2-5v5h8V4H8Zm8 12H8v4h8v-4Zm3-2a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/></svg>
-          <span>Imprimir</span>
-        </button>
-        <button class="button button--secondary" id="exportButton" type="button" title="Exportar o progresso">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M11 3h2v10.17l3.59-3.58L18 11l-6 6-6-6 1.41-1.41L11 13.17V3ZM5 19h14v2H5v-2Z"/></svg>
-          <span>Exportar</span>
-        </button>
-      </div>
-    </div>
-  </header>
+ <header class="site-header">
+ <div class="site-header__inner">
+<div class="brand">
+ <span class="brand__mark" aria-hidden="true">🤖</span>
+ <span class="brand__text">João Pernas <small>Recursos Didáticos</small></span>
+ </div>
+ <div class="header-actions" aria-label="Ações do tutorial">
+ <button class="button button--secondary" id="printButton" type="button" title="Imprimir ou guardar como PDF">
+ <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9V2h12v7h1a3 3 0 0 1 3 3v6h-4v4H6v-4H2v-6a3 3 0 0 1 3-3h1Zm2-5v5h8V4H8Zm8 12H8v4h8v-4Zm3-2a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/></svg>
+ <span>Imprimir</span>
+ </button>
+ <button class="button button--secondary" id="exportButton" type="button" title="Exportar o progresso">
+ <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M11 3h2v10.17l3.59-3.58L18 11l-6 6-6-6 1.41-1.41L11 13.17V3ZM5 19h14v2H5v-2Z"/></svg>
+ <span>Exportar</span>
+ </button>
+ <a class="button back-button" href="inteligencia-artificial.html" aria-label="Voltar à Inteligência Artificial">← Voltar à Inteligência Artificial</a>
+ </div>
+ </div>
+ </header>
 
-  <section class="hero" aria-labelledby="page-title">
-    <p class="breadcrumbs"><a href="../index.html">Recursos Didáticos</a> <span aria-hidden="true">›</span> Inteligência Artificial <span aria-hidden="true">›</span> Tutorial</p>
-    <div class="hero__grid">
-      <div>
-        <p class="eyebrow">Tutorial interativo</p>
-        <h1 id="page-title">Construir um Agente no Microsoft Copilot Studio</h1>
-        <p class="hero__intro">Crie, configure, teste, publique e melhore um agente, passo a passo. Os exercícios e o progresso ficam guardados apenas neste dispositivo.</p>
-      </div>
-      <div class="hero__badge" aria-label="Duração estimada">
-        <strong>90–120</strong><span>minutos</span>
-      </div>
-    </div>
-    <div class="progress-panel" aria-live="polite">
-      <div class="progress-panel__top">
-        <strong id="progressLabel">0% concluído</strong>
-        <span id="progressDetail">0 de 12 etapas concluídas</span>
-      </div>
-      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="progressLabel">
-        <div class="progress-bar" id="progressBar"></div>
-      </div>
-    </div>
-  </section>
+ <section class="hero" aria-labelledby="page-title">
+ <p class="breadcrumbs"><a href="../index.html">Recursos Didáticos</a> <span aria-hidden="true">›</span> Inteligência Artificial <span aria-hidden="true">›</span> Tutorial</p>
+ <div class="hero__grid">
+ <div>
+ <p class="eyebrow">Tutorial interativo</p>
+ <h1 id="page-title">Construir um Agente no Microsoft Copilot Studio</h1>
+ <p class="hero__intro">Crie, configure, teste, publique e melhore um agente, passo a passo. Os exercícios e o progresso ficam guardados apenas neste dispositivo.</p>
+ </div>
+ <div class="hero__badge" aria-label="Duração estimada">
+ <strong>90–120</strong><span>minutos</span>
+ </div>
+ </div>
+ <div class="progress-panel" aria-live="polite">
+ <div class="progress-panel__top">
+ <strong id="progressLabel">0% concluído</strong>
+ <span id="progressDetail">0 de 12 etapas concluídas</span>
+ </div>
+ <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="progressLabel">
+ <div class="progress-bar" id="progressBar"></div>
+ </div>
+ </div>
+ </section>
 
-  <div class="layout">
-    <nav class="sidebar" aria-label="Etapas do tutorial">
-      <h2 class="sidebar__title">Etapas <button class="button button--quiet" id="resetButton" type="button">Repor</button></h2>
-      <ol class="step-list" id="stepList"></ol>
-    </nav>
+ <div class="layout">
+ <nav class="sidebar" aria-label="Etapas do tutorial">
+ <h2 class="sidebar__title">Etapas <button class="button button--quiet" id="resetButton" type="button">Repor</button></h2>
+ <ol class="step-list" id="stepList"></ol>
+ </nav>
 
-    <main class="tutorial" id="conteudo" tabindex="-1">
-      <section class="step" data-step="0" data-title="Orientação" aria-labelledby="step-title-0">
-        <p class="step__kicker">Etapa 1</p>
-        <h2 id="step-title-0" tabindex="-1">Orientação e resultado esperado</h2>
-        <p class="step__lead">Vai construir um agente de apoio interno que responde com base em fontes autorizadas, reconhece os seus limites e pode ser disponibilizado num canal adequado.</p>
+ <main class="tutorial" id="conteudo" tabindex="-1">
+ <section class="step" data-step="0" data-title="Orientação" aria-labelledby="step-title-0">
+ <p class="step__kicker">Etapa 1</p>
+ <h2 id="step-title-0" tabindex="-1">Orientação e resultado esperado</h2>
+ <p class="step__lead">Vai construir um agente de apoio interno que responde com base em fontes autorizadas, reconhece os seus limites e pode ser disponibilizado num canal adequado.</p>
 
-        <div class="meta-grid">
-          <div class="mini-card"><strong>Pré-requisito</strong><span>Acesso ao Copilot Studio e a um ambiente autorizado.</span></div>
-          <div class="mini-card"><strong>Produto final</strong><span>Agente configurado, testado, publicado e com plano de melhoria.</span></div>
-          <div class="mini-card"><strong>Dados</strong><span>Progresso e respostas guardados localmente no navegador.</span></div>
-        </div>
+ <div class="meta-grid">
+ <div class="mini-card"><strong>Pré-requisito</strong><span>Acesso ao Copilot Studio e a um ambiente autorizado.</span></div>
+ <div class="mini-card"><strong>Produto final</strong><span>Agente configurado, testado, publicado e com plano de melhoria.</span></div>
+ <div class="mini-card"><strong>Dados</strong><span>Progresso e respostas guardados localmente no navegador.</span></div>
+ </div>
 
-        <h3>O cenário do tutorial</h3>
-        <p>O exemplo usa um <strong>Agente de Apoio a Procedimentos Internos</strong>. O agente ajuda trabalhadores e trabalhadoras a localizar orientações em documentos validados, sem inventar respostas nem substituir os serviços competentes.</p>
+ <h3>O cenário do tutorial</h3>
+ <p>O exemplo usa um <strong>Agente de Apoio a Procedimentos Internos</strong>. O agente ajuda trabalhadores e trabalhadoras a localizar orientações em documentos validados, sem inventar respostas nem substituir os serviços competentes.</p>
 
-        <div class="callout callout--warning">
-          <strong>Antes de utilizar informação real</strong>
-          <p>Confirme as regras da sua organização sobre proteção de dados, segurança, classificação da informação, licenciamento, conectores e publicação. Use dados fictícios durante a aprendizagem.</p>
-        </div>
+ <div class="callout callout--warning">
+ <strong>Antes de utilizar informação real</strong>
+ <p>Confirme as regras da sua organização sobre proteção de dados, segurança, classificação da informação, licenciamento, conectores e publicação. Use dados fictícios durante a aprendizagem.</p>
+ </div>
 
-        <h3>Como utilizar este recurso</h3>
-        <ol class="instruction-list">
-          <li>Execute os passos no Copilot Studio numa janela separada.</li>
-          <li>Copie e adapte os exemplos. Não os aplique sem validar o contexto.</li>
-          <li>Registe as decisões nos exercícios. As respostas são guardadas automaticamente.</li>
-          <li>Assinale a etapa como concluída e avance. Pode retomar mais tarde no mesmo navegador.</li>
-        </ol>
+ <h3>Como utilizar este recurso</h3>
+ <ol class="instruction-list">
+ <li>Execute os passos no Copilot Studio numa janela separada.</li>
+ <li>Copie e adapte os exemplos. Não os aplique sem validar o contexto.</li>
+ <li>Registe as decisões nos exercícios. As respostas são guardadas automaticamente.</li>
+ <li>Assinale a etapa como concluída e avance. Pode retomar mais tarde no mesmo navegador.</li>
+ </ol>
 
-        <div class="exercise">
-          <span class="exercise__label">Exercício prático</span>
-          <h3>Defina o seu ponto de partida</h3>
-          <div class="field-grid">
-            <div class="field"><label for="ex0-context">Contexto de utilização</label><input id="ex0-context" data-save="context" type="text" placeholder="Ex.: apoio a procedimentos internos"></div>
-            <div class="field"><label for="ex0-audience">Público-alvo</label><input id="ex0-audience" data-save="audience" type="text" placeholder="Ex.: trabalhadores e trabalhadoras"></div>
-          </div>
-          <div class="field"><label for="ex0-result">Que problema deverá o agente ajudar a resolver?</label><textarea id="ex0-result" data-save="problem" placeholder="Descreva o problema em duas ou três frases."></textarea></div>
-          <p class="save-state" data-save-state aria-live="polite"></p>
-        </div>
-      </section>
+ <div class="exercise">
+ <span class="exercise__label">Exercício prático</span>
+ <h3>Defina o seu ponto de partida</h3>
+ <div class="field-grid">
+ <div class="field"><label for="ex0-context">Contexto de utilização</label><input id="ex0-context" data-save="context" type="text" placeholder="Ex.: apoio a procedimentos internos"></div>
+ <div class="field"><label for="ex0-audience">Público-alvo</label><input id="ex0-audience" data-save="audience" type="text" placeholder="Ex.: trabalhadores e trabalhadoras"></div>
+ </div>
+ <div class="field"><label for="ex0-result">Que problema deverá o agente ajudar a resolver?</label><textarea id="ex0-result" data-save="problem" placeholder="Descreva o problema em duas ou três frases."></textarea></div>
+ <p class="save-state" data-save-state aria-live="polite"></p>
+ </div>
+ </section>
 
-      <section class="step" data-step="1" data-title="Preparar" aria-labelledby="step-title-1" hidden>
-        <p class="step__kicker">Etapa 2</p>
-        <h2 id="step-title-1" tabindex="-1">Preparar acesso, ambiente e fontes</h2>
-        <p class="step__lead">Uma boa configuração começa antes da criação do agente: confirme acesso, ambiente, responsáveis e informação que pode ser utilizada.</p>
+ <section class="step" data-step="1" data-title="Preparar" aria-labelledby="step-title-1" hidden>
+ <p class="step__kicker">Etapa 2</p>
+ <h2 id="step-title-1" tabindex="-1">Preparar acesso, ambiente e fontes</h2>
+ <p class="step__lead">Uma boa configuração começa antes da criação do agente: confirme acesso, ambiente, responsáveis e informação que pode ser utilizada.</p>
 
-        <h3>Checklist de preparação</h3>
-        <ul class="checklist" data-checklist="prepare">
-          <li><label><input type="checkbox" value="access"> Tenho acesso a <a href="https://copilotstudio.microsoft.com/" target="_blank" rel="noopener">copilotstudio.microsoft.com</a>.</label></li>
-          <li><label><input type="checkbox" value="environment"> Identifiquei o ambiente correto no seletor do Copilot Studio.</label></li>
-          <li><label><input type="checkbox" value="owner"> Sei quem será responsável pelo agente e pela aprovação do conteúdo.</label></li>
-          <li><label><input type="checkbox" value="sources"> Tenho fontes de conhecimento atuais, autorizadas e sem dados de teste indevidos.</label></li>
-          <li><label><input type="checkbox" value="policy"> Confirmei as regras internas aplicáveis a IA, dados, conectores e publicação.</label></li>
-        </ul>
+ <h3>Checklist de preparação</h3>
+ <ul class="checklist" data-checklist="prepare">
+ <li><label><input type="checkbox" value="access"> Tenho acesso a <a href="https://copilotstudio.microsoft.com/" target="_blank" rel="noopener">copilotstudio.microsoft.com</a>.</label></li>
+ <li><label><input type="checkbox" value="environment"> Identifiquei o ambiente correto no seletor do Copilot Studio.</label></li>
+ <li><label><input type="checkbox" value="owner"> Sei quem será responsável pelo agente e pela aprovação do conteúdo.</label></li>
+ <li><label><input type="checkbox" value="sources"> Tenho fontes de conhecimento atuais, autorizadas e sem dados de teste indevidos.</label></li>
+ <li><label><input type="checkbox" value="policy"> Confirmei as regras internas aplicáveis a IA, dados, conectores e publicação.</label></li>
+ </ul>
 
-        <h3>Organize a informação antes de a adicionar</h3>
-        <div class="card-grid">
-          <div class="mini-card"><strong>Inclua</strong><p>Normas em vigor, perguntas frequentes validadas, procedimentos aprovados, páginas institucionais atuais.</p></div>
-          <div class="mini-card"><strong>Exclua ou trate primeiro</strong><p>Duplicados, versões antigas, rascunhos, credenciais, dados pessoais desnecessários e conteúdo contraditório.</p></div>
-        </div>
+ <h3>Organize a informação antes de a adicionar</h3>
+ <div class="card-grid">
+ <div class="mini-card"><strong>Inclua</strong><p>Normas em vigor, perguntas frequentes validadas, procedimentos aprovados, páginas institucionais atuais.</p></div>
+ <div class="mini-card"><strong>Exclua ou trate primeiro</strong><p>Duplicados, versões antigas, rascunhos, credenciais, dados pessoais desnecessários e conteúdo contraditório.</p></div>
+ </div>
 
-        <div class="callout callout--tip"><strong>Dica</strong><p>Comece com um âmbito pequeno e fontes de elevada qualidade. É mais fácil validar um agente especializado do que um agente que tenta responder sobre tudo.</p></div>
+ <div class="callout callout--tip"><strong>Dica</strong><p>Comece com um âmbito pequeno e fontes de elevada qualidade. É mais fácil validar um agente especializado do que um agente que tenta responder sobre tudo.</p></div>
 
-        <div class="exercise">
-          <span class="exercise__label">Exercício prático</span>
-          <h3>Inventário inicial de fontes</h3>
-          <div class="field"><label for="ex1-sources">Liste até cinco fontes e indique quem as valida</label><textarea id="ex1-sources" data-save="sources" placeholder="1. Manual de procedimentos — validação: …&#10;2. Página SharePoint — validação: …"></textarea></div>
-          <div class="field"><label for="ex1-risk">Risco principal a controlar</label><input id="ex1-risk" data-save="risk" type="text" placeholder="Ex.: utilização de uma versão desatualizada"></div>
-          <p class="save-state" data-save-state aria-live="polite"></p>
-        </div>
-      </section>
+ <div class="exercise">
+ <span class="exercise__label">Exercício prático</span>
+ <h3>Inventário inicial de fontes</h3>
+ <div class="field"><label for="ex1-sources">Liste até cinco fontes e indique quem as valida</label><textarea id="ex1-sources" data-save="sources" placeholder="1. Manual de procedimentos — validação: …&#10;2. Página SharePoint — validação: …"></textarea></div>
+ <div class="field"><label for="ex1-risk">Risco principal a controlar</label><input id="ex1-risk" data-save="risk" type="text" placeholder="Ex.: utilização de uma versão desatualizada"></div>
+ <p class="save-state" data-save-state aria-live="polite"></p>
+ </div>
+ </section>
 
-      <section class="step" data-step="2" data-title="Planear" aria-labelledby="step-title-2" hidden>
-        <p class="step__kicker">Etapa 3</p>
-        <h2 id="step-title-2" tabindex="-1">Definir objetivo, âmbito e critérios</h2>
-        <p class="step__lead">Decida o que o agente deve fazer, para quem, com que fontes e quando deve encaminhar a questão.</p>
+ <section class="step" data-step="2" data-title="Planear" aria-labelledby="step-title-2" hidden>
+ <p class="step__kicker">Etapa 3</p>
+ <h2 id="step-title-2" tabindex="-1">Definir objetivo, âmbito e critérios</h2>
+ <p class="step__lead">Decida o que o agente deve fazer, para quem, com que fontes e quando deve encaminhar a questão.</p>
 
-        <h3>Use uma ficha de definição</h3>
-        <dl class="glossary">
-          <dt>Objetivo</dt><dd>Resultado concreto que o agente ajuda a alcançar.</dd>
-          <dt>Público</dt><dd>Pessoas autorizadas a usar o agente e respetivas necessidades.</dd>
-          <dt>Âmbito</dt><dd>Temas incluídos e excluídos.</dd>
-          <dt>Fontes</dt><dd>Informação autorizada que sustenta as respostas.</dd>
-          <dt>Limites</dt><dd>Situações em que deve reconhecer insuficiência ou encaminhar.</dd>
-          <dt>Sucesso</dt><dd>Critérios observáveis: exatidão, utilidade, segurança e encaminhamento.</dd>
-        </dl>
+ <h3>Use uma ficha de definição</h3>
+ <dl class="glossary">
+ <dt>Objetivo</dt><dd>Resultado concreto que o agente ajuda a alcançar.</dd>
+ <dt>Público</dt><dd>Pessoas autorizadas a usar o agente e respetivas necessidades.</dd>
+ <dt>Âmbito</dt><dd>Temas incluídos e excluídos.</dd>
+ <dt>Fontes</dt><dd>Informação autorizada que sustenta as respostas.</dd>
+ <dt>Limites</dt><dd>Situações em que deve reconhecer insuficiência ou encaminhar.</dd>
+ <dt>Sucesso</dt><dd>Critérios observáveis: exatidão, utilidade, segurança e encaminhamento.</dd>
+ </dl>
 
-        <div class="code-example">
-          <div class="code-example__head"><strong>Exemplo de ficha do agente</strong><button class="copy-button" type="button" data-copy="example-brief">Copiar</button></div>
-          <pre id="example-brief">Nome: Agente de Apoio a Procedimentos Internos
+ <div class="code-example">
+ <div class="code-example__head"><strong>Exemplo de ficha do agente</strong><button class="copy-button" type="button" data-copy="example-brief">Copiar</button></div>
+ <pre id="example-brief">Nome: Agente de Apoio a Procedimentos Internos
 Objetivo: Ajudar a localizar e compreender procedimentos aprovados.
 Público: Trabalhadores e trabalhadoras autorizados.
 Inclui: pedidos de acesso, canais de suporte e procedimentos publicados.
@@ -408,570 +424,580 @@ Exclui: decisões jurídicas, dados pessoais de terceiros e informação não va
 Fontes: páginas e documentos institucionais aprovados.
 Encaminhamento: indicar o serviço competente quando a fonte não for suficiente.
 Critério de sucesso: resposta sustentada, clara, rastreável e dentro do âmbito.</pre>
-        </div>
+ </div>
 
-        <div class="exercise">
-          <span class="exercise__label">Exercício prático</span>
-          <h3>Escreva o contrato funcional do agente</h3>
-          <div class="field"><label for="ex2-objective">Objetivo numa frase</label><input id="ex2-objective" data-save="objective" type="text" placeholder="Ajudar [público] a [resultado] com base em [fontes]."></div>
-          <div class="field-grid">
-            <div class="field"><label for="ex2-in">Temas incluídos</label><textarea id="ex2-in" data-save="inScope"></textarea></div>
-            <div class="field"><label for="ex2-out">Temas excluídos</label><textarea id="ex2-out" data-save="outScope"></textarea></div>
-          </div>
-          <div class="field"><label for="ex2-success">Três critérios de sucesso</label><textarea id="ex2-success" data-save="success" placeholder="1. …&#10;2. …&#10;3. …"></textarea></div>
-          <p class="save-state" data-save-state aria-live="polite"></p>
-        </div>
-      </section>
+ <div class="exercise">
+ <span class="exercise__label">Exercício prático</span>
+ <h3>Escreva o contrato funcional do agente</h3>
+ <div class="field"><label for="ex2-objective">Objetivo numa frase</label><input id="ex2-objective" data-save="objective" type="text" placeholder="Ajudar [público] a [resultado] com base em [fontes]."></div>
+ <div class="field-grid">
+ <div class="field"><label for="ex2-in">Temas incluídos</label><textarea id="ex2-in" data-save="inScope"></textarea></div>
+ <div class="field"><label for="ex2-out">Temas excluídos</label><textarea id="ex2-out" data-save="outScope"></textarea></div>
+ </div>
+ <div class="field"><label for="ex2-success">Três critérios de sucesso</label><textarea id="ex2-success" data-save="success" placeholder="1. …&#10;2. …&#10;3. …"></textarea></div>
+ <p class="save-state" data-save-state aria-live="polite"></p>
+ </div>
+ </section>
 
-      <section class="step" data-step="3" data-title="Criar agente" aria-labelledby="step-title-3" hidden>
-        <p class="step__kicker">Etapa 4</p>
-        <h2 id="step-title-3" tabindex="-1">Criar o agente</h2>
-        <p class="step__lead">Crie a estrutura inicial no ambiente correto. As designações do ecrã podem variar com as atualizações do serviço e o tipo de agente disponível.</p>
+ <section class="step" data-step="3" data-title="Criar agente" aria-labelledby="step-title-3" hidden>
+ <p class="step__kicker">Etapa 4</p>
+ <h2 id="step-title-3" tabindex="-1">Criar o agente</h2>
+ <p class="step__lead">Crie a estrutura inicial no ambiente correto. As designações do ecrã podem variar com as atualizações do serviço e o tipo de agente disponível.</p>
 
-        <ol class="instruction-list">
-          <li>Aceda ao <a href="https://copilotstudio.microsoft.com/" target="_blank" rel="noopener">Microsoft Copilot Studio</a> e autentique-se com a conta autorizada.</li>
-          <li>No topo, confirme o <strong>ambiente</strong>. Não avance num ambiente pessoal ou de produção sem autorização.</li>
-          <li>Na página inicial ou em <strong>Agentes</strong>, selecione a opção para criar um novo agente.</li>
-          <li>Se surgir uma criação assistida por descrição, explique em linguagem simples o objetivo. Em alternativa, escolha a configuração manual, quando disponível.</li>
-          <li>Defina o nome, a descrição e o idioma principal. Confirme estas escolhas antes de criar.</li>
-          <li>Selecione <strong>Criar</strong>. Aguarde o aprovisionamento e abra a página de visão geral do agente.</li>
-        </ol>
+ <ol class="instruction-list">
+ <li>Aceda ao <a href="https://copilotstudio.microsoft.com/" target="_blank" rel="noopener">Microsoft Copilot Studio</a> e autentique-se com a conta autorizada.</li>
+ <li>No topo, confirme o <strong>ambiente</strong>. Não avance num ambiente pessoal ou de produção sem autorização.</li>
+ <li>Na página inicial ou em <strong>Agentes</strong>, selecione a opção para criar um novo agente.</li>
+ <li>Se surgir uma criação assistida por descrição, explique em linguagem simples o objetivo. Em alternativa, escolha a configuração manual, quando disponível.</li>
+ <li>Defina o nome, a descrição e o idioma principal. Confirme estas escolhas antes de criar.</li>
+ <li>Selecione <strong>Criar</strong>. Aguarde o aprovisionamento e abra a página de visão geral do agente.</li>
+ </ol>
 
-        <div class="code-example">
-          <div class="code-example__head"><strong>Descrição inicial para criação assistida</strong><button class="copy-button" type="button" data-copy="example-create">Copiar</button></div>
-          <pre id="example-create">Cria um agente de apoio a procedimentos internos para trabalhadores e trabalhadoras. Deve responder em português de Portugal, utilizar apenas fontes institucionais autorizadas, indicar quando não encontra informação suficiente e encaminhar questões fora do âmbito para o serviço competente.</pre>
-        </div>
+ <div class="code-example">
+ <div class="code-example__head"><strong>Descrição inicial para criação assistida</strong><button class="copy-button" type="button" data-copy="example-create">Copiar</button></div>
+ <pre id="example-create">Cria um agente de apoio a procedimentos internos para trabalhadores e trabalhadoras. Deve responder em português de Portugal, utilizar apenas fontes institucionais autorizadas, indicar quando não encontra informação suficiente e encaminhar questões fora do âmbito para o serviço competente.</pre>
+ </div>
 
-        <div class="callout callout--warning"><strong>Confirme antes de avançar</strong><p>Nome, idioma principal, ambiente e eventual solução associada podem ter impacto na gestão futura. Se a organização usa soluções e processos de ciclo de vida, siga as orientações da equipa responsável pela plataforma.</p></div>
+ <div class="callout callout--warning"><strong>Confirme antes de avançar</strong><p>Nome, idioma principal, ambiente e eventual solução associada podem ter impacto na gestão futura. Se a organização usa soluções e processos de ciclo de vida, siga as orientações da equipa responsável pela plataforma.</p></div>
 
-        <div class="exercise">
-          <span class="exercise__label">Exercício prático</span>
-          <h3>Registe a identidade criada</h3>
-          <div class="field-grid">
-            <div class="field"><label for="ex3-name">Nome do agente</label><input id="ex3-name" data-save="agentName" type="text"></div>
-            <div class="field"><label for="ex3-env">Ambiente</label><input id="ex3-env" data-save="environment" type="text" placeholder="Não registe identificadores sensíveis"></div>
-          </div>
-          <div class="field"><label for="ex3-description">Descrição final</label><textarea id="ex3-description" data-save="description"></textarea></div>
-          <p class="save-state" data-save-state aria-live="polite"></p>
-        </div>
-      </section>
+ <div class="exercise">
+ <span class="exercise__label">Exercício prático</span>
+ <h3>Registe a identidade criada</h3>
+ <div class="field-grid">
+ <div class="field"><label for="ex3-name">Nome do agente</label><input id="ex3-name" data-save="agentName" type="text"></div>
+ <div class="field"><label for="ex3-env">Ambiente</label><input id="ex3-env" data-save="environment" type="text" placeholder="Não registe identificadores sensíveis"></div>
+ </div>
+ <div class="field"><label for="ex3-description">Descrição final</label><textarea id="ex3-description" data-save="description"></textarea></div>
+ <p class="save-state" data-save-state aria-live="polite"></p>
+ </div>
+ </section>
 
-      <section class="step" data-step="4" data-title="Instruções" aria-labelledby="step-title-4" hidden>
-        <p class="step__kicker">Etapa 5</p>
-        <h2 id="step-title-4" tabindex="-1">Configurar identidade e instruções</h2>
-        <p class="step__lead">As instruções definem o papel, o comportamento, a forma de responder, as prioridades e os limites. Devem ser específicas, testáveis e coerentes.</p>
+ <section class="step" data-step="4" data-title="Instruções" aria-labelledby="step-title-4" hidden>
+ <p class="step__kicker">Etapa 5</p>
+ <h2 id="step-title-4" tabindex="-1">Configurar identidade e instruções</h2>
+ <p class="step__lead">As instruções definem o papel, o comportamento, a forma de responder, as prioridades e os limites. Devem ser específicas, testáveis e coerentes.</p>
 
-        <h3>Estrutura recomendada</h3>
-        <ol>
-          <li><strong>Papel:</strong> quem é o agente.</li>
-          <li><strong>Objetivo:</strong> que resultado procura.</li>
-          <li><strong>Público e linguagem:</strong> para quem responde e em que registo.</li>
-          <li><strong>Fontes e prioridade:</strong> em que informação se deve basear.</li>
-          <li><strong>Regras de resposta:</strong> formato, clareza, referências e perguntas de clarificação.</li>
-          <li><strong>Limites:</strong> o que não deve fazer e quando encaminhar.</li>
-        </ol>
+ <h3>Estrutura recomendada</h3>
+ <ol>
+ <li><strong>Papel:</strong> quem é o agente.</li>
+ <li><strong>Objetivo:</strong> que resultado procura.</li>
+ <li><strong>Público e linguagem:</strong> para quem responde e em que registo.</li>
+ <li><strong>Fontes e prioridade:</strong> em que informação se deve basear.</li>
+ <li><strong>Regras de resposta:</strong> formato, clareza, referências e perguntas de clarificação.</li>
+ <li><strong>Limites:</strong> o que não deve fazer e quando encaminhar.</li>
+ </ol>
 
-        <div class="code-example">
-          <div class="code-example__head"><strong>Modelo de instruções</strong><button class="copy-button" type="button" data-copy="example-instructions">Copiar</button></div>
-          <pre id="example-instructions">PAPEL
+ <div class="code-example">
+ <div class="code-example__head"><strong>Modelo de instruções</strong><button class="copy-button" type="button" data-copy="example-instructions">Copiar</button></div>
+ <pre id="example-instructions">PAPEL
 És um agente de apoio a procedimentos internos.
 
 OBJETIVO
 Ajuda trabalhadores e trabalhadoras a localizar e compreender informação aprovada nas fontes disponibilizadas.
 
 LINGUAGEM E FORMATO
-- Responde em português de Portugal, com linguagem clara, inclusiva e institucional.
-- Começa pela resposta direta e usa listas apenas quando melhorarem a leitura.
-- Distingue requisitos obrigatórios de recomendações.
+Responde em português de Portugal, com linguagem clara, inclusiva e institucional.
+Começa pela resposta direta e usa listas apenas quando melhorarem a leitura.
+Distingue requisitos obrigatórios de recomendações.
 
 FONTES
-- Baseia as respostas nas fontes de conhecimento autorizadas do agente.
-- Quando existirem versões divergentes, não escolhas silenciosamente: assinala a divergência e indica a necessidade de validação.
+Baseia as respostas nas fontes de conhecimento autorizadas do agente.
+Quando existirem versões divergentes, não escolhas silenciosamente: assinala a divergência e indica a necessidade de validação.
 
 LIMITES
-- Não inventes informação, prazos, contactos, permissões ou decisões.
-- Não solicites nem exponhas dados pessoais desnecessários.
-- Se a informação for insuficiente ou estiver fora do âmbito, declara a limitação e encaminha para o serviço competente.
+Não inventes informação, prazos, contactos, permissões ou decisões.
+Não solicites nem exponhas dados pessoais desnecessários.
+Se a informação for insuficiente ou estiver fora do âmbito, declara a limitação e encaminha para o serviço competente.
 
 CLARIFICAÇÃO
 Quando a pergunta for ambígua, faz uma pergunta curta antes de responder.</pre>
-        </div>
+ </div>
 
-        <div class="callout callout--tip"><strong>Boa prática</strong><p>Escreva regras observáveis. “Sê útil” é vago; “se a fonte não sustentar a resposta, declara a limitação e encaminha” pode ser testado.</p></div>
+ <div class="callout callout--tip"><strong>Boa prática</strong><p>Escreva regras observáveis. “Sê útil” é vago; “se a fonte não sustentar a resposta, declara a limitação e encaminha” pode ser testado.</p></div>
 
-        <div class="exercise">
-          <span class="exercise__label">Exercício prático</span>
-          <h3>Adapte as instruções</h3>
-          <div class="field"><label for="ex4-instructions">Versão de trabalho</label><textarea id="ex4-instructions" data-save="instructions" style="min-height:260px" placeholder="Cole o modelo, adapte-o e remova regras que não se aplicam."></textarea></div>
-          <div class="field"><label for="ex4-limit">Qual é o limite mais importante?</label><input id="ex4-limit" data-save="keyLimit" type="text"></div>
-          <p class="save-state" data-save-state aria-live="polite"></p>
-        </div>
-      </section>
+ <div class="exercise">
+ <span class="exercise__label">Exercício prático</span>
+ <h3>Adapte as instruções</h3>
+ <div class="field"><label for="ex4-instructions">Versão de trabalho</label><textarea id="ex4-instructions" data-save="instructions" style="min-height:260px" placeholder="Cole o modelo, adapte-o e remova regras que não se aplicam."></textarea></div>
+ <div class="field"><label for="ex4-limit">Qual é o limite mais importante?</label><input id="ex4-limit" data-save="keyLimit" type="text"></div>
+ <p class="save-state" data-save-state aria-live="polite"></p>
+ </div>
+ </section>
 
-      <section class="step" data-step="5" data-title="Conhecimento" aria-labelledby="step-title-5" hidden>
-        <p class="step__kicker">Etapa 6</p>
-        <h2 id="step-title-5" tabindex="-1">Adicionar e validar conhecimento</h2>
-        <p class="step__lead">O conhecimento sustenta as respostas. Adicione apenas fontes adequadas ao caso de utilização e teste se o agente recupera a informação correta.</p>
+ <section class="step" data-step="5" data-title="Conhecimento" aria-labelledby="step-title-5" hidden>
+ <p class="step__kicker">Etapa 6</p>
+ <h2 id="step-title-5" tabindex="-1">Adicionar e validar conhecimento</h2>
+ <p class="step__lead">O conhecimento sustenta as respostas. Adicione apenas fontes adequadas ao caso de utilização e teste se o agente recupera a informação correta.</p>
 
-        <h3>Adicionar uma fonte</h3>
-        <ol class="instruction-list">
-          <li>Na página do agente, localize a secção ou separador <strong>Conhecimento</strong>.</li>
-          <li>Selecione <strong>Adicionar conhecimento</strong> ou a opção equivalente.</li>
-          <li>Escolha o tipo disponível e autorizado: por exemplo, ficheiros, SharePoint, site público, Dataverse ou outra origem configurada.</li>
-          <li>Selecione ou indique a origem. Defina um nome e uma descrição claros para ajudar a identificar a finalidade da fonte.</li>
-          <li>Conclua a adição e aguarde o processamento ou indexação, quando aplicável.</li>
-          <li>No painel de teste, faça uma pergunta cuja resposta exista inequivocamente na fonte.</li>
-          <li>Confirme a resposta, a referência apresentada e o comportamento quando a informação não existe.</li>
-        </ol>
+ <h3>Adicionar uma fonte</h3>
+ <ol class="instruction-list">
+ <li>Na página do agente, localize a secção ou separador <strong>Conhecimento</strong>.</li>
+ <li>Selecione <strong>Adicionar conhecimento</strong> ou a opção equivalente.</li>
+ <li>Escolha o tipo disponível e autorizado: por exemplo, ficheiros, SharePoint, site público, Dataverse ou outra origem configurada.</li>
+ <li>Selecione ou indique a origem. Defina um nome e uma descrição claros para ajudar a identificar a finalidade da fonte.</li>
+ <li>Conclua a adição e aguarde o processamento ou indexação, quando aplicável.</li>
+ <li>No painel de teste, faça uma pergunta cuja resposta exista inequivocamente na fonte.</li>
+ <li>Confirme a resposta, a referência apresentada e o comportamento quando a informação não existe.</li>
+ </ol>
 
-        <div class="card-grid">
-          <div class="mini-card"><strong>Ficheiros</strong><p>Adequados a um conjunto controlado de documentos. Exigem gestão de versões e revisão quando o conteúdo muda.</p></div>
-          <div class="mini-card"><strong>SharePoint</strong><p>Útil para conteúdo organizacional sujeito às permissões e à configuração aplicável.</p></div>
-          <div class="mini-card"><strong>Site público</strong><p>Útil para informação pública e estável. Delimite o domínio ou endereço com cuidado.</p></div>
-          <div class="mini-card"><strong>Dados estruturados</strong><p>Podem exigir configuração, autenticação, conectores e governação adicionais.</p></div>
-        </div>
+ <div class="card-grid">
+ <div class="mini-card"><strong>Ficheiros</strong><p>Adequados a um conjunto controlado de documentos. Exigem gestão de versões e revisão quando o conteúdo muda.</p></div>
+ <div class="mini-card"><strong>SharePoint</strong><p>Útil para conteúdo organizacional sujeito às permissões e à configuração aplicável.</p></div>
+ <div class="mini-card"><strong>Site público</strong><p>Útil para informação pública e estável. Delimite o domínio ou endereço com cuidado.</p></div>
+ <div class="mini-card"><strong>Dados estruturados</strong><p>Podem exigir configuração, autenticação, conectores e governação adicionais.</p></div>
+ </div>
 
-        <div class="callout callout--warning"><strong>Permissões não são um detalhe</strong><p>Valide como cada fonte respeita identidade, permissões e políticas no seu contexto. Nunca presuma que adicionar uma origem reproduz automaticamente todas as regras esperadas.</p></div>
+ <div class="callout callout--warning"><strong>Permissões não são um detalhe</strong><p>Valide como cada fonte respeita identidade, permissões e políticas no seu contexto. Nunca presuma que adicionar uma origem reproduz automaticamente todas as regras esperadas.</p></div>
 
-        <div class="exercise">
-          <span class="exercise__label">Exercício prático</span>
-          <h3>Teste de recuperação</h3>
-          <div class="field"><label for="ex5-source">Fonte adicionada e versão/data</label><input id="ex5-source" data-save="sourceAdded" type="text"></div>
-          <div class="field-grid">
-            <div class="field"><label for="ex5-positive">Pergunta com resposta na fonte</label><textarea id="ex5-positive" data-save="positiveQuestion"></textarea></div>
-            <div class="field"><label for="ex5-negative">Pergunta sem resposta na fonte</label><textarea id="ex5-negative" data-save="negativeQuestion"></textarea></div>
-          </div>
-          <div class="field"><label for="ex5-observation">Resultado observado</label><textarea id="ex5-observation" data-save="knowledgeObservation"></textarea></div>
-          <p class="save-state" data-save-state aria-live="polite"></p>
-        </div>
-      </section>
+ <div class="exercise">
+ <span class="exercise__label">Exercício prático</span>
+ <h3>Teste de recuperação</h3>
+ <div class="field"><label for="ex5-source">Fonte adicionada e versão/data</label><input id="ex5-source" data-save="sourceAdded" type="text"></div>
+ <div class="field-grid">
+ <div class="field"><label for="ex5-positive">Pergunta com resposta na fonte</label><textarea id="ex5-positive" data-save="positiveQuestion"></textarea></div>
+ <div class="field"><label for="ex5-negative">Pergunta sem resposta na fonte</label><textarea id="ex5-negative" data-save="negativeQuestion"></textarea></div>
+ </div>
+ <div class="field"><label for="ex5-observation">Resultado observado</label><textarea id="ex5-observation" data-save="knowledgeObservation"></textarea></div>
+ <p class="save-state" data-save-state aria-live="polite"></p>
+ </div>
+ </section>
 
-      <section class="step" data-step="6" data-title="Ferramentas" aria-labelledby="step-title-6" hidden>
-        <p class="step__kicker">Etapa 7</p>
-        <h2 id="step-title-6" tabindex="-1">Adicionar ferramentas e ações</h2>
-        <p class="step__lead">Conhecimento permite responder; ferramentas permitem executar uma operação. Use ações apenas quando existe uma necessidade clara, controlo de acesso e confirmação adequada.</p>
+ <section class="step" data-step="6" data-title="Ferramentas" aria-labelledby="step-title-6" hidden>
+ <p class="step__kicker">Etapa 7</p>
+ <h2 id="step-title-6" tabindex="-1">Adicionar ferramentas e ações</h2>
+ <p class="step__lead">Conhecimento permite responder; ferramentas permitem executar uma operação. Use ações apenas quando existe uma necessidade clara, controlo de acesso e confirmação adequada.</p>
 
-        <h3>Distinguir “saber” de “fazer”</h3>
-        <div class="card-grid">
-          <div class="mini-card"><strong>Conhecimento</strong><p>“Qual é o procedimento para pedir acesso?” — recupera e explica informação.</p></div>
-          <div class="mini-card"><strong>Ferramenta ou ação</strong><p>“Cria o pedido de acesso.” — executa uma operação num sistema ou fluxo.</p></div>
-        </div>
+ <h3>Distinguir “saber” de “fazer”</h3>
+ <div class="card-grid">
+ <div class="mini-card"><strong>Conhecimento</strong><p>“Qual é o procedimento para pedir acesso?” — recupera e explica informação.</p></div>
+ <div class="mini-card"><strong>Ferramenta ou ação</strong><p>“Cria o pedido de acesso.” — executa uma operação num sistema ou fluxo.</p></div>
+ </div>
 
-        <h3>Configuração segura de uma ferramenta</h3>
-        <ol class="instruction-list">
-          <li>Abra a área <strong>Ferramentas</strong> do agente e selecione a opção para adicionar uma ferramenta.</li>
-          <li>Escolha uma ferramenta, conector, fluxo ou capacidade aprovada.</li>
-          <li>Leia os dados de entrada e saída, a ligação usada e as permissões exigidas.</li>
-          <li>Dê à ferramenta um nome e uma descrição explícitos: indique quando deve e não deve ser utilizada.</li>
-          <li>Mapeie entradas com nomes compreensíveis e aplique validação a valores críticos.</li>
-          <li>Exija confirmação antes de operações com impacto: criação, alteração, envio, eliminação ou divulgação.</li>
-          <li>Teste com dados fictícios, incluindo sucesso, erro, cancelamento e falta de autorização.</li>
-        </ol>
+ <h3>Configuração segura de uma ferramenta</h3>
+ <ol class="instruction-list">
+ <li>Abra a área <strong>Ferramentas</strong> do agente e selecione a opção para adicionar uma ferramenta.</li>
+ <li>Escolha uma ferramenta, conector, fluxo ou capacidade aprovada.</li>
+ <li>Leia os dados de entrada e saída, a ligação usada e as permissões exigidas.</li>
+ <li>Dê à ferramenta um nome e uma descrição explícitos: indique quando deve e não deve ser utilizada.</li>
+ <li>Mapeie entradas com nomes compreensíveis e aplique validação a valores críticos.</li>
+ <li>Exija confirmação antes de operações com impacto: criação, alteração, envio, eliminação ou divulgação.</li>
+ <li>Teste com dados fictícios, incluindo sucesso, erro, cancelamento e falta de autorização.</li>
+ </ol>
 
-        <div class="code-example">
-          <div class="code-example__head"><strong>Descrição de ferramenta</strong><button class="copy-button" type="button" data-copy="example-tool">Copiar</button></div>
-          <pre id="example-tool">Utiliza esta ferramenta apenas para criar um pedido de suporte depois de a pessoa confirmar o resumo final. Recolhe apenas assunto, descrição e nível de impacto. Não recolhas palavras-passe, dados de autenticação nem dados pessoais desnecessários. Se faltar informação obrigatória, pede-a antes da confirmação.</pre>
-        </div>
+ <div class="code-example">
+ <div class="code-example__head"><strong>Descrição de ferramenta</strong><button class="copy-button" type="button" data-copy="example-tool">Copiar</button></div>
+ <pre id="example-tool">Utiliza esta ferramenta apenas para criar um pedido de suporte depois de a pessoa confirmar o resumo final. Recolhe apenas assunto, descrição e nível de impacto. Não recolhas palavras-passe, dados de autenticação nem dados pessoais desnecessários. Se faltar informação obrigatória, pede-a antes da confirmação.</pre>
+ </div>
 
-        <div class="exercise">
-          <span class="exercise__label">Exercício prático</span>
-          <h3>Ficha de controlo de uma ação</h3>
-          <div class="field"><label for="ex6-action">Operação a executar</label><input id="ex6-action" data-save="action" type="text"></div>
-          <div class="field-grid">
-            <div class="field"><label for="ex6-inputs">Dados mínimos de entrada</label><textarea id="ex6-inputs" data-save="actionInputs"></textarea></div>
-            <div class="field"><label for="ex6-confirm">Confirmação e resultado esperado</label><textarea id="ex6-confirm" data-save="actionConfirmation"></textarea></div>
-          </div>
-          <p class="save-state" data-save-state aria-live="polite"></p>
-        </div>
-      </section>
+ <div class="exercise">
+ <span class="exercise__label">Exercício prático</span>
+ <h3>Ficha de controlo de uma ação</h3>
+ <div class="field"><label for="ex6-action">Operação a executar</label><input id="ex6-action" data-save="action" type="text"></div>
+ <div class="field-grid">
+ <div class="field"><label for="ex6-inputs">Dados mínimos de entrada</label><textarea id="ex6-inputs" data-save="actionInputs"></textarea></div>
+ <div class="field"><label for="ex6-confirm">Confirmação e resultado esperado</label><textarea id="ex6-confirm" data-save="actionConfirmation"></textarea></div>
+ </div>
+ <p class="save-state" data-save-state aria-live="polite"></p>
+ </div>
+ </section>
 
-      <section class="step" data-step="7" data-title="Conversação" aria-labelledby="step-title-7" hidden>
-        <p class="step__kicker">Etapa 8</p>
-        <h2 id="step-title-7" tabindex="-1">Modelar tópicos, variáveis e encaminhamento</h2>
-        <p class="step__lead">Use tópicos e lógica explícita quando precisa de uma conversa previsível, recolha estruturada de dados ou encaminhamento consistente.</p>
+ <section class="step" data-step="7" data-title="Conversação" aria-labelledby="step-title-7" hidden>
+ <p class="step__kicker">Etapa 8</p>
+ <h2 id="step-title-7" tabindex="-1">Modelar tópicos, variáveis e encaminhamento</h2>
+ <p class="step__lead">Use tópicos e lógica explícita quando precisa de uma conversa previsível, recolha estruturada de dados ou encaminhamento consistente.</p>
 
-        <h3>Quando criar um tópico</h3>
-        <ul>
-          <li>Existe uma sequência obrigatória de perguntas.</li>
-          <li>É necessário guardar e reutilizar valores em variáveis.</li>
-          <li>Há condições que mudam o percurso.</li>
-          <li>É preciso apresentar uma confirmação antes de uma ação.</li>
-          <li>O encerramento ou encaminhamento deve seguir uma regra fixa.</li>
-        </ul>
+ <h3>Quando criar um tópico</h3>
+ <ul>
+ <li>Existe uma sequência obrigatória de perguntas.</li>
+ <li>É necessário guardar e reutilizar valores em variáveis.</li>
+ <li>Há condições que mudam o percurso.</li>
+ <li>É preciso apresentar uma confirmação antes de uma ação.</li>
+ <li>O encerramento ou encaminhamento deve seguir uma regra fixa.</li>
+ </ul>
 
-        <h3>Exemplo: pedido de suporte</h3>
-        <ol class="instruction-list">
-          <li>Crie um novo tópico e defina frases de ativação claras, se esse mecanismo estiver disponível no tipo de agente.</li>
-          <li>Adicione uma mensagem inicial que explique o objetivo e os dados necessários.</li>
-          <li>Adicione perguntas para recolher assunto, descrição e impacto. Guarde cada resposta numa variável.</li>
-          <li>Crie uma condição: se o impacto for elevado, apresente o canal urgente; caso contrário, prossiga.</li>
-          <li>Apresente um resumo dos valores e peça confirmação.</li>
-          <li>Após confirmação, invoque a ferramenta; perante recusa, permita corrigir ou cancelar.</li>
-          <li>Adicione tratamento de erro e uma mensagem de encerramento com o resultado.</li>
-        </ol>
+ <h3>Exemplo: pedido de suporte</h3>
+ <ol class="instruction-list">
+ <li>Crie um novo tópico e defina frases de ativação claras, se esse mecanismo estiver disponível no tipo de agente.</li>
+ <li>Adicione uma mensagem inicial que explique o objetivo e os dados necessários.</li>
+ <li>Adicione perguntas para recolher assunto, descrição e impacto. Guarde cada resposta numa variável.</li>
+ <li>Crie uma condição: se o impacto for elevado, apresente o canal urgente; caso contrário, prossiga.</li>
+ <li>Apresente um resumo dos valores e peça confirmação.</li>
+ <li>Após confirmação, invoque a ferramenta; perante recusa, permita corrigir ou cancelar.</li>
+ <li>Adicione tratamento de erro e uma mensagem de encerramento com o resultado.</li>
+ </ol>
 
-        <div class="callout callout--tip"><strong>Nomeie variáveis pelo significado</strong><p>Prefira <code>assuntoPedido</code> e <code>nivelImpacto</code> a nomes genéricos como <code>var1</code>. Defina o âmbito mais restrito que satisfaça a necessidade.</p></div>
+ <div class="callout callout--tip"><strong>Nomeie variáveis pelo significado</strong><p>Prefira <code>assuntoPedido</code> e <code>nivelImpacto</code> a nomes genéricos como <code>var1</code>. Defina o âmbito mais restrito que satisfaça a necessidade.</p></div>
 
-        <div class="exercise">
-          <span class="exercise__label">Exercício prático</span>
-          <h3>Desenhe o percurso</h3>
-          <div class="field"><label for="ex7-flow">Escreva o fluxo em linhas: entrada → pergunta → condição → confirmação → ação → resultado</label><textarea id="ex7-flow" data-save="flow" style="min-height:180px" placeholder="Entrada: …&#10;Pergunta 1: …&#10;Condição: …"></textarea></div>
-          <div class="field"><label for="ex7-fallback">O que acontece se houver erro ou falta de informação?</label><textarea id="ex7-fallback" data-save="fallback"></textarea></div>
-          <p class="save-state" data-save-state aria-live="polite"></p>
-        </div>
-      </section>
+ <div class="exercise">
+ <span class="exercise__label">Exercício prático</span>
+ <h3>Desenhe o percurso</h3>
+ <div class="field"><label for="ex7-flow">Escreva o fluxo em linhas: entrada → pergunta → condição → confirmação → ação → resultado</label><textarea id="ex7-flow" data-save="flow" style="min-height:180px" placeholder="Entrada: …&#10;Pergunta 1: …&#10;Condição: …"></textarea></div>
+ <div class="field"><label for="ex7-fallback">O que acontece se houver erro ou falta de informação?</label><textarea id="ex7-fallback" data-save="fallback"></textarea></div>
+ <p class="save-state" data-save-state aria-live="polite"></p>
+ </div>
+ </section>
 
-      <section class="step" data-step="8" data-title="Testar" aria-labelledby="step-title-8" hidden>
-        <p class="step__kicker">Etapa 9</p>
-        <h2 id="step-title-8" tabindex="-1">Testar no painel de pré-visualização</h2>
-        <p class="step__lead">Não teste apenas o percurso ideal. Inclua questões ambíguas, informação ausente, pedidos fora do âmbito e tentativas de contrariar as instruções.</p>
+ <section class="step" data-step="8" data-title="Testar" aria-labelledby="step-title-8" hidden>
+ <p class="step__kicker">Etapa 9</p>
+ <h2 id="step-title-8" tabindex="-1">Testar no painel de pré-visualização</h2>
+ <p class="step__lead">Não teste apenas o percurso ideal. Inclua questões ambíguas, informação ausente, pedidos fora do âmbito e tentativas de contrariar as instruções.</p>
 
-        <h3>Ciclo de teste</h3>
-        <ol class="instruction-list">
-          <li>Abra <strong>Pré-visualização</strong> ou o painel de teste.</li>
-          <li>Reinicie a conversa para cada caso independente.</li>
-          <li>Registe pergunta, resposta, fontes, ferramentas invocadas e resultado esperado.</li>
-          <li>Classifique o resultado: aprovado, aprovado com correção ou reprovado.</li>
-          <li>Corrija uma variável de cada vez: instruções, fonte, descrição da ferramenta ou fluxo.</li>
-          <li>Repita o caso e execute uma pequena regressão dos casos já aprovados.</li>
-        </ol>
+ <h3>Ciclo de teste</h3>
+ <ol class="instruction-list">
+ <li>Abra <strong>Pré-visualização</strong> ou o painel de teste.</li>
+ <li>Reinicie a conversa para cada caso independente.</li>
+ <li>Registe pergunta, resposta, fontes, ferramentas invocadas e resultado esperado.</li>
+ <li>Classifique o resultado: aprovado, aprovado com correção ou reprovado.</li>
+ <li>Corrija uma variável de cada vez: instruções, fonte, descrição da ferramenta ou fluxo.</li>
+ <li>Repita o caso e execute uma pequena regressão dos casos já aprovados.</li>
+ </ol>
 
-        <div class="code-example">
-          <div class="code-example__head"><strong>Bateria mínima de testes</strong><button class="copy-button" type="button" data-copy="example-tests">Copiar</button></div>
-          <pre id="example-tests">1. Pergunta direta com resposta explícita na fonte.
-2. Pergunta formulada com palavras diferentes das usadas na fonte.
-3. Pergunta ambígua que exige clarificação.
-4. Pergunta cuja resposta não existe nas fontes.
-5. Pedido fora do âmbito do agente.
-6. Pedido para ignorar regras ou revelar informação indevida.
-7. Informação contraditória em duas fontes.
-8. Ação válida com confirmação.
-9. Ação cancelada pela pessoa.
-10. Falha de ferramenta ou falta de permissão.</pre>
-        </div>
+ <div class="code-example">
+ <div class="code-example__head"><strong>Bateria mínima de testes</strong><button class="copy-button" type="button" data-copy="example-tests">Copiar</button></div>
+ <pre id="example-tests">1. Pergunta direta com resposta explícita na fonte.
+Pergunta formulada com palavras diferentes das usadas na fonte.
+Pergunta ambígua que exige clarificação.
+Pergunta cuja resposta não existe nas fontes.
+Pedido fora do âmbito do agente.
+Pedido para ignorar regras ou revelar informação indevida.
+Informação contraditória em duas fontes.
+Ação válida com confirmação.
+Ação cancelada pela pessoa.
+Falha de ferramenta ou falta de permissão.</pre>
+ </div>
 
-        <div class="exercise">
-          <span class="exercise__label">Exercício prático</span>
-          <h3>Registo de um caso de teste</h3>
-          <div class="field"><label for="ex8-question">Pergunta ou pedido</label><textarea id="ex8-question" data-save="testQuestion"></textarea></div>
-          <div class="field-grid">
-            <div class="field"><label for="ex8-expected">Resultado esperado</label><textarea id="ex8-expected" data-save="testExpected"></textarea></div>
-            <div class="field"><label for="ex8-actual">Resultado observado</label><textarea id="ex8-actual" data-save="testActual"></textarea></div>
-          </div>
-          <div class="field"><label for="ex8-status">Classificação</label><select id="ex8-status" data-save="testStatus"><option value="">Selecione…</option><option>Aprovado</option><option>Aprovado com correção</option><option>Reprovado</option></select></div>
-          <p class="save-state" data-save-state aria-live="polite"></p>
-        </div>
-      </section>
+ <div class="exercise">
+ <span class="exercise__label">Exercício prático</span>
+ <h3>Registo de um caso de teste</h3>
+ <div class="field"><label for="ex8-question">Pergunta ou pedido</label><textarea id="ex8-question" data-save="testQuestion"></textarea></div>
+ <div class="field-grid">
+ <div class="field"><label for="ex8-expected">Resultado esperado</label><textarea id="ex8-expected" data-save="testExpected"></textarea></div>
+ <div class="field"><label for="ex8-actual">Resultado observado</label><textarea id="ex8-actual" data-save="testActual"></textarea></div>
+ </div>
+ <div class="field"><label for="ex8-status">Classificação</label><select id="ex8-status" data-save="testStatus"><option value="">Selecione…</option><option>Aprovado</option><option>Aprovado com correção</option><option>Reprovado</option></select></div>
+ <p class="save-state" data-save-state aria-live="polite"></p>
+ </div>
+ </section>
 
-      <section class="step" data-step="9" data-title="Avaliar" aria-labelledby="step-title-9" hidden>
-        <p class="step__kicker">Etapa 10</p>
-        <h2 id="step-title-9" tabindex="-1">Avaliar qualidade, segurança e acessibilidade</h2>
-        <p class="step__lead">A avaliação transforma testes dispersos num critério de decisão. Use a área de avaliação disponível e complemente-a com revisão humana.</p>
+ <section class="step" data-step="9" data-title="Avaliar" aria-labelledby="step-title-9" hidden>
+ <p class="step__kicker">Etapa 10</p>
+ <h2 id="step-title-9" tabindex="-1">Avaliar qualidade, segurança e acessibilidade</h2>
+ <p class="step__lead">A avaliação transforma testes dispersos num critério de decisão. Use a área de avaliação disponível e complemente-a com revisão humana.</p>
 
-        <h3>Grelha de avaliação</h3>
-        <ul class="checklist" data-checklist="quality">
-          <li><label><input type="checkbox" value="correct"> A resposta está correta e sustentada pelas fontes.</label></li>
-          <li><label><input type="checkbox" value="scope"> O agente respeita o âmbito e reconhece limites.</label></li>
-          <li><label><input type="checkbox" value="safe"> Não expõe informação indevida nem pede dados desnecessários.</label></li>
-          <li><label><input type="checkbox" value="action"> As ferramentas só são usadas no momento e com os dados adequados.</label></li>
-          <li><label><input type="checkbox" value="language"> A linguagem é clara, inclusiva e adequada ao serviço público.</label></li>
-          <li><label><input type="checkbox" value="accessible"> As respostas têm estrutura simples, ligações descritivas e não dependem apenas de cor ou símbolos.</label></li>
-          <li><label><input type="checkbox" value="fallback"> O encaminhamento é claro quando o agente não consegue resolver.</label></li>
-        </ul>
+ <h3>Grelha de avaliação</h3>
+ <ul class="checklist" data-checklist="quality">
+ <li><label><input type="checkbox" value="correct"> A resposta está correta e sustentada pelas fontes.</label></li>
+ <li><label><input type="checkbox" value="scope"> O agente respeita o âmbito e reconhece limites.</label></li>
+ <li><label><input type="checkbox" value="safe"> Não expõe informação indevida nem pede dados desnecessários.</label></li>
+ <li><label><input type="checkbox" value="action"> As ferramentas só são usadas no momento e com os dados adequados.</label></li>
+ <li><label><input type="checkbox" value="language"> A linguagem é clara, inclusiva e adequada ao serviço público.</label></li>
+ <li><label><input type="checkbox" value="accessible"> As respostas têm estrutura simples, ligações descritivas e não dependem apenas de cor ou símbolos.</label></li>
+ <li><label><input type="checkbox" value="fallback"> O encaminhamento é claro quando o agente não consegue resolver.</label></li>
+ </ul>
 
-        <div class="callout callout--warning"><strong>Critério de publicação</strong><p>Defina previamente que falhas impedem a publicação. Erros de segurança, permissões, conteúdo obrigatório ou ações irreversíveis não devem ser tratados como simples melhorias futuras.</p></div>
+ <div class="callout callout--warning"><strong>Critério de publicação</strong><p>Defina previamente que falhas impedem a publicação. Erros de segurança, permissões, conteúdo obrigatório ou ações irreversíveis não devem ser tratados como simples melhorias futuras.</p></div>
 
-        <div class="exercise">
-          <span class="exercise__label">Exercício prático</span>
-          <h3>Decisão de prontidão</h3>
-          <div class="field"><label for="ex9-blockers">Falhas que bloqueiam a publicação</label><textarea id="ex9-blockers" data-save="blockers"></textarea></div>
-          <div class="field"><label for="ex9-decision">Decisão atual</label><select id="ex9-decision" data-save="decision"><option value="">Selecione…</option><option>Não está pronto</option><option>Pronto para piloto controlado</option><option>Pronto para publicação aprovada</option></select></div>
-          <p class="save-state" data-save-state aria-live="polite"></p>
-        </div>
-      </section>
+ <div class="exercise">
+ <span class="exercise__label">Exercício prático</span>
+ <h3>Decisão de prontidão</h3>
+ <div class="field"><label for="ex9-blockers">Falhas que bloqueiam a publicação</label><textarea id="ex9-blockers" data-save="blockers"></textarea></div>
+ <div class="field"><label for="ex9-decision">Decisão atual</label><select id="ex9-decision" data-save="decision"><option value="">Selecione…</option><option>Não está pronto</option><option>Pronto para piloto controlado</option><option>Pronto para publicação aprovada</option></select></div>
+ <p class="save-state" data-save-state aria-live="polite"></p>
+ </div>
+ </section>
 
-      <section class="step" data-step="10" data-title="Publicar" aria-labelledby="step-title-10" hidden>
-        <p class="step__kicker">Etapa 11</p>
-        <h2 id="step-title-10" tabindex="-1">Publicar e disponibilizar num canal</h2>
-        <p class="step__lead">Publicar cria uma versão utilizável; disponibilizar determina onde e por quem será usada. Siga o processo de aprovação da organização.</p>
+ <section class="step" data-step="10" data-title="Publicar" aria-labelledby="step-title-10" hidden>
+ <p class="step__kicker">Etapa 11</p>
+ <h2 id="step-title-10" tabindex="-1">Publicar e disponibilizar num canal</h2>
+ <p class="step__lead">Publicar cria uma versão utilizável; disponibilizar determina onde e por quem será usada. Siga o processo de aprovação da organização.</p>
 
-        <h3>Antes de publicar</h3>
-        <ul class="checklist" data-checklist="publish">
-          <li><label><input type="checkbox" value="owner"> Responsável funcional e responsável técnico identificados.</label></li>
-          <li><label><input type="checkbox" value="approval"> Aprovações internas concluídas e registadas.</label></li>
-          <li><label><input type="checkbox" value="permissions"> Fontes, ligações, credenciais e permissões revistas.</label></li>
-          <li><label><input type="checkbox" value="tests"> Casos críticos e regressão aprovados.</label></li>
-          <li><label><input type="checkbox" value="support"> Canal de suporte, informação ao público e plano de reversão definidos.</label></li>
-        </ul>
+ <h3>Antes de publicar</h3>
+ <ul class="checklist" data-checklist="publish">
+ <li><label><input type="checkbox" value="owner"> Responsável funcional e responsável técnico identificados.</label></li>
+ <li><label><input type="checkbox" value="approval"> Aprovações internas concluídas e registadas.</label></li>
+ <li><label><input type="checkbox" value="permissions"> Fontes, ligações, credenciais e permissões revistas.</label></li>
+ <li><label><input type="checkbox" value="tests"> Casos críticos e regressão aprovados.</label></li>
+ <li><label><input type="checkbox" value="support"> Canal de suporte, informação ao público e plano de reversão definidos.</label></li>
+ </ul>
 
-        <h3>Sequência de publicação</h3>
-        <ol class="instruction-list">
-          <li>Guarde as alterações e confirme a versão que pretende disponibilizar.</li>
-          <li>Selecione <strong>Publicar</strong> e aguarde a conclusão.</li>
-          <li>Abra <strong>Canais</strong> ou a área equivalente e escolha apenas o destino aprovado, como Microsoft Teams, Microsoft 365 Copilot, site ou outro canal disponível.</li>
-          <li>Configure o canal, o acesso e a autenticação de acordo com as orientações apresentadas.</li>
-          <li>Quando aplicável, submeta o agente para aprovação administrativa ou distribuição controlada.</li>
-          <li>Faça um teste final no canal real com uma conta representativa e permissões adequadas.</li>
-          <li>Comunique finalidade, âmbito, limitações, tratamento de dados e forma de pedir apoio.</li>
-        </ol>
+ <h3>Sequência de publicação</h3>
+ <ol class="instruction-list">
+ <li>Guarde as alterações e confirme a versão que pretende disponibilizar.</li>
+ <li>Selecione <strong>Publicar</strong> e aguarde a conclusão.</li>
+ <li>Abra <strong>Canais</strong> ou a área equivalente e escolha apenas o destino aprovado, como Microsoft Teams, Microsoft 365 Copilot, site ou outro canal disponível.</li>
+ <li>Configure o canal, o acesso e a autenticação de acordo com as orientações apresentadas.</li>
+ <li>Quando aplicável, submeta o agente para aprovação administrativa ou distribuição controlada.</li>
+ <li>Faça um teste final no canal real com uma conta representativa e permissões adequadas.</li>
+ <li>Comunique finalidade, âmbito, limitações, tratamento de dados e forma de pedir apoio.</li>
+ </ol>
 
-        <div class="callout callout--tip"><strong>Comece por um piloto</strong><p>Disponibilize primeiro a um grupo controlado, recolha evidência e corrija problemas antes de alargar a utilização.</p></div>
+ <div class="callout callout--tip"><strong>Comece por um piloto</strong><p>Disponibilize primeiro a um grupo controlado, recolha evidência e corrija problemas antes de alargar a utilização.</p></div>
 
-        <div class="exercise">
-          <span class="exercise__label">Exercício prático</span>
-          <h3>Plano de disponibilização</h3>
-          <div class="field-grid">
-            <div class="field"><label for="ex10-channel">Canal e público do piloto</label><textarea id="ex10-channel" data-save="channel"></textarea></div>
-            <div class="field"><label for="ex10-owner">Responsáveis e contacto de suporte</label><textarea id="ex10-owner" data-save="support"></textarea></div>
-          </div>
-          <div class="field"><label for="ex10-rollback">Critério e procedimento de suspensão/reversão</label><textarea id="ex10-rollback" data-save="rollback"></textarea></div>
-          <p class="save-state" data-save-state aria-live="polite"></p>
-        </div>
-      </section>
+ <div class="exercise">
+ <span class="exercise__label">Exercício prático</span>
+ <h3>Plano de disponibilização</h3>
+ <div class="field-grid">
+ <div class="field"><label for="ex10-channel">Canal e público do piloto</label><textarea id="ex10-channel" data-save="channel"></textarea></div>
+ <div class="field"><label for="ex10-owner">Responsáveis e contacto de suporte</label><textarea id="ex10-owner" data-save="support"></textarea></div>
+ </div>
+ <div class="field"><label for="ex10-rollback">Critério e procedimento de suspensão/reversão</label><textarea id="ex10-rollback" data-save="rollback"></textarea></div>
+ <p class="save-state" data-save-state aria-live="polite"></p>
+ </div>
+ </section>
 
-      <section class="step" data-step="11" data-title="Melhorar" aria-labelledby="step-title-11" hidden>
-        <p class="step__kicker">Etapa 12</p>
-        <h2 id="step-title-11" tabindex="-1">Monitorizar, melhorar e encerrar o tutorial</h2>
-        <p class="step__lead">Um agente publicado precisa de acompanhamento. Analise utilização, qualidade, falhas, alterações nas fontes e impacto das melhorias.</p>
+ <section class="step" data-step="11" data-title="Melhorar" aria-labelledby="step-title-11" hidden>
+ <p class="step__kicker">Etapa 12</p>
+ <h2 id="step-title-11" tabindex="-1">Monitorizar, melhorar e encerrar o tutorial</h2>
+ <p class="step__lead">Um agente publicado precisa de acompanhamento. Analise utilização, qualidade, falhas, alterações nas fontes e impacto das melhorias.</p>
 
-        <h3>Ciclo de melhoria</h3>
-        <ol class="instruction-list">
-          <li>Abra a área de <strong>Monitorização</strong> ou análise disponível e defina uma cadência de revisão.</li>
-          <li>Observe padrões agregados: temas, abandono, respostas sem sustentação, erros de ferramentas e encaminhamentos.</li>
-          <li>Não interprete volume como qualidade. Combine métricas com amostras revistas e retorno das pessoas participantes.</li>
-          <li>Classifique cada problema pela causa provável: fonte, instrução, ferramenta, tópico, permissão, interface ou expectativa.</li>
-          <li>Priorize por risco e impacto. Atribua responsável e prazo.</li>
-          <li>Altere, volte a testar e publique uma nova versão através do processo aprovado.</li>
-          <li>Reveja periodicamente fontes, responsáveis, acessos, finalidade e necessidade de manter o agente.</li>
-        </ol>
+ <h3>Ciclo de melhoria</h3>
+ <ol class="instruction-list">
+ <li>Abra a área de <strong>Monitorização</strong> ou análise disponível e defina uma cadência de revisão.</li>
+ <li>Observe padrões agregados: temas, abandono, respostas sem sustentação, erros de ferramentas e encaminhamentos.</li>
+ <li>Não interprete volume como qualidade. Combine métricas com amostras revistas e retorno das pessoas participantes.</li>
+ <li>Classifique cada problema pela causa provável: fonte, instrução, ferramenta, tópico, permissão, interface ou expectativa.</li>
+ <li>Priorize por risco e impacto. Atribua responsável e prazo.</li>
+ <li>Altere, volte a testar e publique uma nova versão através do processo aprovado.</li>
+ <li>Reveja periodicamente fontes, responsáveis, acessos, finalidade e necessidade de manter o agente.</li>
+ </ol>
 
-        <h3>Desafio final</h3>
-        <div class="callout callout--success"><strong>Construa uma versão demonstrável</strong><p>O agente deve responder a cinco perguntas sustentadas, recusar ou encaminhar três pedidos fora do âmbito, explicar uma limitação e, se aplicável, executar uma ação fictícia apenas após confirmação.</p></div>
+ <h3>Desafio final</h3>
+ <div class="callout callout--success"><strong>Construa uma versão demonstrável</strong><p>O agente deve responder a cinco perguntas sustentadas, recusar ou encaminhar três pedidos fora do âmbito, explicar uma limitação e, se aplicável, executar uma ação fictícia apenas após confirmação.</p></div>
 
-        <div class="exercise">
-          <span class="exercise__label">Plano de melhoria</span>
-          <div class="field-grid">
-            <div class="field"><label for="ex11-metric">Indicador a acompanhar</label><textarea id="ex11-metric" data-save="metric" placeholder="O que será observado, com que fonte e periodicidade?"></textarea></div>
-            <div class="field"><label for="ex11-review">Data/cadência e responsável pela revisão</label><textarea id="ex11-review" data-save="review"></textarea></div>
-          </div>
-          <div class="field"><label for="ex11-next">Próxima melhoria prioritária</label><textarea id="ex11-next" data-save="nextImprovement"></textarea></div>
-          <p class="save-state" data-save-state aria-live="polite"></p>
-        </div>
+ <div class="exercise">
+ <span class="exercise__label">Plano de melhoria</span>
+ <div class="field-grid">
+ <div class="field"><label for="ex11-metric">Indicador a acompanhar</label><textarea id="ex11-metric" data-save="metric" placeholder="O que será observado, com que fonte e periodicidade?"></textarea></div>
+ <div class="field"><label for="ex11-review">Data/cadência e responsável pela revisão</label><textarea id="ex11-review" data-save="review"></textarea></div>
+ </div>
+ <div class="field"><label for="ex11-next">Próxima melhoria prioritária</label><textarea id="ex11-next" data-save="nextImprovement"></textarea></div>
+ <p class="save-state" data-save-state aria-live="polite"></p>
+ </div>
 
-        <h3>Documentação oficial consultada</h3>
-        <ul class="source-list">
-          <li><a href="https://learn.microsoft.com/microsoft-copilot-studio/fundamentals-get-started" target="_blank" rel="noopener">Introdução: criar e implementar um agente</a></li>
-          <li><a href="https://learn.microsoft.com/microsoft-copilot-studio/knowledge-add-sharepoint" target="_blank" rel="noopener">Adicionar SharePoint como fonte de conhecimento</a></li>
-          <li><a href="https://learn.microsoft.com/microsoft-copilot-studio/authoring-variables" target="_blank" rel="noopener">Utilizar variáveis</a></li>
-          <li><a href="https://learn.microsoft.com/microsoft-copilot-studio/publication-fundamentals-publish-channels" target="_blank" rel="noopener">Conceitos de publicação e canais</a></li>
-          <li><a href="https://learn.microsoft.com/microsoft-copilot-studio/analytics-overview" target="_blank" rel="noopener">Análise e acompanhamento</a></li>
-        </ul>
-        <div class="callout"><strong>Nota de atualização</strong><p>O Microsoft Copilot Studio evolui regularmente. Se uma designação ou posição no ecrã for diferente, consulte a ajuda contextual e a documentação oficial antes de alterar o procedimento interno.</p></div>
-      </section>
+ <h3>Documentação oficial consultada</h3>
+ <ul class="source-list">
+ <li><a href="https://learn.microsoft.com/microsoft-copilot-studio/fundamentals-get-started" target="_blank" rel="noopener">Introdução: criar e implementar um agente</a></li>
+ <li><a href="https://learn.microsoft.com/microsoft-copilot-studio/knowledge-add-sharepoint" target="_blank" rel="noopener">Adicionar SharePoint como fonte de conhecimento</a></li>
+ <li><a href="https://learn.microsoft.com/microsoft-copilot-studio/authoring-variables" target="_blank" rel="noopener">Utilizar variáveis</a></li>
+ <li><a href="https://learn.microsoft.com/microsoft-copilot-studio/publication-fundamentals-publish-channels" target="_blank" rel="noopener">Conceitos de publicação e canais</a></li>
+ <li><a href="https://learn.microsoft.com/microsoft-copilot-studio/analytics-overview" target="_blank" rel="noopener">Análise e acompanhamento</a></li>
+ </ul>
+ <div class="callout"><strong>Nota de atualização</strong><p>O Microsoft Copilot Studio evolui regularmente. Se uma designação ou posição no ecrã for diferente, consulte a ajuda contextual e a documentação oficial antes de alterar o procedimento interno.</p></div>
+ </section>
 
-      <div class="step-actions" aria-label="Navegação da etapa">
-        <span class="step-counter" id="stepCounter">Etapa 1 de 12</span>
-        <div class="step-actions__nav">
-          <button class="button button--secondary" id="prevButton" type="button">← Anterior</button>
-          <button class="button complete-toggle" id="completeButton" type="button">Marcar como concluída</button>
-          <button class="button" id="nextButton" type="button">Seguinte →</button>
-        </div>
-      </div>
-    </main>
-  </div>
+ <div class="step-actions" aria-label="Navegação da etapa">
+ <span class="step-counter" id="stepCounter">Etapa 1 de 12</span>
+ <div class="step-actions__nav">
+ <button class="button button--secondary" id="prevButton" type="button">← Anterior</button>
+ <button class="button complete-toggle" id="completeButton" type="button">Marcar como concluída</button>
+ <button class="button" id="nextButton" type="button">Seguinte →</button>
+ </div>
+ </div>
+ </main>
+ </div>
 
-  <footer class="site-footer">
-    <div class="site-footer__inner">
-      <span>João Pernas | Recursos Didáticos</span>
-      <span>Os dados introduzidos permanecem neste dispositivo.</span>
-    </div>
-  </footer>
-  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+ <footer class="site-footer">
+ <div class="site-footer__inner">
+ <span>João Pernas | Recursos Didáticos</span>
+ <span>Os dados introduzidos permanecem neste dispositivo.</span>
+ </div>
+ </footer>
+ <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-  <script>
-    (() => {
-      'use strict';
-      const STORAGE_KEY = 'jp-copilot-studio-tutorial-v1';
-      const steps = [...document.querySelectorAll('.step')];
-      const stepList = document.getElementById('stepList');
-      const progressBar = document.getElementById('progressBar');
-      const progressTrack = document.querySelector('.progress-track');
-      const progressLabel = document.getElementById('progressLabel');
-      const progressDetail = document.getElementById('progressDetail');
-      const stepCounter = document.getElementById('stepCounter');
-      const prevButton = document.getElementById('prevButton');
-      const nextButton = document.getElementById('nextButton');
-      const completeButton = document.getElementById('completeButton');
-      const toast = document.getElementById('toast');
-      let toastTimer;
-      let saveTimer;
+ <script>
+ (() => {
+ 'use strict';
+ const STORAGE_KEY = 'jp-copilot-studio-tutorial-v1';
+ const steps = [...document.querySelectorAll('.step')];
+ const stepList = document.getElementById('stepList');
+ const progressBar = document.getElementById('progressBar');
+ const progressTrack = document.querySelector('.progress-track');
+ const progressLabel = document.getElementById('progressLabel');
+ const progressDetail = document.getElementById('progressDetail');
+ const stepCounter = document.getElementById('stepCounter');
+ const prevButton = document.getElementById('prevButton');
+ const nextButton = document.getElementById('nextButton');
+ const completeButton = document.getElementById('completeButton');
+ const toast = document.getElementById('toast');
+ let toastTimer;
+ let saveTimer;
 
-      const emptyState = () => ({ current: 0, completed: [], fields: {}, checks: {} });
-      const loadState = () => {
-        try {
-          const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY));
-          return parsed && typeof parsed === 'object' ? { ...emptyState(), ...parsed } : emptyState();
-        } catch { return emptyState(); }
-      };
-      let state = loadState();
-      state.current = Math.min(Math.max(Number(state.current) || 0, 0), steps.length - 1);
-      state.completed = Array.isArray(state.completed) ? state.completed.filter(n => Number.isInteger(n) && n >= 0 && n < steps.length) : [];
+ const emptyState = () => ({ current: 0, completed: [], fields: {}, checks: {} });
+ const loadState = () => {
+ try {
+ const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY));
+ return parsed && typeof parsed === 'object' ? { ...emptyState(), ...parsed } : emptyState();
+ } catch { return emptyState(); }
+ };
+ let state = loadState();
+ state.current = Math.min(Math.max(Number(state.current) || 0, 0), steps.length - 1);
+ state.completed = Array.isArray(state.completed)
+ ? [...new Set(state.completed.filter(n => Number.isInteger(n) && n >= 0 && n < steps.length))]
+ : [];
+ state.fields = state.fields && typeof state.fields === 'object' && !Array.isArray(state.fields) ? state.fields : {};
+ state.checks = state.checks && typeof state.checks === 'object' && !Array.isArray(state.checks) ? state.checks : {};
 
-      const saveState = () => {
-        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-        catch { showToast('Não foi possível guardar o progresso neste navegador.'); }
-      };
+ const saveState = () => {
+ try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+ catch { showToast('Não foi possível guardar o progresso neste navegador.'); }
+ };
 
-      const showToast = message => {
-        clearTimeout(toastTimer);
-        toast.textContent = message;
-        toast.hidden = false;
-        toastTimer = setTimeout(() => { toast.hidden = true; }, 2600);
-      };
+ const showToast = message => {
+ clearTimeout(toastTimer);
+ toast.textContent = message;
+ toast.hidden = false;
+ toastTimer = setTimeout(() => { toast.hidden = true; }, 2600);
+ };
 
-      const renderNav = () => {
-        stepList.innerHTML = '';
-        steps.forEach((step, index) => {
-          const li = document.createElement('li');
-          const button = document.createElement('button');
-          button.type = 'button';
-          button.className = 'step-link';
-          button.dataset.goto = String(index);
-          if (index === state.current) button.setAttribute('aria-current', 'step');
-          button.innerHTML = `<span class="step-link__number">${index + 1}</span><span class="step-link__label">${step.dataset.title}</span><span class="step-link__state" aria-label="${state.completed.includes(index) ? 'Concluída' : 'Por concluir'}">${state.completed.includes(index) ? '✓' : ''}</span>`;
-          li.appendChild(button);
-          stepList.appendChild(li);
-        });
-      };
+ const renderNav = () => {
+ stepList.innerHTML = '';
+ steps.forEach((step, index) => {
+ const li = document.createElement('li');
+ const button = document.createElement('button');
+ button.type = 'button';
+ button.className = 'step-link';
+ button.dataset.goto = String(index);
+ if (index === state.current) button.setAttribute('aria-current', 'step');
+ button.innerHTML = `<span class="step-link__number">${index + 1}</span><span class="step-link__label">${step.dataset.title}</span><span class="step-link__state" aria-label="${state.completed.includes(index) ? 'Concluída' : 'Por concluir'}">${state.completed.includes(index) ? '✓' : ''}</span>`;
+ li.appendChild(button);
+ stepList.appendChild(li);
+ });
+ };
 
-      const updateProgress = () => {
-        const count = state.completed.length;
-        const percent = Math.round((count / steps.length) * 100);
-        progressBar.style.width = `${percent}%`;
-        progressTrack.setAttribute('aria-valuenow', String(percent));
-        progressLabel.textContent = `${percent}% concluído`;
-        progressDetail.textContent = `${count} de ${steps.length} etapas concluídas`;
-      };
+ const updateProgress = () => {
+ const count = state.completed.length;
+ const percent = Math.round((count / steps.length) * 100);
+ progressBar.style.width = `${percent}%`;
+ progressTrack.setAttribute('aria-valuenow', String(percent));
+ progressLabel.textContent = `${percent}% concluído`;
+ progressDetail.textContent = `${count} de ${steps.length} etapas concluídas`;
+ };
 
-      const renderStep = (focus = false) => {
-        steps.forEach((step, index) => { step.hidden = index !== state.current; });
-        stepCounter.textContent = `Etapa ${state.current + 1} de ${steps.length}`;
-        prevButton.disabled = state.current === 0;
-        nextButton.disabled = state.current === steps.length - 1;
-        const complete = state.completed.includes(state.current);
-        completeButton.textContent = complete ? '✓ Etapa concluída' : 'Marcar como concluída';
-        completeButton.classList.toggle('is-complete', complete);
-        completeButton.setAttribute('aria-pressed', String(complete));
-        renderNav();
-        updateProgress();
-        saveState();
-        if (focus) {
-          document.getElementById(`step-title-${state.current}`).focus?.();
-          document.querySelector('.tutorial').scrollIntoView({ block: 'start' });
-        }
-      };
+ const renderStep = (focus = false) => {
+ steps.forEach((step, index) => { step.hidden = index !== state.current; });
+ stepCounter.textContent = `Etapa ${state.current + 1} de ${steps.length}`;
+ prevButton.disabled = state.current === 0;
+ nextButton.disabled = state.current === steps.length - 1;
+ const complete = state.completed.includes(state.current);
+ completeButton.textContent = complete ? '✓ Etapa concluída' : 'Marcar como concluída';
+ completeButton.classList.toggle('is-complete', complete);
+ completeButton.setAttribute('aria-pressed', String(complete));
+ renderNav();
+ updateProgress();
+ saveState();
+ if (focus) {
+ document.getElementById(`step-title-${state.current}`)?.focus();
+ document.querySelector('.tutorial').scrollIntoView({ block: 'start' });
+ }
+ };
 
-      const goTo = index => {
-        if (index < 0 || index >= steps.length) return;
-        state.current = index;
-        renderStep(true);
-      };
+ const goTo = index => {
+ if (index < 0 || index >= steps.length) return;
+ state.current = index;
+ renderStep(true);
+ };
 
-      stepList.addEventListener('click', event => {
-        const button = event.target.closest('[data-goto]');
-        if (button) goTo(Number(button.dataset.goto));
-      });
-      prevButton.addEventListener('click', () => goTo(state.current - 1));
-      nextButton.addEventListener('click', () => goTo(state.current + 1));
-      completeButton.addEventListener('click', () => {
-        const position = state.completed.indexOf(state.current);
-        if (position >= 0) state.completed.splice(position, 1);
-        else state.completed.push(state.current);
-        state.completed.sort((a, b) => a - b);
-        renderStep(false);
-        showToast(position >= 0 ? 'Etapa marcada como por concluir.' : 'Etapa concluída e progresso guardado.');
-      });
+ stepList.addEventListener('click', event => {
+ const button = event.target.closest('[data-goto]');
+ if (button) goTo(Number(button.dataset.goto));
+ });
+ prevButton.addEventListener('click', () => goTo(state.current - 1));
+ nextButton.addEventListener('click', () => goTo(state.current + 1));
+ completeButton.addEventListener('click', () => {
+ const position = state.completed.indexOf(state.current);
+ if (position >= 0) state.completed.splice(position, 1);
+ else state.completed.push(state.current);
+ state.completed.sort((a, b) => a - b);
+ renderStep(false);
+ showToast(position >= 0 ? 'Etapa marcada como por concluir.' : 'Etapa concluída e progresso guardado.');
+ });
 
-      document.querySelectorAll('[data-copy]').forEach(button => {
-        button.addEventListener('click', async () => {
-          const source = document.getElementById(button.dataset.copy);
-          try {
-            await navigator.clipboard.writeText(source.innerText);
-            button.textContent = 'Copiado';
-            showToast('Exemplo copiado para a área de transferência.');
-            setTimeout(() => { button.textContent = 'Copiar'; }, 1600);
-          } catch {
-            const range = document.createRange();
-            range.selectNodeContents(source);
-            const selection = window.getSelection();
-            selection.removeAllRanges(); selection.addRange(range);
-            showToast('Texto selecionado. Use Ctrl+C para copiar.');
-          }
-        });
-      });
+ document.querySelectorAll('[data-copy]').forEach(button => {
+ button.addEventListener('click', async () => {
+ const source = document.getElementById(button.dataset.copy);
+ if (!source) {
+ showToast('Não foi possível localizar o exemplo.');
+ return;
+ }
+ try {
+ await navigator.clipboard.writeText(source.innerText);
+ button.textContent = 'Copiado';
+ showToast('Exemplo copiado para a área de transferência.');
+ setTimeout(() => { button.textContent = 'Copiar'; }, 1600);
+ } catch {
+ const range = document.createRange();
+ range.selectNodeContents(source);
+ const selection = window.getSelection();
+ selection.removeAllRanges(); selection.addRange(range);
+ showToast('Texto selecionado. Use Ctrl+C para copiar.');
+ }
+ });
+ });
 
-      const fieldKey = element => `s${element.closest('.step').dataset.step}:${element.dataset.save}`;
-      document.querySelectorAll('[data-save]').forEach(element => {
-        const key = fieldKey(element);
-        if (Object.hasOwn(state.fields, key)) element.value = state.fields[key];
-        element.addEventListener('input', () => {
-          state.fields[key] = element.value;
-          const status = element.closest('.exercise')?.querySelector('[data-save-state]');
-          if (status) status.textContent = 'A guardar…';
-          clearTimeout(saveTimer);
-          saveTimer = setTimeout(() => {
-            saveState();
-            if (status) status.textContent = 'Guardado neste dispositivo.';
-          }, 450);
-        });
-      });
+ const fieldKey = element => `s${element.closest('.step').dataset.step}:${element.dataset.save}`;
+ document.querySelectorAll('[data-save]').forEach(element => {
+ const key = fieldKey(element);
+ if (Object.prototype.hasOwnProperty.call(state.fields, key)) element.value = state.fields[key];
+ element.addEventListener('input', () => {
+ state.fields[key] = element.value;
+ const status = element.closest('.exercise')?.querySelector('[data-save-state]');
+ if (status) status.textContent = 'A guardar…';
+ clearTimeout(saveTimer);
+ saveTimer = setTimeout(() => {
+ saveState();
+ if (status) status.textContent = 'Guardado neste dispositivo.';
+ }, 450);
+ });
+ });
 
-      document.querySelectorAll('[data-checklist]').forEach(list => {
-        const listKey = list.dataset.checklist;
-        list.querySelectorAll('input[type="checkbox"]').forEach(box => {
-          const key = `${listKey}:${box.value}`;
-          box.checked = Boolean(state.checks[key]);
-          box.addEventListener('change', () => { state.checks[key] = box.checked; saveState(); });
-        });
-      });
+ document.querySelectorAll('[data-checklist]').forEach(list => {
+ const listKey = list.dataset.checklist;
+ list.querySelectorAll('input[type="checkbox"]').forEach(box => {
+ const key = `${listKey}:${box.value}`;
+ box.checked = Boolean(state.checks[key]);
+ box.addEventListener('change', () => { state.checks[key] = box.checked; saveState(); });
+ });
+ });
 
-      document.getElementById('printButton').addEventListener('click', () => window.print());
-      document.getElementById('exportButton').addEventListener('click', () => {
-        const exportData = {
-          recurso: 'Construir um Agente no Microsoft Copilot Studio',
-          exportadoEm: new Date().toISOString(),
-          etapasConcluidas: state.completed.map(index => ({ numero: index + 1, titulo: steps[index].dataset.title })),
-          respostas: state.fields,
-          listasVerificacao: state.checks
-        };
-        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'progresso-tutorial-copilot-studio.json';
-        link.click();
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
-        showToast('Progresso exportado em formato JSON.');
-      });
+ document.getElementById('printButton').addEventListener('click', () => window.print());
+ document.getElementById('exportButton').addEventListener('click', () => {
+ const exportData = {
+ recurso: 'Construir um Agente no Microsoft Copilot Studio',
+ exportadoEm: new Date().toISOString(),
+ etapasConcluidas: state.completed.map(index => ({ numero: index + 1, titulo: steps[index].dataset.title })),
+ respostas: state.fields,
+ listasVerificacao: state.checks
+ };
+ const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+ const url = URL.createObjectURL(blob);
+ const link = document.createElement('a');
+ link.href = url;
+ link.download = 'progresso-tutorial-copilot-studio.json';
+ document.body.appendChild(link);
+ link.click();
+ link.remove();
+ setTimeout(() => URL.revokeObjectURL(url), 1000);
+ showToast('Progresso exportado em formato JSON.');
+ });
 
-      document.getElementById('resetButton').addEventListener('click', () => {
-        if (!window.confirm('Pretende apagar o progresso e todas as respostas guardadas neste dispositivo?')) return;
-        localStorage.removeItem(STORAGE_KEY);
-        state = emptyState();
-        document.querySelectorAll('[data-save]').forEach(element => { element.value = ''; });
-        document.querySelectorAll('[data-checklist] input').forEach(box => { box.checked = false; });
-        document.querySelectorAll('[data-save-state]').forEach(item => { item.textContent = ''; });
-        renderStep(false);
-        showToast('Progresso reposto.');
-      });
+ document.getElementById('resetButton').addEventListener('click', () => {
+ if (!window.confirm('Pretende apagar o progresso e todas as respostas guardadas neste dispositivo?')) return;
+ localStorage.removeItem(STORAGE_KEY);
+ state = emptyState();
+ document.querySelectorAll('[data-save]').forEach(element => { element.value = ''; });
+ document.querySelectorAll('[data-checklist] input').forEach(box => { box.checked = false; });
+ document.querySelectorAll('[data-save-state]').forEach(item => { item.textContent = ''; });
+ renderStep(false);
+ showToast('Progresso reposto.');
+ });
 
-      document.addEventListener('keydown', event => {
-        if (event.altKey && event.key === 'ArrowLeft') { event.preventDefault(); goTo(state.current - 1); }
-        if (event.altKey && event.key === 'ArrowRight') { event.preventDefault(); goTo(state.current + 1); }
-      });
+ document.addEventListener('keydown', event => {
+ if (event.altKey && event.key === 'ArrowLeft') { event.preventDefault(); goTo(state.current - 1); }
+ if (event.altKey && event.key === 'ArrowRight') { event.preventDefault(); goTo(state.current + 1); }
+ });
 
-      renderStep(false);
-    })();
-  </script>
+ renderStep(false);
+ })();
+ </script>
 </body>
 </html>
