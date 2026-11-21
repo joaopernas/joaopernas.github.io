@@ -32,6 +32,7 @@ button,a{touch-action:manipulation}
 .topbar-inner{width:min(calc(100% - 2rem),var(--max));min-height:66px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}
 .brand{display:flex;align-items:center;gap:.8rem;color:#fff;text-decoration:none;font-weight:800}.brand-mark{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,var(--gold),#ffd77e);color:#142a42;font-size:.82rem;box-shadow:0 6px 18px rgba(0,0,0,.2)}
 .top-actions{display:flex;align-items:center;gap:.55rem}.icon-btn,.ghost-btn,.primary-btn,.copy-btn,.tab-btn,.filter-btn{border:0;cursor:pointer}
+.back-area{min-height:40px;display:inline-flex;align-items:center;justify-content:center;padding:.55rem .82rem;border:1px solid #ffd77e;border-radius:11px;color:#142a42;background:linear-gradient(135deg,#ffd77e,var(--gold));font-size:.86rem;font-weight:850;text-decoration:none;box-shadow:0 6px 16px rgba(0,0,0,.16)}.back-area:hover{transform:translateX(-2px);filter:brightness(1.04)}
 .icon-btn,.ghost-btn{min-height:40px;padding:.55rem .78rem;border:1px solid rgba(255,255,255,.25);border-radius:11px;color:#fff;background:rgba(255,255,255,.08)}
 .icon-btn:hover,.ghost-btn:hover{background:rgba(255,255,255,.16)}
 .hero{position:relative;overflow:hidden;color:#fff;background:linear-gradient(132deg,#102438 0%,#1f3b5b 58%,#176c79 100%)}
@@ -56,7 +57,7 @@ main{min-width:0}.section{padding:clamp(2rem,5vw,4rem) 0;border-bottom:1px solid
 footer{color:#dce7f1;background:var(--navy)}.footer-inner{width:min(calc(100% - 2rem),var(--max));min-height:90px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}.footer-inner p{margin:0}.footer-inner a{color:#fff}
 .toast{position:fixed;right:1rem;bottom:1rem;z-index:200;padding:.75rem 1rem;border-radius:12px;color:#fff;background:#142a42;box-shadow:var(--shadow);opacity:0;transform:translateY(14px);pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:none}
 @media(max-width:950px){.hero-inner{grid-template-columns:1fr}.hero-panel{max-width:620px}.layout{grid-template-columns:1fr}.side-nav{position:static;display:flex;gap:.4rem;overflow-x:auto}.side-nav strong{display:none}.side-nav a{white-space:nowrap}.summary-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:700px){.brand span:last-child{display:none}.hero h1{font-size:clamp(2.5rem,15vw,4.4rem)}.summary-grid,.tech-grid,.framework-example,.builder-grid,.recommendations,.checklist,.compare{grid-template-columns:1fr}.letters{grid-template-columns:repeat(2,1fr)}.field.full{grid-column:auto}.footer-inner{align-items:flex-start;flex-direction:column;padding:1.3rem 0}.top-actions .ghost-btn{display:none}.layout{padding-top:1rem}.hero-inner{padding-top:3rem}.progress-label{min-width:86px}}
+@media(max-width:700px){.brand span:last-child{display:none}.topbar-inner{gap:.45rem}.top-actions{gap:.35rem}.back-area{padding:.48rem .58rem;font-size:.74rem}.icon-btn{padding:.48rem .58rem;font-size:.74rem}.hero h1{font-size:clamp(2.5rem,15vw,4.4rem)}.summary-grid,.tech-grid,.framework-example,.builder-grid,.recommendations,.checklist,.compare{grid-template-columns:1fr}.letters{grid-template-columns:repeat(2,1fr)}.field.full{grid-column:auto}.footer-inner{align-items:flex-start;flex-direction:column;padding:1.3rem 0}.top-actions .ghost-btn{display:none}.layout{padding-top:1rem}.hero-inner{padding-top:3rem}.progress-label{min-width:86px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
 @media print{.skip-link,.topbar,.progress-wrap,.side-nav,.hero-actions,.copy-btn,.builder,.quiz,.toast{display:none!important}.hero{color:#000;background:#fff}.hero-inner{display:block;width:100%;padding:1.5rem 0}.hero h1{font-size:3rem}.hero h1 span,.eyebrow{color:#1f3b5b}.lead,.hero-stat,.formula-card span{color:#333}.hero-panel{margin-top:1rem}.hero-panel,.formula-card{border:1px solid #bbb;background:#fff}.formula{grid-template-columns:repeat(2,1fr)}.layout{display:block;width:100%;padding:0}.section{break-inside:auto}.acc-panel{display:block!important}.tech-card details>*{display:block}.tech-card details summary{display:none}.summary-grid,.tech-grid,.framework-example,.letters,.recommendations,.checklist{display:block}.summary-card,.tech-card,.framework-card,.rec,.letter,.check,.source{break-inside:avoid;margin-bottom:.7rem}body{background:#fff}.section{padding:1.4rem 0}}
 </style>
@@ -65,8 +66,9 @@ footer{color:#dce7f1;background:var(--navy)}.footer-inner{width:min(calc(100% - 
 <a class="skip-link" href="#conteudo">Saltar para o conteúdo principal</a>
 <header class="topbar">
   <div class="topbar-inner">
-    <a class="brand" href="index.html" aria-label="Voltar aos recursos de Inteligência Artificial"><span class="brand-mark">EP</span><span>Engenharia de Prompts</span></a>
+    <div class="brand" aria-label="Engenharia de Prompts"><span class="brand-mark">EP</span><span>Engenharia de Prompts</span></div>
     <div class="top-actions">
+      <a class="back-area" href="index.html" aria-label="Voltar à área de Inteligência Artificial">← Voltar à Inteligência Artificial</a>
       <button class="ghost-btn" id="printBtn" type="button">Imprimir guia</button>
       <button class="icon-btn" id="themeBtn" type="button" aria-label="Ativar modo escuro" aria-pressed="false">Modo escuro</button>
     </div>
