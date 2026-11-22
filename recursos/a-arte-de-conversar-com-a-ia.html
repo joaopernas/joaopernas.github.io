@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Guia interativo «A Arte de Conversar com a IA»: instruções claras, framework IDEA, exemplos e ciclo de refinamento.">
+<meta name="theme-color" content="#0f172a">
+<title>A Arte de Conversar com a IA | Guia Interativo</title>
+<style>
+:root{
+  --ink:#0f172a;--text:#243044;--muted:#64748b;--line:#dbe3ec;--soft:#f1f5f9;
+  --paper:#fff;--accent:#f04a16;--accent-dark:#c93409;--accent-soft:#fff1eb;
+  --blue:#2563eb;--good:#15803d;--bad:#dc2626;--max:1140px;--radius:18px;
+  --shadow:0 18px 45px rgba(15,23,42,.10)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:92px}
+body{margin:0;color:var(--text);background:var(--paper);font:16px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:inherit}
+button{font:inherit}
+.skip-link{position:fixed;z-index:2000;left:1rem;top:1rem;padding:.75rem 1rem;color:#fff;background:var(--ink);border-radius:10px;transform:translateY(-180%);transition:.2s}
+.skip-link:focus{transform:none}
+:focus-visible{outline:3px solid #fbbf24;outline-offset:3px}
+.wrap{width:min(calc(100% - 2.5rem),var(--max));margin-inline:auto}
+.topbar{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.96);border-bottom:1px solid #e2e8f0;box-shadow:0 2px 15px rgba(15,23,42,.06);backdrop-filter:blur(10px)}
+.nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.brand{display:flex;align-items:center;gap:.75rem;font-weight:850;color:#1e293b;letter-spacing:-.01em}
+.brand-mark{width:40px;height:40px;display:grid;place-items:center;border-radius:11px;background:#ffcc58;color:#15243b;font-size:.8rem;letter-spacing:.05em;box-shadow:inset 0 0 0 1px rgba(15,23,42,.08)}
+.back{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.62rem 1rem;color:#fff;background:var(--ink);border:1px solid var(--ink);border-radius:11px;text-decoration:none;font-size:.88rem;font-weight:750;transition:.2s}
+.back:hover{background:#26344a;transform:translateX(-2px)}
+.hero{position:relative;overflow:hidden;color:#fff;background:radial-gradient(circle at 82% 24%,rgba(240,74,22,.23) 0 2px,transparent 2.5px) 0 0/24px 24px,linear-gradient(135deg,#0b1220 0%,#111827 58%,#3b0c0c 100%);border-bottom:1px solid #263044}
+.hero::after{content:"";position:absolute;width:520px;height:520px;right:-220px;bottom:-330px;border-radius:50%;background:rgba(240,74,22,.16);filter:blur(2px)}
+.hero-inner{position:relative;z-index:1;padding:clamp(5rem,10vw,8.2rem) 0 clamp(4.5rem,8vw,6.5rem)}
+.kicker{display:inline-flex;align-items:center;gap:.55rem;margin:0 0 1.25rem;color:#fed7aa;font-size:.76rem;font-weight:850;letter-spacing:.14em;text-transform:uppercase}
+.kicker::before{content:"";width:30px;height:2px;background:var(--accent)}
+h1{max-width:830px;margin:0;font-size:clamp(2.65rem,7vw,5.6rem);line-height:.98;letter-spacing:-.055em}
+.lead{max-width:780px;margin:1.5rem 0 0;color:#cbd5e1;font-size:clamp(1.03rem,2vw,1.22rem)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+.hero-actions a{display:inline-flex;align-items:center;gap:.55rem;min-height:46px;padding:.7rem 1rem;border-radius:11px;text-decoration:none;font-size:.9rem;font-weight:800}
+.hero-actions .primary{background:var(--accent);color:#fff}
+.hero-actions .secondary{border:1px solid #475569;background:rgba(15,23,42,.45);color:#e2e8f0}
+section{padding:clamp(4.5rem,8vw,7rem) 0}
+.section-alt{background:var(--soft);border-block:1px solid var(--line)}
+.section-heading{text-align:center;max-width:780px;margin:0 auto 3.4rem}
+.eyebrow{display:block;margin-bottom:.55rem;color:var(--accent);font-size:.75rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+h2{margin:0;color:var(--ink);font-size:clamp(2rem,4.5vw,3.2rem);line-height:1.1;letter-spacing:-.035em}
+.section-heading p{margin:.85rem 0 0;color:var(--muted);font-size:1.03rem}
+h3{margin:0;color:var(--ink);font-size:clamp(1.3rem,2.7vw,1.75rem);line-height:1.25}
+h4{margin:0;color:var(--ink);font-size:1.05rem}
+p{margin-top:.65rem}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center}
+.direction-card{min-height:330px;display:grid;place-items:center;padding:2rem;background:linear-gradient(145deg,#111827,#273449);border-radius:var(--radius);box-shadow:var(--shadow);color:#fff}
+.direction-visual{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1.1rem;width:100%;max-width:460px}
+.direction-side{min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;padding:1rem;text-align:center;border:1px solid #475569;border-radius:16px;background:rgba(255,255,255,.04)}
+.direction-side strong{font-size:1.02rem}
+.direction-side span{color:#94a3b8;font-size:.78rem}
+.compass{font-size:2.6rem;color:var(--accent)}
+.arrow{color:var(--accent);font-size:2rem;font-weight:900}
+.callout{padding:1.35rem 1.4rem;border-left:4px solid var(--accent);border-radius:0 14px 14px 0;background:var(--accent-soft)}
+.callout strong{color:var(--accent-dark)}
+.tip{margin-top:1.25rem;padding:1rem 1.15rem;border:1px solid #fed7aa;border-radius:13px;background:#fffaf7;color:#7c2d12;font-size:.93rem}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:2.3rem}
+.compare-card{padding:1.4rem;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 8px 25px rgba(15,23,42,.06)}
+.compare-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem}
+.pill{display:inline-flex;padding:.27rem .65rem;border-radius:999px;background:var(--soft);color:#475569;font-size:.7rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase}
+.prompt-pair{display:grid;gap:.7rem}
+.prompt-row{position:relative;padding:1rem 3rem 1rem 1rem;border-radius:12px;font-size:.88rem}
+.prompt-row.vague{background:#fff1f2;border:1px solid #fecdd3;color:#881337}
+.prompt-row.specific{background:#ecfdf5;border:1px solid #bbf7d0;color:#14532d}
+.prompt-label{display:block;margin-bottom:.25rem;font-size:.68rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.copy-btn{position:absolute;right:.55rem;top:.55rem;width:34px;height:34px;display:grid;place-items:center;border:1px solid rgba(100,116,139,.35);border-radius:8px;background:rgba(255,255,255,.83);color:#334155;cursor:pointer;transition:.2s}
+.copy-btn:hover{background:#fff;transform:translateY(-1px)}
+.copy-btn[data-copied="true"]{color:#fff;background:var(--good);border-color:var(--good)}
+.copy-btn svg{width:16px;height:16px}
+.verbs{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2.2rem}
+.verb-box{padding:1.35rem;border-radius:15px;border:1px solid var(--line)}
+.verb-box.bad{background:#fff7f7}.verb-box.good{background:#f3fff7}
+.verb-box ul{margin:.85rem 0 0;padding-left:1.2rem;color:#475569}
+.idea-layout{display:grid;grid-template-columns:minmax(280px,.9fr) minmax(0,1.25fr);gap:2.3rem;align-items:start}
+.idea-map{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding:1rem}
+.idea-node{min-height:126px;padding:1.1rem;border:2px solid var(--accent);border-radius:16px;background:#fff;box-shadow:0 8px 22px rgba(15,23,42,.06)}
+.idea-node b{display:block;color:var(--ink)}
+.idea-node span{color:var(--muted);font-size:.8rem}
+.idea-letter{width:32px;height:32px;display:grid;place-items:center;margin-bottom:.55rem;border-radius:9px;background:var(--accent-soft);color:var(--accent-dark);font-weight:900}
+.idea-center{grid-column:1/-1;justify-self:center;margin-top:-.25rem;padding:.65rem 1.2rem;color:#fff;background:var(--ink);border-radius:999px;font-size:.8rem;font-weight:900;letter-spacing:.08em}
+.tabs{min-width:0}
+.tab-list{display:flex;flex-wrap:wrap;gap:.45rem;padding:.45rem;background:#dce4ed;border-radius:13px}
+.tab{flex:1 1 120px;min-height:43px;padding:.6rem .85rem;border:0;border-radius:9px;background:transparent;color:#526174;font-size:.78rem;font-weight:850;cursor:pointer;transition:.2s}
+.tab:hover{background:rgba(255,255,255,.6);color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--accent);color:#fff;box-shadow:0 6px 15px rgba(240,74,22,.23)}
+.tab-panel{min-height:340px;margin-top:1rem;padding:1.45rem;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 10px 28px rgba(15,23,42,.07)}
+.tab-panel[hidden]{display:none}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.panel-title{color:var(--accent);font-size:.72rem;font-weight:900;letter-spacing:.11em;text-transform:uppercase}
+.formula{padding:.2rem .55rem;border-radius:999px;background:var(--soft);color:#64748b;font-size:.65rem;font-weight:850}
+.codebox{position:relative;margin-top:1rem;padding:1.2rem 3.3rem 1.2rem 1.2rem;color:#d9e2ef;background:#101827;border:1px solid #293548;border-radius:13px;font: .8rem/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap}
+.codebox .copy-btn{background:#1e293b;color:#cbd5e1;border-color:#475569}
+.codebox .copy-btn:hover{background:#334155;color:#fff}
+.codebox .copy-btn[data-copied="true"]{background:var(--good);border-color:var(--good)}
+.practice{display:flex;gap:.6rem;margin-top:1rem;padding:1rem;border-radius:12px;background:var(--accent-soft);color:#7c2d12;font-size:.84rem}
+.iteration-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:2.4rem;align-items:center}
+.steps{display:grid;gap:1rem;margin-top:1.6rem}
+.step{display:grid;grid-template-columns:44px 1fr;gap:1rem;align-items:start}
+.step-num{width:44px;height:44px;display:grid;place-items:center;border-radius:50%;background:var(--accent);color:#fff;font-weight:900}
+.step p{margin:.3rem 0 0;color:var(--muted);font-size:.92rem}
+.cycle-card{padding:1.5rem;border-radius:20px;background:var(--ink);box-shadow:var(--shadow)}
+.cycle{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.cycle-item{min-height:120px;display:flex;flex-direction:column;justify-content:center;padding:1rem;border:1px solid #334155;border-radius:14px;background:#172033;color:#fff}
+.cycle-item b{color:#fed7aa;font-size:.84rem}.cycle-item span{color:#aebbd0;font-size:.78rem}
+.assessment{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:3rem 0}
+.assess-card{padding:1.25rem;border:1px solid var(--line);border-radius:15px;background:#fff;box-shadow:0 8px 22px rgba(15,23,42,.05)}
+.assess-card p{margin:.5rem 0 0;color:var(--muted);font-size:.86rem}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:15px}
+table{width:100%;min-width:750px;border-collapse:collapse;background:#fff;font-size:.84rem}
+th,td{padding:1rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--soft);color:#334155;font-size:.75rem;letter-spacing:.03em}
+tr:last-child td{border-bottom:0}
+td:first-child{color:var(--bad);font-weight:800}
+.example-cell{position:relative;padding-right:3.5rem}
+.sources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.source-card{display:flex;flex-direction:column;gap:.65rem;padding:1.25rem;border:1px solid var(--line);border-radius:15px;background:#fff;text-decoration:none;transition:.2s}
+.source-card:hover{transform:translateY(-3px);border-color:#f2a083;box-shadow:0 12px 25px rgba(15,23,42,.08)}
+.source-card small{color:var(--accent);font-weight:850;text-transform:uppercase;letter-spacing:.08em}.source-card span{color:var(--muted);font-size:.85rem}
+.cta{padding:clamp(3.8rem,7vw,5.2rem) 0;color:#fff;background:#0f172a;text-align:center}
+.cta h2{color:#fff}.cta p{max-width:650px;margin:.8rem auto 1.5rem;color:#aebbd0}
+.cta .back{background:var(--accent);border-color:var(--accent)}
+.footer{padding:1.5rem 0;background:#080f1c;color:#94a3b8;font-size:.8rem}
+.footer-inner{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.toast{position:fixed;z-index:2100;left:50%;bottom:1.3rem;transform:translate(-50%,130%);padding:.75rem 1rem;border-radius:10px;background:#0f172a;color:#fff;box-shadow:var(--shadow);font-size:.85rem;font-weight:750;opacity:0;transition:.25s}
+.toast.show{transform:translate(-50%,0);opacity:1}
+@media(max-width:860px){.two-col,.idea-layout,.iteration-grid{grid-template-columns:1fr}.idea-map{max-width:620px;margin:auto}.assessment,.sources-grid{grid-template-columns:1fr}.hero-inner{padding-top:5rem}}
+@media(max-width:620px){.wrap{width:min(calc(100% - 1.5rem),var(--max))}.nav{min-height:70px}.brand{font-size:.86rem}.brand-mark{width:36px;height:36px}.back{padding:.55rem .7rem;font-size:.76rem}.back .wide{display:none}.compare-grid,.verbs{grid-template-columns:1fr}.direction-visual{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}.idea-map{grid-template-columns:1fr}.idea-center{grid-column:auto}.cycle{grid-template-columns:1fr}.tab{flex-basis:46%}h1{font-size:2.65rem}.hero-actions a{width:100%;justify-content:center}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+@media print{.topbar,.hero-actions,.copy-btn,.toast,.cta{display:none!important}.hero{color:#000;background:#fff;border:0}.lead{color:#334155}.hero-inner{padding:2rem 0}section{padding:2rem 0}.section-alt{background:#fff}.tab-list{display:none}.tab-panel{display:block!important;min-height:0;margin:.7rem 0;box-shadow:none;break-inside:avoid}.idea-layout,.two-col,.iteration-grid{grid-template-columns:1fr}.footer{background:#fff;color:#333}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
+<header class="topbar">
+  <div class="wrap nav">
+    <div class="brand" aria-label="A Arte de Conversar com a IA"><span class="brand-mark" aria-hidden="true">IA</span><span>A Arte de Conversar com a IA</span></div>
+    <a class="back" href="inteligencia-artificial.html"><span aria-hidden="true">←&nbsp;</span><span class="wide">Voltar à </span>Inteligência Artificial</a>
+  </div>
+</header>
+<main id="conteudo">
+  <section class="hero" aria-labelledby="titulo-pagina">
+    <div class="wrap hero-inner">
+      <p class="kicker">Manual de boas práticas · Módulos 3.1 a 3.3</p>
+      <h1 id="titulo-pagina">A Arte de Conversar com a IA</h1>
+      <p class="lead">A frustração com a Inteligência Artificial é, quase sempre, uma frustração de comunicação. Descubra como tornar as instruções mais claras, aplicar o framework IDEA e refinar respostas até obter resultados úteis.</p>
+      <div class="hero-actions">
+        <a class="primary" href="#prompts-vagos">Evitar prompts vagos <span aria-hidden="true">↓</span></a>
+        <a class="secondary" href="#framework-idea">Conhecer o framework IDEA <span aria-hidden="true">↓</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="prompts-vagos" aria-labelledby="titulo-vagos">
+    <div class="wrap">
+      <div class="section-heading">
+        <span class="eyebrow">Módulo 3.1</span>
+        <h2 id="titulo-vagos">Não seja vago</h2>
+        <p>A especificidade é um dos princípios mais importantes da Engenharia de Prompts. Quando a resposta é genérica, a causa encontra-se muitas vezes na instrução.</p>
+      </div>
+      <div class="two-col">
+        <div class="direction-card" aria-label="Comparação visual entre falta de rumo e precisão">
+          <div class="direction-visual">
+            <div class="direction-side"><span class="compass" aria-hidden="true">⌁</span><strong>Sem rumo</strong><span>Pedido amplo, sem contexto nem formato</span></div>
+            <div class="arrow" aria-hidden="true">→</div>
+            <div class="direction-side"><span class="compass" aria-hidden="true">⌖</span><strong>Precisão</strong><span>Objetivo, público, formato e limites definidos</span></div>
+          </div>
+        </div>
+        <div>
+          <h3>A analogia do arqueólogo</h3>
+          <p>Imagine que contrata uma pessoa especialista em arqueologia para escavar um local histórico. Se disser apenas «Escava aqui. Encontra coisas.», o resultado será aleatório e desorganizado.</p>
+          <div class="callout"><strong>Uma instrução estruturada produz outro resultado:</strong><br>«Escava até dois metros de profundidade. Procura artefactos cerâmicos com 500 a 1000 anos e documenta a localização de cada peça.»</div>
+          <div class="tip"><strong>Dica:</strong> defina o formato da resposta, a extensão esperada e o ângulo do conteúdo.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:3.5rem">
+        <h3>Transforme prompts vagos em prompts específicos</h3>
+        <div class="compare-grid">
+          <article class="compare-card">
+            <div class="compare-top"><h4>Pedido genérico</h4><span class="pill">Tema: mobilidade</span></div>
+            <div class="prompt-pair">
+              <div class="prompt-row vague"><span class="prompt-label">Vago</span>«Escreve sobre transportes públicos.»</div>
+              <div class="prompt-row specific"><span class="prompt-label">Específico</span><span class="copy-text">Assume o papel de especialista em mobilidade sustentável. Escreve um artigo de 500 palavras sobre os benefícios do transporte público para comunidades urbanas. Usa um tom profissional, inclui três dados verificáveis e termina com uma síntese de cinco pontos.</span><button class="copy-btn" type="button" aria-label="Copiar prompt específico sobre mobilidade" title="Copiar prompt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
+            </div>
+          </article>
+          <article class="compare-card">
+            <div class="compare-top"><h4>Pergunta aberta</h4><span class="pill">Tema: formação em IA</span></div>
+            <div class="prompt-pair">
+              <div class="prompt-row vague"><span class="prompt-label">Vago</span>«Fala-me sobre formação em IA.»</div>
+              <div class="prompt-row specific"><span class="prompt-label">Específico</span><span class="copy-text">Escreve um resumo executivo de três parágrafos sobre a importância da formação em Inteligência Artificial para equipas multidisciplinares. Foca aplicações práticas de produtividade, riscos a considerar e duas medidas para uma adoção responsável.</span><button class="copy-btn" type="button" aria-label="Copiar prompt específico sobre formação em IA" title="Copiar prompt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div style="margin-top:3.5rem">
+        <h3>Ative o poder da IA com verbos de ação fortes</h3>
+        <p>Substitua expressões passivas por ações que indiquem claramente o que pretende obter.</p>
+        <div class="verbs">
+          <div class="verb-box bad"><h4 style="color:var(--bad)">Evite verbos fracos</h4><ul><li>Fala sobre…</li><li>Dá-me informações…</li><li>Podes dizer-me…</li><li>Pensa em…</li></ul></div>
+          <div class="verb-box good"><h4 style="color:var(--good)">Use verbos fortes</h4><ul><li>Analisa o impacto de…</li><li>Compara A com B…</li><li>Cria um modelo de…</li><li>Resume o texto em…</li><li>Reescreve num tom…</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="framework-idea" class="section-alt" aria-labelledby="titulo-idea">
+    <div class="wrap">
+      <div class="section-heading">
+        <span class="eyebrow">Módulo 3.2</span>
+        <h2 id="titulo-idea">O framework IDEA</h2>
+        <p>Use uma lista mental estruturada para fornecer à IA o papel, a tarefa, os exemplos e os limites necessários.</p>
+      </div>
+      <div class="idea-layout">
+        <div class="idea-map" aria-label="Os quatro elementos do framework IDEA">
+          <div class="idea-node"><span class="idea-letter">I</span><b>Identidade</b><span>Quem deve ser a IA?</span></div>
+          <div class="idea-node"><span class="idea-letter">D</span><b>Direção</b><span>Qual é a tarefa e o objetivo?</span></div>
+          <div class="idea-node"><span class="idea-letter">E</span><b>Exemplos</b><span>Que modelos ou referências deve seguir?</span></div>
+          <div class="idea-node"><span class="idea-letter">A</span><b>Ajustamentos</b><span>Quais são os limites e as restrições?</span></div>
+          <div class="idea-center">FÓRMULA IDEA</div>
+        </div>
+        <div class="tabs">
+          <div class="tab-list" role="tablist" aria-label="Elementos do framework IDEA">
+            <button class="tab" id="tab-i" role="tab" aria-selected="true" aria-controls="panel-i" tabindex="0">I — Identidade</button>
+            <button class="tab" id="tab-d" role="tab" aria-selected="false" aria-controls="panel-d" tabindex="-1">D — Direção</button>
+            <button class="tab" id="tab-e" role="tab" aria-selected="false" aria-controls="panel-e" tabindex="-1">E — Exemplos</button>
+            <button class="tab" id="tab-a" role="tab" aria-selected="false" aria-controls="panel-a" tabindex="-1">A — Ajustamentos</button>
+          </div>
+
+          <div class="tab-panel" id="panel-i" role="tabpanel" aria-labelledby="tab-i">
+            <div class="panel-head"><span class="panel-title">Identidade / Persona</span><span class="formula">Fórmula IDEA</span></div>
+            <p>Diga explicitamente qual é o papel, a profissão ou a perspetiva a adotar. A identidade orienta o vocabulário, a profundidade e a atitude da resposta.</p>
+            <div class="codebox"><span class="copy-text">Assume o papel de especialista em comunicação clara, com experiência na simplificação de informação técnica para públicos não especializados.
+
+Escreve um guia curto sobre como utilizar uma nova plataforma digital.
+
+Usa um tom empático, direto e frases curtas.</span><button class="copy-btn" type="button" aria-label="Copiar exemplo de Identidade" title="Copiar prompt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
+            <div class="practice"><span aria-hidden="true">ⓘ</span><span><strong>Dica:</strong> em vez de «És consultor», escreva «És consultor financeiro especializado em orçamentos para pequenas organizações».</span></div>
+          </div>
+
+          <div class="tab-panel" id="panel-d" role="tabpanel" aria-labelledby="tab-d" hidden>
+            <div class="panel-head"><span class="panel-title">Direção / Tarefa</span><span class="formula">Fórmula IDEA</span></div>
+            <p>Defina a ação, o objetivo e o resultado pretendido. Uma boa direção inclui um verbo forte e deixa claro para que servirá o conteúdo.</p>
+            <div class="codebox"><span class="copy-text">Analisa o texto fornecido e identifica as cinco ideias principais.
+
+Para cada ideia, explica a sua relevância em duas frases e indica uma ação prática.
+
+O objetivo é preparar uma síntese para uma reunião de planeamento.</span><button class="copy-btn" type="button" aria-label="Copiar exemplo de Direção" title="Copiar prompt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
+            <div class="practice"><span aria-hidden="true">ⓘ</span><span><strong>Dica:</strong> complete «Escreve sobre…» com uma finalidade explícita: informar, comparar, decidir, resumir ou preparar uma ação.</span></div>
+          </div>
+
+          <div class="tab-panel" id="panel-e" role="tabpanel" aria-labelledby="tab-e" hidden>
+            <div class="panel-head"><span class="panel-title">Exemplos / Referências</span><span class="formula">Fórmula IDEA</span></div>
+            <p>Mostre um modelo do resultado desejado. Um exemplo curto pode fixar o formato, o nível de detalhe, o estilo ou o tom com maior precisão.</p>
+            <div class="codebox"><span class="copy-text">Transforma notas informais em mensagens profissionais.
+
+Exemplo:
+Entrada: «A reunião passou para amanhã às dez.»
+Resultado: «Informamos que a reunião foi reagendada para amanhã, às 10h00.»
+
+Agora transforma: «Ainda não recebemos os dados. Manda até sexta.»</span><button class="copy-btn" type="button" aria-label="Copiar exemplo de Exemplos" title="Copiar prompt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
+            <div class="practice"><span aria-hidden="true">ⓘ</span><span><strong>Dica:</strong> forneça um ou dois exemplos representativos; exemplos contraditórios tendem a reduzir a consistência da resposta.</span></div>
+          </div>
+
+          <div class="tab-panel" id="panel-a" role="tabpanel" aria-labelledby="tab-a" hidden>
+            <div class="panel-head"><span class="panel-title">Ajustamentos / Limites</span><span class="formula">Fórmula IDEA</span></div>
+            <p>Indique as restrições essenciais: extensão, estrutura, idioma, tom, dados permitidos, critérios de qualidade e aspetos que devem ser evitados.</p>
+            <div class="codebox"><span class="copy-text">Apresenta a resposta em português de Portugal, com um máximo de 250 palavras.
+
+Usa títulos curtos e uma lista final com três recomendações.
+
+Evita linguagem promocional, termos vagos e afirmações sem fonte. Assinala qualquer incerteza.</span><button class="copy-btn" type="button" aria-label="Copiar exemplo de Ajustamentos" title="Copiar prompt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
+            <div class="practice"><span aria-hidden="true">ⓘ</span><span><strong>Dica:</strong> use apenas restrições relevantes. Uma lista excessiva pode criar conflitos e tornar o objetivo menos claro.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="iteracao" aria-labelledby="titulo-iteracao">
+    <div class="wrap">
+      <div class="section-heading">
+        <span class="eyebrow">Módulo 3.3</span>
+        <h2 id="titulo-iteracao">Converse com a IA: o ciclo de iteração</h2>
+        <p>A primeira resposta é um ponto de partida. Avalie-a, identifique desvios e indique exatamente o que deve ser corrigido.</p>
+      </div>
+      <div class="iteration-grid">
+        <div>
+          <h3>Como funciona o ciclo de refinamento?</h3>
+          <p>Escrever com IA é um processo iterativo: a primeira versão permite testar a instrução; a análise seguinte revela o que falta; o ajuste aproxima o resultado do objetivo.</p>
+          <div class="steps">
+            <div class="step"><div class="step-num">1</div><div><h4>Prompt V1 — Rascunho</h4><p>Crie a instrução inicial com os elementos IDEA que forem relevantes.</p></div></div>
+            <div class="step"><div class="step-num">2</div><div><h4>Avaliação do resultado</h4><p>Verifique relevância, clareza, tom, exatidão e cumprimento do formato.</p></div></div>
+            <div class="step"><div class="step-num">3</div><div><h4>Prompt de ajuste — V2</h4><p>Indique diretamente o que deve mudar e o que deve permanecer.</p></div></div>
+          </div>
+        </div>
+        <div class="cycle-card" aria-label="Ciclo de quatro fases para refinar um prompt">
+          <div class="cycle">
+            <div class="cycle-item"><b>1. Escrever</b><span>Definir o objetivo e criar a primeira instrução.</span></div>
+            <div class="cycle-item"><b>2. Analisar</b><span>Comparar a resposta com os critérios definidos.</span></div>
+            <div class="cycle-item"><b>3. Corrigir</b><span>Dar instruções específicas para resolver os desvios.</span></div>
+            <div class="cycle-item"><b>4. Iterar</b><span>Repetir até o resultado ficar adequado ao uso.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:4rem">
+        <h3>Como avaliar o resultado?</h3>
+        <div class="assessment">
+          <article class="assess-card"><h4>Relevância e completude</h4><p>A resposta cumpre todas as instruções? Faltam secções, dados ou condições importantes?</p></article>
+          <article class="assess-card"><h4>Tom e estilo</h4><p>A linguagem é adequada ao público e reproduz o grau de formalidade solicitado?</p></article>
+          <article class="assess-card"><h4>Aplicabilidade</h4><p>O conteúdo está pronto a usar ou exige revisão factual, estrutural ou linguística?</p></article>
+        </div>
+
+        <h3 style="margin-bottom:1rem">Frases úteis para refinamento rápido</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Desvio identificado</th><th>O que fazer</th><th>Instrução de exemplo</th></tr></thead>
+            <tbody>
+              <tr><td>Muito longo</td><td>Restringir a extensão ou a estrutura.</td><td class="example-cell"><span class="copy-text">Resume a resposta anterior num único parágrafo com um máximo de 50 palavras.</span><button class="copy-btn" type="button" aria-label="Copiar instrução para resumir" title="Copiar instrução"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></td></tr>
+              <tr><td>Demasiado técnico</td><td>Pedir simplificação e uma analogia.</td><td class="example-cell"><span class="copy-text">Explica novamente o conceito de modelo Transformer através de uma analogia simples, adequada a uma pessoa sem formação técnica.</span><button class="copy-btn" type="button" aria-label="Copiar instrução para simplificar" title="Copiar instrução"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></td></tr>
+              <tr><td>Faltam detalhes</td><td>Pedir o desenvolvimento de uma parte concreta.</td><td class="example-cell"><span class="copy-text">Mantém a estrutura do texto, mas desenvolve a secção sobre segurança da informação com três medidas práticas e respetivas justificações.</span><button class="copy-btn" type="button" aria-label="Copiar instrução para desenvolver detalhes" title="Copiar instrução"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2 2v1"/></svg></button></td></tr>
+              <tr><td>Tom desadequado</td><td>Redefinir o tom e o público.</td><td class="example-cell"><span class="copy-text">Reescreve o texto num tom mais empático e direto, mantendo a informação factual e evitando linguagem promocional.</span><button class="copy-btn" type="button" aria-label="Copiar instrução para ajustar o tom" title="Copiar instrução"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fontes" class="section-alt" aria-labelledby="titulo-fontes">
+    <div class="wrap">
+      <div class="section-heading">
+        <span class="eyebrow">Leitura complementar</span>
+        <h2 id="titulo-fontes">Fontes</h2>
+        <p>Referências para aprofundar princípios, técnicas e práticas de Engenharia de Prompts.</p>
+      </div>
+      <div class="sources-grid">
+        <a class="source-card" href="https://services.google.com/fh/files/misc/gemini-for-google-workspace-prompting-guide-101.pdf" target="_blank" rel="noopener noreferrer"><small>Google</small><strong>Prompting Guide 101</strong><span>Guia de introdução à criação de prompts para tarefas de produtividade.</span></a>
+        <a class="source-card" href="https://www.ibm.com/think/topics/prompt-engineering-guide" target="_blank" rel="noopener noreferrer"><small>IBM</small><strong>Prompt Engineering Guide</strong><span>Conceitos, estratégias e exemplos de Engenharia de Prompts.</span></a>
+        <a class="source-card" href="https://cookbook.openai.com/examples/gpt4-1_prompting_guide" target="_blank" rel="noopener noreferrer"><small>OpenAI Cookbook</small><strong>GPT-4.1 Prompting Guide</strong><span>Recomendações práticas para instruções, estrutura e avaliação de respostas.</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" aria-labelledby="titulo-final">
+    <div class="wrap">
+      <h2 id="titulo-final">Pronto para criar prompts mais eficazes?</h2>
+      <p>Aplique o framework IDEA, avalie criticamente cada resultado e refine as instruções até obter uma resposta clara, correta e adequada ao objetivo.</p>
+      <a class="back" href="inteligencia-artificial.html">← Voltar à Inteligência Artificial</a>
+    </div>
+  </section>
+</main>
+<footer class="footer"><div class="wrap footer-inner"><span>A Arte de Conversar com a IA · Guia interativo</span><span>Conteúdo educativo · versão autónoma</span></div></footer>
+<div class="toast" role="status" aria-live="polite">Texto copiado.</div>
+<script>
+(function(){
+  'use strict';
+  const tabs=[...document.querySelectorAll('[role="tab"]')];
+  function activate(tab,focus){
+    tabs.forEach(function(item){
+      const selected=item===tab;
+      item.setAttribute('aria-selected',String(selected));
+      item.tabIndex=selected?0:-1;
+      const panel=document.getElementById(item.getAttribute('aria-controls'));
+      if(panel) panel.hidden=!selected;
+    });
+    if(focus) tab.focus();
+  }
+  tabs.forEach(function(tab,index){
+    tab.addEventListener('click',function(){activate(tab,false)});
+    tab.addEventListener('keydown',function(event){
+      let next=index;
+      if(event.key==='ArrowRight'||event.key==='ArrowDown') next=(index+1)%tabs.length;
+      else if(event.key==='ArrowLeft'||event.key==='ArrowUp') next=(index-1+tabs.length)%tabs.length;
+      else if(event.key==='Home') next=0;
+      else if(event.key==='End') next=tabs.length-1;
+      else return;
+      event.preventDefault();activate(tabs[next],true);
+    });
+  });
+
+  const toast=document.querySelector('.toast');
+  let toastTimer;
+  function showToast(message){
+    toast.textContent=message;toast.classList.add('show');
+    clearTimeout(toastTimer);toastTimer=setTimeout(function(){toast.classList.remove('show')},1800);
+  }
+  async function copyText(text){
+    if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);return;}
+    const area=document.createElement('textarea');
+    area.value=text;area.setAttribute('readonly','');area.style.position='fixed';area.style.opacity='0';
+    document.body.appendChild(area);area.select();
+    const ok=document.execCommand('copy');area.remove();
+    if(!ok) throw new Error('copy failed');
+  }
+  document.querySelectorAll('.copy-btn').forEach(function(button){
+    button.addEventListener('click',async function(){
+      const container=button.parentElement;
+      const source=container.querySelector('.copy-text');
+      if(!source) return;
+      try{
+        await copyText(source.textContent.trim());
+        button.dataset.copied='true';button.setAttribute('aria-label','Copiado');showToast('Texto copiado.');
+        setTimeout(function(){button.dataset.copied='false';button.setAttribute('aria-label',button.title||'Copiar texto')},1500);
+      }catch(error){showToast('Não foi possível copiar. Selecione o texto manualmente.');}
+    });
+  });
+})();
+</script>
+</body>
+</html>
