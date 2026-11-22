@@ -1,21 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
-
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <meta
-    name="description"
-    content="Recursos de Inteligência Artificial, tutoriais e recursos práticos para formação e aprendizagem."
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Recursos de Inteligência Artificial, tutoriais e recursos práticos para formação e aprendizagem.">
   <meta name="theme-color" content="#1f3b5b">
-
   <title>Inteligência Artificial | Recursos Didáticos</title>
 
   <style>
@@ -35,13 +24,8 @@
       --max-width: 1180px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       min-height: 100vh;
@@ -50,22 +34,11 @@
       margin: 0;
       color: var(--text);
       background: var(--background);
-      font-family:
-        Inter,
-        ui-sans-serif,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.6;
     }
 
-    a {
-      color: inherit;
-    }
-
-    /* ACESSIBILIDADE */
+    a { color: inherit; }
 
     .skip-link {
       position: fixed;
@@ -80,31 +53,18 @@
       transition: transform 0.2s ease;
     }
 
-    .skip-link:focus {
-      transform: translateY(0);
-    }
+    .skip-link:focus { transform: translateY(0); }
 
     :focus-visible {
       outline: 3px solid #f5b942;
       outline-offset: 4px;
     }
 
-    /* CABEÇALHO */
-
     .site-header {
       color: #ffffff;
       background:
-        radial-gradient(
-          circle at 85% 15%,
-          rgba(255, 255, 255, 0.14),
-          transparent 25%
-        ),
-        linear-gradient(
-          135deg,
-          var(--primary-dark),
-          var(--primary) 58%,
-          #2b5a83
-        );
+        radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.14), transparent 25%),
+        linear-gradient(135deg, var(--primary-dark), var(--primary) 58%, #2b5a83);
     }
 
     .header-inner,
@@ -177,10 +137,7 @@
       font-size: 0.88rem;
       font-weight: 700;
       text-decoration: none;
-      transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.2s ease;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     }
 
     .back-link:hover {
@@ -189,15 +146,8 @@
       transform: translateX(-3px);
     }
 
-    /* CONTEÚDO */
-
-    main {
-      flex: 1;
-    }
-
-    .main-inner {
-      padding-block: clamp(2.5rem, 6vw, 4.5rem);
-    }
+    main { flex: 1; }
+    .main-inner { padding-block: clamp(2.5rem, 6vw, 4.5rem); }
 
     .intro {
       max-width: 800px;
@@ -216,15 +166,11 @@
       color: var(--muted);
     }
 
-    /* GRELHA */
-
     .tools-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.25rem;
     }
-
-    /* CARTÕES */
 
     .tool-card {
       min-height: 255px;
@@ -239,10 +185,7 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       text-decoration: none;
-      transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     .tool-card[href]:hover {
@@ -301,8 +244,6 @@
       text-transform: uppercase;
     }
 
-    /* RODAPÉ */
-
     .site-footer {
       color: #dce7f1;
       background: var(--primary-dark);
@@ -317,16 +258,12 @@
       padding-block: 1.2rem;
     }
 
-    .footer-inner p {
-      margin: 0;
-    }
+    .footer-inner p { margin: 0; }
 
     .footer-link {
       color: #ffffff;
       text-underline-offset: 0.2em;
     }
-
-    /* RESPONSIVO */
 
     @media (max-width: 850px) {
       .header-inner {
@@ -342,7 +279,8 @@
         width: min(calc(100% - 2rem), var(--max-width));
       }
 
-      .header-brand    align-items: center;
+      .header-brand {
+        align-items: center;
         gap: 1rem;
       }
 
@@ -351,21 +289,10 @@
         height: 88px;
       }
 
-      h1 {
-        font-size: 2rem;
-      }
-
-      .back-link {
-        width: 100%;
-      }
-
-      .tools-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .tool-card {
-        min-height: 220px;
-      }
+      h1 { font-size: 2rem; }
+      .back-link { width: 100%; }
+      .tools-grid { grid-template-columns: 1fr; }
+      .tool-card { min-height: 220px; }
 
       .footer-inner {
         align-items: flex-start;
@@ -374,288 +301,113 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-
-      *,
-      *::before,
-      *::after {
-        transition: none !important;
-      }
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
     }
   </style>
 </head>
 
 <body>
-
-  <a class="skip-link" href="#conteudo">
-    Saltar para o conteúdo principal
-  </a>
+  <a class="skip-link" href="#conteudo">Saltar para o conteúdo principal</a>
 
   <header class="site-header">
     <div class="header-inner">
-
       <div class="header-brand">
-        <img
-          src="../avatar.png"
-          alt="Símbolo JP"
-          class="logo-img"
-        >
-
+        <img src="../avatar.png" alt="Símbolo JP" class="logo-img">
         <div>
-          <p class="eyebrow">
-            Recursos Didáticos
-          </p>
-
-          <h1>
-            Inteligência Artificial
-          </h1>
-
+          <p class="eyebrow">Recursos Didáticos</p>
+          <h1>Inteligência Artificial</h1>
           <p class="header-description">
-            Tutoriais, prompts e recursos práticos para explorar
-            ferramentas de Inteligência Artificial e apoiar a aprendizagem.
+            Tutoriais, prompts e recursos práticos para explorar ferramentas de Inteligência Artificial e apoiar a aprendizagem.
           </p>
         </div>
       </div>
 
-      <a
-        class="back-link"
-        href="../index.html"
-        aria-label="Voltar ao portal"
-      >
+      <a class="back-link" href="../index.html" aria-label="Voltar ao portal">
         ← Voltar ao portal
       </a>
-
     </div>
   </header>
 
   <main id="conteudo" class="main-inner">
-
     <section class="intro">
       <h2>Recursos disponíveis</h2>
-
       <p>
-        Explore tutoriais e recursos práticos para desenvolver competências
-        na utilização de Inteligência Artificial, desde a criação de agentes
-        até à estruturação de prompts e à compreensão do funcionamento da IA.
+        Explore tutoriais e recursos práticos para desenvolver competências na utilização de Inteligência Artificial, desde a criação de agentes até à estruturação de prompts e à compreensão do funcionamento da IA.
       </p>
     </section>
 
-    <section
-      class="tools-grid"
-      aria-label="Recursos de Inteligência Artificial"
-    >
-
-      <!-- CRIAR UM AGENTE NO COPILOT STUDIO -->
-
-      <a
-        class="tool-card"
-        href="tutorial-copilot-studio.html"
-        aria-label="Abrir tutorial Criar um Agente no Copilot Studio"
-      >
+    <section class="tools-grid" aria-label="Recursos de Inteligência Artificial">
+      <a class="tool-card" href="tutorial-copilot-studio.html" aria-label="Abrir tutorial Criar um Agente no Copilot Studio">
         <div>
-          <span class="tool-icon" aria-hidden="true">
-            🤖
-          </span>
-
-          <span class="tool-title">
-            Criar um Agente no Copilot Studio
-          </span>
-
-          <span class="tool-description">
-            Tutorial interativo, passo a passo, para criar,
-            configurar, testar e publicar um agente no
-            Microsoft Copilot Studio.
-          </span>
+          <span class="tool-icon" aria-hidden="true">🤖</span>
+          <span class="tool-title">Criar um Agente no Copilot Studio</span>
+          <span class="tool-description">Tutorial interativo, passo a passo, para criar, configurar, testar e publicar um agente no Microsoft Copilot Studio.</span>
         </div>
-
-        <span class="tool-action">
-          Abrir tutorial
-          <span aria-hidden="true">→</span>
-        </span>
+        <span class="tool-action">Abrir tutorial <span aria-hidden="true">→</span></span>
       </a>
 
-      <!-- EVOLUÇÃO DA INTELIGÊNCIA ARTIFICIAL -->
-
-      <a
-        class="tool-card"
-        href="a-evolucao-da-inteligencia-artificial.html"
-        aria-label="Abrir apresentação A Evolução da Inteligência Artificial"
-      >
+      <a class="tool-card" href="a-evolucao-da-inteligencia-artificial.html" aria-label="Abrir apresentação A Evolução da Inteligência Artificial">
         <div>
-          <span class="tool-icon" aria-hidden="true">
-            🧠
-          </span>
-
-          <span class="tool-title">
-            A Evolução da Inteligência Artificial
-          </span>
-
-          <span class="tool-description">
-            Apresentação interativa sobre a evolução da Inteligência
-            Artificial, desde os primeiros conceitos até à IA generativa,
-            com cronologia, conteúdos visuais e teste final.
-          </span>
+          <span class="tool-icon" aria-hidden="true">🧠</span>
+          <span class="tool-title">A Evolução da Inteligência Artificial</span>
+          <span class="tool-description">Apresentação interativa sobre a evolução da Inteligência Artificial, desde os primeiros conceitos até à IA generativa, com cronologia, conteúdos visuais e teste final.</span>
         </div>
-
-        <span class="tool-action">
-          Explorar apresentação
-          <span aria-hidden="true">→</span>
-        </span>
+        <span class="tool-action">Explorar apresentação <span aria-hidden="true">→</span></span>
       </a>
 
-      <!-- ENGENHARIA DE PROMPTS -->
-
-      <a
-        class="tool-card"
-        href="engenharia-de-prompts.html"
-        aria-label="Abrir o guia interativo Engenharia de Prompts"
-      >
+      <a class="tool-card" href="engenharia-de-prompts.html" aria-label="Abrir o guia interativo Engenharia de Prompts">
         <div>
-          <span class="tool-icon" aria-hidden="true">
-            ✍️
-          </span>
-
-          <span class="tool-title">
-            Engenharia de Prompts
-          </span>
-
-          <span class="tool-description">
-            Aprenda a estruturar instruções claras, contextualizadas
-            e eficazes, através de exemplos, modelos práticos e
-            exercícios interativos.
-          </span>
+          <span class="tool-icon" aria-hidden="true">✍️</span>
+          <span class="tool-title">Engenharia de Prompts</span>
+          <span class="tool-description">Aprenda a estruturar instruções claras, contextualizadas e eficazes, através de exemplos, modelos práticos e exercícios interativos.</span>
         </div>
-
-        <span class="tool-action">
-          Abrir guia interativo
-          <span aria-hidden="true">→</span>
-        </span>
+        <span class="tool-action">Abrir guia interativo <span aria-hidden="true">→</span></span>
       </a>
 
-      <!-- A ARTE DE CONVERSAR COM A IA -->
-
-      <a
-        class="tool-card"
-        href="a-arte-de-conversar-com-a-ia.html"
-        aria-label="Abrir o recurso A Arte de Conversar com a IA"
-      >
+      <a class="tool-card" href="a-arte-de-conversar-com-a-ia.html" aria-label="Abrir o recurso A Arte de Conversar com a IA">
         <div>
-          <span class="tool-icon" aria-hidden="true">
-            💬
-          </span>
-
-          <span class="tool-title">
-            A Arte de Conversar com a IA
-          </span>
-
-          <span class="tool-description">
-            Aprenda a transformar pedidos vagos em instruções claras,
-            utilizando verbos fortes, o método IDEA e um ciclo de
-            avaliação e refinamento das respostas.
-          </span>
+          <span class="tool-icon" aria-hidden="true">💬</span>
+          <span class="tool-title">A Arte de Conversar com a IA</span>
+          <span class="tool-description">Aprenda a transformar pedidos vagos em instruções claras, utilizando verbos fortes, o método IDEA e um ciclo de avaliação e refinamento das respostas.</span>
         </div>
-
-        <span class="tool-action">
-          Explorar recurso
-          <span aria-hidden="true">→</span>
-        </span>
+        <span class="tool-action">Explorar recurso <span aria-hidden="true">→</span></span>
       </a>
 
-      <!-- EXPLORADOR DE TOKENS E RETROPROPAGAÇÃO -->
-
-      <a
-        class="tool-card"
-        href="explorador-tokens-retropropagacao.html"
-        aria-label="Abrir o Explorador de Tokens e Retropropagação"
-      >
+      <a class="tool-card" href="explorador-tokens-retropropagacao.html" aria-label="Abrir o Explorador de Tokens e Retropropagação">
         <div>
-          <span class="tool-icon" aria-hidden="true">
-            🧩
-          </span>
-
-          <span class="tool-title">
-            Explorador de Tokens e Retropropagação
-          </span>
-
-          <span class="tool-description">
-            Explore de forma visual como o texto é dividido em tokens
-            e compreenda conceitos como pesos, propagação direta,
-            retropropagação e aprendizagem de uma rede neuronal.
-          </span>
+          <span class="tool-icon" aria-hidden="true">🧩</span>
+          <span class="tool-title">Explorador de Tokens e Retropropagação</span>
+          <span class="tool-description">Explore de forma visual como o texto é dividido em tokens e compreenda conceitos como pesos, propagação direta, retropropagação e aprendizagem de uma rede neuronal.</span>
         </div>
-
-        <span class="tool-action">
-          Abrir explorador
-          <span aria-hidden="true">→</span>
-        </span>
+        <span class="tool-action">Abrir explorador <span aria-hidden="true">→</span></span>
       </a>
 
-      <!-- BIBLIOTECA DE PROMPTS -->
+      <a class="tool-card" href="biblioteca-de-prompts.html" aria-label="Abrir a Biblioteca de Prompts">
+        <div>
+          <span class="tool-icon" aria-hidden="true">📚</span>
+          <span class="tool-title">Biblioteca de Prompts</span>
+          <span class="tool-description">Consulte modelos reutilizáveis de prompts, organizados por finalidade, para análise, comunicação, produtividade, aprendizagem e criação de ferramentas.</span>
+        </div>
+        <span class="tool-action">Explorar biblioteca <span aria-hidden="true">→</span></span>
+      </a>
 
       <div class="tool-card">
         <div>
-          <span class="tool-icon" aria-hidden="true">
-            📚
-          </span>
-
-          <span class="tool-title">
-            Biblioteca de Prompts
-          </span>
-
-          <span class="tool-description">
-            Consulte exemplos reutilizáveis de prompts,
-            organizados por finalidade, para formação,
-            produtividade e tarefas do dia a dia.
-          </span>
+          <span class="tool-icon" aria-hidden="true">🏛️</span>
+          <span class="tool-title">IA na Administração Pública</span>
+          <span class="tool-description">Explore casos de utilização, princípios de utilização responsável e boas práticas aplicáveis ao contexto do serviço público.</span>
         </div>
-
-        <span class="status">
-          Brevemente
-        </span>
+        <span class="status">Brevemente</span>
       </div>
-
-      <!-- IA NA ADMINISTRAÇÃO PÚBLICA -->
-
-      <div class="tool-card">
-        <div>
-          <span class="tool-icon" aria-hidden="true">
-            🏛️
-          </span>
-
-          <span class="tool-title">
-            IA na Administração Pública
-          </span>
-
-          <span class="tool-description">
-            Explore casos de utilização, princípios de utilização
-            responsável e boas práticas aplicáveis ao contexto
-            do serviço público.
-          </span>
-        </div>
-
-        <span class="status">
-          Brevemente
-        </span>
-      </div>
-
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="footer-inner">
-
-      <p>
-        © 2026 João Pernas · Recursos Didáticos
-      </p>
-
-      <a class="footer-link" href="#conteudo">
-        Voltar ao topo ↑
-      </a>
-
+      <p>© 2026 João Pernas · Recursos Didáticos</p>
+      <a class="footer-link" href="#conteudo">Voltar ao topo ↑</a>
     </div>
   </footer>
-
 </body>
 </html>
