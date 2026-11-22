@@ -1,0 +1,22 @@
+DEPENDÊNCIAS ORIGINAIS AINDA NÃO FORNECIDAS
+
+A versão publicada funciona para os conjuntos portugueses prioritários com a camada de integração incluída. Para reconstituir integralmente a aplicação original, continuam em falta:
+
+1. mind/Main.js
+   O ficheiro fornecido com o nome Main.js e o identificador indicado corresponde a Pulse_And_Tiles/Tiles/Tree/Main.js, não ao Main.js da pasta mind.
+
+2. mind/Draw.js
+   O ficheiro fornecido com o nome Draw.js e o identificador indicado corresponde a Pulse_And_Tiles/Tiles/Tree/Draw.js, não ao Draw.js da pasta mind.
+
+3. index.html principal original
+   O ficheiro fornecido como index.html corresponde a Pulse_And_Tiles/Tiles/Tree/index.html. A entrada publicável desta versão é visualizador-modelos-linguagem.html.
+
+4. Pulse_And_Tiles/pulse.js original
+   Não foi fornecido. Está incluída uma camada de compatibilidade local no mesmo caminho, limitada às APIs utilizadas por Build.js, Process.js, PCA.js e pelos módulos da árvore.
+
+FICHEIRO FORNECIDO COM PROBLEMA DE INTEGRIDADE
+
+- data/ERP.json
+  O ficheiro termina de forma incompleta e não é JSON válido: erro na linha 1, coluna 10 474 638. Foi preservado sem alterações e não é apresentado no seletor.
+
+A fonte Roboto não está em falta: a respetiva dependência foi removida por instrução e substituída por uma pilha de sistema.
