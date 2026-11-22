@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Visualizador interativo de modelos de linguagem com PCA 3D e árvore probabilística de tokens.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="data:,">
+  <title>Visualizador de Modelos de Linguagem</title>
+  <style>
+    :root{--navy:#142a42;--navy2:#1f3b5b;--blue:#2e78b7;--turquoise:#18aeb5;--gold:#e5b84b;--text:#f1f5f7;--muted:#92a3ae;--line:rgba(137,181,211,.25)}
+    *{box-sizing:border-box}html,body{width:100%;min-height:100%;margin:0;color-scheme:dark;background:#000}
+    body{overflow:hidden;color:var(--text);background:#000;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:12px}
+    button,select,input{font:inherit;color:inherit}button{cursor:pointer}:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+    .skip{position:fixed;z-index:1000;top:5px;left:5px;padding:7px;color:#000;background:#fff;transform:translateY(-140%)}.skip:focus{transform:none}
+    .app{width:100vw;height:100vh;min-height:650px;display:grid;grid-template-columns:52% 48%;background:#000}
+    .space,.tree-host{min-width:0;min-height:0;position:relative;overflow:hidden;background:#000}.space{border-right:1px solid rgba(46,120,183,.55)}
+    #space-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}.space::after{position:absolute;inset:0;content:"";pointer-events:none;background:radial-gradient(circle at 52% 52%,transparent 35%,rgba(0,0,0,.62))}
+    .panel{position:absolute;z-index:20;top:12px;left:12px;width:min(328px,calc(100% - 24px));border-left:2px solid var(--turquoise);background:linear-gradient(90deg,rgba(4,11,18,.97),rgba(8,22,34,.84));box-shadow:10px 0 30px rgba(0,0,0,.35);backdrop-filter:blur(6px)}
+    .head{display:flex;justify-content:space-between;gap:10px;padding:9px 11px;border-bottom:1px solid var(--line)}.head h1{margin:0;font-size:11px;letter-spacing:.12em;text-transform:uppercase}.head p{margin:2px 0 0;color:#7891a2;font-size:7px;letter-spacing:.08em;text-transform:uppercase}
+    .mode,.help-button{align-self:flex-start;padding:3px 6px;border:1px solid rgba(229,184,75,.7);color:#f0ce77;background:rgba(229,184,75,.07);font-size:7px;text-transform:uppercase}.head-actions{display:flex;gap:5px}
+    .section{padding:8px 11px;border-bottom:1px solid rgba(137,181,211,.14)}.label{display:block;margin-bottom:4px;color:#7891a2;font-size:7px;font-weight:700;letter-spacing:.11em;text-transform:uppercase}
+    select{width:100%;height:29px;padding:3px 7px;border:1px solid rgba(46,120,183,.65);border-radius:0;background:#07111d;font-size:9px}
+    .sentence{min-height:27px;margin:0;color:#e0e7eb;font:13px/1.35 Georgia,"Times New Roman",serif}.sentence mark{padding:1px 3px;color:#001014;background:var(--turquoise)}
+    .metrics{display:grid;grid-template-columns:auto 1fr;gap:2px 8px;margin-top:6px;color:#7891a2;font-size:8px}.metrics strong{overflow:hidden;color:#d7e2e8;font:normal 8px "Courier New",monospace;text-overflow:ellipsis;white-space:nowrap}.metrics .accent{color:#43d4da}
+    .guide{margin:0;color:#9aaab4;font-size:8px;line-height:1.45}.guide strong{color:#e4edf1}
+    .back{position:absolute;z-index:21;top:14px;left:355px;color:#8198a7;font-size:8px;text-decoration:none}.back:hover{color:#fff}
+    .temperature{position:absolute;z-index:20;left:12px;right:12px;bottom:10px;display:grid;grid-template-columns:105px 1fr 37px;align-items:center;gap:10px;padding:7px 8px;border-top:1px solid rgba(46,120,183,.65);background:rgba(4,11,18,.88)}
+    .temperature b{display:block;font-size:8px;letter-spacing:.12em;text-transform:uppercase}.temperature small{color:#708794;font-size:6px}#temperature{width:100%;accent-color:var(--turquoise)}#temperature-output{color:#43d4da;font:11px "Courier New",monospace;text-align:right}
+    .presets{grid-column:2/3;display:flex;justify-content:space-between;margin-top:-7px}.presets button{padding:0;border:0;color:#70808a;background:none;font-size:6px}.presets button.active{color:var(--gold)}
+    .tree-heading{position:absolute;z-index:30;top:0;left:0;right:0;height:60px;padding:10px 13px;border-bottom:1px solid rgba(46,120,183,.55);background:linear-gradient(90deg,#07111d,#0b1b2c);pointer-events:none}.tree-heading h2{margin:0;font-size:10px;letter-spacing:.12em;text-transform:uppercase}.tree-heading p{margin:2px 0 0;color:#7891a2;font-size:7px}
+    .tree-context{display:flex;align-items:center;gap:6px;margin-top:5px;color:#7891a2;font-size:7px;pointer-events:auto}#context-value{max-width:350px;overflow:hidden;color:#d7e2e8;font:9px Georgia,serif;text-overflow:ellipsis;white-space:nowrap}#restart{padding:2px 5px;border:1px solid var(--blue);color:#a8cae4;background:rgba(46,120,183,.12);font-size:6px;text-transform:uppercase}#tree-stats{position:absolute;top:12px;right:13px;color:#7891a2;font:7px "Courier New",monospace}
+    .architecture{position:absolute;z-index:31;right:13px;bottom:8px;color:rgba(24,174,181,.48);font-size:6px;pointer-events:none}.status{position:absolute;z-index:50;left:50%;bottom:18px;padding:5px 8px;color:#d4e2e8;border:1px solid rgba(24,174,181,.4);background:rgba(4,11,18,.94);font-size:8px;transform:translateX(-50%);pointer-events:none}
+    .help{position:fixed;z-index:100;inset:5vh 7vw;display:none;overflow:auto;padding:24px;color:#dfe8ed;border:1px solid rgba(46,120,183,.75);background:rgba(3,8,14,.98);box-shadow:0 20px 70px #000}.help.open{display:block}.help-close{position:sticky;z-index:3;top:0;float:right;padding:5px 8px;border:1px solid var(--gold);color:#f0ce77;background:#07111d}.help-content{max-width:950px;margin:auto;font-size:13px;line-height:1.55}.help-content h1,.help-content h2{color:#fff}.help-content a{color:#67cfd4}.help-content .help-link{display:block;margin:.3rem 0;padding:.25rem .4rem;border-left:2px solid var(--blue);color:#bcd8eb;text-decoration:none}
+    @media(max-width:900px){body{overflow:auto}.app{height:auto;grid-template-columns:1fr;grid-template-rows:74vh 72vh}.space{border-right:0;border-bottom:1px solid var(--line)}.back{left:auto;right:12px}.tree-host{overflow:hidden}}
+    @media(max-width:560px){.app{grid-template-rows:720px 650px}.panel{top:8px;left:8px;width:calc(100% - 16px)}.back{top:201px;right:8px}.temperature{left:8px;right:8px}.tree-heading{height:70px}#tree-stats{top:44px}.architecture{display:none}.help{inset:2vh 3vw;padding:15px}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#space">Saltar para o visualizador</a>
+  <main class="app">
+    <section class="space" id="space" aria-label="Espaço semântico PCA 3D">
+      <canvas id="space-canvas" aria-label="Cubo tridimensional de trajetórias semânticas"></canvas>
+      <div class="panel">
+        <div class="head">
+          <div><h1>Leitura do modelo</h1><p>Dados reais · PCA · árvore interativa</p></div>
+          <div class="head-actions"><button class="help-button" id="help-button" type="button">Ajuda</button><button class="mode" id="didactic-toggle" type="button" aria-pressed="true">Didático: ligado</button></div>
+        </div>
+        <div class="section"><label class="label" for="prompt-select">Conjunto / pedido inicial</label><select id="prompt-select"><option value="inteligencia_e_completo.json" selected>Inteligência é… — frases completas</option><option value="inteligencia_e_baseline.json">Inteligência é… — versão de base</option><option value="inteligencia_e.json">Inteligência é… — conjunto original</option></select></div>
+        <div class="section"><span class="label">Frase e contexto</span><p class="sentence" id="sentence">A carregar o conjunto inicial…</p><div class="metrics"><span>Token</span><strong class="accent" id="metric-token">—</strong><span>Probabilidade</span><strong id="metric-probability">—</strong><span>Posição PCA</span><strong id="metric-position">—</strong></div></div>
+        <div class="section didactic-content"><p class="guide"><strong>Como explorar:</strong> passe o rato sobre os blocos para expandir os ramos. Selecione um token para fixar o novo contexto. Arraste o cubo para rodar e use a roda do rato para ampliar.</p></div>
+      </div>
+      <a class="back" href="inteligencia-artificial.html">← Voltar à Inteligência Artificial</a>
+      <div class="temperature"><div><b>Temperatura</b><small>certeza ← → diversidade</small></div><input id="temperature" type="range" min="0" max="1.6" value="1.6" step="0.05" aria-label="Temperatura do modelo"><output id="temperature-output">1,60</output><div class="presets"><button type="button" data-temperature="0">0,0 determinista</button><button type="button" data-temperature="0.7">0,7 equilíbrio</button><button class="active" type="button" data-temperature="1.6">1,6 diversidade</button></div></div>
+    </section>
+    <section class="tree-host" id="tree-host" aria-labelledby="tree-title"><div class="tree-heading"><h2 id="tree-title">Árvore probabilística de tokens</h2><p>Área, largura e expansão representam a frequência observada nos dados.</p><div class="tree-context"><span>Contexto:</span><span id="context-value">—</span><button id="restart" type="button">Recomeçar</button></div><span id="tree-stats">a carregar…</span></div><span class="architecture">Build.js · Process.js · Pulse_And_Tiles/Tiles/Tree</span></section>
+  </main>
+  <div class="status" id="status">A carregar dados e a calcular o PCA…</div>
+  <aside class="help" id="help" aria-label="Ajuda do visualizador"><button class="help-close" id="help-close" type="button">Fechar</button><div class="help-content" id="help-content">A carregar ajuda…</div></aside>
+  <div id="maindiv" hidden></div>
+
+  <script src="../moebio-original-integrado/Pulse_And_Tiles/pulse.js"></script>
+  <script src="../moebio-original-integrado/libraries/numeric-1.2.6.min.js"></script>
+  <script src="../moebio-original-integrado/libraries/PCA.js"></script>
+  <script src="../moebio-original-integrado/libraries/ChatGPTApi.js"></script>
+  <script src="../moebio-original-integrado/mind/classes/HtmlArea.js"></script>
+  <script src="../moebio-original-integrado/mind/Build.js"></script>
+  <script src="../moebio-original-integrado/mind/Process.js"></script>
+  <script src="../moebio-original-integrado/Pulse_And_Tiles/Tiles/Tiles.js"></script>
+  <script src="../moebio-original-integrado/integracao.js"></script>
+</body>
+</html>
