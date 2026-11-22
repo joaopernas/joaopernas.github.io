@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Biblioteca de prompts reutilizáveis, organizada por finalidade, com pesquisa, filtros e cópia rápida.">
+  <meta name="theme-color" content="#1f3b5b">
+  <title>Biblioteca de Prompts | Recursos Didáticos</title>
+  <style>
+    :root {
+      --primary: #1f3b5b;
+      --primary-dark: #142a42;
+      --primary-light: #e9f0f7;
+      --accent: #2e78b7;
+      --turquoise: #18aeb5;
+      --gold: #d6a62e;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --background: #f4f7fa;
+      --text: #182433;
+      --muted: #5d6b7a;
+      --border: #d8e1ea;
+      --success: #18794e;
+      --shadow: 0 12px 30px rgba(31, 59, 91, 0.10);
+      --radius: 18px;
+      --max-width: 1180px;
+    }
+
+    [data-theme="dark"] {
+      --surface: #172536;
+      --surface-soft: #1c2d40;
+      --background: #0f1b28;
+      --text: #eef5fb;
+      --muted: #b9c7d4;
+      --border: #31465b;
+      --primary-light: #263c52;
+      --accent: #75b8ef;
+      --success: #7bd6ad;
+      --shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      color: var(--text);
+      background: var(--background);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; }
+
+    .skip-link {
+      position: fixed;
+      top: .75rem;
+      left: .75rem;
+      z-index: 1000;
+      padding: .75rem 1rem;
+      color: #fff;
+      background: var(--primary-dark);
+      border-radius: 10px;
+      transform: translateY(-160%);
+      transition: transform .2s ease;
+    }
+    .skip-link:focus { transform: translateY(0); }
+    :focus-visible { outline: 3px solid #f5b942; outline-offset: 3px; }
+
+    .site-header {
+      color: #fff;
+      background:
+        radial-gradient(circle at 85% 15%, rgba(255,255,255,.14), transparent 25%),
+        linear-gradient(135deg, var(--primary-dark), var(--primary) 58%, #2b5a83);
+    }
+    .header-inner, .main-inner, .footer-inner {
+      width: min(calc(100% - 3rem), var(--max-width));
+      margin-inline: auto;
+    }
+    .header-inner {
+      min-height: 215px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      padding-block: 2.2rem;
+    }
+    .header-brand { display: flex; align-items: center; gap: 1.4rem; }
+    .logo-wrap {
+      position: relative;
+      width: 112px;
+      height: 112px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--turquoise));
+      border: 3px solid rgba(255,255,255,.35);
+      border-radius: 50%;
+      box-shadow: 0 6px 20px rgba(0,0,0,.22);
+      font-size: 2rem;
+      font-weight: 850;
+      letter-spacing: -.05em;
+    }
+    .logo-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+    .eyebrow {
+      margin: 0 0 .25rem;
+      color: #cfe3f6;
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+    }
+    h1 { margin: 0; font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1.07; }
+    .header-description {
+      max-width: 690px;
+      margin: .65rem 0 0;
+      color: #e4eef7;
+      font-size: clamp(.92rem, 2vw, 1.05rem);
+    }
+    .back-link {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .45rem;
+      flex: 0 0 auto;
+      padding: .65rem 1rem;
+      color: #fff;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.27);
+      border-radius: 12px;
+      font-size: .88rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .2s ease, border-color .2s ease, transform .2s ease;
+    }
+    .back-link:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.42); transform: translateX(-3px); }
+
+    main { flex: 1; }
+    .main-inner { padding-block: clamp(2.3rem, 6vw, 4.5rem); }
+    .intro-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(260px, .55fr);
+      gap: 1.25rem;
+      align-items: stretch;
+      margin-bottom: 1.5rem;
+    }
+    .intro, .quick-guide {
+      padding: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .intro h2, .section-heading h2 { margin: 0 0 .45rem; color: var(--primary); font-size: clamp(1.55rem, 3vw, 2.05rem); line-height: 1.2; }
+    [data-theme="dark"] .intro h2, [data-theme="dark"] .section-heading h2 { color: #a9d4f5; }
+    .intro p, .section-heading p { margin: 0; color: var(--muted); }
+    .stats { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1.15rem; }
+    .stat {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .35rem .7rem;
+      color: var(--primary);
+      background: var(--primary-light);
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 750;
+    }
+    [data-theme="dark"] .stat { color: #d9edff; }
+    .quick-guide { border-top: 4px solid var(--gold); }
+    .quick-guide h2 { margin: 0 0 .65rem; font-size: 1.05rem; color: var(--primary); }
+    [data-theme="dark"] .quick-guide h2 { color: #a9d4f5; }
+    .quick-guide ol { margin: 0; padding-left: 1.25rem; color: var(--muted); font-size: .9rem; }
+    .quick-guide li + li { margin-top: .35rem; }
+
+    .action-verbs {
+      margin-bottom: 1.5rem;
+      padding: 1.35rem 1.5rem;
+      background: linear-gradient(135deg, rgba(46,120,183,.10), rgba(24,174,181,.08));
+      border: 1px solid #bdd7e8;
+      border-radius: var(--radius);
+    }
+    [data-theme="dark"] .action-verbs { border-color: #385d77; }
+    .action-verbs h2 { margin: 0 0 .35rem; font-size: 1.15rem; color: var(--primary); }
+    [data-theme="dark"] .action-verbs h2 { color: #a9d4f5; }
+    .action-verbs p { margin: 0 0 .8rem; color: var(--muted); font-size: .92rem; }
+    .verb-list { display: flex; flex-wrap: wrap; gap: .55rem; }
+    .verb-list span {
+      padding: .35rem .68rem;
+      color: var(--primary);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 750;
+    }
+    [data-theme="dark"] .verb-list span { color: #d9edff; }
+
+    .toolbar {
+      position: sticky;
+      top: .75rem;
+      z-index: 20;
+      margin-bottom: 1.6rem;
+      padding: 1rem;
+      background: color-mix(in srgb, var(--surface) 94%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .toolbar-top { display: grid; grid-template-columns: minmax(220px, 1fr) auto; gap: .75rem; }
+    .search-wrap { position: relative; }
+    .search-wrap span { position: absolute; left: .9rem; top: 50%; transform: translateY(-50%); pointer-events: none; }
+    .search-input {
+      width: 100%;
+      min-height: 44px;
+      padding: .65rem .9rem .65rem 2.55rem;
+      color: var(--text);
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .toolbar-actions { display: flex; gap: .5rem; }
+    .icon-btn, .filter-btn, .copy-btn, .top-link {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+      padding: .55rem .8rem;
+      color: var(--primary);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    [data-theme="dark"] .icon-btn, [data-theme="dark"] .filter-btn, [data-theme="dark"] .copy-btn { color: #d9edff; }
+    .icon-btn:hover, .filter-btn:hover, .copy-btn:hover { transform: translateY(-1px); border-color: var(--accent); }
+    .icon-btn:active, .filter-btn:active, .copy-btn:active, .top-link:active { transform: scale(.97); }
+    .filters { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+    .filter-btn { min-height: 34px; padding: .35rem .65rem; font-size: .8rem; }
+    .filter-btn[aria-pressed="true"] { color: #fff; background: var(--primary); border-color: var(--primary); }
+    .results-line { margin: .75rem 0 0; color: var(--muted); font-size: .82rem; }
+
+    .section-heading { margin-bottom: 1rem; }
+    .prompt-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+    .prompt-card {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+    .prompt-card:hover { transform: translateY(-4px); border-color: #a8c1d8; box-shadow: 0 18px 36px rgba(31,59,91,.16); }
+    .card-head { padding: 1.25rem 1.25rem .85rem; }
+    .card-topline { display: flex; justify-content: space-between; gap: .75rem; align-items: flex-start; }
+    .card-icon { width: 48px; height: 48px; display: grid; place-items: center; flex: 0 0 auto; background: var(--primary-light); border-radius: 14px; font-size: 1.35rem; }
+    .category-badge {
+      display: inline-flex;
+      padding: .25rem .55rem;
+      color: var(--primary);
+      background: var(--primary-light);
+      border-radius: 999px;
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    [data-theme="dark"] .category-badge { color: #d9edff; }
+    .prompt-card h3 { margin: .85rem 0 .35rem; color: var(--primary); font-size: 1.2rem; line-height: 1.3; }
+    [data-theme="dark"] .prompt-card h3 { color: #a9d4f5; }
+    .card-description { margin: 0; color: var(--muted); font-size: .9rem; }
+    details { border-top: 1px solid var(--border); }
+    summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+      padding: .85rem 1.25rem;
+      color: var(--accent);
+      font-weight: 800;
+      font-size: .86rem;
+      cursor: pointer;
+      list-style: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; font-size: 1.2rem; line-height: 1; }
+    details[open] summary::after { content: "−"; }
+    .prompt-body { padding: 0 1.25rem 1.25rem; }
+    .prompt-text {
+      max-height: 330px;
+      overflow: auto;
+      margin: 0;
+      padding: 1rem;
+      color: var(--text);
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: .86rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .field-label {
+      display: block;
+      margin: 0 0 .4rem;
+      color: var(--primary);
+      font-size: .84rem;
+      font-weight: 800;
+    }
+    [data-theme="dark"] .field-label { color: #a9d4f5; }
+    .functions-field {
+      width: 100%;
+      min-height: 120px;
+      resize: vertical;
+      margin: 0 0 .75rem;
+      padding: .85rem;
+      color: var(--text);
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      line-height: 1.5;
+    }
+    .functions-field:focus { border-color: var(--accent); }
+    .builder-note { margin: 0 0 .75rem; color: var(--muted); font-size: .78rem; }
+    .card-actions { display: flex; justify-content: space-between; align-items: center; gap: .75rem; margin-top: .75rem; }
+    .copy-btn { color: #fff; background: var(--accent); border-color: var(--accent); font-size: .82rem; }
+    [data-theme="dark"] .copy-btn { color: #102033; background: #75b8ef; }
+    .copy-btn.copied { background: var(--success); border-color: var(--success); }
+    .hint { color: var(--muted); font-size: .75rem; }
+    .empty-state { display: none; padding: 2rem; text-align: center; color: var(--muted); background: var(--surface); border: 1px dashed var(--border); border-radius: var(--radius); }
+
+    .quality-note {
+      margin-top: 1.5rem;
+      padding: 1.25rem 1.4rem;
+      background: #fff9e8;
+      border: 1px solid #efd889;
+      border-radius: 14px;
+    }
+    [data-theme="dark"] .quality-note { color: #f8edc7; background: #3a321d; border-color: #6c5b26; }
+    .quality-note h2 { margin: 0 0 .4rem; color: #735a0e; font-size: 1.05rem; }
+    [data-theme="dark"] .quality-note h2 { color: #f3d978; }
+    .quality-note ul { margin: 0; padding-left: 1.2rem; }
+    .quality-note li + li { margin-top: .25rem; }
+
+    .site-footer { color: #dce7f1; background: var(--primary-dark); }
+    .footer-inner { min-height: 80px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.2rem; }
+    .footer-inner p { margin: 0; }
+    .top-link { color: #fff; background: transparent; border-color: rgba(255,255,255,.3); text-decoration: none; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    @media (max-width: 900px) {
+      .header-inner { align-items: flex-start; flex-direction: column; }
+      .intro-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .prompt-grid { grid-template-columns: 1fr; }
+      .toolbar-top { grid-template-columns: 1fr; }
+      .toolbar-actions { justify-content: stretch; }
+      .icon-btn { flex: 1; }
+    }
+    @media (max-width: 580px) {
+      .header-inner, .main-inner, .footer-inner { width: min(calc(100% - 2rem), var(--max-width)); }
+      .header-brand { align-items: center; gap: 1rem; }
+      .logo-wrap { width: 86px; height: 86px; font-size: 1.55rem; }
+      h1 { font-size: 2rem; }
+      .back-link { width: 100%; }
+      .toolbar { position: static; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+    @media print {
+      :root { --background: #fff; --surface: #fff; --surface-soft: #fff; --text: #111; --muted: #333; --border: #bbb; --shadow: none; }
+      .skip-link, .back-link, .toolbar, .copy-btn, .site-footer { display: none !important; }
+      .site-header { color: #111; background: #fff; border-bottom: 2px solid #1f3b5b; }
+      .header-description, .eyebrow { color: #333; }
+      .header-inner { min-height: auto; padding-block: 1rem; }
+      .logo-wrap { width: 60px; height: 60px; color: #1f3b5b; background: #fff; border-color: #1f3b5b; box-shadow: none; }
+      .intro-row { grid-template-columns: 1fr; }
+      .prompt-grid { display: block; }
+      .prompt-card { break-inside: avoid; margin-bottom: 1rem; }
+      .prompt-card details { display: block; }
+      .prompt-card details > summary { display: none; }
+      .prompt-card details > .prompt-body { display: block !important; }
+      .prompt-text { max-height: none; overflow: visible; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Saltar para o conteúdo principal</a>
+
+  <header class="site-header" id="topo">
+    <div class="header-inner">
+      <div class="header-brand">
+        <div class="logo-wrap" aria-hidden="true">
+          <span>JP</span>
+          <img src="../avatar.png" alt="" class="logo-img" onerror="this.hidden=true">
+        </div>
+        <div>
+          <p class="eyebrow">Recursos Didáticos</p>
+          <h1>Biblioteca de Prompts</h1>
+          <p class="header-description">Modelos práticos e reutilizáveis para analisar, resumir, rever, comunicar e planear com apoio da Inteligência Artificial.</p>
+        </div>
+      </div>
+      <a class="back-link" href="inteligencia-artificial.html" aria-label="Voltar à página Inteligência Artificial">← Voltar à Inteligência Artificial</a>
+    </div>
+  </header>
+
+  <main id="conteudo" class="main-inner">
+    <div class="intro-row">
+      <section class="intro" aria-labelledby="intro-title">
+        <h2 id="intro-title">Escolha, personalize e copie</h2>
+        <p>Substitua o texto entre parênteses retos pelos seus dados. Quanto mais concreto for o contexto, mais útil e verificável tende a ser a resposta.</p>
+        <div class="stats" aria-label="Resumo da biblioteca">
+          <span class="stat">13 modelos</span>
+          <span class="stat">7 categorias</span>
+          <span class="stat">Cópia rápida</span>
+          <span class="stat">Pesquisa e filtros</span>
+        </div>
+      </section>
+
+      <aside class="quick-guide" aria-labelledby="guide-title">
+        <h2 id="guide-title">Utilização em 3 passos</h2>
+        <ol>
+          <li>Escolha o modelo adequado ao objetivo.</li>
+          <li>Preencha os campos entre parênteses retos.</li>
+          <li>Copie, teste e refine com base no resultado.</li>
+        </ol>
+      </aside>
+    </div>
+
+    <section class="action-verbs" aria-labelledby="verbs-title">
+      <h2 id="verbs-title">Comece com um verbo de ação claro</h2>
+      <p>Defina logo no início o que a IA deve fazer. Combine o verbo com contexto, critérios de qualidade e formato de saída.</p>
+      <div class="verb-list" aria-label="Exemplos de verbos de ação">
+        <span>Analisa</span><span>Identifica</span><span>Compara</span><span>Resume</span><span>Planeia</span><span>Revê</span><span>Corrige</span><span>Apresenta</span>
+      </div>
+    </section>
+
+    <section class="toolbar" aria-label="Ferramentas da biblioteca">
+      <div class="toolbar-top">
+        <label class="search-wrap">
+          <span aria-hidden="true">🔎</span>
+          <span class="sr-only">Pesquisar modelos</span>
+          <input id="search" class="search-input" type="search" placeholder="Pesquisar por título, objetivo ou palavra-chave…" autocomplete="off">
+        </label>
+        <div class="toolbar-actions">
+          <button id="theme-toggle" class="icon-btn" type="button" aria-pressed="false" aria-label="Ativar modo escuro">◐ <span>Tema</span></button>
+          <button class="icon-btn" type="button" onclick="window.print()">⎙ <span>Imprimir</span></button>
+        </div>
+      </div>
+      <div class="filters" role="group" aria-label="Filtrar por categoria">
+        <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">Todos</button>
+        <button class="filter-btn" type="button" data-filter="sintese" aria-pressed="false">Síntese</button>
+        <button class="filter-btn" type="button" data-filter="analise" aria-pressed="false">Análise</button>
+        <button class="filter-btn" type="button" data-filter="comunicacao" aria-pressed="false">Comunicação</button>
+        <button class="filter-btn" type="button" data-filter="preparacao" aria-pressed="false">Preparação</button>
+        <button class="filter-btn" type="button" data-filter="produtividade" aria-pressed="false">Produtividade</button>
+        <button class="filter-btn" type="button" data-filter="fluxo" aria-pressed="false">Fluxos</button>
+        <button class="filter-btn" type="button" data-filter="criacao" aria-pressed="false">Criação</button>
+      </div>
+      <p id="result-count" class="results-line" aria-live="polite">13 modelos disponíveis.</p>
+    </section>
+
+    <section aria-labelledby="models-title">
+      <div class="section-heading">
+        <h2 id="models-title">Modelos de prompt</h2>
+        <p>Abra um cartão para consultar o modelo completo e copiá-lo.</p>
+      </div>
+
+      <div id="prompt-grid" class="prompt-grid">
+        <article class="prompt-card" data-category="sintese" data-search="resumo informação notícias fontes síntese artigos">
+          <div class="card-head">
+            <div class="card-topline"><span class="card-icon" aria-hidden="true">📰</span><span class="category-badge">Síntese</span></div>
+            <h3>Resumo de informação</h3>
+            <p class="card-description">Cria um resumo temático, separado por fontes e orientado para os aspetos essenciais.</p>
+          </div>
+          <details>
+            <summary>Ver modelo completo</summary>
+            <div class="prompt-body">
+              <pre id="prompt-resumo" class="prompt-text">Papel: Assume o papel de analista de informação.
+
+Contexto: Preciso de um resumo sobre [tema], destinado a [público-alvo], com informação referente a [período].
+
+Tarefa: Seleciona os aspetos mais relevantes, elimina repetições e resume cada fonte num parágrafo autónomo. Distingue claramente factos, opiniões e informação que não seja possível confirmar.
+
+Formato: Para cada item, apresenta: Título, Resumo, Data e Fonte. Termina com 3 conclusões principais.</pre>
+              <div class="card-actions"><span class="hint">Personalize os campos [entre parênteses].</span><button class="copy-btn" type="button" data-copy-target="prompt-resumo">Copiar prompt</button></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="prompt-card" data-category="produtividade" data-search="automatização recorrente resumo comando rotina">
+          <div class="card-head">
+            <div class="card-topline"><span class="card-icon" aria-hidden="true">⚙️</span><span class="category-badge">Produtividade</span></div>
+            <h3>Rotina de resumo</h3>
+            <p class="card-description">Define uma instrução reutilizável para repetir o mesmo processo de síntese.</p>
+          </div>
+          <details>
+            <summary>Ver modelo completo</summary>
+            <div class="prompt-body">
+              <pre id="prompt-rotina" class="prompt-text">Sempre que eu escrever “[frase de ativação]”, aplica o seguinte processo ao conteúdo que eu fornecer nessa conversa:
+
+1. Identifica o tema, o período e as fontes disponíveis.
+2. Resume cada fonte num parágrafo curto.
+3. Assinala informação contraditória ou não confirmada.
+4. Inclui a fonte após cada resumo.
+5. Termina com as principais conclusões e ações sugeridas.
+
+Antes de começar, pede os elementos em falta que sejam indispensáveis.</pre>
+              <div class="card-actions"><span class="hint">A disponibilidade de automatismos depende da ferramenta.</span><button class="copy-btn" type="button" data-copy-target="prompt-rotina">Copiar prompt</button></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="prompt-card" data-category="produtividade" data-search="preferência escrita memória acordo ortográfico português portugal estilo">
+          <div class="card-head">
+            <div class="card-topline"><span class="card-icon" aria-hidden="true">✍️</span><span class="category-badge">Produtividade</span></div>
+            <h3>Preferências de escrita</h3>
+            <p class="card-description">Estabelece idioma, tom, vocabulário e critérios de clareza para a resposta.</p>
+          </div>
+          <details>
+            <summary>Ver modelo completo</summary>
+            <div class="prompt-body">
+              <pre id="prompt-estilo" class="prompt-text">Ao redigir nesta conversa, aplica estas preferências:
+
+- Escreve em Português de Portugal e segundo o Acordo Ortográfico em vigor.
+- Adota um tom [formal / pedagógico / técnico / próximo].
+- Usa frases claras, diretas e profissionais.
+- Evita redundâncias, estrangeirismos desnecessários e afirmações não verificadas.
+- Organiza conteúdos extensos com títulos curtos e listas.
+
+Confirma estas preferências numa frase e aplica-as nas respostas seguintes desta conversa.</pre>
+              <div class="card-actions"><span class="hint">A persistência entre conversas varia consoante a ferramenta.</span><button class="copy-btn" type="button" data-copy-target="prompt-estilo">Copiar prompt</button></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="prompt-card" data-category="preparacao" data-search="grill me perguntas difíceis apresentação reunião defesa conhecimentos avaliação">
+          <div class="card-head">
+            <div class="card-topline"><span class="card-icon" aria-hidden="true">🎯</span><span class="category-badge">Preparação</span></div>
+            <h3>Teste exigente (“Grill me”)</h3>
+            <p class="card-description">Simula uma sessão de perguntas difíceis para preparar apresentações, reuniões ou defesas.</p>
+          </div>
+          <details>
+            <summary>Ver modelo completo</summary>
+            <div class="prompt-body">
+              <pre id="prompt-grill" class="prompt-text">Papel: Assume o papel de um [avaliador / dirigente / munícipe cético] rigoroso e exigente.
+
+Contexto: Estou a preparar uma [apresentação / reunião / defesa] sobre [tema ou projeto]. O público é [público-alvo] e o objetivo é [objetivo].
+
+Tarefa: Faz perguntas difíceis para testar os meus conhecimentos, os pressupostos e a robustez da proposta. Coloca apenas uma pergunta de cada vez e aguarda a minha resposta antes de continuares.
+
+Formato: Após [número] perguntas, avalia as respostas com base em clareza, evidência, riscos e viabilidade. Indica os pontos fortes e as melhorias prioritárias.</pre>
+              <div class="card-actions"><span class="hint">Inclua critérios de avaliação mensuráveis.</span><button class="copy-btn" type="button" data-copy-target="prompt-grill">Copiar prompt</button></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="prompt-card" data-category="analise" data-search="advogado diabo riscos falhas estrangulamentos auditor lógica adversarial">
+          <div class="card-head">
+            <div class="card-topline"><span class="card-icon" aria-hidden="true">⚖️</span><span class="category-badge">Análise</span></div>
+            <h3>Advogado do Diabo</h3>
+            <p class="card-description">Submete uma proposta a análise adversarial para encontrar riscos e fragilidades.</p>
+          </div>
+          <details>
+            <summary>Ver modelo completo</summary>
+            <div class="prompt-body">
+              <pre id="prompt-diabo" class="prompt-text">Papel: Assume o papel de “advogado do diabo”: um auditor rigoroso, direto e construtivo.
+
+Contexto: Vou partilhar a estrutura de um [projeto / plano de ação / regulamento] destinado a [público ou área]. Proposta: [colar texto ou dados].
+
+Tarefa: Identifica potenciais falhas, riscos, dependências, estrangulamentos operacionais e fragilidades lógicas. Explica o impacto possível, a probabilidade e a forma como cada risco pode ser prevenido ou mitigado.
+
+Formato: Apresenta uma tabela com as colunas Categoria, Risco, Evidência, Impacto, Probabilidade e Mitigação. Não inventes dados em falta.</pre>
+              <div class="card-actions"><span class="hint">Valide os riscos com conhecimento especializado.</span><button class="copy-btn" type="button" data-copy-target="prompt-diabo">Copiar prompt</button></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="prompt-card" data-category="analise" data-search="revisor revisão texto relatório email artigo parecer clareza redundância técnica">
+          <div class="card-head">
+            <div class="card-topline"><span class="card-icon" aria-hidden="true">🔍</span><span class="category-badge">Análise</span></div>
+            <h3>Revisor crítico</h3>
+            <p class="card-description">Identifica falhas de clareza e produz uma versão revista sem alterar o sentido.</p>
+          </div>
+          <details>
+            <summary>Ver modelo completo</summary>
+            <div class="prompt-body">
+              <pre id="prompt-revisor" class="prompt-text">Papel: Assume o papel de revisor sénior, especialista em comunicação clara e eficaz.
+
+Contexto: O texto abaixo é um [relatório / email / artigo / parecer] sobre [tema], dirigido a [destinatários]. Texto: [colar texto].
+
+Tarefa: Identifica informação vaga, redundante, demasiado técnica, pouco clara ou incoerente. Verifica também a estrutura, o tom e a adequação ao público. Depois, reescreve o texto corrigindo essas falhas, sem introduzir factos novos nem alterar o sentido essencial.
+
+Formato: Apresenta primeiro uma lista curta de observações e, de seguida, a versão final revista.</pre>
+              <div class="card-actions"><span class="hint">Compare sempre a versão revista com o original.</span><button class="copy-btn" type="button" data-copy-target="prompt-revisor">Copiar prompt</button></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="prompt-card" data-category="analise" data-search="análise estruturada critérios etapas decisão pressupostos conclusão raciocínio">
+          <div class="card-head">
+            <div class="card-topline"><span class="card-icon" aria-hidden="true">🧭</span><span class="category-badge">Análise</span></div>
+            <h3>Análise estruturada</h3>
+            <p class="card-description">Pede uma solução verificável, com pressupostos, critérios, etapas e conclusão.</p>
+          </div>
+          <details>
+            <summary>Ver modelo completo</summary>
+            <div class="prompt-body">
+              <pre id="prompt-analise" class="prompt-text">Papel: Assume o papel de um [estratega / gestor de projeto / analista] experiente e metódico.
+
+Contexto: Preciso de resolver este desafio: [desafio]. Dados disponíveis: [dados]. Restrições: [restrições].
+
+Tarefa: Propõe uma solução fundamentada. Explicita os pressupostos, os critérios utilizados, as etapas relevantes e as verificações efetuadas. Se faltarem dados essenciais, identifica-os antes de concluir.
+
+Formato: Organiza a resposta em: 1) Dados e pressupostos; 2) Critérios; 3) Opções; 4) Comparação; 5) Recomendação; 6) Riscos e próximos passos.</pre>
+              <div class="card-actions"><span class="hint">Peça fundamentos verificáveis, não raciocínio interno.</span><button class="copy-btn" type="button" data-copy-target="prompt-analise">Copiar prompt</button></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="prompt-card" data-category="preparacao" data-search="prompt perfeito engenharia perguntas contexto tom público regras construir">
+          <div class="card-head">
+            <div class="card-topline"><span class="card-icon" aria-hidden="true">🧩</span><span class="category-badge">Preparação</span></div>
+            <h3>Construtor de prompt</h3>
+            <p class="card-description">Faz a IA recolher requisitos antes de redigir o prompt final.</p>
+          </div>
+          <details>
+            <summary>Ver modelo completo</summary>
+            <div class="prompt-body">
+              <pre id="prompt-perfeito" class="prompt-text">Papel: Assume o papel de especialista em Engenharia de Prompts.
+
+Contexto: Quero utilizar a IA para [objetivo final].
+
+Tarefa: Ainda não executes a tarefa. Faz-me, uma de cada vez, as perguntas necessárias para esclarecer: contexto, dados disponíveis, público-alvo, resultado esperado, tom, formato, critérios de qualidade, limites, fontes e informação que não deve ser incluída.
+
+Quando tiveres informação suficiente, escreve um prompt final completo e reutilizável. Inclui campos editáveis entre parênteses retos e uma lista de verificação para eu confirmar antes de o utilizar.</pre>
+              <div class="card-actions"><span class="hint">Útil quando o pedido inicial ainda é vago.</span><button class="copy-btn" type="button" data-copy-target="prompt-perfeito">Copiar prompt</button></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="prompt-card" data-category="comunicacao" data-search="explicação simples analogia linguagem acessível conceito técnico normativo lições">
+          <div class="card-head">
+            <div class="card-topline"><span class="card-icon" aria-hidden="true">💡</span><span class="category-badge">Comunicação</span></div>
+            <h3>Explicação simples</h3>
+            <p class="card-description">Transforma um conceito técnico ou normativo numa explicação acessível e rigorosa.</p>
+          </div>
+          <details>
+            <summary>Ver modelo completo</summary>
+            <div class="prompt-body">
+              <pre id="prompt-simples" class="prompt-text">Papel: Assume o papel de comunicador e formador experiente.
+
+Contexto: Preciso de explicar [conceito, diploma ou tema técnico] a [público-alvo], que não tem conhecimentos prévios na matéria.
+
+Tarefa: Explica o tema de forma simples, acessível e rigorosa. Utiliza uma analogia familiar, assinala os limites dessa analogia e define qualquer termo técnico indispensável. Não simplifiques ao ponto de alterar o significado.
+
+Formato: Começa com a analogia. Depois apresenta: “O que significa”, “Porque é importante”, “Exemplo prático” e “3 ideias a reter”.</pre>
+              <div class="card-actions"><span class="hint">Confirme a exatidão de matérias técnicas ou jurídicas.</span><button class="copy-btn" type="button" data-copy-target="prompt-simples">Copiar prompt</button></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="prompt-card" data-category="sintese" data-search="markdown tabela atas reunião acionável problema responsável data limite urgência">
+          <div class="card-head">
+            <div class="card-topline"><span class="card-icon" aria-hidden="true">📊</span><span class="category-badge">Síntese</span></div>
+            <h3>Síntese em tabela Markdown</h3>
+            <p class="card-description">Extrai informação crucial de texto extenso e apresenta-a numa tabela acionável.</p>
+          </div>
+          <details>
+            <summary>Ver modelo completo</summary>
+            <div class="prompt-body">
+              <pre id="prompt-markdown" class="prompt-text">Papel: Assume o papel de analista de informação, especializado em síntese e estruturação.
+
+Contexto: O texto ou ata abaixo contém informação sobre [tema]: [colar texto ou referir conteúdo anexado].
+
+Tarefa: Extrai apenas informação crucial e acionável. Elimina repetições e texto sem valor operacional. Não inventes responsáveis, datas ou prioridades; utiliza “Não indicado” quando a fonte não os referir.
+
+Formato: Apresenta exclusivamente uma tabela Markdown com as colunas: Assunto, Ação, Responsável, Data-limite, Prioridade, Dependências e Fonte no texto.</pre>
+              <div class="card-actions"><span class="hint">Adapte as colunas à finalidade da análise.</span><button class="copy-btn" type="button" data-copy-target="prompt-markdown">Copiar prompt</button></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="prompt-card" data-category="comunicacao" data-search="role-playing persona comunicação diretor recursos humanos gestor crise tom audiência formato">
+          <div class="card-head">
+            <div class="card-topline"><span class="card-icon" aria-hidden="true">🎭</span><span class="category-badge">Comunicação</span></div>
+            <h3>Comunicação com papel definido</h3>
+            <p class="card-description">Orienta a redação através de um papel, um público e um objetivo de comunicação.</p>
+          </div>
+          <details>
+            <summary>Ver modelo completo</summary>
+            <div class="prompt-body">
+              <pre id="prompt-role" class="prompt-text">Papel: Assume o papel de [função ou especialidade], com um tom [assertivo / empático / pedagógico / institucional].
+
+Contexto: Preciso de comunicar [situação, problema ou novidade] a [destinatários]. O objetivo é [informar / tranquilizar / solicitar ação / apresentar resultados].
+
+Tarefa: Redige a comunicação de forma humana, clara e adequada ao público. Mantém o rigor, evita dramatização e inclui apenas informação confirmada: [factos disponíveis].
+
+Formato: Escreve no formato de [email curto / comunicado / guião de chamada / pontos de situação], com [extensão] e uma chamada à ação explícita.</pre>
+              <div class="card-actions"><span class="hint">Defina factos e limites antes de escolher o tom.</span><button class="copy-btn" type="button" data-copy-target="prompt-role">Copiar prompt</button></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="prompt-card" data-category="fluxo" data-search="fluxo produção artefactos complexos planear rever executar red team melhoria">
+          <div class="card-head">
+            <div class="card-topline"><span class="card-icon" aria-hidden="true">🔁</span><span class="category-badge">Fluxos</span></div>
+            <h3>Produção de artefactos complexos</h3>
+            <p class="card-description">Divide um trabalho complexo em planeamento, revisão, execução e controlo de qualidade.</p>
+          </div>
+          <details>
+            <summary>Ver sequência completa</summary>
+            <div class="prompt-body">
+              <pre id="prompt-fluxo" class="prompt-text">Etapa 1 — Planeamento
+“Vamos planear [resultado pretendido]. Antes de executar, propõe um plano com etapas, dependências, riscos, critérios de qualidade e informação em falta.”
+
+Etapa 2 — Revisão do plano
+“Revê criticamente o plano. Identifica omissões, ambiguidades e oportunidades de melhoria. Corrige-o e apresenta a versão atualizada.”
+
+Etapa 3 — Execução
+“Executa o plano aprovado. Respeita os critérios, limites e formato definidos. Assinala qualquer pressuposto necessário.”
+
+Etapa 4 — Controlo de qualidade
+“Analisa criticamente o resultado numa lógica adversarial. Verifica exatidão, coerência, completude, acessibilidade e conformidade com os requisitos. Corrige os problemas encontrados e apresenta a versão final com uma breve lista das verificações realizadas.”</pre>
+              <div class="card-actions"><span class="hint">Utilize cada etapa numa mensagem separada.</span><button class="copy-btn" type="button" data-copy-target="prompt-fluxo">Copiar sequência</button></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="prompt-card" data-category="criacao" data-search="criação aplicação html ficheiro único responsivo localstorage navegador botões funções ferramenta">
+          <div class="card-head">
+            <div class="card-topline"><span class="card-icon" aria-hidden="true">🛠️</span><span class="category-badge">Criação</span></div>
+            <h3>Criador de aplicações HTML</h3>
+            <p class="card-description">Gera um prompt personalizado para pedir uma aplicação autónoma, responsiva e guardada num único ficheiro HTML.</p>
+          </div>
+          <details>
+            <summary>Personalizar e ver o prompt</summary>
+            <div class="prompt-body">
+              <label class="field-label" for="app-functions">Descreva as funções pretendidas</label>
+              <textarea id="app-functions" class="functions-field" placeholder="Exemplo: Uma aplicação para registar leituras, com título, autor, classificação por estrelas, notas e filtros por estado."></textarea>
+              <p class="builder-note">A descrição fica guardada apenas neste navegador e pode ser alterada a qualquer momento.</p>
+              <pre id="prompt-app" class="prompt-text">Papel: Age como especialista em criação de aplicações web funcionais, acessíveis e fáceis de manter.
+
+Objetivo: Cria uma aplicação completa num único ficheiro HTML, pronta a abrir diretamente num navegador moderno, sem processo de instalação.
+
+Requisitos obrigatórios:
+1. Integra HTML, CSS e JavaScript no mesmo ficheiro. Evita dependências externas desnecessárias.
+2. Usa um desenho limpo, responsivo e acessível, adequado a computador, tablet e telemóvel.
+3. Mantém a interface ajustada ao ecrã. Quando existirem listas extensas, usa deslocamento interno apenas na zona necessária.
+4. Guarda automaticamente os dados introduzidos pelo utilizador no LocalStorage do navegador e permite limpar ou exportar os dados quando seja adequado.
+5. Dá resposta visual às interações: no estado ativo, os botões e cartões devem reduzir ligeiramente de tamanho, mantendo foco visível e navegação por teclado.
+6. Inclui validação de campos, mensagens de erro claras e estados vazios úteis.
+7. Escreve todo o conteúdo da interface em Português de Portugal e mantém uma identidade visual neutra, sem marcas ou referências institucionais.
+8. Entrega apenas o código final completo, dentro de um único bloco HTML, seguido de instruções de utilização muito breves.
+
+Funções pretendidas:
+[Descreva no campo acima o que a aplicação deve fazer.]</pre>
+              <div class="card-actions"><span class="hint">O campo atualiza automaticamente o prompt.</span><button class="copy-btn" type="button" data-copy-target="prompt-app">Copiar prompt</button></div>
+            </div>
+          </details>
+        </article>
+      </div>
+
+      <div id="empty-state" class="empty-state" role="status">Não foram encontrados modelos com estes critérios. Limpe a pesquisa ou escolha outra categoria.</div>
+    </section>
+
+    <aside class="quality-note" aria-labelledby="quality-title">
+      <h2 id="quality-title">Antes de utilizar uma resposta</h2>
+      <ul>
+        <li>Confirme factos, datas, cálculos e fontes relevantes.</li>
+        <li>Não introduza dados pessoais, reservados ou sensíveis sem enquadramento adequado.</li>
+        <li>Adapte o resultado ao contexto, ao público e às normas aplicáveis.</li>
+      </ul>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p>© 2026 João Pernas · Recursos Didáticos</p>
+      <a class="top-link" href="#topo">Voltar ao topo ↑</a>
+    </div>
+  </footer>
+
+  <div id="live-status" class="sr-only" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const themeButton = document.getElementById('theme-toggle');
+      const search = document.getElementById('search');
+      const filters = [...document.querySelectorAll('.filter-btn')];
+      const cards = [...document.querySelectorAll('.prompt-card')];
+      const count = document.getElementById('result-count');
+      const empty = document.getElementById('empty-state');
+      const live = document.getElementById('live-status');
+      let activeFilter = 'all';
+
+      const normalise = value => value.toLocaleLowerCase('pt-PT').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+      function applyFilters() {
+        const query = normalise(search.value.trim());
+        let visible = 0;
+        cards.forEach(card => {
+          const categoryMatch = activeFilter === 'all' || card.dataset.category === activeFilter;
+          const text = normalise(`${card.dataset.search} ${card.textContent}`);
+          const searchMatch = !query || text.includes(query);
+          const show = categoryMatch && searchMatch;
+          card.hidden = !show;
+          if (show) visible += 1;
+        });
+        count.textContent = `${visible} ${visible === 1 ? 'modelo disponível' : 'modelos disponíveis'}.`;
+        empty.style.display = visible ? 'none' : 'block';
+      }
+
+      search.addEventListener('input', applyFilters);
+      filters.forEach(button => {
+        button.addEventListener('click', () => {
+          activeFilter = button.dataset.filter;
+          filters.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+          applyFilters();
+        });
+      });
+
+      const appFunctions = document.getElementById('app-functions');
+      const appPrompt = document.getElementById('prompt-app');
+      const defaultAppDescription = '[Descreva no campo acima o que a aplicação deve fazer.]';
+      const buildAppPrompt = description => `Papel: Age como especialista em criação de aplicações web funcionais, acessíveis e fáceis de manter.
+
+Objetivo: Cria uma aplicação completa num único ficheiro HTML, pronta a abrir diretamente num navegador moderno, sem processo de instalação.
+
+Requisitos obrigatórios:
+1. Integra HTML, CSS e JavaScript no mesmo ficheiro. Evita dependências externas desnecessárias.
+2. Usa um desenho limpo, responsivo e acessível, adequado a computador, tablet e telemóvel.
+3. Mantém a interface ajustada ao ecrã. Quando existirem listas extensas, usa deslocamento interno apenas na zona necessária.
+4. Guarda automaticamente os dados introduzidos pelo utilizador no LocalStorage do navegador e permite limpar ou exportar os dados quando seja adequado.
+5. Dá resposta visual às interações: no estado ativo, os botões e cartões devem reduzir ligeiramente de tamanho, mantendo foco visível e navegação por teclado.
+6. Inclui validação de campos, mensagens de erro claras e estados vazios úteis.
+7. Escreve todo o conteúdo da interface em Português de Portugal e mantém uma identidade visual neutra, sem marcas ou referências institucionais.
+8. Entrega apenas o código final completo, dentro de um único bloco HTML, seguido de instruções de utilização muito breves.
+
+Funções pretendidas:
+${description.trim() || defaultAppDescription}`;
+
+      try {
+        appFunctions.value = localStorage.getItem('biblioteca-app-functions') || '';
+      } catch (error) {
+        appFunctions.value = '';
+      }
+      appPrompt.textContent = buildAppPrompt(appFunctions.value);
+      appFunctions.addEventListener('input', () => {
+        appPrompt.textContent = buildAppPrompt(appFunctions.value);
+        try {
+          localStorage.setItem('biblioteca-app-functions', appFunctions.value);
+        } catch (error) {
+          live.textContent = 'O navegador não permitiu guardar localmente esta descrição.';
+        }
+      });
+
+      async function copyText(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+        const area = document.createElement('textarea');
+        area.value = text;
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand('copy');
+        area.remove();
+      }
+
+      document.querySelectorAll('.copy-btn').forEach(button => {
+        button.addEventListener('click', async () => {
+          const target = document.getElementById(button.dataset.copyTarget);
+          const original = button.textContent;
+          try {
+            await copyText(target.textContent.trim());
+            button.textContent = 'Copiado';
+            button.classList.add('copied');
+            live.textContent = `Prompt “${button.closest('.prompt-card').querySelector('h3').textContent}” copiado.`;
+          } catch (error) {
+            button.textContent = 'Selecione e copie';
+            live.textContent = 'Não foi possível copiar automaticamente.';
+          }
+          window.setTimeout(() => {
+            button.textContent = original;
+            button.classList.remove('copied');
+          }, 1800);
+        });
+      });
+
+      function setTheme(theme) {
+        if (theme === 'dark') root.dataset.theme = 'dark';
+        else delete root.dataset.theme;
+        const dark = theme === 'dark';
+        themeButton.setAttribute('aria-pressed', String(dark));
+        themeButton.setAttribute('aria-label', dark ? 'Ativar modo claro' : 'Ativar modo escuro');
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', dark ? '#0f1b28' : '#1f3b5b');
+      }
+
+      const storedTheme = localStorage.getItem('biblioteca-theme');
+      if (storedTheme) setTheme(storedTheme);
+      else if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
+
+      themeButton.addEventListener('click', () => {
+        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        setTheme(next);
+        localStorage.setItem('biblioteca-theme', next);
+      });
+
+      applyFilters();
+    })();
+  </script>
+</body>
+</html>
