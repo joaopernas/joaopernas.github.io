@@ -22,6 +22,7 @@
   const helpClose = document.getElementById('help-close');
   const helpContent = document.getElementById('help-content');
 
+  const DEPENDENCY_BASE = '../moebio-original-integrado/';
   const systemFont = 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif';
   const semanticColors = ['#18aeb5','#2e78b7','#5b79c7','#9b78d1','#d26f9b','#d98b4b','#e5b84b','#57b892'];
   let temperature = 1.6;
@@ -93,7 +94,7 @@
   function sendTree() {
     if (!masterTree || !focusNode) return;
     const viewTree = cloneFocusTree(focusNode);
-    treeStats.textContent = `${viewTree.nodes.length} blocos · nível ${focusNode.level}`;
+    treeStats.textContent = `${viewTree.nodes.length} blocos Â· nÃ­vel ${focusNode.level}`;
     contextValue.textContent = focusNode.id;
     if (!treeTile?.loaded) return;
     treeTile.sendData({type:'background_color',value:'#000000'});
@@ -122,15 +123,15 @@
     const rect = treeHost.getBoundingClientRect();
     const heading = window.innerWidth <= 560 ? 70 : 60;
     treeTile.setDimensions(rect.left, rect.top + heading, rect.width, Math.max(1, rect.height - heading), 5);
-    treeTile.iframe.title = 'Árvore probabilística interativa de tokens';
+    treeTile.iframe.title = 'Ãrvore probabilÃ­stica interativa de tokens';
   }
 
   function startTreeTile() {
-    treeTile = loadTile('./Pulse_And_Tiles/Tiles/Tree', tile => {
+    treeTile = loadTile(`${DEPENDENCY_BASE}Pulse_And_Tiles/Tiles/Tree`, tile => {
       treeTile = tile;
       layoutTile();
       sendTree();
-    }, handleTreeMessage, 'Árvore probabilística', true);
+    }, handleTreeMessage, 'Ãrvore probabilÃ­stica', true);
     layoutTile();
   }
 
@@ -153,20 +154,21 @@
   async function loadDataset() {
     const sequence = ++loadSequence;
     status.hidden = false;
-    status.textContent = 'A carregar os dados reais…';
-    const response = await fetch(`./data/${select.value}`);
-    if (!response.ok) throw new Error(`Falha ao carregar data/${select.value}: HTTP ${response.status}`);
+    status.textContent = 'A carregar os dados reaisâ€¦';
+    const dataPath = `${DEPENDENCY_BASE}data/${select.value}`;
+    const response = await fetch(dataPath);
+    if (!response.ok) throw new Error(`Falha ao carregar ${dataPath}: HTTP ${response.status}`);
     const data = await response.json();
     if (sequence !== loadSequence) return;
     window.TEXTS_OBJECT = data;
     window.treeView = null;
-    status.textContent = `A construir a árvore com ${data.length.toLocaleString('pt-PT')} registos…`;
+    status.textContent = `A construir a Ã¡rvore com ${data.length.toLocaleString('pt-PT')} registosâ€¦`;
     await new Promise(resolve => setTimeout(resolve,20));
     buildTree();
     masterTree = window.tree;
     masterTree.assignDescentWeightsToNodes();
     focusNode = masterTree.nodes[0];
-    status.textContent = 'A calcular a projeção PCA a partir dos embeddings…';
+    status.textContent = 'A calcular a projeÃ§Ã£o PCA a partir dos embeddingsâ€¦';
     await new Promise(resolve => setTimeout(resolve,20));
     calculatePCAs(true);
     buildPaths();
@@ -184,16 +186,25 @@
   }
 
   async function loadHelp() {
-    try {
-      const response = await fetch('./Help.pt.txt');
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const raw = await response.text();
-      const area = new HtmlArea(() => {}, {});
-      area.div.remove();
-      helpContent.innerHTML = normalizeHelp(raw);
-    } catch (error) {
-      helpContent.textContent = `Não foi possível carregar a ajuda: ${error.message}`;
+    const helpPaths = [
+      `${DEPENDENCY_BASE}Help.pt.txt`,
+      `${DEPENDENCY_BASE}Help.txt`
+    ];
+    let lastError;
+    for (const helpPath of helpPaths) {
+      try {
+        const response = await fetch(helpPath);
+        if (!response.ok) throw new Error(`${helpPath}: HTTP ${response.status}`);
+        const raw = await response.text();
+        const area = new HtmlArea(() => {}, {});
+        area.div.remove();
+        helpContent.innerHTML = normalizeHelp(raw);
+        return;
+      } catch (error) {
+        lastError = error;
+      }
     }
+    helpContent.textContent = `NÃ£o foi possÃ­vel carregar a ajuda: ${lastError?.message || 'ficheiros indisponÃ­veis'}`;
   }
 
   function resizeCanvas() {
@@ -269,7 +280,7 @@
   restart.addEventListener('click',()=>{if(masterTree){focusNode=masterTree.nodes[0];selected=focusNode;sendTree();buildPaths();}});
   slider.addEventListener('input',()=>{temperature=Number(slider.value);temperatureOutput.textContent=temperature.toFixed(2).replace('.',',');document.querySelectorAll('[data-temperature]').forEach(button=>button.classList.toggle('active',Math.abs(Number(button.dataset.temperature)-temperature)<.01));sendTree();});
   document.querySelectorAll('[data-temperature]').forEach(button=>button.addEventListener('click',()=>{slider.value=button.dataset.temperature;slider.dispatchEvent(new Event('input'));}));
-  didacticToggle.addEventListener('click',()=>{const active=didacticToggle.getAttribute('aria-pressed')!=='true';didacticToggle.setAttribute('aria-pressed',String(active));didacticToggle.textContent=`Didático: ${active?'ligado':'desligado'}`;document.querySelectorAll('.didactic-content').forEach(element=>element.hidden=!active);});
+  didacticToggle.addEventListener('click',()=>{const active=didacticToggle.getAttribute('aria-pressed')!=='true';didacticToggle.setAttribute('aria-pressed',String(active));didacticToggle.textContent=`DidÃ¡tico: ${active?'ligado':'desligado'}`;document.querySelectorAll('.didactic-content').forEach(element=>element.hidden=!active);});
   helpButton.addEventListener('click',()=>help.classList.add('open'));
   helpClose.addEventListener('click',()=>help.classList.remove('open'));
   help.addEventListener('click',event=>{if(event.target===help)help.classList.remove('open');});
