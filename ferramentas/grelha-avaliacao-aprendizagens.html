@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#173a5e">
+<meta name="description" content="Registe evidências formativas e sumativas e calcule a classificação final de forma transparente.">
+<title>Grelha de Avaliação das Aprendizagens | Ferramentas de Formação</title>
+<style>
+:root{
+  --navy:#173a5e;--navy-2:#0d2b49;--blue:#0b6fc2;--blue-2:#075b9f;
+  --ink:#132f4c;--muted:#5f7187;--page:#f4f7fa;--card:#fff;--line:#d8e2ec;
+  --soft:#edf4fa;--success:#19734b;--success-soft:#e8f6ef;--warning:#9b5f00;
+  --warning-soft:#fff5df;--danger:#a63434;--danger-soft:#fff0f0;--radius:16px;
+  --shadow:0 9px 24px rgba(23,58,94,.07);--focus:0 0 0 3px rgba(11,111,194,.22)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--page);color:var(--ink);font-family:"Segoe UI",Inter,Arial,sans-serif;font-size:16px;line-height:1.55}
+a{color:var(--blue)}
+button,input,select,textarea{font:inherit}
+button,a,input,select,textarea{outline:none}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{box-shadow:var(--focus)}
+.skip-link{position:fixed;left:12px;top:-80px;z-index:99;padding:10px 14px;background:#fff;border:2px solid var(--blue);border-radius:8px}
+.skip-link:focus{top:12px}
+.shell{width:min(1120px,calc(100% - 40px));margin:0 auto;padding:28px 0 60px}
+.back-link{display:inline-flex;align-items:center;gap:8px;margin-bottom:26px;color:var(--blue);font-weight:700;text-decoration:none}
+.back-link:hover{text-decoration:underline}
+.hero{margin-bottom:28px;max-width:820px}
+.eyebrow{margin:0 0 8px;color:var(--blue);font-size:.78rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase}
+h1,h2,h3{color:var(--navy-2);line-height:1.2}
+h1{margin:0 0 8px;font-size:clamp(2rem,4vw,3rem);letter-spacing:-.035em}
+h2{margin:0 0 10px;font-size:clamp(1.35rem,2vw,1.75rem)}
+h3{margin:0 0 8px;font-size:1.05rem}
+.lede{margin:0;color:var(--muted);font-size:1.05rem}
+.notice{margin:20px 0;padding:14px 16px;border:1px solid #cfe0ee;background:var(--soft);border-radius:12px;color:#36566f}
+.notice strong{color:var(--navy-2)}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.tool-card{min-height:186px;display:flex;flex-direction:column;justify-content:space-between;padding:20px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);color:inherit;text-decoration:none;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.tool-card:hover{transform:translateY(-3px);border-color:#b8d2e8;box-shadow:0 14px 30px rgba(23,58,94,.11)}
+.tool-icon{display:grid;place-items:center;width:44px;height:44px;margin-bottom:13px;background:var(--soft);border-radius:12px;font-size:1.45rem}
+.tool-title{display:block;margin-bottom:7px;color:var(--navy-2);font-size:1.06rem;font-weight:800}
+.tool-description{display:block;color:var(--muted);font-size:.92rem}
+.tool-action{display:flex;justify-content:space-between;align-items:center;margin-top:18px;color:var(--blue);font-size:.88rem;font-weight:800}
+.workspace{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.workspace-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;padding:22px 24px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#fff 0%,#f7fbff 100%)}
+.workspace-head p{margin:4px 0 0;color:var(--muted)}
+.workspace-body{padding:24px}
+.section{margin:0 0 24px;padding:20px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.section:last-child{margin-bottom:0}
+.section-intro{margin:-2px 0 16px;color:var(--muted);font-size:.92rem}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.field{grid-column:span 6}
+.field.third{grid-column:span 4}.field.full{grid-column:1/-1}.field.quarter{grid-column:span 3}
+label,.label{display:block;margin-bottom:5px;color:#284964;font-size:.88rem;font-weight:700}
+input[type=text],input[type=email],input[type=date],input[type=time],input[type=number],select,textarea{width:100%;min-height:44px;padding:10px 12px;color:var(--ink);background:#fff;border:1px solid #bdccda;border-radius:9px}
+textarea{min-height:98px;resize:vertical}
+input::placeholder,textarea::placeholder{color:#8a9bab}
+.help{display:block;margin-top:4px;color:var(--muted);font-size:.78rem}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:42px;padding:9px 14px;border:1px solid var(--blue);border-radius:9px;background:var(--blue);color:#fff;font-weight:800;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--blue-2)}
+.btn.secondary{background:#fff;color:var(--blue)}
+.btn.secondary:hover{background:var(--soft)}
+.btn.danger{border-color:#d8a3a3;background:#fff;color:var(--danger)}
+.btn.small{min-height:34px;padding:6px 10px;font-size:.82rem}
+.status{min-height:24px;margin:10px 0 0;color:var(--success);font-weight:700;font-size:.88rem}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;min-width:690px;background:#fff}
+th,td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{color:#31516c;background:#f1f6fa;font-size:.8rem;letter-spacing:.02em}
+td input,td select{min-width:100px;min-height:38px}
+tr:last-child td{border-bottom:0}
+.score-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
+.metric{padding:15px;border:1px solid var(--line);border-radius:12px;background:#f8fbfd}
+.metric-label{display:block;color:var(--muted);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.metric-value{display:block;margin-top:4px;color:var(--navy-2);font-size:1.5rem;font-weight:850}
+.metric-note{display:block;margin-top:2px;color:var(--muted);font-size:.76rem}
+.choice-row{display:flex;flex-wrap:wrap;gap:8px}
+.choice{display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:#fff}
+.rating-table td:not(:first-child),.rating-table th:not(:first-child){text-align:center}
+.rating-table input[type=radio]{width:18px;height:18px;accent-color:var(--blue)}
+.checklist{display:grid;gap:8px}
+.check-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.check-item input{width:18px;height:18px;margin-top:2px;accent-color:var(--blue)}
+.progress{height:10px;margin-top:10px;overflow:hidden;border-radius:999px;background:#dfe8f0}
+.progress>span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--blue),#35a7d6);transition:width .2s}
+.pill{display:inline-flex;padding:4px 9px;border-radius:999px;background:var(--soft);color:#466079;font-size:.75rem;font-weight:800}
+.pill.ok{background:var(--success-soft);color:var(--success)}.pill.warn{background:var(--warning-soft);color:var(--warning)}.pill.bad{background:var(--danger-soft);color:var(--danger)}
+.footer{margin-top:28px;color:var(--muted);font-size:.82rem;text-align:center}
+.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+@media(max-width:760px){.shell{width:min(100% - 24px,1120px);padding-top:18px}.cards{grid-template-columns:1fr}.tool-card{min-height:170px}.workspace-head{display:block}.workspace-body{padding:14px}.section{padding:15px}.field,.field.third,.field.quarter{grid-column:1/-1}.score-grid{grid-template-columns:repeat(2,1fr)}.actions .btn{flex:1 1 46%}h1{font-size:2rem}}
+@media(max-width:420px){.score-grid{grid-template-columns:1fr}.actions .btn{flex-basis:100%}}
+@media print{@page{size:A4 landscape;margin:12mm}body{background:#fff;font-size:10pt}.shell{width:100%;padding:0}.back-link,.actions,.skip-link,.add-row,.remove-row,.footer{display:none!important}.workspace,.section{box-shadow:none;border-color:#bbb}.workspace-head{background:#fff}.page-break{break-before:page}input,select,textarea{border:0!important;padding:0!important;min-height:0!important;appearance:none}.table-wrap{overflow:visible}table{min-width:0;font-size:8pt;table-layout:fixed}th,td{padding:5px 4px;overflow-wrap:anywhere}.score-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
+<main class="shell" id="conteudo">
+<a class="back-link" href="avaliacao-feedback.html"><span aria-hidden="true">←</span> Voltar a Avaliação &amp; Feedback</a>
+<header class="hero"><p class="eyebrow">Avaliação &amp; Feedback</p><h1>Grelha de Avaliação das Aprendizagens</h1><p class="lede">Registe evidências formativas e sumativas e calcule a classificação final de forma transparente.</p></header>
+<form class="workspace" data-tool-form data-tool="grelha-avaliacao" data-storage="local"><div class="workspace-head"><div><h2>Registo de avaliação</h2><p>Escala de 0 a 20 valores, com ponderações configuráveis.</p></div><span class="pill">Dados locais</span></div><div class="workspace-body"><div class="notice"><strong>Nota de aplicação:</strong> a ficha de avaliação das aprendizagens propõe 40% para avaliação formativa e 60% para sumativa; a ficha técnica apresenta 30%/70%. As ponderações abaixo são editáveis e devem coincidir com a ficha técnica aprovada.</div>
+<section class="section"><h3>1. Identificação da ação</h3><div class="grid"><div class="field "><label for="acao">Designação da ação</label><input id="acao" name="acao" type="text" placeholder="" value="" ></div><div class="field "><label for="formando">Formando/a</label><input id="formando" name="formando" type="text" placeholder="" value="" ></div><div class="field "><label for="formador">Formador/a</label><input id="formador" name="formador" type="text" placeholder="" value="" ></div><div class="field "><label for="data">Data</label><input id="data" name="data" type="date" placeholder="" value="" ></div></div></section>
+<section class="section"><h3>2. Avaliação formativa</h3><p class="section-intro">Pontue cada critério entre 0 e 4. O total corresponde a 20 valores.</p><div class="table-wrap"><table><thead><tr><th>Critério</th><th>Pontuação</th><th>Escala</th></tr></thead><tbody><tr><td>Assiduidade e pontualidade</td><td><input type="number" name="crit_1" min="0" max="4" step="1" value="0" aria-label="Pontuação de Assiduidade e pontualidade"></td><td>0–4</td></tr><tr><td>Participação e envolvimento</td><td><input type="number" name="crit_2" min="0" max="4" step="1" value="0" aria-label="Pontuação de Participação e envolvimento"></td><td>0–4</td></tr><tr><td>Trabalho em equipa</td><td><input type="number" name="crit_3" min="0" max="4" step="1" value="0" aria-label="Pontuação de Trabalho em equipa"></td><td>0–4</td></tr><tr><td>Aplicação prática</td><td><input type="number" name="crit_4" min="0" max="4" step="1" value="0" aria-label="Pontuação de Aplicação prática"></td><td>0–4</td></tr><tr><td>Atitude profissional</td><td><input type="number" name="crit_5" min="0" max="4" step="1" value="0" aria-label="Pontuação de Atitude profissional"></td><td>0–4</td></tr></tbody></table></div></section>
+<section class="section"><h3>3. Avaliação sumativa e ponderação</h3><div class="grid"><div class="field third"><label for="sumativa">Classificação sumativa (0–20)</label><input id="sumativa" name="sumativa" type="number" placeholder="" value="0" min="0" max="20" step="0.1"></div><div class="field third"><label for="peso_form">Peso formativa (%)</label><input id="peso_form" name="peso_form" type="number" placeholder="" value="40" min="0" max="100"></div><div class="field third"><label for="peso_sum">Peso sumativa (%)</label><input id="peso_sum" name="peso_sum" type="number" placeholder="" value="60" min="0" max="100"></div></div><div class="score-grid"><div class="metric"><span class="metric-label">Formativa</span><span class="metric-value" id="mForm">0,0</span><span class="metric-note">valores</span></div><div class="metric"><span class="metric-label">Sumativa</span><span class="metric-value" id="mSum">0,0</span><span class="metric-note">valores</span></div><div class="metric"><span class="metric-label">Classificação final</span><span class="metric-value" id="mFinal">0,0</span><span class="metric-note">valores</span></div><div class="metric"><span class="metric-label">Situação</span><span class="metric-value" id="mEstado">—</span><span class="metric-note">aprovação ≥ 10 valores</span></div></div></section>
+<section class="section"><h3>4. Observações e recomendações</h3><label for="obs">Observações pedagógicas</label><textarea id="obs" name="observacoes" placeholder="Registe evidências, progressos, necessidades de apoio e recomendações."></textarea></section><div class="actions"><button class="btn" type="button" data-save>Guardar rascunho</button><button class="btn secondary" type="button" data-export>Exportar JSON</button><button class="btn secondary" type="button" data-print>Imprimir / Guardar PDF</button><button class="btn danger" type="button" data-clear>Limpar</button></div><p class="status" role="status" aria-live="polite" data-status></p></div></form>
+<p class="footer">Ferramenta executada localmente no navegador. Confirme os critérios e procedimentos aplicáveis antes de utilizar os resultados.</p>
+</main>
+<script>
+(() => {
+  const form = document.querySelector('[data-tool-form]');
+  if (!form) return;
+  const key = 'formacao:' + (form.dataset.tool || location.pathname);
+  const storage = form.dataset.storage === 'session' ? sessionStorage : localStorage;
+  const status = document.querySelector('[data-status]');
+  const say = (msg, bad=false) => { if(status){status.textContent=msg;status.style.color=bad?'var(--danger)':'var(--success)';} };
+  const snapshot = () => ({
+    version: 1,
+    tool: form.dataset.tool || document.title,
+    savedAt: new Date().toISOString(),
+    dynamic: [...form.querySelectorAll('tbody[id]')].map(el => ({id:el.id,html:el.innerHTML})),
+    values: [...form.elements].filter(el => el.name).map(el => ({name:el.name,type:el.type,value:el.value,checked:!!el.checked}))
+  });
+  const apply = data => {
+    if(!data || !Array.isArray(data.values)) return;
+    if(Array.isArray(data.dynamic)) data.dynamic.forEach(item => {
+      const el = document.getElementById(item.id);
+      if(el && typeof item.html === 'string') el.innerHTML = item.html;
+    });
+    const groups = {};
+    data.values.forEach(v => (groups[v.name] ||= []).push(v));
+    Object.entries(groups).forEach(([name, vals]) => {
+      const els = [...form.querySelectorAll(`[name="${CSS.escape(name)}"]`)];
+      els.forEach((el,i) => {
+        const v = vals[Math.min(i, vals.length-1)];
+        if(!v) return;
+        if(el.type==='checkbox' || el.type==='radio') el.checked = v.checked;
+        else el.value = v.value ?? '';
+      });
+    });
+    form.dispatchEvent(new Event('change',{bubbles:true}));
+    document.dispatchEvent(new CustomEvent('toolrestored'));
+  };
+  document.querySelector('[data-save]')?.addEventListener('click', () => {
+    try{storage.setItem(key,JSON.stringify(snapshot()));say('Rascunho guardado neste navegador.');}catch(e){say('Não foi possível guardar o rascunho.',true)}
+  });
+  document.querySelector('[data-export]')?.addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(snapshot(),null,2)],{type:'application/json'});
+    const a = document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download=(form.dataset.tool || 'ferramenta')+'-'+new Date().toISOString().slice(0,10)+'.json'; a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href),500); say('Ficheiro JSON exportado.');
+  });
+  document.querySelector('[data-print]')?.addEventListener('click',()=>window.print());
+  document.querySelector('[data-clear]')?.addEventListener('click',()=>{
+    if(confirm('Limpar todos os campos e o rascunho guardado?')){form.reset();storage.removeItem(key);form.dispatchEvent(new Event('change',{bubbles:true}));say('Formulário limpo.');}
+  });
+  const raw=storage.getItem(key); if(raw){try{apply(JSON.parse(raw));say('Rascunho anterior recuperado.');}catch(e){storage.removeItem(key)}}
+})();
+</script>
+<script>(() => {const f=document.querySelector('[data-tool-form]');function calc(){const cs=[...f.querySelectorAll('[name^=crit_]')].map(x=>+x.value||0);const form=Math.min(20,cs.reduce((a,b)=>a+b,0));const sum=Math.min(20,+f.sumativa.value||0);const pf=+f.peso_form.value||0,ps=+f.peso_sum.value||0;const final=pf+ps?((form*pf+sum*ps)/(pf+ps)):0;document.querySelector('#mForm').textContent=form.toFixed(1).replace('.',',');document.querySelector('#mSum').textContent=sum.toFixed(1).replace('.',',');document.querySelector('#mFinal').textContent=final.toFixed(1).replace('.',',');const e=document.querySelector('#mEstado');e.textContent=final>=10?'Aprovado/a':'A rever';e.style.color=final>=10?'var(--success)':'var(--warning)';}f.addEventListener('input',calc);f.addEventListener('change',calc);document.addEventListener('toolrestored',calc);calc();})();</script>
+</body></html>
