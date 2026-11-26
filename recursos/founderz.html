@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Seleção de cursos e percursos Founderz sobre inteligência artificial, Microsoft 365 Copilot, agentes, automação e competências digitais.">
+<meta name="theme-color" content="#142a42">
+<title>Founderz School | João Pernas — Recursos Didáticos</title>
+<style>
+:root{
+  --navy:#142a42;--primary:#1f3b5b;--blue:#2e78b7;--teal:#18aeb5;--gold:#e7ad39;
+  --page:#f4f7fa;--surface:#fff;--soft:#e9f0f7;--text:#182433;--muted:#5d6b7a;
+  --line:#d8e1ea;--success:#19714a;--shadow:0 14px 36px rgba(20,42,66,.11);
+  --radius:20px;--max:1240px;--focus:0 0 0 4px rgba(24,174,181,.28)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--page);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}
+a{color:inherit}
+button,input,select{font:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:0;box-shadow:var(--focus)}
+.skip-link{position:fixed;top:.75rem;left:.75rem;z-index:100;padding:.7rem 1rem;color:#fff;background:var(--navy);border-radius:10px;transform:translateY(-160%);transition:.2s}
+.skip-link:focus{transform:translateY(0)}
+.site-header{color:#fff;background:radial-gradient(circle at 85% 12%,rgba(24,174,181,.32),transparent 28%),radial-gradient(circle at 65% 100%,rgba(46,120,183,.32),transparent 35%),linear-gradient(135deg,var(--navy),var(--primary) 58%,#2b5a83)}
+.header-inner,.main-inner,.footer-inner{width:min(calc(100% - 2.5rem),var(--max));margin-inline:auto}
+.header-inner{padding:1.15rem 0 3.9rem}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:3.6rem}
+.brand{display:flex;align-items:center;gap:.8rem;font-weight:800;letter-spacing:.01em;text-decoration:none}
+.brand-mark{display:grid;place-items:center;width:42px;height:42px;border:1px solid rgba(255,255,255,.24);border-radius:13px;background:rgba(255,255,255,.12);font-size:1.05rem}
+.back-link{display:inline-flex;align-items:center;gap:.55rem;padding:.62rem .9rem;border:1px solid rgba(255,255,255,.25);border-radius:12px;color:#fff;text-decoration:none;font-weight:700;background:rgba(255,255,255,.08)}
+.back-link:hover{background:rgba(255,255,255,.15)}
+.hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.6fr);gap:3rem;align-items:end}
+.eyebrow{margin:0 0 .75rem;color:#9fe8ec;font-size:.78rem;font-weight:850;letter-spacing:.13em;text-transform:uppercase}
+h1{margin:0;max-width:900px;font-size:clamp(2.35rem,5vw,4.6rem);line-height:1.04;letter-spacing:-.05em}
+.hero-copy{max-width:780px;margin:1.25rem 0 0;color:#dce9f5;font-size:clamp(1.02rem,1.7vw,1.22rem)}
+.hero-panel{padding:1.25rem;border:1px solid rgba(255,255,255,.18);border-radius:18px;background:rgba(255,255,255,.09);backdrop-filter:blur(8px)}
+.hero-stat{display:flex;align-items:baseline;gap:.55rem;margin-bottom:.45rem}
+.hero-stat strong{font-size:2.25rem;line-height:1;color:#fff}
+.hero-stat span{color:#cfe2f4;font-weight:700}
+.hero-note{margin:0;color:#dce9f5;font-size:.92rem}
+.main-inner{padding:2.6rem 0 4.5rem}
+.notice{display:flex;align-items:flex-start;gap:.85rem;margin-top:-4.3rem;margin-bottom:2rem;padding:1.05rem 1.15rem;border:1px solid #c9d9e6;border-radius:16px;background:#fff;box-shadow:var(--shadow)}
+.notice-icon{display:grid;place-items:center;flex:0 0 auto;width:36px;height:36px;border-radius:11px;color:var(--primary);background:var(--soft);font-weight:900}
+.notice p{margin:0;color:var(--muted);font-size:.93rem}.notice strong{color:var(--text)}
+.spotlight{display:grid;grid-template-columns:1.25fr .75fr;gap:1.7rem;align-items:center;padding:clamp(1.45rem,4vw,2.4rem);border:1px solid #d6c179;border-radius:var(--radius);background:linear-gradient(135deg,#fffaf0,#fff 64%);box-shadow:0 12px 30px rgba(111,78,12,.08)}
+.spotlight .label{display:inline-flex;align-items:center;gap:.5rem;margin-bottom:.8rem;padding:.34rem .65rem;border-radius:999px;color:#61460a;background:#fff0c2;font-size:.74rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase}
+.spotlight h2{margin:0;font-size:clamp(1.55rem,3vw,2.25rem);line-height:1.18;letter-spacing:-.025em;color:var(--navy)}
+.spotlight p{margin:.8rem 0 0;color:var(--muted)}
+.spotlight-actions{display:flex;flex-direction:column;align-items:stretch;gap:.75rem}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;min-height:46px;padding:.72rem 1rem;border:1px solid transparent;border-radius:12px;text-decoration:none;font-weight:800;transition:transform .15s,background .15s,border-color .15s}
+.button:hover{transform:translateY(-1px)}
+.button-primary{color:#fff;background:var(--blue)}.button-primary:hover{background:#25699f}
+.button-secondary{color:var(--primary);border-color:#c4d3e0;background:#fff}.button-secondary:hover{border-color:var(--blue);background:#f6fbff}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:2rem;margin:3.4rem 0 1.15rem}
+.section-head h2{margin:0;color:var(--navy);font-size:clamp(1.65rem,3vw,2.35rem);letter-spacing:-.03em}
+.section-head p{max-width:650px;margin:.35rem 0 0;color:var(--muted)}
+.updated{flex:0 0 auto;color:var(--muted);font-size:.84rem}
+.filters{position:sticky;top:.7rem;z-index:20;margin-bottom:1.35rem;padding:1rem;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.95);box-shadow:0 8px 25px rgba(20,42,66,.08);backdrop-filter:blur(10px)}
+.filter-row{display:grid;grid-template-columns:minmax(260px,1.5fr) minmax(190px,.7fr) auto;gap:.75rem;align-items:end}
+.field label{display:block;margin:0 0 .36rem;color:var(--primary);font-size:.78rem;font-weight:800}
+.field input,.field select{width:100%;min-height:46px;padding:.68rem .8rem;border:1px solid #bdcad6;border-radius:11px;color:var(--text);background:#fff}
+.field input::placeholder{color:#7d8996}
+.clear-button{min-height:46px;padding:.68rem 1rem;border:1px solid #bdcad6;border-radius:11px;color:var(--primary);background:#fff;font-weight:800;cursor:pointer}
+.clear-button:hover{border-color:var(--blue);background:#f4f9fd}
+.filter-status{margin:.7rem .1rem 0;color:var(--muted);font-size:.86rem}
+.resource-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.resource-card{display:flex;flex-direction:column;min-height:100%;padding:1.2rem;border:1px solid var(--line);border-radius:17px;background:var(--surface);box-shadow:0 8px 24px rgba(20,42,66,.065);transition:transform .18s,border-color .18s,box-shadow .18s}
+.resource-card:hover{transform:translateY(-3px);border-color:#a9c2d6;box-shadow:var(--shadow)}
+.resource-card[hidden]{display:none}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem;margin-bottom:.85rem}
+.card-icon{display:grid;place-items:center;width:44px;height:44px;flex:0 0 auto;border-radius:13px;color:var(--primary);background:var(--soft);font-size:1.15rem;font-weight:900}
+.card-type{padding:.3rem .55rem;border-radius:999px;color:#385167;background:#edf3f8;font-size:.69rem;font-weight:850;letter-spacing:.06em;text-transform:uppercase}
+.resource-card h3{margin:0;color:var(--navy);font-size:1.12rem;line-height:1.3;letter-spacing:-.012em}
+.resource-card p{margin:.65rem 0 1rem;color:var(--muted);font-size:.91rem;flex:1}
+.meta{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
+.tag{padding:.27rem .5rem;border:1px solid #d4e0e9;border-radius:999px;color:#496072;background:#f8fafc;font-size:.7rem;font-weight:750}
+.tag.recommended{color:#664800;border-color:#ead185;background:#fff6d8}
+.card-link{display:inline-flex;align-items:center;justify-content:space-between;gap:.6rem;padding-top:.85rem;border-top:1px solid #e5ebf0;color:var(--blue);text-decoration:none;font-size:.88rem;font-weight:850}
+.card-link:hover{text-decoration:underline}
+.empty-state{display:none;padding:2rem;border:1px dashed #afbdca;border-radius:16px;text-align:center;color:var(--muted);background:#fff}
+.empty-state.is-visible{display:block}
+.path-section{margin-top:3.7rem;padding:clamp(1.4rem,4vw,2.2rem);border-radius:var(--radius);color:#fff;background:linear-gradient(135deg,var(--navy),var(--primary))}
+.path-section h2{margin:0;font-size:clamp(1.5rem,3vw,2.1rem)}
+.path-section>p{max-width:760px;margin:.55rem 0 1.4rem;color:#d6e4f0}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;counter-reset:steps}
+.step{position:relative;padding:1rem 1rem 1rem 3.5rem;border:1px solid rgba(255,255,255,.16);border-radius:15px;background:rgba(255,255,255,.08);counter-increment:steps}
+.step::before{content:counter(steps);position:absolute;left:1rem;top:1rem;display:grid;place-items:center;width:1.75rem;height:1.75rem;border-radius:50%;color:var(--navy);background:#fff;font-weight:900}
+.step strong{display:block;margin-bottom:.25rem}.step span{color:#d9e6f1;font-size:.88rem}
+.source-note{margin-top:1.3rem;padding:1rem;border-left:4px solid var(--teal);color:var(--muted);background:#fff;border-radius:0 12px 12px 0;font-size:.88rem}
+.site-footer{color:#d7e4ef;background:#0f2236}
+.footer-inner{display:flex;justify-content:space-between;gap:2rem;padding:1.8rem 0;font-size:.86rem}
+.footer-inner p{margin:0}.footer-inner a{color:#fff}
+@media(max-width:940px){.hero,.spotlight{grid-template-columns:1fr}.hero{gap:1.8rem}.hero-panel{max-width:500px}.resource-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.steps{grid-template-columns:1fr}.spotlight-actions{flex-direction:row;flex-wrap:wrap}.spotlight-actions .button{flex:1 1 240px}}
+@media(max-width:680px){.header-inner,.main-inner,.footer-inner{width:min(calc(100% - 1.5rem),var(--max))}.topbar{align-items:flex-start;margin-bottom:2.4rem}.brand span:last-child{display:none}.back-link{font-size:.84rem}.hero{padding-bottom:1rem}.notice{margin-top:-3.3rem}.section-head{display:block}.updated{display:block;margin-top:.65rem}.filter-row{grid-template-columns:1fr}.filters{position:static}.resource-grid{grid-template-columns:1fr}.footer-inner{display:block}.footer-inner p+p{margin-top:.45rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+@media print{.site-header{background:#fff!important;color:#000}.topbar,.filters,.spotlight-actions,.site-footer{display:none!important}.hero-copy,.hero-note{color:#333}.header-inner{padding:0}.notice{margin:1rem 0;box-shadow:none}.resource-grid{grid-template-columns:repeat(2,1fr)}.resource-card,.spotlight,.path-section{break-inside:avoid;box-shadow:none}.path-section{color:#000;background:#fff;border:1px solid #999}.path-section>p,.step span{color:#333}.step{border-color:#aaa}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="topbar">
+      <a class="brand" href="../index.html" aria-label="João Pernas — Recursos Didáticos, voltar ao portal">
+        <span class="brand-mark" aria-hidden="true">JP</span>
+        <span>João Pernas · Recursos Didáticos</span>
+      </a>
+      <a class="back-link" href="../index.html"><span aria-hidden="true">←</span> Voltar ao portal</a>
+    </div>
+    <div class="hero">
+      <div>
+        <p class="eyebrow">Formação externa selecionada</p>
+        <h1>Founderz School</h1>
+        <p class="hero-copy">Cursos e percursos para desenvolver competências em inteligência artificial, Microsoft 365 Copilot, agentes, automação e utilização responsável da tecnologia.</p>
+      </div>
+      <aside class="hero-panel" aria-label="Resumo da seleção">
+        <div class="hero-stat"><strong>15</strong><span>recursos selecionados</span></div>
+        <p class="hero-note">Organizados por tema, nível e aplicação prática. Todos os recursos abrem no sítio oficial da Founderz.</p>
+      </aside>
+    </div>
+  </div>
+</header>
+<main class="main-inner" id="conteudo">
+  <div class="notice" role="note">
+    <span class="notice-icon" aria-hidden="true">i</span>
+    <p><strong>Fonte externa.</strong> Esta página funciona como índice temático. A disponibilidade, o programa, a certificação e as condições de acesso podem ser alterados pela entidade formadora; confirme sempre a informação na página do curso.</p>
+  </div>
+
+  <section class="spotlight" aria-labelledby="destaque-titulo">
+    <div>
+      <span class="label"><span aria-hidden="true">★</span> Destaque para o serviço público</span>
+      <h2 id="destaque-titulo">IA para trabalhadores e trabalhadoras da Administração Pública</h2>
+      <p>Percurso orientado para a aplicação responsável da IA em processos administrativos, gestão documental, análise de dados, preparação de documentos e melhoria dos serviços públicos, com transparência e supervisão humana.</p>
+    </div>
+    <div class="spotlight-actions">
+      <a class="button button-primary" href="https://founderz.com/es/programa/master-inteligencia-artificial-online/ia-para-funcionarios-y-administracion-publica/" target="_blank" rel="noopener noreferrer">Consultar o percurso <span aria-hidden="true">↗</span></a>
+      <a class="button button-secondary" href="https://founderz.com/es/formacion-inteligencia-artificial/" target="_blank" rel="noopener noreferrer">Ver todo o catálogo Founderz <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+
+  <section aria-labelledby="recursos-titulo">
+    <div class="section-head">
+      <div>
+        <h2 id="recursos-titulo">Cursos e percursos</h2>
+        <p>Use a pesquisa e o filtro para localizar rapidamente a formação mais adequada ao seu objetivo.</p>
+      </div>
+      <span class="updated">Seleção revista em 26 de novembro de 2026</span>
+    </div>
+
+    <div class="filters" aria-label="Filtros dos recursos">
+      <div class="filter-row">
+        <div class="field">
+          <label for="pesquisa">Pesquisar</label>
+          <input id="pesquisa" type="search" placeholder="Ex.: Copilot, agentes, setor público…" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="categoria">Tema</label>
+          <select id="categoria">
+            <option value="todos">Todos os temas</option>
+            <option value="setor-publico">Serviço público</option>
+            <option value="fundamentos">Fundamentos de IA</option>
+            <option value="copilot">Microsoft 365 Copilot</option>
+            <option value="governacao">Governação e IA responsável</option>
+            <option value="automacao">Agentes e automação</option>
+          </select>
+        </div>
+        <button class="clear-button" id="limpar" type="button">Limpar filtros</button>
+      </div>
+      <p class="filter-status" id="estado" role="status" aria-live="polite">A mostrar 15 de 15 recursos.</p>
+    </div>
+
+    <div class="resource-grid" id="grelha">
+      <article class="resource-card" data-category="setor-publico fundamentos governacao" data-search="administração pública funcionários serviço público processos administrativos gestão documental análise dados ética responsabilidade supervisão humana">
+        <div class="card-top"><span class="card-icon" aria-hidden="true">AP</span><span class="card-type">Especialização</span></div>
+        <h3>IA para profissionais da Administração Pública</h3>
+        <p>Aplicação prática e responsável da IA em processos públicos, documentação, análise de informação e apoio à decisão.</p>
+        <div class="meta"><span class="tag recommended">Recomendado</span><span class="tag">Serviço público</span><span class="tag">3–4 meses</span></div>
+        <a class="card-link" href="https://founderz.com/es/programa/master-inteligencia-artificial-online/ia-para-funcionarios-y-administracion-publica/" target="_blank" rel="noopener noreferrer">Abrir na Founderz <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="resource-card" data-category="fundamentos governacao" data-search="introdução inteligência artificial prompt engineering prompts iniciante gratuito responsável ética copilot web">
+        <div class="card-top"><span class="card-icon" aria-hidden="true">IA</span><span class="card-type">Curso gratuito</span></div>
+        <h3>Introdução à IA e Prompt Engineering</h3>
+        <p>Fundamentos de IA, criação de prompts, exemplos de utilização quotidiana e princípios de uso responsável.</p>
+        <div class="meta"><span class="tag">Iniciação</span><span class="tag">7,5 horas</span><span class="tag">Gratuito</span></div>
+        <a class="card-link" href="https://founderz.com/es/programa/introduccion-a-la-ia-y-prompt-engineering/" target="_blank" rel="noopener noreferrer">Abrir na Founderz <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="resource-card" data-category="fundamentos governacao" data-search="alfabetização inteligência artificial ai act união europeia privacidade cibersegurança riscos deepfakes equipas">
+        <div class="card-top"><span class="card-icon" aria-hidden="true">AI</span><span class="card-type">Programa</span></div>
+        <h3>Alfabetização em IA e AI Act</h3>
+        <p>Formação para equipas sobre utilização responsável, privacidade, riscos, cibersegurança e enquadramento europeu da IA.</p>
+        <div class="meta"><span class="tag">Equipas</span><span class="tag">12 horas</span><span class="tag">IA responsável</span></div>
+        <a class="card-link" href="https://founderz.com/es/programa/alfabetizacion-en-ia/" target="_blank" rel="noopener noreferrer">Abrir na Founderz <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="resource-card" data-category="governacao" data-search="liderança inteligência artificial responsável rai ética legal riscos transparência microsoft copilot studio">
+        <div class="card-top"><span class="card-icon" aria-hidden="true">RAI</span><span class="card-type">Programa</span></div>
+        <h3>Liderança de IA responsável</h3>
+        <p>Capacidades, limitações, riscos, aspetos éticos e legais, transparência e liderança de iniciativas de IA responsável.</p>
+        <div class="meta"><span class="tag">Intermédio</span><span class="tag">2 meses</span><span class="tag">Certificação</span></div>
+        <a class="card-link" href="https://founderz.com/es/programa/inteligencia-artificial-responsable-rai/" target="_blank" rel="noopener noreferrer">Abrir na Founderz <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="resource-card" data-category="copilot" data-search="microsoft 365 copilot chat studio word excel outlook teams sharepoint agentes produtividade prompting">
+        <div class="card-top"><span class="card-icon" aria-hidden="true">M365</span><span class="card-type">Curso</span></div>
+        <h3>Microsoft 365 Copilot</h3>
+        <p>Percurso transversal sobre Copilot Chat, aplicações Microsoft 365, prompting, produtividade e criação de agentes.</p>
+        <div class="meta"><span class="tag recommended">Percurso principal</span><span class="tag">14 horas</span><span class="tag">6 módulos</span></div>
+        <a class="card-link" href="https://founderz.com/es/programa/productividad-con-copilot/copilot-para-microsoft-365/" target="_blank" rel="noopener noreferrer">Abrir na Founderz <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="resource-card" data-category="copilot" data-search="word copilot redação documentos resumir rever texto escrita microsoft 365">
+        <div class="card-top"><span class="card-icon" aria-hidden="true">W</span><span class="card-type">Curso aplicado</span></div>
+        <h3>Copilot para Word</h3>
+        <p>Redação, revisão, síntese e transformação de documentos com apoio de IA no Microsoft Word.</p>
+        <div class="meta"><span class="tag">Microsoft Word</span><span class="tag">Produtividade</span></div>
+        <a class="card-link" href="https://founderz.com/es/programa/productividad-con-copilot/copilot-para-word/" target="_blank" rel="noopener noreferrer">Abrir na Founderz <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="resource-card" data-category="copilot" data-search="excel copilot análise dados fórmulas tabelas folhas cálculo insights microsoft 365">
+        <div class="card-top"><span class="card-icon" aria-hidden="true">X</span><span class="card-type">Curso aplicado</span></div>
+        <h3>Copilot para Excel</h3>
+        <p>Análise de dados, exploração de informação e apoio à criação de fórmulas e relatórios no Microsoft Excel.</p>
+        <div class="meta"><span class="tag">Microsoft Excel</span><span class="tag">Dados</span></div>
+        <a class="card-link" href="https://founderz.com/es/programa/productividad-con-copilot/copilot-para-excel/" target="_blank" rel="noopener noreferrer">Abrir na Founderz <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="resource-card" data-category="copilot" data-search="powerpoint copilot apresentações diapositivos comunicação visual microsoft 365">
+        <div class="card-top"><span class="card-icon" aria-hidden="true">P</span><span class="card-type">Curso aplicado</span></div>
+        <h3>Copilot para PowerPoint</h3>
+        <p>Planeamento, criação e melhoria de apresentações com IA, desde a estrutura até aos diapositivos finais.</p>
+        <div class="meta"><span class="tag">Microsoft PowerPoint</span><span class="tag">Apresentações</span></div>
+        <a class="card-link" href="https://founderz.com/es/programa/productividad-con-copilot/copilot-para-powerpoint/" target="_blank" rel="noopener noreferrer">Abrir na Founderz <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="resource-card" data-category="copilot" data-search="outlook copilot correio eletrónico email caixa entrada gestão comunicação microsoft 365">
+        <div class="card-top"><span class="card-icon" aria-hidden="true">O</span><span class="card-type">Curso aplicado</span></div>
+        <h3>Copilot para Outlook</h3>
+        <p>Gestão do correio eletrónico, síntese de conversas e preparação de respostas com o Microsoft Copilot.</p>
+        <div class="meta"><span class="tag">Microsoft Outlook</span><span class="tag">Comunicação</span></div>
+        <a class="card-link" href="https://founderz.com/es/programa/productividad-con-copilot/copilot-para-outlook/" target="_blank" rel="noopener noreferrer">Abrir na Founderz <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="resource-card" data-category="copilot" data-search="teams copilot reuniões colaboração atas resumo tarefas comunicação microsoft 365">
+        <div class="card-top"><span class="card-icon" aria-hidden="true">T</span><span class="card-type">Curso aplicado</span></div>
+        <h3>Copilot para Teams</h3>
+        <p>Reuniões, colaboração, sínteses, acompanhamento de decisões e tarefas com IA no Microsoft Teams.</p>
+        <div class="meta"><span class="tag">Microsoft Teams</span><span class="tag">Colaboração</span></div>
+        <a class="card-link" href="https://founderz.com/es/programa/productividad-con-copilot/copilot-para-teams/" target="_blank" rel="noopener noreferrer">Abrir na Founderz <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="resource-card" data-category="copilot" data-search="sharepoint copilot gestão documental conteúdos pesquisa intranet sites microsoft 365">
+        <div class="card-top"><span class="card-icon" aria-hidden="true">S</span><span class="card-type">Curso aplicado</span></div>
+        <h3>Copilot para SharePoint</h3>
+        <p>Gestão documental, organização de conteúdos e utilização da IA em sítios e informação do Microsoft SharePoint.</p>
+        <div class="meta"><span class="tag">Microsoft SharePoint</span><span class="tag">Informação</span></div>
+        <a class="card-link" href="https://founderz.com/es/programa/productividad-con-copilot/copilot-para-sharepoint/" target="_blank" rel="noopener noreferrer">Abrir na Founderz <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="resource-card" data-category="automacao fundamentos" data-search="agentes inteligência artificial empresas assistentes chatbots fluxos trabalho sem programação copilot chatgpt">
+        <div class="card-top"><span class="card-icon" aria-hidden="true">AG</span><span class="card-type">Especialização</span></div>
+        <h3>Criação de agentes de IA</h3>
+        <p>Conceção de agentes, assistentes e fluxos de trabalho com IA generativa, sem exigir programação avançada.</p>
+        <div class="meta"><span class="tag">Agentes</span><span class="tag">Sem código</span><span class="tag">3–4 meses</span></div>
+        <a class="card-link" href="https://founderz.com/es/programa/master-inteligencia-artificial-online/formacion-agentes-ia/" target="_blank" rel="noopener noreferrer">Abrir na Founderz <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="resource-card" data-category="automacao" data-search="automatização automação processos inteligência artificial fluxos tarefas repetitivas integrar ferramentas sem programação">
+        <div class="card-top"><span class="card-icon" aria-hidden="true">AU</span><span class="card-type">Especialização</span></div>
+        <h3>Automação de processos com IA</h3>
+        <p>Criação de fluxos e automatizações para reduzir tarefas manuais, integrar ferramentas e melhorar processos.</p>
+        <div class="meta"><span class="tag">Automação</span><span class="tag">Sem código</span><span class="tag">3–4 meses</span></div>
+        <a class="card-link" href="https://founderz.com/es/programa/master-inteligencia-artificial-online/automatizacion-con-ia/" target="_blank" rel="noopener noreferrer">Abrir na Founderz <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="resource-card" data-category="fundamentos" data-search="inteligência artificial profissionais não técnicos iniciante produtividade casos uso sem programação">
+        <div class="card-top"><span class="card-icon" aria-hidden="true">NT</span><span class="card-type">Especialização</span></div>
+        <h3>IA para profissionais não técnicos</h3>
+        <p>Aplicação da IA no trabalho por perfis sem formação técnica, com enfoque prático e sem programação.</p>
+        <div class="meta"><span class="tag">Sem pré-requisitos</span><span class="tag">Aplicação prática</span></div>
+        <a class="card-link" href="https://founderz.com/es/programa/master-inteligencia-artificial-online/ia-para-profesionales-no-tecnicos/" target="_blank" rel="noopener noreferrer">Abrir na Founderz <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="resource-card" data-category="fundamentos automacao governacao" data-search="mestrado master inteligência artificial inovação agentes automatização ferramentas sem código gestão liderança">
+        <div class="card-top"><span class="card-icon" aria-hidden="true">MI</span><span class="card-type">Programa avançado</span></div>
+        <h3>Inteligência Artificial e Inovação</h3>
+        <p>Percurso aprofundado sobre assistentes e agentes, automação, ferramentas sem código, inovação e utilização responsável.</p>
+        <div class="meta"><span class="tag">Percurso completo</span><span class="tag">105 horas</span><span class="tag">12 módulos</span></div>
+        <a class="card-link" href="https://founderz.com/es/programa/master-inteligencia-artificial-online/" target="_blank" rel="noopener noreferrer">Abrir na Founderz <span aria-hidden="true">↗</span></a>
+      </article>
+    </div>
+    <div class="empty-state" id="sem-resultados" role="status">
+      <strong>Não foram encontrados recursos.</strong><br>
+      Experimente remover o filtro ou pesquisar por outro termo.
+    </div>
+  </section>
+
+  <section class="path-section" aria-labelledby="percurso-titulo">
+    <h2 id="percurso-titulo">Percurso recomendado para começar</h2>
+    <p>Uma sequência simples para adquirir fundamentos, aplicar o Microsoft 365 Copilot e avançar para soluções mais especializadas.</p>
+    <div class="steps">
+      <div class="step"><strong>Fundamentos</strong><span>Comece pela introdução à IA e ao Prompt Engineering ou pela alfabetização em IA.</span></div>
+      <div class="step"><strong>Aplicação no trabalho</strong><span>Avance para Microsoft 365 Copilot e aprofunde as aplicações mais relevantes para as suas funções.</span></div>
+      <div class="step"><strong>Especialização</strong><span>Escolha serviço público, IA responsável, agentes ou automação de processos.</span></div>
+    </div>
+  </section>
+
+  <p class="source-note"><strong>Critério de seleção:</strong> foram privilegiadas páginas oficiais da Founderz com aplicação direta a inteligência artificial, Microsoft 365 Copilot, competências digitais, governação responsável e transformação do serviço público. Os títulos foram adaptados para Português de Portugal sem alterar o âmbito dos programas.</p>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>João Pernas · Recursos Didáticos</p>
+    <p>Formação externa: <a href="https://founderz.com/es/formacion-inteligencia-artificial/" target="_blank" rel="noopener noreferrer">Founderz <span aria-hidden="true">↗</span></a></p>
+  </div>
+</footer>
+<script>
+(function(){
+  'use strict';
+  const pesquisa=document.getElementById('pesquisa');
+  const categoria=document.getElementById('categoria');
+  const limpar=document.getElementById('limpar');
+  const estado=document.getElementById('estado');
+  const vazio=document.getElementById('sem-resultados');
+  const cartoes=[...document.querySelectorAll('.resource-card')];
+  const normalizar=texto=>texto.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+  function filtrar(){
+    const termo=normalizar(pesquisa.value);
+    const tema=categoria.value;
+    let visiveis=0;
+    cartoes.forEach(cartao=>{
+      const texto=normalizar(cartao.textContent+' '+cartao.dataset.search);
+      const temas=cartao.dataset.category.split(' ');
+      const mostrar=(!termo||texto.includes(termo))&&(tema==='todos'||temas.includes(tema));
+      cartao.hidden=!mostrar;
+      if(mostrar)visiveis++;
+    });
+    estado.textContent=`A mostrar ${visiveis} de ${cartoes.length} ${cartoes.length===1?'recurso':'recursos'}.`;
+    vazio.classList.toggle('is-visible',visiveis===0);
+  }
+  pesquisa.addEventListener('input',filtrar);
+  categoria.addEventListener('change',filtrar);
+  limpar.addEventListener('click',()=>{pesquisa.value='';categoria.value='todos';filtrar();pesquisa.focus()});
+  filtrar();
+})();
+</script>
+</body>
+</html>
