@@ -4,11 +4,8 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <meta name="description" content="Portal de recursos didáticos de João Pernas.">
-
 <meta name="theme-color" content="#1F3B5B">
 
 <title>João Pernas | Recursos Didáticos</title>
@@ -259,7 +256,10 @@ main {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    transition: .2s;
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
 }
 
 .portal-card {
@@ -275,14 +275,10 @@ main {
 }
 
 .portal-card:hover,
-.tool-card:not(.disabled):hover {
+.tool-card:hover {
     transform: translateY(-5px);
     border-color: #a8c1d8;
     box-shadow: 0 18px 36px rgba(31,59,91,.16);
-}
-
-.tool-card.disabled {
-    cursor: default;
 }
 
 .card-icon {
@@ -342,10 +338,84 @@ main {
 }
 
 
+/* SOBRE */
+
+.about-section {
+    margin-top: 2.4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.about-card {
+    width: min(100%, 620px);
+    min-height: 92px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(31,59,91,.07);
+    text-decoration: none;
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+.about-card:hover {
+    transform: translateY(-3px);
+    border-color: #a8c1d8;
+    box-shadow: 0 12px 26px rgba(31,59,91,.12);
+}
+
+.about-icon {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    color: var(--primary);
+    background: var(--primary-light);
+    border-radius: 12px;
+    font-size: 1.3rem;
+}
+
+.about-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.about-title {
+    display: block;
+    margin-bottom: .18rem;
+    color: var(--primary);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.about-description {
+    display: block;
+    color: var(--muted);
+    font-size: .84rem;
+    line-height: 1.4;
+}
+
+.about-action {
+    flex: 0 0 auto;
+    color: var(--accent);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+
 /* FOCO */
 
 .portal-card:focus-visible,
 .tool-card:focus-visible,
+.about-card:focus-visible,
 .footer-link:focus-visible {
     outline: 3px solid #f5b942;
     outline-offset: 4px;
@@ -418,8 +488,13 @@ main {
 
 @media(max-width:560px) {
 
-    .header-inner {
+    .header-inner,
+    .main-inner,
+    .footer-inner {
         width: min(calc(100% - 2rem),var(--max-width));
+    }
+
+    .header-inner {
         min-height: auto;
         padding-block: 2rem;
     }
@@ -468,6 +543,10 @@ main {
     .portal-card,
     .tool-card {
         min-height: 180px;
+    }
+
+    .about-card {
+        align-items: flex-start;
     }
 
     .footer-inner {
@@ -565,9 +644,7 @@ main {
 
 <section class="intro">
 
-    <h2>
-        Recursos Didáticos
-    </h2>
+    <h2>Recursos Didáticos</h2>
 
     <p>
         Explore ferramentas, atividades e conteúdos para apoiar a aprendizagem,
@@ -577,9 +654,7 @@ main {
 </section>
 
 
-<!-- ========================================================= -->
-<!-- RECURSOS PRINCIPAIS                                       -->
-<!-- ========================================================= -->
+<!-- RECURSOS PRINCIPAIS -->
 
 <nav
     class="card-grid"
@@ -591,25 +666,17 @@ main {
 
 <a class="portal-card" href="quadro-branco.html">
 
-    <span class="card-icon" aria-hidden="true">
-        🖍️
-    </span>
+    <span class="card-icon" aria-hidden="true">🖍️</span>
 
     <span>
-
-        <span class="card-title">
-            Quadro Branco
-        </span>
-
+        <span class="card-title">Quadro Branco</span>
         <span class="card-description">
             Espaço visual para desenhar, explicar e organizar ideias.
         </span>
-
     </span>
 
     <span class="card-action">
-        Abrir recurso
-        <span aria-hidden="true">→</span>
+        Abrir recurso <span aria-hidden="true">→</span>
     </span>
 
 </a>
@@ -619,25 +686,17 @@ main {
 
 <a class="portal-card" href="pomodoro.html">
 
-    <span class="card-icon" aria-hidden="true">
-        🍅
-    </span>
+    <span class="card-icon" aria-hidden="true">🍅</span>
 
     <span>
-
-        <span class="card-title">
-            Pomodoro
-        </span>
-
+        <span class="card-title">Pomodoro</span>
         <span class="card-description">
             Sessões de foco com pausas para gerir melhor o tempo.
         </span>
-
     </span>
 
     <span class="card-action">
-        Abrir recurso
-        <span aria-hidden="true">→</span>
+        Abrir recurso <span aria-hidden="true">→</span>
     </span>
 
 </a>
@@ -650,32 +709,24 @@ main {
     href="recursos/inteligencia-artificial.html"
 >
 
-    <span class="card-icon" aria-hidden="true">
-        🤖
-    </span>
+    <span class="card-icon" aria-hidden="true">🤖</span>
 
     <span>
-
-        <span class="card-title">
-            Inteligência Artificial
-        </span>
-
+        <span class="card-title">Inteligência Artificial</span>
         <span class="card-description">
             Tutoriais, prompts e recursos práticos para explorar
             ferramentas de Inteligência Artificial.
         </span>
-
     </span>
 
     <span class="card-action">
-        Explorar recurso
-        <span aria-hidden="true">→</span>
+        Explorar recurso <span aria-hidden="true">→</span>
     </span>
 
 </a>
 
 
-<!-- QUIZ MICROSOFT 365 -->
+<!-- QUIZ M365 -->
 
 <a
     class="portal-card"
@@ -683,26 +734,18 @@ main {
     aria-label="Abrir Quiz Microsoft 365"
 >
 
-    <span class="card-icon" aria-hidden="true">
-        ❓
-    </span>
+    <span class="card-icon" aria-hidden="true">❓</span>
 
     <span>
-
-        <span class="card-title">
-            Quiz M365
-        </span>
-
+        <span class="card-title">Quiz M365</span>
         <span class="card-description">
             Teste os seus conhecimentos sobre aplicações
             e ferramentas Microsoft 365.
         </span>
-
     </span>
 
     <span class="card-action">
-        Iniciar Quiz
-        <span aria-hidden="true">→</span>
+        Iniciar Quiz <span aria-hidden="true">→</span>
     </span>
 
 </a>
@@ -716,26 +759,18 @@ main {
     aria-label="Abrir Desafio do Dia"
 >
 
-    <span class="card-icon" aria-hidden="true">
-        🏆
-    </span>
+    <span class="card-icon" aria-hidden="true">🏆</span>
 
     <span>
-
-        <span class="card-title">
-            Desafio do Dia
-        </span>
-
+        <span class="card-title">Desafio do Dia</span>
         <span class="card-description">
             Jogo interativo de perguntas e desafios para dinamizar
             sessões de formação.
         </span>
-
     </span>
 
     <span class="card-action">
-        Iniciar desafio
-        <span aria-hidden="true">→</span>
+        Iniciar desafio <span aria-hidden="true">→</span>
     </span>
 
 </a>
@@ -745,26 +780,18 @@ main {
 
 <a class="portal-card" href="recursos.html">
 
-    <span class="card-icon" aria-hidden="true">
-        🔗
-    </span>
+    <span class="card-icon" aria-hidden="true">🔗</span>
 
     <span>
-
-        <span class="card-title">
-            Recursos Externos
-        </span>
-
+        <span class="card-title">Recursos Externos</span>
         <span class="card-description">
             Ferramentas digitais para criar, ensinar, colaborar
             e experimentar.
         </span>
-
     </span>
 
     <span class="card-action">
-        Ver recursos
-        <span aria-hidden="true">→</span>
+        Ver recursos <span aria-hidden="true">→</span>
     </span>
 
 </a>
@@ -777,26 +804,18 @@ main {
     href="recursos/microsoft-learn.html"
 >
 
-    <span class="card-icon" aria-hidden="true">
-        🎓
-    </span>
+    <span class="card-icon" aria-hidden="true">🎓</span>
 
     <span>
-
-        <span class="card-title">
-            Microsoft Learn
-        </span>
-
+        <span class="card-title">Microsoft Learn</span>
         <span class="card-description">
             Formação oficial sobre Microsoft 365, Copilot,
             agentes, Power Platform e outras tecnologias Microsoft.
         </span>
-
     </span>
 
     <span class="card-action">
-        Explorar formação
-        <span aria-hidden="true">→</span>
+        Explorar formação <span aria-hidden="true">→</span>
     </span>
 
 </a>
@@ -809,54 +828,43 @@ main {
     href="recursos/founderz.html"
 >
 
-    <span class="card-icon" aria-hidden="true">
-        🧠
-    </span>
+    <span class="card-icon" aria-hidden="true">🧠</span>
 
     <span>
-
-        <span class="card-title">
-            Founderz | AI Business School
-        </span>
-
+        <span class="card-title">Founderz | AI Business School</span>
         <span class="card-description">
             Formação em Inteligência Artificial, Copilot, prompting,
             agentes, automatização e utilização responsável da IA.
         </span>
-
     </span>
 
     <span class="card-action">
-        Explorar formação
-        <span aria-hidden="true">→</span>
+        Explorar formação <span aria-hidden="true">→</span>
     </span>
 
 </a>
 
 
-<!-- SOBRE -->
+<!-- GUIA SHAREPOINT -->
 
-<a class="portal-card" href="sobre.html">
+<a
+    class="portal-card"
+    href="recursos/sharepoint.html"
+    aria-label="Abrir Guia SharePoint"
+>
 
-    <span class="card-icon" aria-hidden="true">
-        ℹ️
-    </span>
+    <span class="card-icon" aria-hidden="true">🌐</span>
 
     <span>
-
-        <span class="card-title">
-            Sobre
-        </span>
-
+        <span class="card-title">Guia SharePoint</span>
         <span class="card-description">
-            Percurso, habilitações, formação e principais áreas de intervenção.
+            Guia passo a passo para criar, estruturar e gerir
+            sites, páginas, bibliotecas e permissões no SharePoint.
         </span>
-
     </span>
 
     <span class="card-action">
-        Ver página
-        <span aria-hidden="true">→</span>
+        Abrir guia <span aria-hidden="true">→</span>
     </span>
 
 </a>
@@ -865,15 +873,11 @@ main {
 </nav>
 
 
-<!-- ========================================================= -->
-<!-- CAIXA DE FERRAMENTAS DO FORMADOR                          -->
-<!-- ========================================================= -->
+<!-- CAIXA DE FERRAMENTAS -->
 
 <section class="section-heading">
 
-    <h2>
-        Caixa de Ferramentas do Formador
-    </h2>
+    <h2>Caixa de Ferramentas do Formador</h2>
 
     <p>
         Ferramentas para planear formação, produzir atividades,
@@ -899,10 +903,7 @@ main {
 >
 
     <div>
-
-        <span class="card-icon" aria-hidden="true">
-            🧭
-        </span>
+        <span class="card-icon" aria-hidden="true">🧭</span>
 
         <span class="card-title">
             Design Instrucional
@@ -912,12 +913,10 @@ main {
             Planos de sessão, objetivos, ADDIE,
             matrizes pedagógicas e storyboards.
         </span>
-
     </div>
 
     <span class="card-action">
-        Explorar 6 ferramentas
-        <span aria-hidden="true">→</span>
+        Explorar 6 ferramentas <span aria-hidden="true">→</span>
     </span>
 
 </a>
@@ -932,10 +931,7 @@ main {
 >
 
     <div>
-
-        <span class="card-icon" aria-hidden="true">
-            📝
-        </span>
+        <span class="card-icon" aria-hidden="true">📝</span>
 
         <span class="card-title">
             Geradores Pedagógicos
@@ -945,12 +941,10 @@ main {
             Dinâmicas de grupo, estudos de caso, perguntas para debate,
             atividades, cenários e guiões de trabalho de grupo.
         </span>
-
     </div>
 
     <span class="card-action">
-        Explorar 6 ferramentas
-        <span aria-hidden="true">→</span>
+        Explorar 6 ferramentas <span aria-hidden="true">→</span>
     </span>
 
 </a>
@@ -965,10 +959,7 @@ main {
 >
 
     <div>
-
-        <span class="card-icon" aria-hidden="true">
-            📊
-        </span>
+        <span class="card-icon" aria-hidden="true">📊</span>
 
         <span class="card-title">
             Avaliação &amp; Feedback
@@ -978,12 +969,10 @@ main {
             Rubricas, grelhas, classificações,
             autoavaliação e feedback.
         </span>
-
     </div>
 
     <span class="card-action">
-        Explorar 6 ferramentas
-        <span aria-hidden="true">→</span>
+        Explorar 6 ferramentas <span aria-hidden="true">→</span>
     </span>
 
 </a>
@@ -998,10 +987,7 @@ main {
 >
 
     <div>
-
-        <span class="card-icon" aria-hidden="true">
-            📅
-        </span>
+        <span class="card-icon" aria-hidden="true">📅</span>
 
         <span class="card-title">
             Gestão da Formação
@@ -1011,18 +997,16 @@ main {
             Horas, sessões, presenças,
             checklists, tarefas e planeamento.
         </span>
-
     </div>
 
     <span class="card-action">
-        Explorar 6 ferramentas
-        <span aria-hidden="true">→</span>
+        Explorar 6 ferramentas <span aria-hidden="true">→</span>
     </span>
 
 </a>
 
 
-<!-- E-LEARNING E MOODLE -->
+<!-- E-LEARNING & MOODLE -->
 
 <a
     class="tool-card"
@@ -1031,10 +1015,7 @@ main {
 >
 
     <div>
-
-        <span class="card-icon" aria-hidden="true">
-            🎓
-        </span>
+        <span class="card-icon" aria-hidden="true">🎓</span>
 
         <span class="card-title">
             E-learning &amp; Moodle
@@ -1044,12 +1025,10 @@ main {
             Cursos Moodle, H5P/Lumi, módulos,
             atividades e avaliação online.
         </span>
-
     </div>
 
     <span class="card-action">
-        Explorar 6 ferramentas
-        <span aria-hidden="true">→</span>
+        Explorar 6 ferramentas <span aria-hidden="true">→</span>
     </span>
 
 </a>
@@ -1064,10 +1043,7 @@ main {
 >
 
     <div>
-
-        <span class="card-icon" aria-hidden="true">
-            🛠️
-        </span>
+        <span class="card-icon" aria-hidden="true">🛠️</span>
 
         <span class="card-title">
             Laboratório Digital
@@ -1077,18 +1053,16 @@ main {
             QR Codes, HTML, Markdown, JSON,
             cores e outros utilitários.
         </span>
-
     </div>
 
     <span class="card-action">
-        Explorar 6 ferramentas
-        <span aria-hidden="true">→</span>
+        Explorar 6 ferramentas <span aria-hidden="true">→</span>
     </span>
 
 </a>
 
 
-<!-- ACESSIBILIDADE E QUALIDADE -->
+<!-- ACESSIBILIDADE & QUALIDADE -->
 
 <a
     class="tool-card"
@@ -1097,10 +1071,7 @@ main {
 >
 
     <div>
-
-        <span class="card-icon" aria-hidden="true">
-            ♿
-        </span>
+        <span class="card-icon" aria-hidden="true">♿</span>
 
         <span class="card-title">
             Acessibilidade &amp; Qualidade
@@ -1110,12 +1081,10 @@ main {
             Contraste, WCAG, legibilidade,
             linguagem clara e qualidade pedagógica.
         </span>
-
     </div>
 
     <span class="card-action">
-        Explorar 6 ferramentas
-        <span aria-hidden="true">→</span>
+        Explorar 6 ferramentas <span aria-hidden="true">→</span>
     </span>
 
 </a>
@@ -1130,10 +1099,7 @@ main {
 >
 
     <div>
-
-        <span class="card-icon" aria-hidden="true">
-            💡
-        </span>
+        <span class="card-icon" aria-hidden="true">💡</span>
 
         <span class="card-title">
             Metodologias Ativas
@@ -1143,12 +1109,10 @@ main {
             Design Thinking, ABP, gamificação,
             microlearning, role-playing e outras metodologias.
         </span>
-
     </div>
 
     <span class="card-action">
-        Explorar 6 ferramentas
-        <span aria-hidden="true">→</span>
+        Explorar 6 ferramentas <span aria-hidden="true">→</span>
     </span>
 
 </a>
@@ -1156,14 +1120,46 @@ main {
 
 </div>
 
+
+<!-- SOBRE -->
+
+<section class="about-section" aria-label="Sobre">
+
+    <a
+        class="about-card"
+        href="sobre.html"
+        aria-label="Abrir página Sobre"
+    >
+
+        <span class="about-icon" aria-hidden="true">
+            ℹ️
+        </span>
+
+        <span class="about-content">
+
+            <span class="about-title">
+                Sobre
+            </span>
+
+            <span class="about-description">
+                Percurso, habilitações, formação e principais áreas de intervenção.
+            </span>
+
+        </span>
+
+        <span class="about-action" aria-hidden="true">
+            →
+        </span>
+
+    </a>
+
+</section>
+
+
 </div>
 
 </main>
 
-
-<!-- ========================================================= -->
-<!-- RODAPÉ                                                    -->
-<!-- ========================================================= -->
 
 <footer class="site-footer">
 
