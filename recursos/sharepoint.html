@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Guia prático, do planeamento à publicação, para criar e gerir um site de comunicação no SharePoint e compreender a integração documental com o Microsoft Teams.">
+<meta name="theme-color" content="#1f3b5b">
+<title>Guia SharePoint | Do planeamento à publicação</title>
+<style>
+:root {
+    --primary: #1f3b5b;
+    --primary-dark: #142a42;
+    --primary-light: #e9f0f7;
+    --accent: #2e78b7;
+    --accent-dark: #1f5c8c;
+    --success: #176b4d;
+    --success-light: #e8f5ef;
+    --warning: #8a5b10;
+    --warning-light: #fff5df;
+    --danger: #9a3838;
+    --danger-light: #fff0f0;
+    --surface: #ffffff;
+    --background: #f4f7fa;
+    --text: #182433;
+    --muted: #5d6b7a;
+    --border: #d8e1ea;
+    --shadow: 0 12px 30px rgba(31, 59, 91, .10);
+    --radius: 18px;
+    --max-width: 1320px;
+    --content-width: 900px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 1rem; }
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--text);
+    background: var(--background);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.65;
+}
+a { color: var(--accent-dark); text-underline-offset: .18em; }
+a:hover { color: var(--primary-dark); }
+button, input { font: inherit; }
+img, svg { max-width: 100%; }
+
+.skip-link {
+    position: fixed;
+    top: .75rem;
+    left: .75rem;
+    z-index: 1000;
+    padding: .75rem 1rem;
+    color: #fff;
+    background: var(--primary-dark);
+    border-radius: 10px;
+    transform: translateY(-160%);
+    transition: transform .2s;
+}
+.skip-link:focus { transform: translateY(0); }
+
+.site-header {
+    color: #fff;
+    background:
+        radial-gradient(circle at 85% 15%, rgba(255,255,255,.14), transparent 25%),
+        linear-gradient(135deg, var(--primary-dark), var(--primary) 58%, #2b5a83);
+}
+.header-inner, .page-shell, .footer-inner {
+    width: min(calc(100% - 3rem), var(--max-width));
+    margin-inline: auto;
+}
+.header-inner { padding: 1.15rem 0 3.5rem; }
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 3.4rem;
+}
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: .8rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 750;
+}
+.brand-mark {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 12px;
+    background: rgba(255,255,255,.10);
+    font-size: .78rem;
+    letter-spacing: .06em;
+}
+.top-actions { display: flex; flex-wrap: wrap; gap: .7rem; }
+.header-link, .print-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: .58rem .9rem;
+    color: #fff;
+    background: rgba(255,255,255,.09);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+.header-link:hover, .print-button:hover { color: #fff; background: rgba(255,255,255,.16); }
+.hero { max-width: 930px; }
+.eyebrow {
+    margin: 0 0 .75rem;
+    color: #cfe3f6;
+    font-size: .8rem;
+    font-weight: 800;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+h1 {
+    max-width: 850px;
+    margin: 0;
+    font-size: clamp(2.25rem, 6vw, 4.5rem);
+    line-height: 1.04;
+    letter-spacing: -.035em;
+}
+.hero-lead {
+    max-width: 790px;
+    margin: 1.2rem 0 0;
+    color: #e6eff7;
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+}
+.hero-meta { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.5rem; }
+.hero-meta span {
+    padding: .45rem .75rem;
+    color: #eaf3fb;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 999px;
+    font-size: .88rem;
+}
+
+.page-shell {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: start;
+    padding-block: 2.5rem 5rem;
+}
+.sidebar {
+    position: sticky;
+    top: 1rem;
+    overflow: auto;
+    max-height: calc(100vh - 2rem);
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 25px rgba(31,59,91,.07);
+}
+.sidebar-title {
+    margin: 0 0 .7rem;
+    color: var(--muted);
+    font-size: .76rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+.toc { margin: 0; padding: 0; list-style: none; }
+.toc a {
+    display: block;
+    padding: .48rem .62rem;
+    color: var(--text);
+    border-left: 3px solid transparent;
+    border-radius: 0 8px 8px 0;
+    text-decoration: none;
+    font-size: .9rem;
+    line-height: 1.35;
+}
+.toc a:hover, .toc a[aria-current="location"] {
+    color: var(--primary);
+    background: var(--primary-light);
+    border-left-color: var(--accent);
+}
+.sidebar-note {
+    margin: 1rem 0 0;
+    padding: .85rem;
+    color: var(--muted);
+    background: var(--background);
+    border-radius: 10px;
+    font-size: .82rem;
+}
+.content { min-width: 0; }
+.content > section, .intro-card { scroll-margin-top: 1rem; }
+.intro-card {
+    margin-bottom: 1.5rem;
+    padding: clamp(1.35rem, 3vw, 2rem);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+.intro-card h2 { margin-top: 0; }
+.key-outcome {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.3rem;
+}
+.outcome-item {
+    padding: 1rem;
+    background: var(--primary-light);
+    border-radius: 12px;
+}
+.outcome-number {
+    display: block;
+    margin-bottom: .25rem;
+    color: var(--accent-dark);
+    font-size: 1.45rem;
+    font-weight: 850;
+}
+
+.section-card {
+    margin-top: 1.5rem;
+    padding: clamp(1.35rem, 3vw, 2.2rem);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px rgba(31,59,91,.06);
+}
+.section-kicker {
+    margin: 0 0 .3rem;
+    color: var(--accent-dark);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+h2 {
+    margin: 0 0 1rem;
+    color: var(--primary-dark);
+    font-size: clamp(1.55rem, 3vw, 2.2rem);
+    line-height: 1.2;
+    letter-spacing: -.02em;
+}
+h3 {
+    margin: 1.6rem 0 .55rem;
+    color: var(--primary);
+    font-size: 1.18rem;
+    line-height: 1.3;
+}
+h4 { margin: 1.2rem 0 .35rem; color: var(--primary-dark); font-size: 1rem; }
+p { margin: .6rem 0 1rem; }
+ul, ol { padding-left: 1.25rem; }
+li + li { margin-top: .35rem; }
+.lead { color: var(--muted); font-size: 1.08rem; }
+.muted { color: var(--muted); }
+.small { font-size: .88rem; }
+
+.callout {
+    margin: 1.2rem 0;
+    padding: 1rem 1.1rem;
+    border-left: 4px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    background: var(--primary-light);
+}
+.callout strong { color: var(--primary-dark); }
+.callout.success { border-left-color: var(--success); background: var(--success-light); }
+.callout.warning { border-left-color: #d29326; background: var(--warning-light); }
+.callout.danger { border-left-color: var(--danger); background: var(--danger-light); }
+.callout p:last-child { margin-bottom: 0; }
+
+.flow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: .7rem;
+    align-items: stretch;
+    margin: 1.4rem 0;
+}
+.flow-box {
+    padding: 1rem;
+    text-align: center;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+.flow-box strong { display: block; color: var(--primary); }
+.flow-arrow { display: grid; place-items: center; color: var(--accent); font-weight: 900; }
+
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; border: 1px solid var(--border); border-radius: 12px; }
+table { width: 100%; min-width: 680px; border-collapse: collapse; background: #fff; }
+th, td { padding: .9rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
+th { color: var(--primary-dark); background: var(--primary-light); font-size: .9rem; }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-weight: 700; color: var(--primary-dark); }
+
+.decision-grid, .card-grid, .two-col, .three-col {
+    display: grid;
+    gap: 1rem;
+    margin: 1.1rem 0;
+}
+.decision-grid, .two-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.three-col { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.mini-card {
+    padding: 1.05rem;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+.mini-card h3, .mini-card h4 { margin-top: 0; }
+.mini-card p:last-child, .mini-card ul:last-child { margin-bottom: 0; }
+.pro { border-top: 4px solid var(--success); }
+.con { border-top: 4px solid #d29326; }
+
+.steps { counter-reset: guide-step; display: grid; gap: 1rem; margin-top: 1.25rem; }
+.step {
+    position: relative;
+    padding: 1.15rem 1.15rem 1.15rem 4.6rem;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+.step::before {
+    counter-increment: guide-step;
+    content: counter(guide-step);
+    position: absolute;
+    top: 1.05rem;
+    left: 1.05rem;
+    display: grid;
+    width: 2.55rem;
+    height: 2.55rem;
+    place-items: center;
+    color: #fff;
+    background: var(--primary);
+    border-radius: 50%;
+    font-weight: 850;
+}
+.step h3 { margin: 0 0 .45rem; }
+.step p:last-child, .step ul:last-child, .step ol:last-child { margin-bottom: 0; }
+.path {
+    display: block;
+    margin: .65rem 0;
+    padding: .7rem .85rem;
+    color: var(--primary-dark);
+    background: #fff;
+    border: 1px dashed #b8c8d7;
+    border-radius: 9px;
+    font-size: .9rem;
+    font-weight: 700;
+}
+
+.library-map { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.2rem 0; }
+.library-card {
+    padding: 1.05rem;
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--accent);
+    border-radius: 12px;
+    background: #fff;
+}
+.library-card h3 { margin-top: 0; font-size: 1.05rem; }
+.library-card p { font-size: .92rem; }
+
+.checklist {
+    display: grid;
+    gap: .62rem;
+    margin: 1rem 0;
+}
+.check-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .7rem;
+    align-items: start;
+    padding: .75rem .85rem;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+}
+.check-item:hover { border-color: #aabfd2; }
+.check-item input { width: 1.15rem; height: 1.15rem; margin-top: .2rem; accent-color: var(--accent-dark); }
+.check-item:has(input:checked) { color: #456257; background: var(--success-light); border-color: #b8dfcf; }
+.check-item:has(input:checked) span { text-decoration: line-through; text-decoration-thickness: 1px; }
+.progress-wrap { margin: 1rem 0 1.25rem; }
+.progress-label { display: flex; justify-content: space-between; gap: 1rem; color: var(--muted); font-size: .88rem; }
+.progress-track { overflow: hidden; height: 10px; margin-top: .4rem; background: #dde6ee; border-radius: 999px; }
+.progress-bar { width: 0; height: 100%; background: linear-gradient(90deg, var(--accent), var(--success)); transition: width .25s ease; }
+.reset-button {
+    padding: .52rem .75rem;
+    color: var(--primary);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+}
+.reset-button:hover { background: var(--primary-light); }
+
+.accordion details {
+    margin-top: .7rem;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+.accordion summary {
+    padding: .9rem 1rem;
+    color: var(--primary-dark);
+    font-weight: 750;
+    cursor: pointer;
+}
+.accordion details > div { padding: 0 1rem 1rem; }
+.accordion details[open] { border-color: #b9cddd; }
+
+.source-list { padding-left: 1.2rem; }
+.source-list li { margin-bottom: .7rem; }
+.source-list a { word-break: break-word; }
+
+.footer {
+    color: #dbe8f4;
+    background: var(--primary-dark);
+}
+.footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1.6rem;
+}
+.footer p { margin: 0; }
+.footer a { color: #fff; }
+.back-top {
+    display: inline-flex;
+    padding: .55rem .8rem;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 9px;
+    text-decoration: none;
+}
+
+@media (max-width: 1020px) {
+    .page-shell { grid-template-columns: 1fr; }
+    .sidebar { position: static; max-height: none; }
+    .toc { columns: 2; column-gap: 1.3rem; }
+    .toc li { break-inside: avoid; }
+}
+@media (max-width: 760px) {
+    .header-inner, .page-shell, .footer-inner { width: min(calc(100% - 1.5rem), var(--max-width)); }
+    .topbar, .footer-inner { align-items: flex-start; flex-direction: column; }
+    .topbar { margin-bottom: 2.5rem; }
+    .header-inner { padding-bottom: 2.7rem; }
+    .top-actions { width: 100%; }
+    .header-link, .print-button { flex: 1; }
+    .key-outcome, .decision-grid, .two-col, .three-col, .library-map { grid-template-columns: 1fr; }
+    .flow { grid-template-columns: 1fr; }
+    .flow-arrow { transform: rotate(90deg); }
+    .toc { columns: 1; }
+    .step { padding: 4.2rem 1rem 1rem; }
+    .step::before { top: .9rem; left: 1rem; }
+    .section-card, .intro-card { border-radius: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+@media print {
+    :root { --background: #fff; --text: #111; }
+    body { font-size: 10.5pt; background: #fff; }
+    .site-header { color: #111; background: #fff; border-bottom: 2px solid #222; }
+    .header-inner { padding: 1rem 0; }
+    .skip-link, .topbar, .sidebar, .top-actions, .footer, .reset-button { display: none !important; }
+    .hero-lead, .eyebrow { color: #333; }
+    .hero-meta span { color: #333; border-color: #999; background: #fff; }
+    .page-shell { display: block; width: 100%; padding: 1rem 0; }
+    .section-card { box-shadow: none; break-inside: auto; }
+    .intro-card { box-shadow: none; break-inside: avoid; }
+    .step, .mini-card, .library-card, .callout { break-inside: avoid; }
+    .table-wrap { overflow: visible; }
+    table { min-width: 0; font-size: 8.5pt; }
+    th, td { padding: .48rem .55rem; }
+    a { color: #111; text-decoration: none; }
+    a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 8pt; word-break: break-all; }
+}
+</style>
+</head>
+<body id="topo">
+<a class="skip-link" href="#conteudo">Saltar para o conteúdo principal</a>
+
+<header class="site-header">
+    <div class="header-inner">
+        <div class="topbar">
+            <a class="brand" href="../recursos.html" aria-label="Voltar à página de recursos">
+                <span class="brand-mark" aria-hidden="true">SP</span>
+                <span>Recursos didáticos</span>
+            </a>
+            <div class="top-actions">
+                <a class="header-link" href="https://www.microsoft365.com/" target="_blank" rel="noopener noreferrer">Abrir Microsoft 365</a>
+                <a class="header-link" href="https://www.microsoft.com/microsoft-365/sharepoint/collaboration" target="_blank" rel="noopener noreferrer">Conhecer SharePoint</a>
+                <button class="print-button" type="button" onclick="window.print()">Imprimir guia</button>
+            </div>
+        </div>
+
+        <div class="hero">
+            <p class="eyebrow">Microsoft 365 · Guia prático</p>
+            <h1>SharePoint: do planeamento à publicação</h1>
+            <p class="hero-lead">Um percurso completo para criar um site de comunicação, estruturar bibliotecas e permissões, publicar páginas e compreender o papel do Teams como porta de entrada documental para o SharePoint.</p>
+            <div class="hero-meta" aria-label="Características do guia">
+                <span>Passo a passo</span>
+                <span>Comunicação vs. colaboração</span>
+                <span>Bibliotecas e metadados</span>
+                <span>Permissões e governação</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main id="conteudo" class="page-shell">
+    <aside class="sidebar" aria-label="Índice do guia">
+        <p class="sidebar-title">Nesta página</p>
+        <nav>
+            <ul class="toc">
+                <li><a href="#visao-geral">1. Visão geral</a></li>
+                <li><a href="#escolher-site">2. Escolher o site</a></li>
+                <li><a href="#teams-sharepoint">3. Teams e SharePoint</a></li>
+                <li><a href="#arquitetura">4. Arquitetura da informação</a></li>
+                <li><a href="#criar-site">5. Criar o site</a></li>
+                <li><a href="#permissoes">6. Permissões</a></li>
+                <li><a href="#bibliotecas">7. Bibliotecas</a></li>
+                <li><a href="#paginas">8. Páginas e notícias</a></li>
+                <li><a href="#pagina-inicial">9. Página inicial</a></li>
+                <li><a href="#publicar">10. Publicar e lançar</a></li>
+                <li><a href="#manter">11. Manter e governar</a></li>
+                <li><a href="#checklist">12. Lista de verificação</a></li>
+                <li><a href="#erros">13. Erros frequentes</a></li>
+                <li><a href="#fontes">14. Fontes oficiais</a></li>
+            </ul>
+        </nav>
+        <p class="sidebar-note">A interface pode variar consoante as políticas e os modelos definidos pela organização. Se a opção <strong>Criar site</strong> não estiver disponível, contacte a administração do Microsoft 365.</p>
+    </aside>
+
+    <div class="content">
+        <section id="visao-geral" class="intro-card">
+            <p class="section-kicker">1 · Visão geral</p>
+            <h2>O que vai conseguir fazer</h2>
+            <p class="lead">No final, terá um site orientado para quem consulta informação: simples de navegar, seguro, pesquisável e com responsabilidades de manutenção definidas.</p>
+            <div class="key-outcome">
+                <div class="outcome-item"><span class="outcome-number">01</span><strong>Decidir</strong><br>Comunicação ou colaboração.</div>
+                <div class="outcome-item"><span class="outcome-number">02</span><strong>Construir</strong><br>Estrutura, bibliotecas e páginas.</div>
+                <div class="outcome-item"><span class="outcome-number">03</span><strong>Governar</strong><br>Acessos, publicação e ciclo de vida.</div>
+            </div>
+            <div class="callout success">
+                <strong>Ideia central:</strong> o SharePoint é a base de conteúdos, páginas e documentos. O Teams oferece uma experiência diária de conversa e colaboração e pode funcionar como o “hall de entrada” para os documentos guardados no SharePoint.
+            </div>
+        </section>
+
+        <section id="escolher-site" class="section-card">
+            <p class="section-kicker">2 · Escolher o tipo de site</p>
+            <h2>Site de comunicação ou site de equipa?</h2>
+            <p>Comece pela finalidade. Um site de comunicação serve para divulgar informação a uma audiência alargada; um site de equipa serve para um grupo trabalhar em conjunto.</p>
+
+            <div class="decision-grid">
+                <article class="mini-card pro">
+                    <h3>Site de comunicação</h3>
+                    <p><strong>Publicar, informar e orientar.</strong></p>
+                    <ul>
+                        <li>Poucas pessoas produzem; muitas consultam.</li>
+                        <li>Ideal para portais de serviço, normas, notícias, campanhas e áreas temáticas.</li>
+                        <li>Navegação superior e apresentação visual mais editorial.</li>
+                        <li>Permissões habitualmente geridas com grupos do SharePoint.</li>
+                    </ul>
+                </article>
+                <article class="mini-card con">
+                    <h3>Site de equipa</h3>
+                    <p><strong>Colaborar, criar e acompanhar trabalho.</strong></p>
+                    <ul>
+                        <li>As pessoas do grupo criam e editam conteúdos.</li>
+                        <li>Ideal para projetos, unidades orgânicas e grupos de trabalho.</li>
+                        <li>Pode estar ligado a um grupo Microsoft 365 e a uma equipa no Teams.</li>
+                        <li>Os membros têm, por regra, capacidade de edição.</li>
+                    </ul>
+                </article>
+            </div>
+
+            <div class="table-wrap" role="region" aria-label="Comparação entre site de comunicação e site de equipa" tabindex="0">
+                <table>
+                    <thead><tr><th>Critério</th><th>Site de comunicação</th><th>Site de equipa</th></tr></thead>
+                    <tbody>
+                        <tr><td>Finalidade</td><td>Divulgar conteúdo validado</td><td>Produzir e gerir trabalho em conjunto</td></tr>
+                        <tr><td>Audiência</td><td>Alargada; sobretudo leitura</td><td>Grupo delimitado; leitura e edição</td></tr>
+                        <tr><td>Autores</td><td>Grupo reduzido e controlado</td><td>Membros do grupo</td></tr>
+                        <tr><td>Ligação ao Teams</td><td>Não é criado como equipa do Teams; pode ser apresentado por ligações ou separadores</td><td>É a base documental natural de uma equipa do Teams quando ligado ao Microsoft 365</td></tr>
+                        <tr><td>Exemplos</td><td>Portal de serviço, procedimentos, intranet temática, notícias</td><td>Projeto, preparação de conteúdos, gestão de tarefas e documentos de trabalho</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout warning">
+                <strong>Padrão recomendado:</strong> produza e reveja documentos num site de equipa; publique a versão aprovada num site de comunicação ou disponibilize uma ligação para a fonte oficial. Assim, separa a zona de trabalho da zona de consulta.
+            </div>
+        </section>
+
+        <section id="teams-sharepoint" class="section-card">
+            <p class="section-kicker">3 · Teams como hall de entrada</p>
+            <h2>Onde estão realmente os ficheiros?</h2>
+            <p>O Teams apresenta conversas, reuniões, aplicações e ficheiros numa única interface. Contudo, os ficheiros dos canais são guardados no SharePoint. Ao selecionar o separador <strong>Ficheiros</strong>, está a aceder ao conteúdo do site SharePoint associado.</p>
+
+            <div class="flow" aria-label="Fluxo entre Teams, SharePoint e documentos">
+                <div class="flow-box"><strong>Teams</strong>Porta de entrada<br><span class="muted small">conversa e contexto</span></div>
+                <div class="flow-arrow" aria-hidden="true">→</div>
+                <div class="flow-box"><strong>SharePoint</strong>Estrutura e governação<br><span class="muted small">bibliotecas e permissões</span></div>
+                <div class="flow-arrow" aria-hidden="true">→</div>
+                <div class="flow-box"><strong>Conteúdo</strong>Ficheiros e páginas<br><span class="muted small">versões e metadados</span></div>
+            </div>
+
+            <h3>O que acontece em cada tipo de canal</h3>
+            <ul>
+                <li><strong>Canal padrão:</strong> corresponde, em regra, a uma pasta na biblioteca de documentos do site principal da equipa. Todos os canais padrão partilham esse site.</li>
+                <li><strong>Canal privado:</strong> cria um site SharePoint próprio, acessível apenas às pessoas desse canal.</li>
+                <li><strong>Canal partilhado:</strong> também usa um site SharePoint próprio, com adesão e acesso alinhados com o canal.</li>
+            </ul>
+
+            <div class="two-col">
+                <div class="mini-card">
+                    <h3>Use o Teams para</h3>
+                    <ul>
+                        <li>Chegar rapidamente ao trabalho corrente.</li>
+                        <li>Conversar sobre os documentos.</li>
+                        <li>Coeditar, reunir e acompanhar tarefas.</li>
+                        <li>Fixar páginas, listas ou bibliotecas como separadores.</li>
+                    </ul>
+                </div>
+                <div class="mini-card">
+                    <h3>Use o SharePoint para</h3>
+                    <ul>
+                        <li>Definir a arquitetura e as bibliotecas.</li>
+                        <li>Gerir metadados, vistas e versões.</li>
+                        <li>Publicar páginas e notícias.</li>
+                        <li>Configurar governação, pesquisa e permissões.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="callout danger">
+                <strong>Não duplique ficheiros.</strong> Abra no SharePoint a partir do Teams quando precisar de capacidades avançadas. Trabalhe sobre o mesmo documento e partilhe a ligação, em vez de descarregar e voltar a carregar cópias.
+            </div>
+        </section>
+
+        <section id="arquitetura" class="section-card">
+            <p class="section-kicker">4 · Antes de criar</p>
+            <h2>Planear a arquitetura da informação</h2>
+            <p>Um site bem construído começa fora do SharePoint. Defina o serviço que presta, quem consulta, que tarefas precisam de ser concluídas e quem responde pela atualização.</p>
+
+            <div class="steps">
+                <article class="step">
+                    <h3>Defina o objetivo numa frase</h3>
+                    <p>Exemplo: “Disponibilizar, num único local, procedimentos, modelos e contactos atualizados para apoio à atividade do serviço.” Se a frase misturar muitos objetivos, considere mais do que um site.</p>
+                </article>
+                <article class="step">
+                    <h3>Identifique audiências e necessidades</h3>
+                    <p>Liste quem consulta o site e as três a cinco tarefas mais frequentes. Organize o conteúdo segundo a linguagem de quem procura, não segundo o organograma interno.</p>
+                </article>
+                <article class="step">
+                    <h3>Faça o inventário do conteúdo</h3>
+                    <p>Para cada conteúdo, registe proprietário, audiência, sensibilidade, fonte oficial, prazo de revisão e destino: migrar, rever, arquivar ou eliminar.</p>
+                </article>
+                <article class="step">
+                    <h3>Desenhe a navegação</h3>
+                    <p>Use rótulos claros e poucos níveis. Uma estrutura inicial segura é: <strong>Início · Serviços · Procedimentos · Documentos · Notícias · Contactos</strong>.</p>
+                </article>
+                <article class="step">
+                    <h3>Defina a governação</h3>
+                    <p>Nomeie pelo menos duas pessoas proprietárias, defina quem publica, quem aprova, periodicidade de revisão, regras de partilha externa e processo de desativação.</p>
+                </article>
+            </div>
+
+            <div class="callout">
+                <strong>Princípio de desenho:</strong> navegação ajuda a descobrir; pesquisa ajuda a encontrar. Bons títulos, metadados e proprietários claros melhoram ambas.
+            </div>
+        </section>
+
+        <section id="criar-site" class="section-card">
+            <p class="section-kicker">5 · Construção</p>
+            <h2>Criar o site de comunicação, passo a passo</h2>
+            <p class="lead">Os nomes exatos das opções podem variar com a configuração da organização, mas o percurso base é o seguinte.</p>
+
+            <div class="steps">
+                <article class="step">
+                    <h3>Aceda ao SharePoint</h3>
+                    <span class="path">Microsoft 365 → Iniciador de aplicações → SharePoint → Criar site</span>
+                    <p>Se <strong>Criar site</strong> não aparecer, a criação autónoma pode estar desativada. Solicite a criação pelo processo interno.</p>
+                </article>
+                <article class="step">
+                    <h3>Escolha “Site de comunicação”</h3>
+                    <p>Não escolha site de equipa se a finalidade principal for divulgação. Confirme a decisão com a comparação da secção 2.</p>
+                </article>
+                <article class="step">
+                    <h3>Selecione um modelo</h3>
+                    <ul>
+                        <li><strong>Tópico/Standard:</strong> opção equilibrada para notícias, ligações e conteúdos temáticos.</li>
+                        <li><strong>Mostruário/Showcase:</strong> maior impacto visual, útil para campanhas e eventos.</li>
+                        <li><strong>Em branco/Blank:</strong> controlo total; exige mais desenho.</li>
+                        <li><strong>Modelo da organização:</strong> prefira-o quando existir, pois pode incorporar identidade e governação.</li>
+                    </ul>
+                </article>
+                <article class="step">
+                    <h3>Preencha os dados essenciais</h3>
+                    <ul>
+                        <li><strong>Nome:</strong> curto, inequívoco e estável.</li>
+                        <li><strong>Endereço:</strong> evite siglas temporárias, anos e nomes de pessoas.</li>
+                        <li><strong>Descrição:</strong> indique finalidade e audiência.</li>
+                        <li><strong>Idioma:</strong> confirme antes de criar; pode afetar componentes e experiência.</li>
+                    </ul>
+                </article>
+                <article class="step">
+                    <h3>Confirme a identidade visual</h3>
+                    <span class="path">Definições → Alterar o aspeto</span>
+                    <p>Aplique o tema institucional disponível, cabeçalho, logótipo e rodapé. Use imagens com direitos de utilização e texto alternativo quando transmitam informação.</p>
+                </article>
+                <article class="step">
+                    <h3>Configure a navegação</h3>
+                    <p>Edite o menu superior, use nomes orientados à tarefa e teste os destinos. Evite uma navegação que repita toda a árvore de pastas.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="permissoes" class="section-card">
+            <p class="section-kicker">6 · Acesso e segurança</p>
+            <h2>Permissões: quem administra, edita e consulta</h2>
+            <p>Num site de comunicação, distribua o acesso através de grupos. Esta abordagem é mais sustentável do que atribuir permissões pessoa a pessoa.</p>
+
+            <div class="three-col">
+                <article class="mini-card">
+                    <h3>Proprietários</h3>
+                    <p><strong>Controlo total.</strong> Gerem definições, permissões e estrutura. Mantenha pelo menos duas pessoas responsáveis.</p>
+                </article>
+                <article class="mini-card">
+                    <h3>Membros</h3>
+                    <p><strong>Edição.</strong> Criam e alteram páginas, notícias, listas e documentos. Limite a autores efetivos.</p>
+                </article>
+                <article class="mini-card">
+                    <h3>Visitantes</h3>
+                    <p><strong>Leitura.</strong> Consultam o conteúdo publicado sem o modificar. É o grupo típico da audiência alargada.</p>
+                </article>
+            </div>
+
+            <h3>Configuração recomendada</h3>
+            <ol>
+                <li>Abra <strong>Definições → Permissões do site</strong>.</li>
+                <li>Confirme proprietários, membros e visitantes.</li>
+                <li>Use grupos de segurança ou grupos Microsoft Entra quando disponíveis para audiências estáveis.</li>
+                <li>Atribua o menor nível de acesso necessário.</li>
+                <li>Teste com uma conta que seja apenas visitante.</li>
+                <li>Documente exceções e reveja-as periodicamente.</li>
+            </ol>
+
+            <div class="callout warning">
+                <strong>Direcionamento de audiência não é segurança.</strong> Pode alterar o que é apresentado na navegação ou em componentes, mas não impede que uma pessoa com permissão encontre o conteúdo por pesquisa ou ligação direta.
+            </div>
+            <div class="callout danger">
+                <strong>Evite quebrar a herança sem necessidade.</strong> Permissões únicas em páginas, pastas e ficheiros multiplicam exceções e dificultam auditoria. Se existe uma fronteira real de confidencialidade ou de ciclo de vida, considere uma biblioteca ou um site distinto.
+            </div>
+        </section>
+
+        <section id="bibliotecas" class="section-card">
+            <p class="section-kicker">7 · Gestão documental</p>
+            <h2>Bibliotecas: mais do que pastas</h2>
+            <p>Uma biblioteca é um local de gestão de ficheiros com versões, colunas, vistas, pesquisa, aprovação e automatização. Crie bibliotecas quando existirem diferenças claras de finalidade, acesso, retenção ou processo.</p>
+
+            <div class="library-map">
+                <article class="library-card">
+                    <h3>Documentos</h3>
+                    <p>Biblioteca principal para ficheiros de trabalho ou publicação. Pode ser reorganizada, renomeada e complementada.</p>
+                </article>
+                <article class="library-card">
+                    <h3>Páginas do Site</h3>
+                    <p>Guarda páginas modernas e notícias. Existe uma por site. Não a use como biblioteca documental geral.</p>
+                </article>
+                <article class="library-card">
+                    <h3>Elementos do Site</h3>
+                    <p>Guarda imagens e recursos usados nas páginas. Não carregue aqui documentos só porque foram adicionados por uma ligação rápida.</p>
+                </article>
+            </div>
+
+            <h3>Criar e configurar uma biblioteca</h3>
+            <div class="steps">
+                <article class="step">
+                    <h3>Crie apenas se houver uma razão</h3>
+                    <span class="path">Conteúdo do site → Novo → Biblioteca de documentos</span>
+                    <p>Dê-lhe um nome orientado ao conteúdo: <em>Procedimentos</em>, <em>Modelos</em> ou <em>Publicações</em>, em vez de nomes vagos como “Diversos”.</p>
+                </article>
+                <article class="step">
+                    <h3>Defina colunas úteis</h3>
+                    <p>Exemplos: Tipo de documento, Tema, Serviço responsável, Estado, Data de revisão, Confidencialidade. Use escolha, pessoa, data ou metadados geridos conforme o caso.</p>
+                </article>
+                <article class="step">
+                    <h3>Crie vistas</h3>
+                    <p>Combine filtro, ordenação e agrupamento: “Em vigor”, “A rever nos próximos 60 dias”, “Por tema” e “Por serviço responsável”. Mantenha uma vista geral para administração.</p>
+                </article>
+                <article class="step">
+                    <h3>Confirme versões e aprovação</h3>
+                    <p>Use o histórico para recuperar alterações. Ative aprovação quando o risco justificar uma validação formal antes de disponibilizar conteúdo.</p>
+                </article>
+                <article class="step">
+                    <h3>Adicione modelos ou tipos de conteúdo</h3>
+                    <p>Quando existirem classes documentais distintas, use tipos de conteúdo para aplicar metadados, modelos e regras de forma consistente.</p>
+                </article>
+                <article class="step">
+                    <h3>Automatize com critério</h3>
+                    <p>O Power Automate pode notificar responsáveis, pedir aprovação e sinalizar revisões. A automatização deve ter proprietário, registo de falhas e plano de continuidade.</p>
+                </article>
+            </div>
+
+            <div class="two-col">
+                <article class="mini-card pro">
+                    <h3>Metadados: prós</h3>
+                    <ul>
+                        <li>Permitem filtrar e criar várias vistas sem duplicar ficheiros.</li>
+                        <li>Melhoram pesquisa, classificação e automatização.</li>
+                        <li>Adaptam-se melhor a volumes elevados.</li>
+                    </ul>
+                </article>
+                <article class="mini-card con">
+                    <h3>Metadados: cuidados</h3>
+                    <ul>
+                        <li>Exigem vocabulário simples e responsável funcional.</li>
+                        <li>Demasiadas colunas obrigatórias dificultam a adoção.</li>
+                        <li>Devem ser testados com quem classifica e procura.</li>
+                    </ul>
+                </article>
+            </div>
+
+            <div class="callout success">
+                <strong>Regra prática:</strong> use pastas para uma navegação simples e estável; use metadados para classificar o mesmo conjunto por várias perspetivas. Pode combinar ambos, desde que a estrutura não fique profunda.
+            </div>
+        </section>
+
+        <section id="paginas" class="section-card">
+            <p class="section-kicker">8 · Conteúdo editorial</p>
+            <h2>Tipos de páginas e quando os usar</h2>
+            <p>As páginas modernas são compostas por secções, colunas e componentes Web. Todas ficam na biblioteca <strong>Páginas do Site</strong>. Tecnicamente, o SharePoint distingue páginas, publicações de notícias e ligações de notícia; “página inicial”, “página de conteúdo” e “página de destino” são padrões de utilização.</p>
+
+            <div class="table-wrap" role="region" aria-label="Tipos de páginas SharePoint" tabindex="0">
+                <table>
+                    <thead><tr><th>Tipo</th><th>Finalidade</th><th>Utilização recomendada</th></tr></thead>
+                    <tbody>
+                        <tr><td>Página inicial</td><td>Entrada principal do site</td><td>Prioridades, tarefas frequentes, notícias e contactos</td></tr>
+                        <tr><td>Página de conteúdo</td><td>Informação duradoura</td><td>Serviço, procedimento, perguntas frequentes ou orientação temática</td></tr>
+                        <tr><td>Página de destino</td><td>Organizar um tema amplo</td><td>Resumo e ligações para subtemas, documentos e serviços</td></tr>
+                        <tr><td>Publicação de notícias</td><td>Comunicação datada</td><td>Anúncios, alterações, eventos e destaques com ciclo editorial</td></tr>
+                        <tr><td>Ligação de notícia</td><td>Destacar conteúdo externo</td><td>Levar uma notícia do SharePoint para uma fonte oficial já existente</td></tr>
+                        <tr><td>Modelo de página</td><td>Reutilizar uma estrutura</td><td>Garantir consistência entre páginas de serviço, procedimentos ou notícias</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Criar uma página</h3>
+            <ol>
+                <li>Selecione <strong>Novo → Página</strong> e escolha um modelo.</li>
+                <li>Dê um título descritivo e único.</li>
+                <li>Organize a página em secções e colunas.</li>
+                <li>Adicione componentes Web adequados ao objetivo.</li>
+                <li>Defina imagem, descrição e miniatura quando aplicável.</li>
+                <li>Pré-visualize em diferentes larguras de ecrã.</li>
+                <li>Guarde como rascunho, submeta para aprovação ou publique.</li>
+            </ol>
+
+            <h3>Componentes Web essenciais</h3>
+            <div class="three-col">
+                <div class="mini-card"><h4>Texto</h4><p>Conteúdo estruturado com títulos, listas e ligações significativas.</p></div>
+                <div class="mini-card"><h4>Imagem e Hero</h4><p>Destaques visuais. Use com moderação e assegure contraste e texto alternativo.</p></div>
+                <div class="mini-card"><h4>Ligações rápidas</h4><p>Acesso a tarefas frequentes. Ligue a documentos já guardados na biblioteca.</p></div>
+                <div class="mini-card"><h4>Notícias</h4><p>Agrega publicações e permite selecionar origem, esquema e filtros.</p></div>
+                <div class="mini-card"><h4>Biblioteca e Lista</h4><p>Apresenta documentos ou dados operacionais sem duplicação.</p></div>
+                <div class="mini-card"><h4>Conteúdo realçado</h4><p>Mostra conteúdo dinamicamente com base em origem, tipo, filtro e ordenação.</p></div>
+            </div>
+
+            <div class="callout">
+                <strong>Escrita para a Web:</strong> comece pela conclusão, use títulos claros, parágrafos curtos, ligações com significado e datas de validade quando o conteúdo puder ficar desatualizado.
+            </div>
+        </section>
+
+        <section id="pagina-inicial" class="section-card">
+            <p class="section-kicker">9 · Experiência de entrada</p>
+            <h2>Montar uma página inicial eficaz</h2>
+            <p>A página inicial não deve tentar mostrar tudo. Deve explicar o propósito, encaminhar para as tarefas principais e evidenciar o que mudou.</p>
+
+            <div class="steps">
+                <article class="step"><h3>Cabeçalho e propósito</h3><p>Identifique a área e explique, numa frase, o que a pessoa encontra no site.</p></article>
+                <article class="step"><h3>Tarefas frequentes</h3><p>Use Ligações rápidas para quatro a oito ações prioritárias, com rótulos como “Consultar procedimento” ou “Descarregar modelo”.</p></article>
+                <article class="step"><h3>Conteúdo prioritário</h3><p>Use Hero apenas para destaques reais. Evite carrosséis extensos e imagens decorativas que escondam tarefas.</p></article>
+                <article class="step"><h3>Notícias e atualizações</h3><p>Mostre notícias recentes e associe cada publicação a uma ação ou informação concreta.</p></article>
+                <article class="step"><h3>Documentos e recursos</h3><p>Apresente vistas filtradas ou conteúdo realçado. Não mantenha listas manuais de ligações quando uma consulta dinâmica resolver o problema.</p></article>
+                <article class="step"><h3>Ajuda e responsabilidade</h3><p>Indique contacto funcional, proprietário do conteúdo e data de última revisão.</p></article>
+            </div>
+
+            <div class="callout warning">
+                <strong>Evite carregar documentos diretamente a partir do componente Ligações rápidas.</strong> Carregue primeiro o ficheiro na biblioteca correta e só depois crie a ligação. Assim, fica localizável, governado e fácil de atualizar.
+            </div>
+        </section>
+
+        <section id="publicar" class="section-card">
+            <p class="section-kicker">10 · Qualidade e lançamento</p>
+            <h2>Publicar com controlo</h2>
+            <p>Antes do lançamento, separe revisão de conteúdo, validação técnica e decisão de publicação. Para áreas com vários autores, configure aprovação de páginas.</p>
+
+            <h3>Teste mínimo</h3>
+            <ul>
+                <li><strong>Conteúdo:</strong> está correto, atual, completo e tem proprietário?</li>
+                <li><strong>Permissões:</strong> uma pessoa visitante vê apenas o que deve ver?</li>
+                <li><strong>Navegação:</strong> as tarefas principais são encontradas em poucos passos?</li>
+                <li><strong>Ligações:</strong> não existem destinos quebrados nem ficheiros duplicados?</li>
+                <li><strong>Acessibilidade:</strong> títulos hierárquicos, contraste, texto alternativo, teclado e ligações descritivas?</li>
+                <li><strong>Responsividade:</strong> funciona em computador e dispositivo móvel?</li>
+                <li><strong>Pesquisa:</strong> títulos, metadados e termos usados pela audiência permitem encontrar o conteúdo?</li>
+            </ul>
+
+            <h3>Lançamento</h3>
+            <ol>
+                <li>Congele alterações estruturais durante a validação final.</li>
+                <li>Publique páginas e documentos aprovados.</li>
+                <li>Defina a nova página como página inicial, se aplicável.</li>
+                <li>Partilhe o site com a audiência correta.</li>
+                <li>Comunique o lançamento indicando finalidade, três tarefas principais e canal de apoio.</li>
+                <li>Acompanhe utilização e pedidos nas primeiras semanas.</li>
+            </ol>
+        </section>
+
+        <section id="manter" class="section-card">
+            <p class="section-kicker">11 · Operação contínua</p>
+            <h2>Manter e governar o site</h2>
+            <p>Um site não termina no lançamento. Sem responsáveis e revisão, perde confiança e torna-se um repositório de conteúdo desatualizado.</p>
+
+            <div class="three-col">
+                <article class="mini-card"><h3>Mensal</h3><ul><li>Validar notícias e ligações críticas.</li><li>Resolver pedidos de acesso.</li><li>Rever erros de automatizações.</li></ul></article>
+                <article class="mini-card"><h3>Trimestral</h3><ul><li>Analisar páginas mais e menos utilizadas.</li><li>Rever membros e proprietários.</li><li>Confirmar conteúdos com revisão vencida.</li></ul></article>
+                <article class="mini-card"><h3>Anual</h3><ul><li>Reavaliar arquitetura e finalidade.</li><li>Arquivar ou eliminar conteúdo obsoleto.</li><li>Confirmar continuidade, retenção e conformidade.</li></ul></article>
+            </div>
+
+            <h3>Matriz simples de responsabilidades</h3>
+            <div class="table-wrap" role="region" aria-label="Responsabilidades de gestão do site" tabindex="0">
+                <table>
+                    <thead><tr><th>Atividade</th><th>Responsável principal</th><th>Validação</th></tr></thead>
+                    <tbody>
+                        <tr><td>Estrutura e permissões</td><td>Proprietário do site</td><td>Responsável do serviço / administração</td></tr>
+                        <tr><td>Conteúdo de uma área</td><td>Proprietário do conteúdo</td><td>Responsável funcional</td></tr>
+                        <tr><td>Publicação</td><td>Autor autorizado</td><td>Aprovador, quando aplicável</td></tr>
+                        <tr><td>Retenção e sensibilidade</td><td>Responsável pelo processo</td><td>Áreas competentes de segurança, arquivo e proteção de dados</td></tr>
+                        <tr><td>Revisão de acessos</td><td>Proprietário do site</td><td>Responsável do serviço</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="checklist" class="section-card">
+            <p class="section-kicker">12 · Lista de verificação interativa</p>
+            <h2>Antes de dar o site como concluído</h2>
+            <p>Assinale os pontos concluídos. O progresso fica guardado apenas neste navegador.</p>
+
+            <div class="progress-wrap" aria-live="polite">
+                <div class="progress-label"><span>Progresso</span><strong id="progressText">0 de 16</strong></div>
+                <div class="progress-track" aria-hidden="true"><div id="progressBar" class="progress-bar"></div></div>
+            </div>
+
+            <div class="checklist" id="launchChecklist">
+                <label class="check-item"><input type="checkbox" data-check="purpose"><span>Finalidade e audiência estão definidas.</span></label>
+                <label class="check-item"><input type="checkbox" data-check="owners"><span>Existem pelo menos duas pessoas proprietárias do site.</span></label>
+                <label class="check-item"><input type="checkbox" data-check="inventory"><span>O inventário de conteúdos tem proprietário e prazo de revisão.</span></label>
+                <label class="check-item"><input type="checkbox" data-check="navigation"><span>A navegação foi testada com pessoas da audiência.</span></label>
+                <label class="check-item"><input type="checkbox" data-check="permissions"><span>Proprietários, membros e visitantes estão corretos.</span></label>
+                <label class="check-item"><input type="checkbox" data-check="visitor-test"><span>O acesso foi testado com uma conta apenas visitante.</span></label>
+                <label class="check-item"><input type="checkbox" data-check="libraries"><span>As bibliotecas correspondem a finalidades ou regras distintas.</span></label>
+                <label class="check-item"><input type="checkbox" data-check="metadata"><span>Colunas e vistas facilitam a localização dos documentos.</span></label>
+                <label class="check-item"><input type="checkbox" data-check="versioning"><span>Versões, aprovação e partilha foram confirmadas.</span></label>
+                <label class="check-item"><input type="checkbox" data-check="pages"><span>Páginas e notícias têm títulos, autores e conteúdos validados.</span></label>
+                <label class="check-item"><input type="checkbox" data-check="links"><span>Ligações e destinos foram verificados.</span></label>
+                <label class="check-item"><input type="checkbox" data-check="accessibility"><span>Acessibilidade e utilização por teclado foram verificadas.</span></label>
+                <label class="check-item"><input type="checkbox" data-check="mobile"><span>A apresentação foi testada em ecrã pequeno.</span></label>
+                <label class="check-item"><input type="checkbox" data-check="search"><span>O conteúdo é encontrável por pesquisa e termos correntes.</span></label>
+                <label class="check-item"><input type="checkbox" data-check="support"><span>Contacto de apoio e processo de atualização estão publicados.</span></label>
+                <label class="check-item"><input type="checkbox" data-check="review"><span>Foi calendarizada a próxima revisão de conteúdo e acessos.</span></label>
+            </div>
+            <button class="reset-button" id="resetChecklist" type="button">Limpar seleção</button>
+        </section>
+
+        <section id="erros" class="section-card">
+            <p class="section-kicker">13 · Diagnóstico rápido</p>
+            <h2>Erros frequentes e correção</h2>
+            <div class="accordion">
+                <details>
+                    <summary>“Criámos um site de comunicação, mas toda a gente edita.”</summary>
+                    <div><p>Reveja o grupo Membros e confirme se a audiência foi adicionada como Visitantes. Use grupos para leitura e mantenha a edição reservada às pessoas autoras.</p></div>
+                </details>
+                <details>
+                    <summary>“Há muitos ficheiros com nomes como final_v7_novo.”</summary>
+                    <div><p>Trabalhe sobre um único ficheiro, use o histórico de versões e partilhe a ligação. Evite datas e versões no nome quando representam apenas atualizações do mesmo documento.</p></div>
+                </details>
+                <details>
+                    <summary>“Os documentos do Teams não aparecem onde esperávamos.”</summary>
+                    <div><p>Confirme o tipo de canal. Canais padrão usam pastas no site principal; canais privados e partilhados usam sites próprios. Abra o canal e escolha a opção para abrir no SharePoint.</p></div>
+                </details>
+                <details>
+                    <summary>“A página inicial está lenta e difícil de compreender.”</summary>
+                    <div><p>Reduza componentes, imagens e conteúdo duplicado. Priorize tarefas, use vistas filtradas e remova elementos sem finalidade clara.</p></div>
+                </details>
+                <details>
+                    <summary>“O direcionamento de audiência não protegeu uma página.”</summary>
+                    <div><p>O direcionamento apenas condiciona a apresentação. Se o conteúdo exige uma fronteira de segurança, aplique permissões adequadas e, preferencialmente, separe-o numa biblioteca ou num site destinado à audiência autorizada.</p></div>
+                </details>
+                <details>
+                    <summary>“Ninguém sabe quem deve atualizar o conteúdo.”</summary>
+                    <div><p>Atribua proprietário por página, biblioteca ou área temática; publique contacto funcional e data de revisão; crie uma rotina de alerta e escalonamento.</p></div>
+                </details>
+            </div>
+        </section>
+
+        <section id="fontes" class="section-card">
+            <p class="section-kicker">14 · Referências</p>
+            <h2>Fontes oficiais e aprofundamento</h2>
+            <p>O guia foi estruturado a partir da documentação oficial da Microsoft. Consulte as fontes para detalhes de configuração, alterações de interface e requisitos administrativos.</p>
+            <ol class="source-list">
+                <li><a href="https://learn.microsoft.com/en-us/sharepoint/create-communication-site" target="_blank" rel="noopener noreferrer">Microsoft Learn — Criar um site de comunicação: percurso orientado</a></li>
+                <li><a href="https://support.microsoft.com/en-us/sharepoint/sites-in-sharepoint/create-a-communication-site-in-sharepoint" target="_blank" rel="noopener noreferrer">Microsoft Support — Criar um site de comunicação no SharePoint</a></li>
+                <li><a href="https://support.microsoft.com/en-us/sharepoint/sites-pages/build-your-sharepoint-communication-site" target="_blank" rel="noopener noreferrer">Microsoft Support — Construir um site de comunicação</a></li>
+                <li><a href="https://learn.microsoft.com/en-us/microsoft-365/community/team-site-or-communication-site" target="_blank" rel="noopener noreferrer">Microsoft Learn — Site de equipa ou site de comunicação?</a></li>
+                <li><a href="https://learn.microsoft.com/en-us/SharePoint/teams-connected-sites" target="_blank" rel="noopener noreferrer">Microsoft Learn — Integração entre Teams e SharePoint</a></li>
+                <li><a href="https://support.microsoft.com/en-us/sharepoint/admin/understand-groups-and-permissions-on-a-sharepoint-site" target="_blank" rel="noopener noreferrer">Microsoft Support — Grupos e permissões num site SharePoint</a></li>
+                <li><a href="https://support.microsoft.com/en-us/sharepoint/libraries/introduction-to-libraries" target="_blank" rel="noopener noreferrer">Microsoft Support — Introdução às bibliotecas</a></li>
+                <li><a href="https://support.microsoft.com/en-us/sharepoint/pages-in-sharepoint/create-and-use-modern-pages-on-a-sharepoint-site" target="_blank" rel="noopener noreferrer">Microsoft Support — Criar e usar páginas modernas</a></li>
+                <li><a href="https://learn.microsoft.com/en-us/sharepoint/information-architecture-modern-experience" target="_blank" rel="noopener noreferrer">Microsoft Learn — Arquitetura da informação no SharePoint</a></li>
+                <li><a href="https://learn.microsoft.com/en-us/sharepoint/plan-implement-navigation-design" target="_blank" rel="noopener noreferrer">Microsoft Learn — Planear a navegação</a></li>
+            </ol>
+            <p class="small muted">Conteúdo revisto em 27 de novembro de 2026. As funcionalidades disponíveis dependem da licença, das políticas da organização e das permissões atribuídas.</p>
+        </section>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <p><strong>Guia SharePoint</strong><br><span class="small">Planeamento, construção e governação.</span></p>
+        <a class="back-top" href="#topo">Voltar ao início</a>
+    </div>
+</footer>
+
+<script>
+(function () {
+    'use strict';
+
+    const storageKey = 'guia-sharepoint-checklist-v1';
+    const checklist = document.getElementById('launchChecklist');
+    const checks = Array.from(checklist.querySelectorAll('input[type="checkbox"]'));
+    const progressText = document.getElementById('progressText');
+    const progressBar = document.getElementById('progressBar');
+    const resetButton = document.getElementById('resetChecklist');
+
+    function readState() {
+        try { return JSON.parse(localStorage.getItem(storageKey)) || {}; }
+        catch (error) { return {}; }
+    }
+
+    function saveState() {
+        const state = {};
+        checks.forEach(function (check) { state[check.dataset.check] = check.checked; });
+        try { localStorage.setItem(storageKey, JSON.stringify(state)); }
+        catch (error) { /* O guia continua funcional sem armazenamento local. */ }
+    }
+
+    function updateProgress() {
+        const completed = checks.filter(function (check) { return check.checked; }).length;
+        const percentage = Math.round((completed / checks.length) * 100);
+        progressText.textContent = completed + ' de ' + checks.length + ' (' + percentage + '%)';
+        progressBar.style.width = percentage + '%';
+    }
+
+    const state = readState();
+    checks.forEach(function (check) {
+        check.checked = Boolean(state[check.dataset.check]);
+        check.addEventListener('change', function () {
+            saveState();
+            updateProgress();
+        });
+    });
+
+    resetButton.addEventListener('click', function () {
+        checks.forEach(function (check) { check.checked = false; });
+        saveState();
+        updateProgress();
+    });
+
+    updateProgress();
+
+    const tocLinks = Array.from(document.querySelectorAll('.toc a'));
+    const sections = tocLinks
+        .map(function (link) { return document.querySelector(link.getAttribute('href')); })
+        .filter(Boolean);
+
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function (entries) {
+            const visible = entries
+                .filter(function (entry) { return entry.isIntersecting; })
+                .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+            if (!visible.length) return;
+            const id = '#' + visible[0].target.id;
+            tocLinks.forEach(function (link) {
+                if (link.getAttribute('href') === id) link.setAttribute('aria-current', 'location');
+                else link.removeAttribute('aria-current');
+            });
+        }, { rootMargin: '-15% 0px -70% 0px', threshold: [0, .25, .5] });
+        sections.forEach(function (section) { observer.observe(section); });
+    }
+})();
+</script>
+</body>
+</html>
