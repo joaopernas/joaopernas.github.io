@@ -1,13 +1,15 @@
+<!doctype html>
 <!DOCTYPE html>
+
 <html lang="pt-PT">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <meta name="description" content="Gerador de objetivos de aprendizagem com base na Taxonomia de Bloom revista.">
- <meta name="theme-color" content="#142a42">
- <link rel="icon" href="data:,">
- <title>Gerador de Objetivos de Aprendizagem</title>
- <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Gerador de objetivos de aprendizagem com base na Taxonomia de Bloom revista." name="description"/>
+<meta content="#142a42" name="theme-color"/>
+<link href="data:," rel="icon"/>
+<title>Gerador de Objetivos de Aprendizagem | Caixa de Ferramentas do Formador</title>
+<style>
  .back-link {
  display: inline-flex;
  align-items: center;
@@ -548,210 +550,196 @@
  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
  }
  </style>
-</head>
-<body>
- <noscript><div class="noscript">Esta aplicação necessita de JavaScript ativo para gerar os objetivos de aprendizagem.</div></noscript>
-<header class="hero">
- <div class="hero-inner">
- <div class="mark" aria-hidden="true">OA</div>
- <div>
- <p class="eyebrow">Design instrucional</p>
- <h1>Gerador de Objetivos de Aprendizagem</h1>
- <p>Crie objetivos de aprendizagem claros, observáveis e avaliáveis, com base na Taxonomia de Bloom revista e validação automática da sua qualidade.</p>
- </div>
-<a class="back-link"
-   href="design-instrucional.html"
-   aria-label="Voltar às ferramentas de Design Instrucional">
-  ← Voltar às ferramentas
-</a>
- </div>
-</header>
- <main class="app">
- <div class="privacy-note" role="note">
- <span aria-hidden="true">🔒</span>
- <div><strong>Privacidade:</strong> os dados permanecem neste navegador. A aplicação não envia informação para qualquer servidor.</div>
- </div>
- <ol class="stepper" aria-label="Etapas de utilização">
- <li><span>1</span> Contextualize a aprendizagem</li>
- <li><span>2</span> Selecione os níveis de Bloom</li>
- <li><span>3</span> Gere, reveja e exporte</li>
- </ol>
- <div class="layout">
- <section class="panel form-panel" aria-labelledby="form-title">
- <div class="panel-head">
- <h2 id="form-title">Configuração</h2>
- <p>Preencha apenas os campos necessários. Os campos assinalados são obrigatórios.</p>
- </div>
- <div class="panel-body">
- <form id="generatorForm" novalidate>
- <fieldset>
- <legend>1. Contexto formativo</legend>
- <div class="grid-2">
- <div class="field">
- <label for="course" class="required">Ação de formação ou curso</label>
- <input id="course" name="course" type="text" maxlength="120" placeholder="Ex.: Microsoft Teams — colaboração" required>
- </div>
- <div class="field">
- <label for="module">Módulo ou sessão</label>
- <input id="module" name="module" type="text" maxlength="120" placeholder="Ex.: Gestão de equipas e canais">
- </div>
- <div class="field">
- <label for="audience" class="required">Público-alvo</label>
- <input id="audience" name="audience" type="text" maxlength="120" placeholder="Ex.: trabalhadores/as municipais" required>
- </div>
- <div class="field">
- <label for="modality">Modalidade</label>
- <select id="modality" name="modality">
- <option>Presencial</option>
- <option>Online síncrona</option>
- <option>Online assíncrona</option>
- <option>B-learning</option>
- </select>
- </div>
- </div>
- </fieldset>
- <fieldset>
- <legend>2. Aprendizagens pretendidas</legend>
- <div class="field">
- <label for="topics" class="required">Conteúdos, tarefas ou resultados esperados</label>
- <textarea id="topics" name="topics" required placeholder="Introduza um item por linha. Ex.:
+<link href="ferramentas.css" rel="stylesheet"/><meta content="formacao-unificada-2026-11" name="portal-style-version"/></head>
+<body><a class="skip-link" href="#conteudo">Saltar para o conteúdo principal</a>
+<noscript><div class="noscript">Esta aplicação necessita de JavaScript ativo para gerar os objetivos de aprendizagem.</div></noscript>
+<header class="portal-page-header"><div class="portal-header-inner"><div class="portal-heading"><p class="portal-eyebrow">Design Instrucional</p><h1>Gerador de Objetivos de Aprendizagem</h1><p class="portal-lede">Gerador de objetivos de aprendizagem com base na Taxonomia de Bloom revista.</p></div><div class="portal-header-actions"><a aria-label="Voltar a Design Instrucional" class="portal-back-link back-link" href="design-instrucional.html">← Voltar a Design Instrucional</a></div></div></header>
+<main class="app" id="conteudo">
+<div class="privacy-note" role="note">
+<span aria-hidden="true">🔒</span>
+<div><strong>Privacidade:</strong> os dados permanecem neste navegador. A aplicação não envia informação para qualquer servidor.</div>
+</div>
+<ol aria-label="Etapas de utilização" class="stepper">
+<li><span>1</span> Contextualize a aprendizagem</li>
+<li><span>2</span> Selecione os níveis de Bloom</li>
+<li><span>3</span> Gere, reveja e exporte</li>
+</ol>
+<div class="layout">
+<section aria-labelledby="form-title" class="panel form-panel">
+<div class="panel-head">
+<h2 id="form-title">Configuração</h2>
+<p>Preencha apenas os campos necessários. Os campos assinalados são obrigatórios.</p>
+</div>
+<div class="panel-body">
+<form id="generatorForm" novalidate="">
+<fieldset>
+<legend>1. Contexto formativo</legend>
+<div class="grid-2">
+<div class="field">
+<label class="required" for="course">Ação de formação ou curso</label>
+<input id="course" maxlength="120" name="course" placeholder="Ex.: Microsoft Teams — colaboração" required="" type="text"/>
+</div>
+<div class="field">
+<label for="module">Módulo ou sessão</label>
+<input id="module" maxlength="120" name="module" placeholder="Ex.: Gestão de equipas e canais" type="text"/>
+</div>
+<div class="field">
+<label class="required" for="audience">Público-alvo</label>
+<input id="audience" maxlength="120" name="audience" placeholder="Ex.: trabalhadores/as municipais" required="" type="text"/>
+</div>
+<div class="field">
+<label for="modality">Modalidade</label>
+<select id="modality" name="modality">
+<option>Presencial</option>
+<option>Online síncrona</option>
+<option>Online assíncrona</option>
+<option>B-learning</option>
+</select>
+</div>
+</div>
+</fieldset>
+<fieldset>
+<legend>2. Aprendizagens pretendidas</legend>
+<div class="field">
+<label class="required" for="topics">Conteúdos, tarefas ou resultados esperados</label>
+<textarea id="topics" name="topics" placeholder="Introduza um item por linha. Ex.:
 Criar e configurar uma equipa
 Organizar canais e permissões
-Partilhar ficheiros em segurança"></textarea>
- <span class="hint">Cada linha pode dar origem a um objetivo distinto.</span>
- </div>
- <div class="grid-2" style="margin-top:.9rem">
- <div class="field">
- <label for="condition">Condição de realização</label>
- <input id="condition" name="condition" type="text" maxlength="180" placeholder="Ex.: utilizando um cenário de trabalho fornecido">
- </div>
- <div class="field">
- <label for="criterion">Critério de sucesso</label>
- <input id="criterion" name="criterion" type="text" maxlength="180" placeholder="Ex.: sem erros críticos e no tempo definido">
- </div>
- </div>
- </fieldset>
- <fieldset>
- <legend>3. Níveis cognitivos — Taxonomia de Bloom revista</legend>
- <div class="level-grid" id="levelGrid">
- <div class="level-option">
- <input type="checkbox" id="level-remember" name="levels" value="remember">
- <label for="level-remember"><strong>Recordar</strong><small>Reconhecer e recuperar informação</small></label>
- </div>
- <div class="level-option">
- <input type="checkbox" id="level-understand" name="levels" value="understand" checked>
- <label for="level-understand"><strong>Compreender</strong><small>Explicar, resumir e interpretar</small></label>
- </div>
- <div class="level-option">
- <input type="checkbox" id="level-apply" name="levels" value="apply" checked>
- <label for="level-apply"><strong>Aplicar</strong><small>Executar e utilizar procedimentos</small></label>
- </div>
- <div class="level-option">
- <input type="checkbox" id="level-analyze" name="levels" value="analyze">
- <label for="level-analyze"><strong>Analisar</strong><small>Distinguir, relacionar e organizar</small></label>
- </div>
- <div class="level-option">
- <input type="checkbox" id="level-evaluate" name="levels" value="evaluate">
- <label for="level-evaluate"><strong>Avaliar</strong><small>Julgar com base em critérios</small></label>
- </div>
- <div class="level-option">
- <input type="checkbox" id="level-create" name="levels" value="create">
- <label for="level-create"><strong>Criar</strong><small>Conceber e produzir soluções</small></label>
- </div>
- </div>
- <span class="hint">Selecione um ou mais níveis. A aplicação distribui os objetivos pelos níveis escolhidos.</span>
- </fieldset>
- <fieldset>
- <legend>4. Opções de geração</legend>
- <div class="grid-3">
- <div class="field">
- <label for="count">Número de objetivos</label>
- <input id="count" name="count" type="number" min="1" max="12" value="4">
- </div>
- <div class="field">
- <label for="person">Formulação</label>
- <select id="person" name="person">
- <option value="participantes">No final, os/as participantes…</option>
- <option value="formandos">No final, os/as formandos/as…</option>
- <option value="direta">Formulação direta</option>
- </select>
- </div>
- <div class="field">
- <label for="detail">Grau de detalhe</label>
- <select id="detail" name="detail">
- <option value="complete">Completo</option>
- <option value="concise">Conciso</option>
- </select>
- </div>
- </div>
- </fieldset>
- <div class="actions">
- <button class="btn btn-primary" type="submit">Gerar objetivos</button>
- <button class="btn btn-secondary" type="button" id="exampleBtn">Carregar exemplo</button>
- <button class="btn btn-secondary" type="button" id="saveBtn">Guardar rascunho</button>
- <button class="btn btn-danger" type="button" id="clearBtn">Limpar</button>
- </div>
- </form>
- </div>
- </section>
- <section class="panel result-panel" aria-labelledby="result-title">
- <div class="panel-head">
- <h2 id="result-title">Objetivos gerados</h2>
- <p>Edite livremente os textos antes de os copiar, descarregar ou imprimir.</p>
- </div>
- <div class="panel-body">
- <div class="result-toolbar">
- <div class="actions">
- <button class="btn btn-secondary btn-small" type="button" id="addBtn" disabled>Adicionar objetivo</button>
- <button class="btn btn-secondary btn-small" type="button" id="reviewBtn" disabled>Rever qualidade</button>
- </div>
- <div class="actions">
- <button class="btn btn-secondary btn-small" type="button" id="copyBtn" disabled>Copiar</button>
- <button class="btn btn-secondary btn-small" type="button" id="downloadBtn" disabled>Descarregar TXT</button>
- <button class="btn btn-secondary btn-small" type="button" id="printBtn" disabled>Imprimir / PDF</button>
- </div>
- </div>
- <div class="summary" id="summary" aria-live="polite">
- <div class="summary-item"><strong id="summaryCount">0</strong>objetivos</div>
- <div class="summary-item"><strong id="summaryLevels">0</strong>níveis de Bloom</div>
- <div class="summary-item"><strong id="summaryQuality">0%</strong>qualidade média</div>
- </div>
- <div id="results" aria-live="polite">
- <div class="empty-state" id="emptyState">
- <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M9 18h6M10 22h4M8.4 14.5A7 7 0 1 1 15.6 14.5c-.9.7-1.6 1.7-1.6 2.5h-4c0-.8-.7-1.8-1.6-2.5Z"/><path d="m9.5 9.5 1.7 1.7 3.3-3.4"/></svg>
- <h3>Comece pelo contexto formativo</h3>
- <p>Preencha o formulário e selecione os níveis cognitivos adequados às aprendizagens pretendidas.</p>
- </div>
- <div class="objective-list" id="objectiveList"></div>
- </div>
- </div>
- </section>
- </div>
- <details class="bloom-guide">
- <summary>Guia rápido: níveis e verbos da Taxonomia de Bloom revista</summary>
- <div style="overflow-x:auto">
- <table class="bloom-table">
- <thead><tr><th>Nível</th><th>Finalidade</th><th>Exemplos de verbos observáveis</th></tr></thead>
- <tbody>
- <tr><td><strong>Recordar</strong></td><td>Recuperar conhecimento relevante</td><td>identificar, listar, reconhecer, indicar, definir</td></tr>
- <tr><td><strong>Compreender</strong></td><td>Construir significado</td><td>explicar, resumir, classificar, exemplificar, distinguir</td></tr>
- <tr><td><strong>Aplicar</strong></td><td>Usar um procedimento</td><td>aplicar, executar, utilizar, demonstrar, configurar</td></tr>
- <tr><td><strong>Analisar</strong></td><td>Relacionar partes e estrutura</td><td>analisar, comparar, relacionar, organizar, diagnosticar</td></tr>
- <tr><td><strong>Avaliar</strong></td><td>Formular juízos com critérios</td><td>avaliar, justificar, validar, verificar, recomendar</td></tr>
- <tr><td><strong>Criar</strong></td><td>Produzir algo novo e coerente</td><td>conceber, criar, elaborar, planear, desenvolver</td></tr>
- </tbody>
- </table>
- </div>
- </details>
- </main>
- <footer>
- <div class="footer-inner">
- <div>Gerador de Objetivos de Aprendizagem</div>
- <span>Aplicação local · Sem recolha de dados</span>
- </div>
- </footer>
- <div class="toast" id="toast" role="status" aria-live="polite"></div>
- <script>
+Partilhar ficheiros em segurança" required=""></textarea>
+<span class="hint">Cada linha pode dar origem a um objetivo distinto.</span>
+</div>
+<div class="grid-2" style="margin-top:.9rem">
+<div class="field">
+<label for="condition">Condição de realização</label>
+<input id="condition" maxlength="180" name="condition" placeholder="Ex.: utilizando um cenário de trabalho fornecido" type="text"/>
+</div>
+<div class="field">
+<label for="criterion">Critério de sucesso</label>
+<input id="criterion" maxlength="180" name="criterion" placeholder="Ex.: sem erros críticos e no tempo definido" type="text"/>
+</div>
+</div>
+</fieldset>
+<fieldset>
+<legend>3. Níveis cognitivos — Taxonomia de Bloom revista</legend>
+<div class="level-grid" id="levelGrid">
+<div class="level-option">
+<input id="level-remember" name="levels" type="checkbox" value="remember"/>
+<label for="level-remember"><strong>Recordar</strong><small>Reconhecer e recuperar informação</small></label>
+</div>
+<div class="level-option">
+<input checked="" id="level-understand" name="levels" type="checkbox" value="understand"/>
+<label for="level-understand"><strong>Compreender</strong><small>Explicar, resumir e interpretar</small></label>
+</div>
+<div class="level-option">
+<input checked="" id="level-apply" name="levels" type="checkbox" value="apply"/>
+<label for="level-apply"><strong>Aplicar</strong><small>Executar e utilizar procedimentos</small></label>
+</div>
+<div class="level-option">
+<input id="level-analyze" name="levels" type="checkbox" value="analyze"/>
+<label for="level-analyze"><strong>Analisar</strong><small>Distinguir, relacionar e organizar</small></label>
+</div>
+<div class="level-option">
+<input id="level-evaluate" name="levels" type="checkbox" value="evaluate"/>
+<label for="level-evaluate"><strong>Avaliar</strong><small>Julgar com base em critérios</small></label>
+</div>
+<div class="level-option">
+<input id="level-create" name="levels" type="checkbox" value="create"/>
+<label for="level-create"><strong>Criar</strong><small>Conceber e produzir soluções</small></label>
+</div>
+</div>
+<span class="hint">Selecione um ou mais níveis. A aplicação distribui os objetivos pelos níveis escolhidos.</span>
+</fieldset>
+<fieldset>
+<legend>4. Opções de geração</legend>
+<div class="grid-3">
+<div class="field">
+<label for="count">Número de objetivos</label>
+<input id="count" max="12" min="1" name="count" type="number" value="4"/>
+</div>
+<div class="field">
+<label for="person">Formulação</label>
+<select id="person" name="person">
+<option value="participantes">No final, os/as participantes…</option>
+<option value="formandos">No final, os/as formandos/as…</option>
+<option value="direta">Formulação direta</option>
+</select>
+</div>
+<div class="field">
+<label for="detail">Grau de detalhe</label>
+<select id="detail" name="detail">
+<option value="complete">Completo</option>
+<option value="concise">Conciso</option>
+</select>
+</div>
+</div>
+</fieldset>
+<div class="actions">
+<button class="btn btn-primary" type="submit">Gerar objetivos</button>
+<button class="btn btn-secondary" id="exampleBtn" type="button">Carregar exemplo</button>
+<button class="btn btn-secondary" id="saveBtn" type="button">Guardar rascunho</button>
+<button class="btn btn-danger" id="clearBtn" type="button">Limpar</button>
+</div>
+</form>
+</div>
+</section>
+<section aria-labelledby="result-title" class="panel result-panel">
+<div class="panel-head">
+<h2 id="result-title">Objetivos gerados</h2>
+<p>Edite livremente os textos antes de os copiar, descarregar ou imprimir.</p>
+</div>
+<div class="panel-body">
+<div class="result-toolbar">
+<div class="actions">
+<button class="btn btn-secondary btn-small" disabled="" id="addBtn" type="button">Adicionar objetivo</button>
+<button class="btn btn-secondary btn-small" disabled="" id="reviewBtn" type="button">Rever qualidade</button>
+</div>
+<div class="actions">
+<button class="btn btn-secondary btn-small" disabled="" id="copyBtn" type="button">Copiar</button>
+<button class="btn btn-secondary btn-small" disabled="" id="downloadBtn" type="button">Descarregar TXT</button>
+<button class="btn btn-secondary btn-small" disabled="" id="printBtn" type="button">Imprimir / PDF</button>
+</div>
+</div>
+<div aria-live="polite" class="summary" id="summary">
+<div class="summary-item"><strong id="summaryCount">0</strong>objetivos</div>
+<div class="summary-item"><strong id="summaryLevels">0</strong>níveis de Bloom</div>
+<div class="summary-item"><strong id="summaryQuality">0%</strong>qualidade média</div>
+</div>
+<div aria-live="polite" id="results">
+<div class="empty-state" id="emptyState">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" viewbox="0 0 24 24"><path d="M9 18h6M10 22h4M8.4 14.5A7 7 0 1 1 15.6 14.5c-.9.7-1.6 1.7-1.6 2.5h-4c0-.8-.7-1.8-1.6-2.5Z"></path><path d="m9.5 9.5 1.7 1.7 3.3-3.4"></path></svg>
+<h3>Comece pelo contexto formativo</h3>
+<p>Preencha o formulário e selecione os níveis cognitivos adequados às aprendizagens pretendidas.</p>
+</div>
+<div class="objective-list" id="objectiveList"></div>
+</div>
+</div>
+</section>
+</div>
+<details class="bloom-guide">
+<summary>Guia rápido: níveis e verbos da Taxonomia de Bloom revista</summary>
+<div style="overflow-x:auto">
+<table class="bloom-table">
+<thead><tr><th>Nível</th><th>Finalidade</th><th>Exemplos de verbos observáveis</th></tr></thead>
+<tbody>
+<tr><td><strong>Recordar</strong></td><td>Recuperar conhecimento relevante</td><td>identificar, listar, reconhecer, indicar, definir</td></tr>
+<tr><td><strong>Compreender</strong></td><td>Construir significado</td><td>explicar, resumir, classificar, exemplificar, distinguir</td></tr>
+<tr><td><strong>Aplicar</strong></td><td>Usar um procedimento</td><td>aplicar, executar, utilizar, demonstrar, configurar</td></tr>
+<tr><td><strong>Analisar</strong></td><td>Relacionar partes e estrutura</td><td>analisar, comparar, relacionar, organizar, diagnosticar</td></tr>
+<tr><td><strong>Avaliar</strong></td><td>Formular juízos com critérios</td><td>avaliar, justificar, validar, verificar, recomendar</td></tr>
+<tr><td><strong>Criar</strong></td><td>Produzir algo novo e coerente</td><td>conceber, criar, elaborar, planear, desenvolver</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+</main>
+<footer>
+<div class="footer-inner">
+<div>Gerador de Objetivos de Aprendizagem</div>
+<span>Aplicação local · Sem recolha de dados</span>
+</div>
+</footer>
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
+<script>
  (() => {
  'use strict';
  const STORAGE_KEY = 'geradorObjetivosAprendizagem_v1';

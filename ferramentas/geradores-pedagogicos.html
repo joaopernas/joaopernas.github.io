@@ -1,10 +1,12 @@
+<!doctype html>
 <!DOCTYPE html>
+
 <html lang="pt-PT">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="Ferramentas pedagógicas para criação de dinâmicas, estudos de caso, debates, atividades, cenários e trabalhos de grupo." name="description"/>
-<meta content="#142a42" name="theme-color"/>
+<meta content="#1F3B5B" name="theme-color"/>
 <title>Geradores Pedagógicos | Caixa de Ferramentas do Formador</title>
 <style>
     :root {
@@ -361,38 +363,13 @@
     }
   </style>
 
-<link href="ferramentas.css" rel="stylesheet"/></head>
-<body class="toolkit-page"><a class="toolkit-skip-link" href="#conteudo">Saltar para o conteúdo principal</a>
-
+<link href="ferramentas.css" rel="stylesheet"/><meta content="formacao-unificada-2026-11" name="portal-style-version"/></head>
+<body>
+<a class="skip-link" href="#conteudo">Saltar para o conteúdo principal</a>
 <!-- CABEÇALHO -->
-
+<header class="portal-page-header"><div class="portal-header-inner"><div class="portal-heading"><p class="portal-eyebrow">Caixa de Ferramentas do Formador</p><h1>Geradores Pedagógicos</h1><p class="portal-lede">Ferramentas pedagógicas para criação de dinâmicas, estudos de caso, debates, atividades, cenários e trabalhos de grupo.</p></div><div class="portal-header-actions"><a aria-label="Voltar à Caixa de Ferramentas" class="portal-back-link back-link" href="../index.html">← Voltar à Caixa de Ferramentas</a></div></div></header>
 <!-- CONTEÚDO -->
-<header class="toolkit-topbar">
-<div class="toolkit-topbar-inner">
-<div aria-label="Geradores Pedagógicos" class="toolkit-brand">
-<span aria-hidden="true" class="toolkit-brand-mark">GP</span>
-<span>Geradores Pedagógicos</span>
-</div>
-<div class="toolkit-top-actions">
-<a class="toolkit-back-link" href="../index.html">← Voltar à Caixa de Ferramentas</a>
-<button class="toolkit-top-btn toolkit-print-btn" type="button">Imprimir</button>
-<button aria-pressed="false" class="toolkit-top-btn toolkit-theme-btn" type="button">Modo escuro</button>
-</div>
-</div>
-</header><section aria-labelledby="titulo-pagina" class="toolkit-hero">
-<div class="toolkit-hero-inner">
-<div>
-<p class="toolkit-eyebrow">Caixa de Ferramentas do Formador</p>
-<h1 id="titulo-pagina">Geradores <span>Pedagógicos</span></h1>
-<p class="toolkit-lead">Ferramentas práticas para transformar objetivos e temas de formação em propostas prontas a adaptar, facilitar e avaliar.</p>
-</div>
-<aside class="toolkit-hero-card">
-<strong>6 ferramentas disponíveis</strong>
-<p>Recursos práticos desta área, organizados para acesso direto em computador, tablet ou telemóvel.</p>
-<div class="toolkit-hero-badges"><span>Acesso direto</span><span>Design responsivo</span><span>Uso autónomo</span></div>
-</aside>
-</div>
-</section><main class="main-inner toolkit-main" id="conteudo">
+<main class="main-inner" id="conteudo">
 <section class="intro">
 <h2>Ferramentas disponíveis</h2>
 <p>
@@ -495,36 +472,11 @@
 </section>
 </main>
 <!-- RODAPÉ -->
-
-<footer class="toolkit-footer">
-<div class="toolkit-footer-inner">
+<footer class="site-footer">
+<div class="footer-inner">
 <p>© 2026 João Pernas · Recursos Didáticos</p>
-<a href="#conteudo">Voltar ao topo ↑</a>
+<a class="footer-link" href="#conteudo">Voltar ao topo ↑</a>
 </div>
-</footer><script>
-(() => {
-  const root = document.documentElement;
-  const themeButton = document.querySelector('.toolkit-theme-btn');
-  const printButton = document.querySelector('.toolkit-print-btn');
-  const storageKey = 'caixa-ferramentas-theme';
-  const preferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  let saved = preferred;
-  try { saved = localStorage.getItem(storageKey) || preferred; } catch (_) {}
-  const applyTheme = (theme) => {
-    root.dataset.theme = theme;
-    if (themeButton) {
-      const dark = theme === 'dark';
-      themeButton.textContent = dark ? 'Modo claro' : 'Modo escuro';
-      themeButton.setAttribute('aria-pressed', String(dark));
-    }
-  };
-  applyTheme(saved);
-  themeButton?.addEventListener('click', () => {
-    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
-    applyTheme(next);
-    try { localStorage.setItem(storageKey, next); } catch (_) {}
-  });
-  printButton?.addEventListener('click', () => window.print());
-})();
-</script></body>
+</footer>
+</body>
 </html>

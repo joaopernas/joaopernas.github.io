@@ -1,15 +1,14 @@
 <!doctype html>
+<!DOCTYPE html>
+
 <html lang="pt-PT">
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#1f3b5b">
-  <meta name="description" content="Gerador de planos de sessão para ações de formação.">
-
-  <title>Gerador de Planos de Sessão</title>
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#1f3b5b" name="theme-color"/>
+<meta content="Gerador de planos de sessão para ações de formação." name="description"/>
+<title>Gerador de Planos de Sessão | Caixa de Ferramentas do Formador</title>
+<style>
     :root{
       --primary:#1f3b5b;
       --primary-dark:#142a42;
@@ -666,224 +665,143 @@
       }
     }
   </style>
-</head>
-
-<body>
-
-<header class="site-header">
-  <div class="header-inner">
-
-    <div class="header-content">
-      <p class="eyebrow">Design Instrucional</p>
-      <h1>Gerador de Planos de Sessão</h1>
-      <p class="subtitle">
-        Estruture objetivos, conteúdos, metodologias, recursos, avaliação e tempos.
-      </p>
-    </div>
-
-<a class="back-link"
-   href="design-instrucional.html"
-   aria-label="Voltar às ferramentas de Design Instrucional">
-  ← Voltar às ferramentas
-</a>
-
-  </div>
-</header>
-
-<main class="app">
-
-  <form class="panel form-panel" id="planForm" novalidate>
-
-    <div class="panel-head">
-      <div>
-        <h2>Dados do plano</h2>
-        <p>Preencha os campos e gere a pré-visualização.</p>
-      </div>
-    </div>
-
-    <section class="section">
-      <h3 class="section-title">1. Identificação</h3>
-
-      <div class="grid-2">
-
-        <div>
-          <label class="required" for="course">Ação de formação</label>
-          <input id="course" required placeholder="Ex.: Microsoft Teams e SharePoint">
-        </div>
-
-        <div>
-          <label for="module">Módulo / tema</label>
-          <input id="module" placeholder="Ex.: Colaboração em equipa">
-        </div>
-
-        <div>
-          <label for="trainer">Formador/a</label>
-          <input id="trainer" placeholder="Nome do formador ou formadora">
-        </div>
-
-        <div>
-          <label for="audience">Público-alvo</label>
-          <input id="audience" placeholder="Ex.: Trabalhadores da Administração Pública">
-        </div>
-
-        <div>
-          <label for="date">Data</label>
-          <input id="date" type="date">
-        </div>
-
-        <div>
-          <label for="modality">Modalidade</label>
-
-          <select id="modality">
-            <option>Presencial</option>
-            <option>Online síncrona</option>
-            <option>Online assíncrona</option>
-            <option>B-learning</option>
-          </select>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="section">
-
-      <h3 class="section-title">2. Enquadramento</h3>
-
-      <div>
-        <label for="purpose">Finalidade da sessão</label>
-        <textarea id="purpose" placeholder="Descreva o propósito da sessão e o resultado global esperado."></textarea>
-      </div>
-
-      <div style="margin-top:.75rem">
-        <label for="prerequisites">Pré-requisitos</label>
-        <textarea id="prerequisites" placeholder="Conhecimentos prévios, acessos, aplicações ou materiais necessários."></textarea>
-      </div>
-
-    </section>
-
-    <section class="section">
-
-      <h3 class="section-title">
-        <span>3. Objetivos de aprendizagem</span>
-        <button class="btn btn-secondary btn-small" type="button" id="addObjective">
+<link href="ferramentas.css" rel="stylesheet"/><meta content="formacao-unificada-2026-11" name="portal-style-version"/></head>
+<body><a class="skip-link" href="#conteudo">Saltar para o conteúdo principal</a>
+<header class="portal-page-header"><div class="portal-header-inner"><div class="portal-heading"><p class="portal-eyebrow">Design Instrucional</p><h1>Gerador de Planos de Sessão</h1><p class="portal-lede">Gerador de planos de sessão para ações de formação.</p></div><div class="portal-header-actions"><a aria-label="Voltar a Design Instrucional" class="portal-back-link back-link" href="design-instrucional.html">← Voltar a Design Instrucional</a></div></div></header>
+<main class="app" id="conteudo">
+<form class="panel form-panel" id="planForm" novalidate="">
+<div class="panel-head">
+<div>
+<h2>Dados do plano</h2>
+<p>Preencha os campos e gere a pré-visualização.</p>
+</div>
+</div>
+<section class="section">
+<h3 class="section-title">1. Identificação</h3>
+<div class="grid-2">
+<div>
+<label class="required" for="course">Ação de formação</label>
+<input id="course" placeholder="Ex.: Microsoft Teams e SharePoint" required=""/>
+</div>
+<div>
+<label for="module">Módulo / tema</label>
+<input id="module" placeholder="Ex.: Colaboração em equipa"/>
+</div>
+<div>
+<label for="trainer">Formador/a</label>
+<input id="trainer" placeholder="Nome do formador ou formadora"/>
+</div>
+<div>
+<label for="audience">Público-alvo</label>
+<input id="audience" placeholder="Ex.: Trabalhadores da Administração Pública"/>
+</div>
+<div>
+<label for="date">Data</label>
+<input id="date" type="date"/>
+</div>
+<div>
+<label for="modality">Modalidade</label>
+<select id="modality">
+<option>Presencial</option>
+<option>Online síncrona</option>
+<option>Online assíncrona</option>
+<option>B-learning</option>
+</select>
+</div>
+</div>
+</section>
+<section class="section">
+<h3 class="section-title">2. Enquadramento</h3>
+<div>
+<label for="purpose">Finalidade da sessão</label>
+<textarea id="purpose" placeholder="Descreva o propósito da sessão e o resultado global esperado."></textarea>
+</div>
+<div style="margin-top:.75rem">
+<label for="prerequisites">Pré-requisitos</label>
+<textarea id="prerequisites" placeholder="Conhecimentos prévios, acessos, aplicações ou materiais necessários."></textarea>
+</div>
+</section>
+<section class="section">
+<h3 class="section-title">
+<span>3. Objetivos de aprendizagem</span>
+<button class="btn btn-secondary btn-small" id="addObjective" type="button">
           + Objetivo
         </button>
-      </h3>
-
-      <div class="objectives" id="objectives"></div>
-
-      <p class="help">
+</h3>
+<div class="objectives" id="objectives"></div>
+<p class="help">
         Use verbos observáveis, por exemplo: identificar, aplicar, configurar, analisar ou criar.
       </p>
-
-    </section>
-
-    <section class="section">
-
-      <h3 class="section-title">
-        <span>4. Desenvolvimento da sessão</span>
-        <button class="btn btn-secondary btn-small" type="button" id="addSession">
+</section>
+<section class="section">
+<h3 class="section-title">
+<span>4. Desenvolvimento da sessão</span>
+<button class="btn btn-secondary btn-small" id="addSession" type="button">
           + Momento
         </button>
-      </h3>
-
-      <div class="sessions" id="sessions"></div>
-
-      <div class="summary-line">
-        <span>Duração total planeada</span>
-        <strong id="totalDuration">0 min</strong>
-      </div>
-
-    </section>
-
-    <section class="section">
-
-      <h3 class="section-title">5. Avaliação e acompanhamento</h3>
-
-      <div class="grid-2">
-
-        <div>
-          <label for="assessment">Instrumentos de avaliação</label>
-          <textarea id="assessment" placeholder="Ex.: exercício prático, observação, questionário, autoavaliação."></textarea>
-        </div>
-
-        <div>
-          <label for="evidence">Evidências / critérios de sucesso</label>
-          <textarea id="evidence" placeholder="Ex.: configurar corretamente uma equipa e partilhar um ficheiro."></textarea>
-        </div>
-
-      </div>
-
-      <div style="margin-top:.75rem">
-        <label for="notes">Observações</label>
-        <textarea id="notes" placeholder="Adaptações, riscos, alternativas ou notas para sessões futuras."></textarea>
-      </div>
-
-    </section>
-
-    <div class="actions">
-      <button class="btn btn-primary" type="submit">Gerar plano</button>
-      <button class="btn btn-ghost" type="button" id="saveDraft">Guardar rascunho</button>
-      <button class="btn btn-ghost" type="button" id="loadDraft">Recuperar</button>
-      <button class="btn btn-danger" type="button" id="clearForm">Limpar</button>
-    </div>
-
-  </form>
-
-
-  <section class="panel preview-panel" aria-labelledby="previewTitle">
-
-    <div class="panel-head">
-
-      <div>
-        <h2 id="previewTitle">Pré-visualização</h2>
-        <p>O plano pode ser impresso ou guardado como PDF.</p>
-      </div>
-
-      <div class="actions" style="margin:0">
-        <button class="btn btn-secondary btn-small" type="button" id="copyPlan">
+</h3>
+<div class="sessions" id="sessions"></div>
+<div class="summary-line">
+<span>Duração total planeada</span>
+<strong id="totalDuration">0 min</strong>
+</div>
+</section>
+<section class="section">
+<h3 class="section-title">5. Avaliação e acompanhamento</h3>
+<div class="grid-2">
+<div>
+<label for="assessment">Instrumentos de avaliação</label>
+<textarea id="assessment" placeholder="Ex.: exercício prático, observação, questionário, autoavaliação."></textarea>
+</div>
+<div>
+<label for="evidence">Evidências / critérios de sucesso</label>
+<textarea id="evidence" placeholder="Ex.: configurar corretamente uma equipa e partilhar um ficheiro."></textarea>
+</div>
+</div>
+<div style="margin-top:.75rem">
+<label for="notes">Observações</label>
+<textarea id="notes" placeholder="Adaptações, riscos, alternativas ou notas para sessões futuras."></textarea>
+</div>
+</section>
+<div class="actions">
+<button class="btn btn-primary" type="submit">Gerar plano</button>
+<button class="btn btn-ghost" id="saveDraft" type="button">Guardar rascunho</button>
+<button class="btn btn-ghost" id="loadDraft" type="button">Recuperar</button>
+<button class="btn btn-danger" id="clearForm" type="button">Limpar</button>
+</div>
+</form>
+<section aria-labelledby="previewTitle" class="panel preview-panel">
+<div class="panel-head">
+<div>
+<h2 id="previewTitle">Pré-visualização</h2>
+<p>O plano pode ser impresso ou guardado como PDF.</p>
+</div>
+<div class="actions" style="margin:0">
+<button class="btn btn-secondary btn-small" id="copyPlan" type="button">
           Copiar texto
         </button>
-
-        <button class="btn btn-primary btn-small" type="button" id="printPlan">
+<button class="btn btn-primary btn-small" id="printPlan" type="button">
           Imprimir / PDF
         </button>
-      </div>
-
-    </div>
-
-    <div id="preview">
-
-      <div class="empty">
-        <div>
-          <strong>O plano será apresentado aqui</strong>
+</div>
+</div>
+<div id="preview">
+<div class="empty">
+<div>
+<strong>O plano será apresentado aqui</strong>
           Preencha os dados e selecione «Gerar plano».
         </div>
-      </div>
-
-    </div>
-
-  </section>
-
+</div>
+</div>
+</section>
 </main>
-
-
 <footer class="footer">
-
-  <div class="footer-inner">
-
-    <p>Gerador de Planos de Sessão · Recursos Didáticos</p>
-
-    <span>Os dados permanecem neste dispositivo.</span>
-
-  </div>
-
+<div class="footer-inner">
+<p>Gerador de Planos de Sessão · Recursos Didáticos</p>
+<span>Os dados permanecem neste dispositivo.</span>
+</div>
 </footer>
-
-
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
 <script>
 (() => {
 
@@ -1886,6 +1804,5 @@ ${data.notes || 'Sem observações.'}`;
 
 })();
 </script>
-
 </body>
 </html>

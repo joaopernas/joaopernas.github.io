@@ -1,12 +1,14 @@
 <!doctype html>
+<!DOCTYPE html>
+
 <html lang="pt-PT">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#1f3b5b">
-  <meta name="description" content="Planeador ADDIE para estruturar projetos de design instrucional nas fases Análise, Desenho, Desenvolvimento, Implementação e Avaliação.">
-  <title>Planeador ADDIE</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#1f3b5b" name="theme-color"/>
+<meta content="Planeador ADDIE para estruturar projetos de design instrucional nas fases Análise, Desenho, Desenvolvimento, Implementação e Avaliação." name="description"/>
+<title>Planeador ADDIE | Caixa de Ferramentas do Formador</title>
+<style>
     :root{
       --primary:#1f3b5b;
       --primary-dark:#142a42;
@@ -334,184 +336,158 @@
       *,*::before,*::after{transition:none!important}
     }
   </style>
-</head>
-<body>
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="header-content">
-        <p class="eyebrow">Design Instrucional</p>
-        <h1>Planeador ADDIE</h1>
-        <p class="subtitle">Planeie, acompanhe e documente projetos de aprendizagem nas fases Análise, Desenho, Desenvolvimento, Implementação e Avaliação.</p>
-      </div>
-      <div class="header-actions">
-        <a class="back-link" href="design-instrucional.html" aria-label="Voltar às ferramentas de Design Instrucional">← Voltar às ferramentas</a>
-        <div class="header-badge">Funciona localmente · Dados guardados no navegador</div>
-      </div>
-    </div>
-  </header>
-
-  <nav class="phase-strip" aria-label="Fases do modelo ADDIE">
-    <a class="phase-chip" href="#analise"><span>A</span><small>Análise</small></a>
-    <a class="phase-chip" href="#desenho"><span>D</span><small>Desenho</small></a>
-    <a class="phase-chip" href="#desenvolvimento"><span>D</span><small>Desenvolvimento</small></a>
-    <a class="phase-chip" href="#implementacao"><span>I</span><small>Implementação</small></a>
-    <a class="phase-chip" href="#avaliacao"><span>E</span><small>Avaliação</small></a>
-  </nav>
-
-  <main class="app">
-    <form class="panel form-panel" id="addieForm" novalidate>
-      <div class="panel-head">
-        <div>
-          <h2>Dados do projeto</h2>
-          <p>Preencha as cinco fases e gere o plano consolidado.</p>
-        </div>
-        <div class="progress-box" aria-live="polite">
-          <strong id="formProgress">0%</strong>
-          <span>preenchimento</span>
-          <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="formProgressBar"></div></div>
-        </div>
-      </div>
-
-      <section class="section" id="identificacao">
-        <h3 class="section-title">1. Identificação do projeto</h3>
-        <div class="grid-2">
-          <div><label class="required" for="projectName">Projeto / ação de aprendizagem</label><input id="projectName" required maxlength="160" placeholder="Ex.: Programa de integração digital"></div>
-          <div><label for="projectOwner">Responsável</label><input id="projectOwner" maxlength="120" placeholder="Nome ou equipa responsável"></div>
-          <div><label for="sponsor">Entidade promotora / patrocinador</label><input id="sponsor" maxlength="140" placeholder="Serviço, unidade orgânica ou entidade"></div>
-          <div><label for="audience">Público-alvo</label><input id="audience" maxlength="180" placeholder="Ex.: Trabalhadores/as com funções de atendimento"></div>
-          <div><label for="startDate">Data de início</label><input id="startDate" type="date"></div>
-          <div><label for="endDate">Data de conclusão prevista</label><input id="endDate" type="date"></div>
-          <div><label for="modality">Modalidade principal</label><select id="modality"><option>Presencial</option><option>Online síncrona</option><option>Online assíncrona</option><option>B-learning</option><option>Em contexto de trabalho</option></select></div>
-          <div><label for="projectStatus">Estado do projeto</label><select id="projectStatus"><option>Em planeamento</option><option>Em curso</option><option>Em revisão</option><option>Concluído</option><option>Suspenso</option></select></div>
-        </div>
-        <div class="field-gap"><label for="projectContext">Contexto e finalidade</label><textarea id="projectContext" placeholder="Enquadre o projeto, a sua finalidade e a mudança que se pretende alcançar."></textarea></div>
-      </section>
-
-      <section class="section" id="analise">
-        <h3 class="section-title"><span class="section-title-main"><span class="phase-letter">A</span>Análise</span></h3>
-        <p class="phase-description">Clarifique o problema, as necessidades, o público, o contexto e os condicionantes.</p>
-        <div class="grid-2">
-          <div><label for="problem">Problema / oportunidade</label><textarea id="problem" placeholder="Que necessidade de desempenho ou aprendizagem justifica o projeto?"></textarea></div>
-          <div><label for="desiredChange">Resultados organizacionais esperados</label><textarea id="desiredChange" placeholder="Que mudança deve ocorrer no desempenho, no serviço ou nos resultados?"></textarea></div>
-          <div><label for="learnerProfile">Perfil dos participantes</label><textarea id="learnerProfile" placeholder="Funções, experiência, diversidade, motivações e contexto de trabalho."></textarea></div>
-          <div><label for="priorKnowledge">Conhecimentos prévios e lacunas</label><textarea id="priorKnowledge" placeholder="O que já sabem e o que precisam de aprender ou reforçar?"></textarea></div>
-          <div><label for="constraints">Condicionantes e riscos</label><textarea id="constraints" placeholder="Tempo, orçamento, tecnologia, disponibilidade, acessibilidade ou outros riscos."></textarea></div>
-          <div><label for="availableResources">Recursos e oportunidades disponíveis</label><textarea id="availableResources" placeholder="Pessoas, conteúdos, plataformas, espaços, dados ou apoio institucional."></textarea></div>
-          <div class="field-wide"><label for="stakeholders">Partes interessadas e contributos</label><textarea id="stakeholders" placeholder="Identifique quem decide, valida, produz, facilita, apoia e participa."></textarea></div>
-        </div>
-      </section>
-
-      <section class="section" id="desenho">
-        <h3 class="section-title"><span class="section-title-main"><span class="phase-letter">D</span>Desenho</span></h3>
-        <p class="phase-description">Defina objetivos, arquitetura, estratégias, experiência de aprendizagem e avaliação.</p>
-        <div class="grid-2">
-          <div class="field-wide"><label for="generalObjective">Objetivo geral</label><textarea id="generalObjective" placeholder="Descreva o resultado global de aprendizagem e a sua aplicação no contexto real."></textarea></div>
-          <div class="field-wide">
-            <h4 class="section-title"><span>Objetivos de aprendizagem</span><button class="btn btn-secondary btn-small" type="button" id="addObjective">+ Objetivo</button></h4>
-            <div class="repeater" id="objectives"></div>
-            <p class="help">Use verbos observáveis e indique, sempre que possível, condições e critérios de desempenho.</p>
-          </div>
-          <div><label for="learningStrategy">Estratégia pedagógica</label><textarea id="learningStrategy" placeholder="Ex.: demonstração, prática guiada, estudo de caso, projeto ou aprendizagem colaborativa."></textarea></div>
-          <div><label for="learningJourney">Percurso e sequência</label><textarea id="learningJourney" placeholder="Organize módulos, momentos, ritmo, duração e articulação entre atividades."></textarea></div>
-          <div><label for="assessmentPlan">Estratégia de avaliação da aprendizagem</label><textarea id="assessmentPlan" placeholder="Avaliação diagnóstica, formativa e sumativa; instrumentos e critérios."></textarea></div>
-          <div><label for="interactionPlan">Interação e acompanhamento</label><textarea id="interactionPlan" placeholder="Interações entre participantes, formador/a, conteúdos e contexto de trabalho."></textarea></div>
-          <div class="field-wide"><label for="accessibility">Acessibilidade, inclusão e proteção de dados</label><textarea id="accessibility" placeholder="Preveja alternativas, linguagem inclusiva, compatibilidade, privacidade e acesso equitativo."></textarea></div>
-        </div>
-      </section>
-
-      <section class="section" id="desenvolvimento">
-        <h3 class="section-title"><span class="section-title-main"><span class="phase-letter">D</span>Desenvolvimento</span></h3>
-        <p class="phase-description">Planeie a produção, revisão e validação dos conteúdos, recursos e ambientes.</p>
-        <div class="grid-2">
-          <div><label for="contentApproach">Abordagem de produção</label><textarea id="contentApproach" placeholder="Como serão produzidos ou adaptados conteúdos, atividades e suportes?"></textarea></div>
-          <div><label for="toolsStandards">Ferramentas e normas</label><textarea id="toolsStandards" placeholder="Aplicações, formatos, identidade visual, SCORM/xAPI, normas de acessibilidade ou outras."></textarea></div>
-          <div><label for="prototypeReview">Protótipo e ciclos de revisão</label><textarea id="prototypeReview" placeholder="Defina protótipo, revisores, momentos de validação e incorporação de alterações."></textarea></div>
-          <div><label for="qualityCriteria">Critérios de qualidade</label><textarea id="qualityCriteria" placeholder="Rigor, clareza, usabilidade, acessibilidade, coerência pedagógica e desempenho técnico."></textarea></div>
-          <div class="field-wide"><label for="rightsLicensing">Direitos, fontes e licenciamento</label><textarea id="rightsLicensing" placeholder="Registe fontes, autorizações, licenças e condições de reutilização."></textarea></div>
-          <div class="field-wide">
-            <h4 class="section-title"><span>Entregáveis</span><button class="btn btn-secondary btn-small" type="button" id="addDeliverable">+ Entregável</button></h4>
-            <div class="repeater" id="deliverables"></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="implementacao">
-        <h3 class="section-title"><span class="section-title-main"><span class="phase-letter">I</span>Implementação</span></h3>
-        <p class="phase-description">Prepare o piloto, a disponibilização, a comunicação, a facilitação e o suporte.</p>
-        <div class="grid-2">
-          <div><label for="deployment">Ambiente e disponibilização</label><textarea id="deployment" placeholder="Local, plataforma, inscrições, acessos, turmas, calendário e publicação."></textarea></div>
-          <div><label for="logistics">Logística e recursos</label><textarea id="logistics" placeholder="Espaços, equipamentos, materiais, acessos e responsabilidades operacionais."></textarea></div>
-          <div><label for="facilitatorPrep">Preparação da equipa de formação</label><textarea id="facilitatorPrep" placeholder="Guião, ensaio, distribuição de papéis e preparação técnica/pedagógica."></textarea></div>
-          <div><label for="communication">Comunicação e envolvimento</label><textarea id="communication" placeholder="Convocatória, instruções, expectativas, lembretes e articulação com chefias."></textarea></div>
-          <div><label for="supportPlan">Apoio aos participantes</label><textarea id="supportPlan" placeholder="Canais, horários, perguntas frequentes, suporte técnico e acompanhamento pedagógico."></textarea></div>
-          <div><label for="pilotPlan">Piloto e plano de contingência</label><textarea id="pilotPlan" placeholder="Teste-piloto, critérios de decisão, alternativas e resposta a incidentes."></textarea></div>
-        </div>
-        <div class="field-gap">
-          <label>Lista de verificação da implementação</label>
-          <div class="check-grid" id="implementationChecklist">
-            <label class="check-item"><input type="checkbox" value="Conteúdos e recursos validados">Conteúdos e recursos validados</label>
-            <label class="check-item"><input type="checkbox" value="Ambiente e acessos testados">Ambiente e acessos testados</label>
-            <label class="check-item"><input type="checkbox" value="Equipa de formação preparada">Equipa de formação preparada</label>
-            <label class="check-item"><input type="checkbox" value="Participantes informados">Participantes informados</label>
-            <label class="check-item"><input type="checkbox" value="Apoio e contingência confirmados">Apoio e contingência confirmados</label>
-            <label class="check-item"><input type="checkbox" value="Instrumentos de avaliação disponíveis">Instrumentos de avaliação disponíveis</label>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="avaliacao">
-        <h3 class="section-title"><span class="section-title-main"><span class="phase-letter">E</span>Avaliação</span></h3>
-        <p class="phase-description">Avalie o processo, a aprendizagem, a transferência e os resultados para melhorar o projeto.</p>
-        <div class="grid-2">
-          <div><label for="formativeEvaluation">Avaliação formativa do projeto</label><textarea id="formativeEvaluation" placeholder="Como serão recolhidos e usados dados durante cada fase do ADDIE?"></textarea></div>
-          <div><label for="summativeEvaluation">Avaliação final</label><textarea id="summativeEvaluation" placeholder="Como serão avaliados a experiência, a aprendizagem e os resultados finais?"></textarea></div>
-          <div><label for="transferEvaluation">Transferência para o contexto de trabalho</label><textarea id="transferEvaluation" placeholder="Como e quando será verificada a aplicação das aprendizagens?"></textarea></div>
-          <div><label for="improvementCycle">Melhoria contínua</label><textarea id="improvementCycle" placeholder="Quem analisa os dados, decide alterações e acompanha a versão seguinte?"></textarea></div>
-          <div class="field-wide">
-            <h4 class="section-title"><span>Indicadores de avaliação</span><button class="btn btn-secondary btn-small" type="button" id="addIndicator">+ Indicador</button></h4>
-            <div class="repeater" id="indicators"></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="roteiro">
-        <h3 class="section-title"><span>2. Roteiro e marcos do projeto</span><button class="btn btn-secondary btn-small" type="button" id="addMilestone">+ Marco</button></h3>
-        <p class="phase-description">Registe decisões, entregas, validações e datas relevantes de qualquer fase.</p>
-        <div class="repeater" id="milestones"></div>
-      </section>
-
-      <section class="section">
-        <h3 class="section-title">3. Observações</h3>
-        <label for="notes">Decisões, dependências e notas de acompanhamento</label>
-        <textarea id="notes" placeholder="Registe pressupostos, decisões pendentes, dependências e informação útil para a equipa."></textarea>
-      </section>
-
-      <div class="actions">
-        <button class="btn btn-primary" type="submit">Gerar plano ADDIE</button>
-        <button class="btn btn-ghost" type="button" id="saveDraft">Guardar rascunho</button>
-        <button class="btn btn-ghost" type="button" id="loadDraft">Recuperar</button>
-        <button class="btn btn-ghost" type="button" id="exportData">Exportar JSON</button>
-        <label class="btn btn-ghost file-label" for="importData">Importar JSON<input id="importData" type="file" accept="application/json,.json"></label>
-        <button class="btn btn-danger" type="button" id="clearForm">Limpar</button>
-      </div>
-    </form>
-
-    <section class="panel preview-panel" aria-labelledby="previewTitle">
-      <div class="panel-head">
-        <div><h2 id="previewTitle">Pré-visualização</h2><p>O plano consolidado pode ser copiado, impresso ou guardado como PDF.</p></div>
-        <div class="actions compact">
-          <button class="btn btn-secondary btn-small" type="button" id="copyPlan">Copiar texto</button>
-          <button class="btn btn-primary btn-small" type="button" id="printPlan">Imprimir / PDF</button>
-        </div>
-      </div>
-      <div id="preview"><div class="empty"><div><strong>O plano ADDIE será apresentado aqui</strong>Preencha os dados e selecione «Gerar plano ADDIE».</div></div></div>
-    </section>
-  </main>
-
-  <footer class="footer"><div class="footer-inner"><p>Planeador ADDIE · Recursos Didáticos</p><span>Os dados permanecem neste dispositivo.</span></div></footer>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-  <script>
+<link href="ferramentas.css" rel="stylesheet"/><meta content="formacao-unificada-2026-11" name="portal-style-version"/></head>
+<body><a class="skip-link" href="#conteudo">Saltar para o conteúdo principal</a>
+<header class="portal-page-header"><div class="portal-header-inner"><div class="portal-heading"><p class="portal-eyebrow">Design Instrucional</p><h1>Planeador ADDIE</h1><p class="portal-lede">Planeador ADDIE para estruturar projetos de design instrucional nas fases Análise, Desenho, Desenvolvimento, Implementação e Avaliação.</p><div class="portal-notes"><span>Funciona localmente · Dados guardados no navegador</span></div></div><div class="portal-header-actions"><a aria-label="Voltar a Design Instrucional" class="portal-back-link back-link" href="design-instrucional.html">← Voltar a Design Instrucional</a></div></div></header>
+<nav aria-label="Fases do modelo ADDIE" class="phase-strip">
+<a class="phase-chip" href="#analise"><span>A</span><small>Análise</small></a>
+<a class="phase-chip" href="#desenho"><span>D</span><small>Desenho</small></a>
+<a class="phase-chip" href="#desenvolvimento"><span>D</span><small>Desenvolvimento</small></a>
+<a class="phase-chip" href="#implementacao"><span>I</span><small>Implementação</small></a>
+<a class="phase-chip" href="#avaliacao"><span>E</span><small>Avaliação</small></a>
+</nav>
+<main class="app" id="conteudo">
+<form class="panel form-panel" id="addieForm" novalidate="">
+<div class="panel-head">
+<div>
+<h2>Dados do projeto</h2>
+<p>Preencha as cinco fases e gere o plano consolidado.</p>
+</div>
+<div aria-live="polite" class="progress-box">
+<strong id="formProgress">0%</strong>
+<span>preenchimento</span>
+<div aria-hidden="true" class="progress-track"><div class="progress-fill" id="formProgressBar"></div></div>
+</div>
+</div>
+<section class="section" id="identificacao">
+<h3 class="section-title">1. Identificação do projeto</h3>
+<div class="grid-2">
+<div><label class="required" for="projectName">Projeto / ação de aprendizagem</label><input id="projectName" maxlength="160" placeholder="Ex.: Programa de integração digital" required=""/></div>
+<div><label for="projectOwner">Responsável</label><input id="projectOwner" maxlength="120" placeholder="Nome ou equipa responsável"/></div>
+<div><label for="sponsor">Entidade promotora / patrocinador</label><input id="sponsor" maxlength="140" placeholder="Serviço, unidade orgânica ou entidade"/></div>
+<div><label for="audience">Público-alvo</label><input id="audience" maxlength="180" placeholder="Ex.: Trabalhadores/as com funções de atendimento"/></div>
+<div><label for="startDate">Data de início</label><input id="startDate" type="date"/></div>
+<div><label for="endDate">Data de conclusão prevista</label><input id="endDate" type="date"/></div>
+<div><label for="modality">Modalidade principal</label><select id="modality"><option>Presencial</option><option>Online síncrona</option><option>Online assíncrona</option><option>B-learning</option><option>Em contexto de trabalho</option></select></div>
+<div><label for="projectStatus">Estado do projeto</label><select id="projectStatus"><option>Em planeamento</option><option>Em curso</option><option>Em revisão</option><option>Concluído</option><option>Suspenso</option></select></div>
+</div>
+<div class="field-gap"><label for="projectContext">Contexto e finalidade</label><textarea id="projectContext" placeholder="Enquadre o projeto, a sua finalidade e a mudança que se pretende alcançar."></textarea></div>
+</section>
+<section class="section" id="analise">
+<h3 class="section-title"><span class="section-title-main"><span class="phase-letter">A</span>Análise</span></h3>
+<p class="phase-description">Clarifique o problema, as necessidades, o público, o contexto e os condicionantes.</p>
+<div class="grid-2">
+<div><label for="problem">Problema / oportunidade</label><textarea id="problem" placeholder="Que necessidade de desempenho ou aprendizagem justifica o projeto?"></textarea></div>
+<div><label for="desiredChange">Resultados organizacionais esperados</label><textarea id="desiredChange" placeholder="Que mudança deve ocorrer no desempenho, no serviço ou nos resultados?"></textarea></div>
+<div><label for="learnerProfile">Perfil dos participantes</label><textarea id="learnerProfile" placeholder="Funções, experiência, diversidade, motivações e contexto de trabalho."></textarea></div>
+<div><label for="priorKnowledge">Conhecimentos prévios e lacunas</label><textarea id="priorKnowledge" placeholder="O que já sabem e o que precisam de aprender ou reforçar?"></textarea></div>
+<div><label for="constraints">Condicionantes e riscos</label><textarea id="constraints" placeholder="Tempo, orçamento, tecnologia, disponibilidade, acessibilidade ou outros riscos."></textarea></div>
+<div><label for="availableResources">Recursos e oportunidades disponíveis</label><textarea id="availableResources" placeholder="Pessoas, conteúdos, plataformas, espaços, dados ou apoio institucional."></textarea></div>
+<div class="field-wide"><label for="stakeholders">Partes interessadas e contributos</label><textarea id="stakeholders" placeholder="Identifique quem decide, valida, produz, facilita, apoia e participa."></textarea></div>
+</div>
+</section>
+<section class="section" id="desenho">
+<h3 class="section-title"><span class="section-title-main"><span class="phase-letter">D</span>Desenho</span></h3>
+<p class="phase-description">Defina objetivos, arquitetura, estratégias, experiência de aprendizagem e avaliação.</p>
+<div class="grid-2">
+<div class="field-wide"><label for="generalObjective">Objetivo geral</label><textarea id="generalObjective" placeholder="Descreva o resultado global de aprendizagem e a sua aplicação no contexto real."></textarea></div>
+<div class="field-wide">
+<h4 class="section-title"><span>Objetivos de aprendizagem</span><button class="btn btn-secondary btn-small" id="addObjective" type="button">+ Objetivo</button></h4>
+<div class="repeater" id="objectives"></div>
+<p class="help">Use verbos observáveis e indique, sempre que possível, condições e critérios de desempenho.</p>
+</div>
+<div><label for="learningStrategy">Estratégia pedagógica</label><textarea id="learningStrategy" placeholder="Ex.: demonstração, prática guiada, estudo de caso, projeto ou aprendizagem colaborativa."></textarea></div>
+<div><label for="learningJourney">Percurso e sequência</label><textarea id="learningJourney" placeholder="Organize módulos, momentos, ritmo, duração e articulação entre atividades."></textarea></div>
+<div><label for="assessmentPlan">Estratégia de avaliação da aprendizagem</label><textarea id="assessmentPlan" placeholder="Avaliação diagnóstica, formativa e sumativa; instrumentos e critérios."></textarea></div>
+<div><label for="interactionPlan">Interação e acompanhamento</label><textarea id="interactionPlan" placeholder="Interações entre participantes, formador/a, conteúdos e contexto de trabalho."></textarea></div>
+<div class="field-wide"><label for="accessibility">Acessibilidade, inclusão e proteção de dados</label><textarea id="accessibility" placeholder="Preveja alternativas, linguagem inclusiva, compatibilidade, privacidade e acesso equitativo."></textarea></div>
+</div>
+</section>
+<section class="section" id="desenvolvimento">
+<h3 class="section-title"><span class="section-title-main"><span class="phase-letter">D</span>Desenvolvimento</span></h3>
+<p class="phase-description">Planeie a produção, revisão e validação dos conteúdos, recursos e ambientes.</p>
+<div class="grid-2">
+<div><label for="contentApproach">Abordagem de produção</label><textarea id="contentApproach" placeholder="Como serão produzidos ou adaptados conteúdos, atividades e suportes?"></textarea></div>
+<div><label for="toolsStandards">Ferramentas e normas</label><textarea id="toolsStandards" placeholder="Aplicações, formatos, identidade visual, SCORM/xAPI, normas de acessibilidade ou outras."></textarea></div>
+<div><label for="prototypeReview">Protótipo e ciclos de revisão</label><textarea id="prototypeReview" placeholder="Defina protótipo, revisores, momentos de validação e incorporação de alterações."></textarea></div>
+<div><label for="qualityCriteria">Critérios de qualidade</label><textarea id="qualityCriteria" placeholder="Rigor, clareza, usabilidade, acessibilidade, coerência pedagógica e desempenho técnico."></textarea></div>
+<div class="field-wide"><label for="rightsLicensing">Direitos, fontes e licenciamento</label><textarea id="rightsLicensing" placeholder="Registe fontes, autorizações, licenças e condições de reutilização."></textarea></div>
+<div class="field-wide">
+<h4 class="section-title"><span>Entregáveis</span><button class="btn btn-secondary btn-small" id="addDeliverable" type="button">+ Entregável</button></h4>
+<div class="repeater" id="deliverables"></div>
+</div>
+</div>
+</section>
+<section class="section" id="implementacao">
+<h3 class="section-title"><span class="section-title-main"><span class="phase-letter">I</span>Implementação</span></h3>
+<p class="phase-description">Prepare o piloto, a disponibilização, a comunicação, a facilitação e o suporte.</p>
+<div class="grid-2">
+<div><label for="deployment">Ambiente e disponibilização</label><textarea id="deployment" placeholder="Local, plataforma, inscrições, acessos, turmas, calendário e publicação."></textarea></div>
+<div><label for="logistics">Logística e recursos</label><textarea id="logistics" placeholder="Espaços, equipamentos, materiais, acessos e responsabilidades operacionais."></textarea></div>
+<div><label for="facilitatorPrep">Preparação da equipa de formação</label><textarea id="facilitatorPrep" placeholder="Guião, ensaio, distribuição de papéis e preparação técnica/pedagógica."></textarea></div>
+<div><label for="communication">Comunicação e envolvimento</label><textarea id="communication" placeholder="Convocatória, instruções, expectativas, lembretes e articulação com chefias."></textarea></div>
+<div><label for="supportPlan">Apoio aos participantes</label><textarea id="supportPlan" placeholder="Canais, horários, perguntas frequentes, suporte técnico e acompanhamento pedagógico."></textarea></div>
+<div><label for="pilotPlan">Piloto e plano de contingência</label><textarea id="pilotPlan" placeholder="Teste-piloto, critérios de decisão, alternativas e resposta a incidentes."></textarea></div>
+</div>
+<div class="field-gap">
+<label>Lista de verificação da implementação</label>
+<div class="check-grid" id="implementationChecklist">
+<label class="check-item"><input type="checkbox" value="Conteúdos e recursos validados"/>Conteúdos e recursos validados</label>
+<label class="check-item"><input type="checkbox" value="Ambiente e acessos testados"/>Ambiente e acessos testados</label>
+<label class="check-item"><input type="checkbox" value="Equipa de formação preparada"/>Equipa de formação preparada</label>
+<label class="check-item"><input type="checkbox" value="Participantes informados"/>Participantes informados</label>
+<label class="check-item"><input type="checkbox" value="Apoio e contingência confirmados"/>Apoio e contingência confirmados</label>
+<label class="check-item"><input type="checkbox" value="Instrumentos de avaliação disponíveis"/>Instrumentos de avaliação disponíveis</label>
+</div>
+</div>
+</section>
+<section class="section" id="avaliacao">
+<h3 class="section-title"><span class="section-title-main"><span class="phase-letter">E</span>Avaliação</span></h3>
+<p class="phase-description">Avalie o processo, a aprendizagem, a transferência e os resultados para melhorar o projeto.</p>
+<div class="grid-2">
+<div><label for="formativeEvaluation">Avaliação formativa do projeto</label><textarea id="formativeEvaluation" placeholder="Como serão recolhidos e usados dados durante cada fase do ADDIE?"></textarea></div>
+<div><label for="summativeEvaluation">Avaliação final</label><textarea id="summativeEvaluation" placeholder="Como serão avaliados a experiência, a aprendizagem e os resultados finais?"></textarea></div>
+<div><label for="transferEvaluation">Transferência para o contexto de trabalho</label><textarea id="transferEvaluation" placeholder="Como e quando será verificada a aplicação das aprendizagens?"></textarea></div>
+<div><label for="improvementCycle">Melhoria contínua</label><textarea id="improvementCycle" placeholder="Quem analisa os dados, decide alterações e acompanha a versão seguinte?"></textarea></div>
+<div class="field-wide">
+<h4 class="section-title"><span>Indicadores de avaliação</span><button class="btn btn-secondary btn-small" id="addIndicator" type="button">+ Indicador</button></h4>
+<div class="repeater" id="indicators"></div>
+</div>
+</div>
+</section>
+<section class="section" id="roteiro">
+<h3 class="section-title"><span>2. Roteiro e marcos do projeto</span><button class="btn btn-secondary btn-small" id="addMilestone" type="button">+ Marco</button></h3>
+<p class="phase-description">Registe decisões, entregas, validações e datas relevantes de qualquer fase.</p>
+<div class="repeater" id="milestones"></div>
+</section>
+<section class="section">
+<h3 class="section-title">3. Observações</h3>
+<label for="notes">Decisões, dependências e notas de acompanhamento</label>
+<textarea id="notes" placeholder="Registe pressupostos, decisões pendentes, dependências e informação útil para a equipa."></textarea>
+</section>
+<div class="actions">
+<button class="btn btn-primary" type="submit">Gerar plano ADDIE</button>
+<button class="btn btn-ghost" id="saveDraft" type="button">Guardar rascunho</button>
+<button class="btn btn-ghost" id="loadDraft" type="button">Recuperar</button>
+<button class="btn btn-ghost" id="exportData" type="button">Exportar JSON</button>
+<label class="btn btn-ghost file-label" for="importData">Importar JSON<input accept="application/json,.json" id="importData" type="file"/></label>
+<button class="btn btn-danger" id="clearForm" type="button">Limpar</button>
+</div>
+</form>
+<section aria-labelledby="previewTitle" class="panel preview-panel">
+<div class="panel-head">
+<div><h2 id="previewTitle">Pré-visualização</h2><p>O plano consolidado pode ser copiado, impresso ou guardado como PDF.</p></div>
+<div class="actions compact">
+<button class="btn btn-secondary btn-small" id="copyPlan" type="button">Copiar texto</button>
+<button class="btn btn-primary btn-small" id="printPlan" type="button">Imprimir / PDF</button>
+</div>
+</div>
+<div id="preview"><div class="empty"><div><strong>O plano ADDIE será apresentado aqui</strong>Preencha os dados e selecione «Gerar plano ADDIE».</div></div></div>
+</section>
+</main>
+<footer class="footer"><div class="footer-inner"><p>Planeador ADDIE · Recursos Didáticos</p><span>Os dados permanecem neste dispositivo.</span></div></footer>
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
+<script>
   (()=>{
     'use strict';
 

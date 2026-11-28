@@ -1,13 +1,14 @@
 <!doctype html>
+<!DOCTYPE html>
+
 <html lang="pt-PT">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#1f3b5b">
-  <meta name="description" content="Ferramenta para construir e validar matrizes pedagógicas de ações de formação.">
-  <title>Matriz Pedagógica</title>
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#1f3b5b" name="theme-color"/>
+<meta content="Ferramenta para construir e validar matrizes pedagógicas de ações de formação." name="description"/>
+<title>Matriz Pedagógica | Caixa de Ferramentas do Formador</title>
+<style>
     :root{
       --primary:#1f3b5b;
       --primary-dark:#142a42;
@@ -353,249 +354,226 @@
       *,*::before,*::after{transition:none!important}
     }
   </style>
-</head>
-
-<body>
-<header class="site-header">
-  <div class="header-inner">
-    <div class="header-content">
-      <p class="eyebrow">Design Instrucional</p>
-      <h1>Matriz Pedagógica</h1>
-      <p class="subtitle">Alinhe objetivos, conteúdos, estratégias, recursos, avaliação e duração numa visão única da ação de formação.</p>
-    </div>
-    <a class="back-link" href="design-instrucional.html" aria-label="Voltar às ferramentas de Design Instrucional">← Voltar às ferramentas</a>
-  </div>
-</header>
-
-<main class="app">
-  <form class="panel form-panel" id="matrixForm" novalidate>
-    <div class="panel-head">
-      <div>
-        <h2>Construção da matriz</h2>
-        <p>Preencha os dados e valide o alinhamento pedagógico.</p>
-      </div>
-      <button class="btn btn-small" type="button" id="exampleBtn">Carregar exemplo</button>
-    </div>
-
-    <section class="section">
-      <div class="section-title-row"><h3 class="section-title">1. Identificação</h3></div>
-      <div class="grid-2">
-        <div class="span-2">
-          <label class="required" for="course">Ação de formação</label>
-          <input id="course" name="course" required placeholder="Ex.: Atendimento digital ao Munícipe">
-        </div>
-        <div>
-          <label for="module">Módulo / unidade</label>
-          <input id="module" name="module" placeholder="Ex.: Serviços digitais municipais">
-        </div>
-        <div>
-          <label for="trainer">Formador/a</label>
-          <input id="trainer" name="trainer" placeholder="Nome do formador ou da formadora">
-        </div>
-        <div>
-          <label for="audience">Destinatários/as</label>
-          <input id="audience" name="audience" placeholder="Ex.: Trabalhadores/as do atendimento">
-        </div>
-        <div>
-          <label for="modality">Modalidade</label>
-          <select id="modality" name="modality">
-            <option value="Presencial">Presencial</option>
-            <option value="A distância — síncrona">A distância — síncrona</option>
-            <option value="A distância — assíncrona">A distância — assíncrona</option>
-            <option value="Mista">Mista</option>
-          </select>
-        </div>
-        <div>
-          <label for="date">Data / período</label>
-          <input id="date" name="date" placeholder="Ex.: 15 a 17 de janeiro de 2027">
-        </div>
-        <div>
-          <label for="workload">Carga horária prevista</label>
-          <div class="grid-2" style="gap:.45rem">
-            <input id="workload" name="workload" type="number" min="0" step="0.25" placeholder="Ex.: 7">
-            <select id="workloadUnit" name="workloadUnit" aria-label="Unidade da carga horária">
-              <option value="hours">horas</option>
-              <option value="minutes">minutos</option>
-            </select>
-          </div>
-        </div>
-        <div>
-          <label for="reference">Referência / versão</label>
-          <input id="reference" name="reference" placeholder="Ex.: MP-01 · v1.0">
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-title-row"><h3 class="section-title">2. Enquadramento pedagógico</h3></div>
-      <div class="grid-2">
-        <div class="span-2">
-          <label class="required" for="generalObjective">Objetivo geral</label>
-          <textarea id="generalObjective" name="generalObjective" required placeholder="Descreva o desempenho global esperado no final da ação."></textarea>
-        </div>
-        <div>
-          <label for="competencies">Competências a desenvolver</label>
-          <textarea id="competencies" name="competencies" placeholder="Uma competência por linha."></textarea>
-        </div>
-        <div>
-          <label for="prerequisites">Pré-requisitos</label>
-          <textarea id="prerequisites" name="prerequisites" placeholder="Conhecimentos, experiência ou condições prévias."></textarea>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-title-row">
-        <h3 class="section-title">3. Componentes da matriz</h3>
-        <button class="btn btn-accent btn-small" type="button" id="addRowBtn">＋ Adicionar componente</button>
-      </div>
-      <p class="section-help">Cada componente deve ligar um objetivo observável a conteúdos, atividade e evidência de avaliação.</p>
-      <div class="matrix-list" id="matrixList"></div>
-    </section>
-
-    <section class="section">
-      <div class="section-title-row"><h3 class="section-title">4. Orientações complementares</h3></div>
-      <div class="grid-2">
-        <div>
-          <label for="assessmentStrategy">Estratégia global de avaliação</label>
-          <textarea id="assessmentStrategy" name="assessmentStrategy" placeholder="Ex.: diagnóstica, formativa e sumativa; critérios de sucesso."></textarea>
-        </div>
-        <div>
-          <label for="inclusion">Acessibilidade e inclusão</label>
-          <textarea id="inclusion" name="inclusion" placeholder="Ex.: materiais acessíveis, alternativas de participação e apoio diferenciado."></textarea>
-        </div>
-        <div class="span-2">
-          <label for="notes">Observações</label>
-          <textarea id="notes" name="notes" placeholder="Indicações logísticas, riscos, dependências ou notas de acompanhamento."></textarea>
-        </div>
-      </div>
-    </section>
-
-    <div class="form-actions">
-      <button class="btn btn-primary" type="submit">Gerar / atualizar matriz</button>
-      <button class="btn" type="button" id="saveBtn">Gravar rascunho</button>
-      <button class="btn" type="button" id="loadBtn">Recuperar rascunho</button>
-      <button class="btn btn-danger" type="button" id="clearBtn">Limpar</button>
-    </div>
-  </form>
-
-  <section class="panel preview-panel" aria-labelledby="previewTitle">
-    <div class="panel-head">
-      <div>
-        <h2 id="previewTitle">Pré-visualização</h2>
-        <p>Documento pronto para validação, impressão ou exportação.</p>
-      </div>
-      <div class="preview-actions">
-        <button class="btn btn-small" type="button" id="copyBtn" disabled>Copiar</button>
-        <button class="btn btn-small" type="button" id="csvBtn" disabled>CSV</button>
-        <button class="btn btn-small" type="button" id="exportBtn">Exportar JSON</button>
-        <label class="btn btn-small" for="importFile">Importar JSON</label>
-        <input class="file-input" id="importFile" type="file" accept="application/json,.json">
-        <button class="btn btn-primary btn-small" type="button" id="printBtn" disabled>Imprimir / PDF</button>
-      </div>
-    </div>
-
-    <div class="metrics" id="metrics" hidden>
-      <div class="metric"><span>Componentes</span><strong id="metricRows">0</strong></div>
-      <div class="metric"><span>Duração total</span><strong id="metricDuration">0 min</strong></div>
-      <div class="metric"><span>Alinhamento</span><strong id="metricAlignment">—</strong></div>
-      <div class="metric"><span>Carga horária</span><strong id="metricWorkload">—</strong></div>
-    </div>
-
-    <div id="preview">
-      <div class="empty">
-        <div>
-          <div class="empty-icon">MP</div>
-          <strong>A matriz será apresentada aqui</strong>
-          <p>Preencha a identificação, o objetivo geral e pelo menos um componente. Depois selecione «Gerar / atualizar matriz».</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<link href="ferramentas.css" rel="stylesheet"/><meta content="formacao-unificada-2026-11" name="portal-style-version"/></head>
+<body><a class="skip-link" href="#conteudo">Saltar para o conteúdo principal</a>
+<header class="portal-page-header"><div class="portal-header-inner"><div class="portal-heading"><p class="portal-eyebrow">Design Instrucional</p><h1>Matriz Pedagógica</h1><p class="portal-lede">Ferramenta para construir e validar matrizes pedagógicas de ações de formação.</p></div><div class="portal-header-actions"><a aria-label="Voltar a Design Instrucional" class="portal-back-link back-link" href="design-instrucional.html">← Voltar a Design Instrucional</a></div></div></header>
+<main class="app" id="conteudo">
+<form class="panel form-panel" id="matrixForm" novalidate="">
+<div class="panel-head">
+<div>
+<h2>Construção da matriz</h2>
+<p>Preencha os dados e valide o alinhamento pedagógico.</p>
+</div>
+<button class="btn btn-small" id="exampleBtn" type="button">Carregar exemplo</button>
+</div>
+<section class="section">
+<div class="section-title-row"><h3 class="section-title">1. Identificação</h3></div>
+<div class="grid-2">
+<div class="span-2">
+<label class="required" for="course">Ação de formação</label>
+<input id="course" name="course" placeholder="Ex.: Atendimento digital ao Munícipe" required=""/>
+</div>
+<div>
+<label for="module">Módulo / unidade</label>
+<input id="module" name="module" placeholder="Ex.: Serviços digitais municipais"/>
+</div>
+<div>
+<label for="trainer">Formador/a</label>
+<input id="trainer" name="trainer" placeholder="Nome do formador ou da formadora"/>
+</div>
+<div>
+<label for="audience">Destinatários/as</label>
+<input id="audience" name="audience" placeholder="Ex.: Trabalhadores/as do atendimento"/>
+</div>
+<div>
+<label for="modality">Modalidade</label>
+<select id="modality" name="modality">
+<option value="Presencial">Presencial</option>
+<option value="A distância — síncrona">A distância — síncrona</option>
+<option value="A distância — assíncrona">A distância — assíncrona</option>
+<option value="Mista">Mista</option>
+</select>
+</div>
+<div>
+<label for="date">Data / período</label>
+<input id="date" name="date" placeholder="Ex.: 15 a 17 de janeiro de 2027"/>
+</div>
+<div>
+<label for="workload">Carga horária prevista</label>
+<div class="grid-2" style="gap:.45rem">
+<input id="workload" min="0" name="workload" placeholder="Ex.: 7" step="0.25" type="number"/>
+<select aria-label="Unidade da carga horária" id="workloadUnit" name="workloadUnit">
+<option value="hours">horas</option>
+<option value="minutes">minutos</option>
+</select>
+</div>
+</div>
+<div>
+<label for="reference">Referência / versão</label>
+<input id="reference" name="reference" placeholder="Ex.: MP-01 · v1.0"/>
+</div>
+</div>
+</section>
+<section class="section">
+<div class="section-title-row"><h3 class="section-title">2. Enquadramento pedagógico</h3></div>
+<div class="grid-2">
+<div class="span-2">
+<label class="required" for="generalObjective">Objetivo geral</label>
+<textarea id="generalObjective" name="generalObjective" placeholder="Descreva o desempenho global esperado no final da ação." required=""></textarea>
+</div>
+<div>
+<label for="competencies">Competências a desenvolver</label>
+<textarea id="competencies" name="competencies" placeholder="Uma competência por linha."></textarea>
+</div>
+<div>
+<label for="prerequisites">Pré-requisitos</label>
+<textarea id="prerequisites" name="prerequisites" placeholder="Conhecimentos, experiência ou condições prévias."></textarea>
+</div>
+</div>
+</section>
+<section class="section">
+<div class="section-title-row">
+<h3 class="section-title">3. Componentes da matriz</h3>
+<button class="btn btn-accent btn-small" id="addRowBtn" type="button">＋ Adicionar componente</button>
+</div>
+<p class="section-help">Cada componente deve ligar um objetivo observável a conteúdos, atividade e evidência de avaliação.</p>
+<div class="matrix-list" id="matrixList"></div>
+</section>
+<section class="section">
+<div class="section-title-row"><h3 class="section-title">4. Orientações complementares</h3></div>
+<div class="grid-2">
+<div>
+<label for="assessmentStrategy">Estratégia global de avaliação</label>
+<textarea id="assessmentStrategy" name="assessmentStrategy" placeholder="Ex.: diagnóstica, formativa e sumativa; critérios de sucesso."></textarea>
+</div>
+<div>
+<label for="inclusion">Acessibilidade e inclusão</label>
+<textarea id="inclusion" name="inclusion" placeholder="Ex.: materiais acessíveis, alternativas de participação e apoio diferenciado."></textarea>
+</div>
+<div class="span-2">
+<label for="notes">Observações</label>
+<textarea id="notes" name="notes" placeholder="Indicações logísticas, riscos, dependências ou notas de acompanhamento."></textarea>
+</div>
+</div>
+</section>
+<div class="form-actions">
+<button class="btn btn-primary" type="submit">Gerar / atualizar matriz</button>
+<button class="btn" id="saveBtn" type="button">Gravar rascunho</button>
+<button class="btn" id="loadBtn" type="button">Recuperar rascunho</button>
+<button class="btn btn-danger" id="clearBtn" type="button">Limpar</button>
+</div>
+</form>
+<section aria-labelledby="previewTitle" class="panel preview-panel">
+<div class="panel-head">
+<div>
+<h2 id="previewTitle">Pré-visualização</h2>
+<p>Documento pronto para validação, impressão ou exportação.</p>
+</div>
+<div class="preview-actions">
+<button class="btn btn-small" disabled="" id="copyBtn" type="button">Copiar</button>
+<button class="btn btn-small" disabled="" id="csvBtn" type="button">CSV</button>
+<button class="btn btn-small" id="exportBtn" type="button">Exportar JSON</button>
+<label class="btn btn-small" for="importFile">Importar JSON</label>
+<input accept="application/json,.json" class="file-input" id="importFile" type="file"/>
+<button class="btn btn-primary btn-small" disabled="" id="printBtn" type="button">Imprimir / PDF</button>
+</div>
+</div>
+<div class="metrics" hidden="" id="metrics">
+<div class="metric"><span>Componentes</span><strong id="metricRows">0</strong></div>
+<div class="metric"><span>Duração total</span><strong id="metricDuration">0 min</strong></div>
+<div class="metric"><span>Alinhamento</span><strong id="metricAlignment">—</strong></div>
+<div class="metric"><span>Carga horária</span><strong id="metricWorkload">—</strong></div>
+</div>
+<div id="preview">
+<div class="empty">
+<div>
+<div class="empty-icon">MP</div>
+<strong>A matriz será apresentada aqui</strong>
+<p>Preencha a identificação, o objetivo geral e pelo menos um componente. Depois selecione «Gerar / atualizar matriz».</p>
+</div>
+</div>
+</div>
+</section>
 </main>
-
 <footer class="footer">
-  <div class="footer-inner">
-    <p>Ferramenta de apoio ao Design Instrucional</p>
-    <p>Os dados permanecem neste dispositivo, salvo exportação pelo utilizador.</p>
-  </div>
+<div class="footer-inner">
+<p>Ferramenta de apoio ao Design Instrucional</p>
+<p>Os dados permanecem neste dispositivo, salvo exportação pelo utilizador.</p>
+</div>
 </footer>
-
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
 <template id="rowTemplate">
-  <article class="matrix-card">
-    <div class="matrix-card-head">
-      <div class="matrix-card-title">
-        <span class="order-badge">1</span>
-        <span>Componente pedagógica</span>
-        <span class="row-status">Por completar</span>
-      </div>
-      <div class="matrix-card-tools">
-        <button class="btn btn-icon move-up" type="button" title="Mover para cima" aria-label="Mover componente para cima">↑</button>
-        <button class="btn btn-icon move-down" type="button" title="Mover para baixo" aria-label="Mover componente para baixo">↓</button>
-        <button class="btn btn-icon btn-danger remove-row" type="button" title="Remover" aria-label="Remover componente">×</button>
-      </div>
-    </div>
-    <div class="matrix-card-body">
-      <div class="matrix-grid">
-        <div>
-          <label>Tema / sequência</label>
-          <input data-field="topic" placeholder="Ex.: Acolhimento e diagnóstico">
-        </div>
-        <div>
-          <label>Nível cognitivo</label>
-          <select data-field="bloom">
-            <option value="">Selecionar</option>
-            <option>Recordar</option>
-            <option>Compreender</option>
-            <option>Aplicar</option>
-            <option>Analisar</option>
-            <option>Avaliar</option>
-            <option>Criar</option>
-          </select>
-        </div>
-        <div class="wide">
-          <label class="required">Objetivo específico</label>
-          <textarea data-field="objective" placeholder="Ex.: Aplicar o procedimento de autenticação num atendimento simulado."></textarea>
-        </div>
-        <div>
-          <label class="required">Conteúdos</label>
-          <textarea data-field="content" placeholder="Conceitos, procedimentos ou atitudes a trabalhar."></textarea>
-        </div>
-        <div>
-          <label class="required">Estratégia / atividade</label>
-          <textarea data-field="activity" placeholder="Ex.: demonstração seguida de simulação em pares."></textarea>
-        </div>
-        <div>
-          <label>Recursos</label>
-          <textarea data-field="resources" placeholder="Materiais, equipamentos ou plataformas."></textarea>
-        </div>
-        <div>
-          <label class="required">Avaliação / evidência</label>
-          <textarea data-field="assessment" placeholder="Produto observável, instrumento e critério."></textarea>
-        </div>
-        <div>
-          <label>Organização</label>
-          <select data-field="organization">
-            <option value="">Selecionar</option>
-            <option>Grande grupo</option>
-            <option>Pequenos grupos</option>
-            <option>Pares</option>
-            <option>Individual</option>
-            <option>Trabalho autónomo</option>
-            <option>Mista</option>
-          </select>
-        </div>
-        <div>
-          <label class="required">Duração (minutos)</label>
-          <input data-field="duration" type="number" min="0" step="5" placeholder="Ex.: 30">
-        </div>
-      </div>
-    </div>
-  </article>
+<article class="matrix-card">
+<div class="matrix-card-head">
+<div class="matrix-card-title">
+<span class="order-badge">1</span>
+<span>Componente pedagógica</span>
+<span class="row-status">Por completar</span>
+</div>
+<div class="matrix-card-tools">
+<button aria-label="Mover componente para cima" class="btn btn-icon move-up" title="Mover para cima" type="button">↑</button>
+<button aria-label="Mover componente para baixo" class="btn btn-icon move-down" title="Mover para baixo" type="button">↓</button>
+<button aria-label="Remover componente" class="btn btn-icon btn-danger remove-row" title="Remover" type="button">×</button>
+</div>
+</div>
+<div class="matrix-card-body">
+<div class="matrix-grid">
+<div>
+<label>Tema / sequência</label>
+<input data-field="topic" placeholder="Ex.: Acolhimento e diagnóstico"/>
+</div>
+<div>
+<label>Nível cognitivo</label>
+<select data-field="bloom">
+<option value="">Selecionar</option>
+<option>Recordar</option>
+<option>Compreender</option>
+<option>Aplicar</option>
+<option>Analisar</option>
+<option>Avaliar</option>
+<option>Criar</option>
+</select>
+</div>
+<div class="wide">
+<label class="required">Objetivo específico</label>
+<textarea data-field="objective" placeholder="Ex.: Aplicar o procedimento de autenticação num atendimento simulado."></textarea>
+</div>
+<div>
+<label class="required">Conteúdos</label>
+<textarea data-field="content" placeholder="Conceitos, procedimentos ou atitudes a trabalhar."></textarea>
+</div>
+<div>
+<label class="required">Estratégia / atividade</label>
+<textarea data-field="activity" placeholder="Ex.: demonstração seguida de simulação em pares."></textarea>
+</div>
+<div>
+<label>Recursos</label>
+<textarea data-field="resources" placeholder="Materiais, equipamentos ou plataformas."></textarea>
+</div>
+<div>
+<label class="required">Avaliação / evidência</label>
+<textarea data-field="assessment" placeholder="Produto observável, instrumento e critério."></textarea>
+</div>
+<div>
+<label>Organização</label>
+<select data-field="organization">
+<option value="">Selecionar</option>
+<option>Grande grupo</option>
+<option>Pequenos grupos</option>
+<option>Pares</option>
+<option>Individual</option>
+<option>Trabalho autónomo</option>
+<option>Mista</option>
+</select>
+</div>
+<div>
+<label class="required">Duração (minutos)</label>
+<input data-field="duration" min="0" placeholder="Ex.: 30" step="5" type="number"/>
+</div>
+</div>
+</div>
+</article>
 </template>
-
 <script>
 (() => {
   'use strict';

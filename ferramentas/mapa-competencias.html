@@ -1,12 +1,14 @@
 <!doctype html>
+<!DOCTYPE html>
+
 <html lang="pt-PT">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#1f3b5b">
-  <meta name="description" content="Ferramenta para mapear competências, identificar lacunas e planear o desenvolvimento formativo.">
-  <title>Mapa de Competências | Design Instrucional</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="#1f3b5b" name="theme-color"/>
+<meta content="Ferramenta para mapear competências, identificar lacunas e planear o desenvolvimento formativo." name="description"/>
+<title>Mapa de Competências | Caixa de Ferramentas do Formador</title>
+<style>
     :root{--primary:#1f3b5b;--primary-dark:#142a42;--primary-light:#e9f0f7;--accent:#18aeb5;--accent-blue:#2e78b7;--surface:#fff;--background:#f4f7fa;--text:#182433;--muted:#5d6b7a;--border:#d8e1ea;--danger:#b42318;--warning:#a15c00;--success:#147d64;--shadow:0 12px 30px rgba(31,59,91,.10);--radius:18px;--max:1500px}
     *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;min-height:100vh;color:var(--text);background:var(--background);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5} button,input,select,textarea{font:inherit} button{cursor:pointer} a{color:inherit}
     .skip-link{position:fixed;top:.6rem;left:.6rem;z-index:100;padding:.7rem 1rem;color:#fff;background:var(--primary-dark);border-radius:10px;transform:translateY(-150%)}.skip-link:focus{transform:translateY(0)}
@@ -18,30 +20,30 @@
     :focus-visible{outline:3px solid #f5b942;outline-offset:3px}@media(max-width:1120px){.app{grid-template-columns:1fr}.preview-panel{position:static}}@media(max-width:700px){.header-inner{align-items:flex-start;flex-direction:column}.back-link{width:100%}.grid-2,.grid-3,.summary,.doc-meta{grid-template-columns:1fr}.form-panel,.preview-panel{padding:1rem}.footer-inner{align-items:flex-start;flex-direction:column;padding:1rem 0}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
     @media print{body{background:#fff}.site-header,.form-panel,.panel-head,.site-footer,.toast{display:none!important}.app{display:block;width:100%;padding:0}.preview-panel{border:0;box-shadow:none;padding:0}.summary{grid-template-columns:repeat(4,1fr)}@page{size:A4 landscape;margin:10mm}table{min-width:0}th,td{font-size:7.5pt;padding:4px}.doc-header h2{font-size:16pt}}
   </style>
-</head>
+<link href="ferramentas.css" rel="stylesheet"/><meta content="formacao-unificada-2026-11" name="portal-style-version"/></head>
 <body>
-  <a class="skip-link" href="#conteudo">Saltar para o conteúdo principal</a>
-  <header class="site-header"><div class="header-inner"><div><p class="eyebrow">Caixa de Ferramentas do Formador</p><h1>Mapa de Competências</h1><p class="subtitle">Identifique competências, compare níveis atuais e esperados e planeie respostas formativas orientadas para resultados.</p></div><a class="back-link" href="design-instrucional.html" aria-label="Voltar às ferramentas de Design Instrucional">← Voltar às ferramentas</a></div></header>
-  <main id="conteudo" class="app">
-    <section class="panel form-panel" aria-labelledby="editor-title">
-      <div class="panel-head"><div><h2 id="editor-title">Construção do mapa</h2><p>Os dados permanecem neste navegador até serem exportados.</p></div><button class="btn btn-ghost btn-small" type="button" id="exampleBtn">Carregar exemplo</button></div>
-      <form id="mapForm">
-        <div class="section"><h3 class="section-title">Enquadramento</h3><div class="grid-2">
-          <div><label class="required" for="title">Título do mapa</label><input id="title" required placeholder="Ex.: Competências para atendimento municipal"></div>
-          <div><label for="area">Área / serviço</label><input id="area" placeholder="Ex.: Atendimento ao Munícipe"></div>
-          <div><label for="audience">Público-alvo</label><input id="audience" placeholder="Ex.: Trabalhadores/as do atendimento"></div>
-          <div><label for="author">Responsável</label><input id="author" placeholder="Nome ou unidade orgânica"></div>
-          <div><label for="date">Data de referência</label><input id="date" type="date"></div>
-          <div><label for="scale">Escala de proficiência</label><select id="scale"><option value="4">4 níveis</option><option value="5">5 níveis</option></select></div>
-        </div><div style="margin-top:.75rem"><label for="purpose">Finalidade</label><textarea id="purpose" placeholder="Indique o diagnóstico, projeto ou percurso formativo a que o mapa dá suporte."></textarea></div></div>
-        <div class="section"><div class="section-title"><h3 style="margin:0;font:inherit">Competências</h3><button class="btn btn-secondary btn-small" type="button" id="addBtn">+ Adicionar competência</button></div><div id="items" class="items"></div></div>
-        <div class="section"><h3 class="section-title">Síntese e acompanhamento</h3><div class="grid-2"><div><label for="globalActions">Ações transversais</label><textarea id="globalActions" placeholder="Medidas comuns, recursos, acompanhamento ou articulação necessária."></textarea></div><div><label for="notes">Notas</label><textarea id="notes" placeholder="Pressupostos, riscos ou observações relevantes."></textarea></div></div></div>
-        <div class="actions"><button class="btn btn-primary" type="submit">Atualizar mapa</button><button class="btn btn-secondary" type="button" id="saveBtn">Guardar rascunho</button><button class="btn btn-ghost" type="button" id="loadBtn">Recuperar</button><button class="btn btn-ghost" type="button" id="exportBtn">Exportar JSON</button><label class="btn btn-ghost" for="importFile">Importar JSON</label><input class="file-input" id="importFile" type="file" accept="application/json,.json"><button class="btn btn-ghost" type="button" id="csvBtn">Exportar CSV</button><button class="btn btn-ghost" type="button" id="copyBtn">Copiar texto</button><button class="btn btn-ghost" type="button" id="printBtn">Imprimir / PDF</button><button class="btn btn-danger" type="button" id="clearBtn">Limpar</button></div>
-      </form>
-    </section>
-    <section class="panel preview-panel" aria-labelledby="preview-title"><div class="panel-head"><div><h2 id="preview-title">Pré-visualização</h2><p>O indicador de lacuna corresponde ao nível esperado menos o nível atual.</p></div></div><div id="preview"></div></section>
-  </main>
-  <footer class="site-footer"><div class="footer-inner"><p>© 2026 João Pernas · Recursos Didáticos</p><a href="#conteudo">Voltar ao topo ↑</a></div></footer><div class="toast" id="toast" role="status" aria-live="polite"></div>
+<a class="skip-link" href="#conteudo">Saltar para o conteúdo principal</a>
+<header class="portal-page-header"><div class="portal-header-inner"><div class="portal-heading"><p class="portal-eyebrow">Design Instrucional</p><h1>Mapa de Competências</h1><p class="portal-lede">Ferramenta para mapear competências, identificar lacunas e planear o desenvolvimento formativo.</p></div><div class="portal-header-actions"><a aria-label="Voltar a Design Instrucional" class="portal-back-link back-link" href="design-instrucional.html">← Voltar a Design Instrucional</a></div></div></header>
+<main class="app" id="conteudo">
+<section aria-labelledby="editor-title" class="panel form-panel">
+<div class="panel-head"><div><h2 id="editor-title">Construção do mapa</h2><p>Os dados permanecem neste navegador até serem exportados.</p></div><button class="btn btn-ghost btn-small" id="exampleBtn" type="button">Carregar exemplo</button></div>
+<form id="mapForm">
+<div class="section"><h3 class="section-title">Enquadramento</h3><div class="grid-2">
+<div><label class="required" for="title">Título do mapa</label><input id="title" placeholder="Ex.: Competências para atendimento municipal" required=""/></div>
+<div><label for="area">Área / serviço</label><input id="area" placeholder="Ex.: Atendimento ao Munícipe"/></div>
+<div><label for="audience">Público-alvo</label><input id="audience" placeholder="Ex.: Trabalhadores/as do atendimento"/></div>
+<div><label for="author">Responsável</label><input id="author" placeholder="Nome ou unidade orgânica"/></div>
+<div><label for="date">Data de referência</label><input id="date" type="date"/></div>
+<div><label for="scale">Escala de proficiência</label><select id="scale"><option value="4">4 níveis</option><option value="5">5 níveis</option></select></div>
+</div><div style="margin-top:.75rem"><label for="purpose">Finalidade</label><textarea id="purpose" placeholder="Indique o diagnóstico, projeto ou percurso formativo a que o mapa dá suporte."></textarea></div></div>
+<div class="section"><div class="section-title"><h3 style="margin:0;font:inherit">Competências</h3><button class="btn btn-secondary btn-small" id="addBtn" type="button">+ Adicionar competência</button></div><div class="items" id="items"></div></div>
+<div class="section"><h3 class="section-title">Síntese e acompanhamento</h3><div class="grid-2"><div><label for="globalActions">Ações transversais</label><textarea id="globalActions" placeholder="Medidas comuns, recursos, acompanhamento ou articulação necessária."></textarea></div><div><label for="notes">Notas</label><textarea id="notes" placeholder="Pressupostos, riscos ou observações relevantes."></textarea></div></div></div>
+<div class="actions"><button class="btn btn-primary" type="submit">Atualizar mapa</button><button class="btn btn-secondary" id="saveBtn" type="button">Guardar rascunho</button><button class="btn btn-ghost" id="loadBtn" type="button">Recuperar</button><button class="btn btn-ghost" id="exportBtn" type="button">Exportar JSON</button><label class="btn btn-ghost" for="importFile">Importar JSON</label><input accept="application/json,.json" class="file-input" id="importFile" type="file"/><button class="btn btn-ghost" id="csvBtn" type="button">Exportar CSV</button><button class="btn btn-ghost" id="copyBtn" type="button">Copiar texto</button><button class="btn btn-ghost" id="printBtn" type="button">Imprimir / PDF</button><button class="btn btn-danger" id="clearBtn" type="button">Limpar</button></div>
+</form>
+</section>
+<section aria-labelledby="preview-title" class="panel preview-panel"><div class="panel-head"><div><h2 id="preview-title">Pré-visualização</h2><p>O indicador de lacuna corresponde ao nível esperado menos o nível atual.</p></div></div><div id="preview"></div></section>
+</main>
+<footer class="site-footer"><div class="footer-inner"><p>© 2026 João Pernas · Recursos Didáticos</p><a href="#conteudo">Voltar ao topo ↑</a></div></footer><div aria-live="polite" class="toast" id="toast" role="status"></div>
 <script>
 (()=>{
   'use strict';
