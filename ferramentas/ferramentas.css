@@ -1,0 +1,8 @@
+body {
+  background:
+    linear-gradient(
+      rgba(244, 247, 250, 0.80),
+      rgba(244, 247, 250, 0.80)
+    ),
+    url("../omar-lopez-rincon-Q71kkJHARdg-unsplash.jpg") center / cover fixed no-repeat !important;
+}
